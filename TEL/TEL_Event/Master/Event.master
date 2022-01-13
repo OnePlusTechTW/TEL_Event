@@ -1,0 +1,33 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Event.master.cs" Inherits="Master_Event" %>
+
+<%@ Register Src="~/Master/uc/EventHeaderControl.ascx" TagPrefix="uc2" TagName="EventHeaderControl" %>
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="text-align: left; vertical-align: middle; margin: 0">
+    <form id="form1" runat="server">
+        <uc2:EventHeaderControl runat="server" ID="EventHeaderControl" />
+        <div style="height: 20px"></div>
+        <div>
+            <table>
+                <tr>
+                    <td style="width: 60px"></td>
+                    <td>
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
