@@ -31,7 +31,7 @@ public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
             Session["EmpID"] = "123456";
 
             // 取得使用者的身分
-            CheckManager gm = new CheckManager();
+            TEL.Event.Lab.Method.System gm = new TEL.Event.Lab.Method.System();
             int i = gm.IsManager(Session["EmpID"].ToString());
 
             // i=3 => 使用者是系統管理者, 功能選單會增加管理網站、管理活動、建立活動的選項

@@ -12,7 +12,7 @@ namespace TEL.Event.Lab.Method
     {
         public DataTable GetEventCategory(string flag)
         {
-            SystemSetup ss = new SystemSetup();
+            SystemData ss = new SystemData();
             return ss.QueryEventCategory(flag);
         }
 

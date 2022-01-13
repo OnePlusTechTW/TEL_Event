@@ -44,10 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\EventData.cs" />
-    <Compile Include="Data\SystemSetup.cs" />
-    <Compile Include="Data\User.cs" />
-    <Compile Include="Method\CheckManager.cs" />
+    <Compile Include="Data\SurveyData.cs" />
+    <Compile Include="Data\SystemData.cs" />
+    <Compile Include="Data\UserData.cs" />
+    <Compile Include="Method\System.cs" />
     <Compile Include="Method\Event.cs" />
+    <Compile Include="Method\Survey.cs" />
     <Compile Include="Method\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

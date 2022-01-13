@@ -42,8 +42,8 @@ namespace TEL.Event.Lab.Method
 
         public UserInfo(string empID)
         {
-            User userinfo = new User();
-            DataTable WMTB = userinfo.GetUserInfoTable(empID);
+            UserData userinfo = new UserData();
+            DataTable WMTB = userinfo.QueryUserInfoTable(empID);
 
             if (WMTB.Rows.Count > 0)
             {
