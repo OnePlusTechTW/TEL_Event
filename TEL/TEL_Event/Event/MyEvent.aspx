@@ -46,7 +46,7 @@
             <td>
                 <asp:GridView ID="FIELD_Result" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                     EmptyDataText="無符合資料" meta:resourcekey="FIELD_ResultResource1" AutoGenerateColumns="False" BorderColor="White"
-                    OnRowDataBound="FIELD_Result_RowDataBound" OnPageIndexChanging="FIELD_Result_PageIndexChanging">
+                    OnRowDataBound="FIELD_Result_RowDataBound" OnPageIndexChanging="FIELD_Result_PageIndexChanging" PageSize="20">
                     <Columns>
                         <asp:BoundField HeaderText="活動名稱" meta:resourcekey="FIELD_Result_Name" DataField="eventname">
                             <HeaderStyle Width="250px"></HeaderStyle>

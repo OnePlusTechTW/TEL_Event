@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Denied.aspx.cs" Inherits="Event_Denied" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Denied.master" AutoEventWireup="true" CodeFile="Denied.aspx.cs" Inherits="Event_Denied" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>

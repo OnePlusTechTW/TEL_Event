@@ -49,7 +49,7 @@ public partial class Event_MyEvent : System.Web.UI.Page
         }
     }
 
-    //查詢結果
+    //查詢資料
     protected void QueryData()
     {
         EventData ed = new EventData();

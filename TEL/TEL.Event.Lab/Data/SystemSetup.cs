@@ -16,9 +16,9 @@ namespace TEL.Event.Lab.Data
             string sqlString = "";
 
             if (flag == "All")
-                sqlString = @"select id,name from TEL_Event_Category with(NOLOCK) order by name";
+                sqlString = @"SELECT id,name FROM TEL_Event_Category WITH(NOLOCK) ORDER by name";
             else
-                sqlString = @"select id,name from TEL_Event_Category with(NOLOCK) where enabled='Y' order by name";
+                sqlString = @"SELECT id,name FROM TEL_Event_Category WITH(NOLOCK) WHERE enabled='Y' ORDER by name";
 
             DataTable result = null;
 
