@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using TEL.Event.Lab.Data;
+using TEL.Event.Lab.Method;
 using System.Drawing;
 
 public partial class Event_MyEvent : System.Web.UI.Page
@@ -36,8 +36,8 @@ public partial class Event_MyEvent : System.Web.UI.Page
 
         this.FIELD_EventCategory.Items.Add(li);
 
-        SystemSetup cat = new SystemSetup();
-        DataTable dt = cat.GetEventCategory("All");
+        Event ev = new Event();
+        DataTable dt = ev.GetEventCategory("All");
 
         foreach (DataRow rs in dt.Rows)
         {
@@ -52,8 +52,8 @@ public partial class Event_MyEvent : System.Web.UI.Page
     //查詢資料
     protected void QueryData()
     {
-        EventData ed = new EventData();
-        DataTable dt = ed.GetMyEvent(this.FIELD_EventName.Text.Trim(), this.FIELD_EventCategory.SelectedValue, this.FIELD_EventStatus.SelectedValue, Session["EmpID"].ToString());
+        Event ev = new Event();
+        DataTable dt = ev.GetMyEvent(this.FIELD_EventName.Text.Trim(), this.FIELD_EventCategory.SelectedValue, this.FIELD_EventStatus.SelectedValue, Session["EmpID"].ToString());
 
         this.FIELD_Result.DataSource = dt;
         this.FIELD_Result.DataBind();

@@ -10,7 +10,7 @@ namespace TEL.Event.Lab.Data
 {
     public class SystemSetup
     {
-        public DataTable GetEventCategory(string flag)
+        public DataTable QueryEventCategory(string flag)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";

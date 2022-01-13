@@ -10,7 +10,7 @@ namespace TEL.Event.Lab.Data
 {
     public class EventData
     {
-        public DataTable GetMyEvent(string name, string catid, string status, string empid)
+        public DataTable QueryMyEvent(string name, string catid, string status, string empid)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";

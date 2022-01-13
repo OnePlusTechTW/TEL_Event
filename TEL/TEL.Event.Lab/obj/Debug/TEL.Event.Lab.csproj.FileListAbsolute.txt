@@ -3,4 +3,3 @@ E:\一加科技\客製開發\TEL\TEL.Event.Lab\bin\Debug\TEL.Event.Lab.pdb
 E:\一加科技\客製開發\TEL\TEL.Event.Lab\obj\Debug\TEL.Event.Lab.csproj.CoreCompileInputs.cache
 E:\一加科技\客製開發\TEL\TEL.Event.Lab\obj\Debug\TEL.Event.Lab.dll
 E:\一加科技\客製開發\TEL\TEL.Event.Lab\obj\Debug\TEL.Event.Lab.pdb
-E:\一加科技\客製開發\TEL\TEL.Event.Lab\obj\Debug\TEL.Event.Lab.csproj.AssemblyReference.cache

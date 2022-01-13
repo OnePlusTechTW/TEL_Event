@@ -47,6 +47,7 @@
     <Compile Include="Data\SystemSetup.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Method\CheckManager.cs" />
+    <Compile Include="Method\Event.cs" />
     <Compile Include="Method\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
