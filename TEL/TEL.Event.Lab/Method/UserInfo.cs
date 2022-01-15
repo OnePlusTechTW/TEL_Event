@@ -9,6 +9,7 @@ using TEL.Event.Lab.Data;
 
 namespace TEL.Event.Lab.Method
 {
+    //使用者細部資訊object
     public class UserInfo
     {
         public string UserID = "";

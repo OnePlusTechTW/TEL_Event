@@ -10,63 +10,64 @@ namespace TEL.Event.Lab.Data
 {
     public class EventData
     {
+        //取得我的活動資料
         public DataTable QueryMyEvent(string name, string catid, string status, string empid)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
 
-            sqlString = @"select a.name as eventname,c.name as categoryname,
-                          replace(convert(varchar, a.registerstart,120),'-','/') as registerstart,replace(convert(varchar, a.registerend,120),'-','/') as registerend,
-                          convert(varchar, a.eventstart,111) as eventstart,convert(varchar, a.eventend,111) as eventend,a.registermodel,
-                          a.surveystartdate,a.surveymodel,b.id as registerid, d.id as surveyid, 
-						  cast(a.id as varchar(40))+'_'+a.registermodel+'_'+cast(b.id as varchar(40)) as registerinfo,
-                          cast(a.id as varchar(40))+'_'+a.surveymodel+'_'+isnull(cast(d.id as varchar(40)),'') as surveyinfo,
-						  case when a.eventstart>getdate() then '尚未開始' when a.eventend<getdate() then '已結束' else '進行中' end as status
-                          from [dbo].[TEL_Event_Events] a
-                          inner join 
-                          (select id,eventid,empid from [dbo].[TEL_Event_RegisterModel1]
-                           union
-                           select id,eventid,empid from [dbo].[TEL_Event_RegisterModel2]
-                           union
-                           select id,eventid,empid from [dbo].[TEL_Event_RegisterModel3]
-                           union
-                           select id,eventid,empid from [dbo].[TEL_Event_RegisterModel4]
-                           union
-                           select id,eventid,empid from [dbo].[TEL_Event_RegisterModel5]
-                           union
-                           select id,eventid,empid from [dbo].[TEL_Event_RegisterModel6]) b on a.id=b.eventid
-                          inner join [dbo].[TEL_Event_Category] c on a.categoryid=c.id
-                          left join 
-                          (select id,eventid,empid from [dbo].[TEL_Event_SurveyModel1]
-                           union 
-                           select id,eventid,empid from [dbo].[TEL_Event_SurveyModel2]
-                           union 
-                           select id,eventid,empid from [dbo].[TEL_Event_SurveyModel3]
-                           union 
-                           select id,eventid,empid from [dbo].[TEL_Event_SurveyModel4])d on a.id=d.eventid 
-                          where b.empid=@empid ";
+            sqlString = @"SELECT a.name AS eventname,c.name AS categoryname,
+                          REPLACE(CONVERT(VARCHAR, a.registerstart,120),'-','/') AS registerstart,REPLACE(CONVERT(VARCHAR, a.registerend,120),'-','/') as registerend,
+                          CONVERT(VARCHAR, a.eventstart,111) as eventstart,CONVERT(VARCHAR, a.eventend,111) AS eventend,a.registermodel,
+                          a.surveystartdate,a.surveymodel,b.id AS registerid, d.id AS surveyid, 
+						  CAST(a.id AS varchar(40))+'_'+a.registermodel+'_'+CAST(b.id AS varchar(40)) AS registerinfo,
+                          CAST(a.id AS varchar(40))+'_'+a.surveymodel+'_'+ISNULL(CAST(d.id AS varchar(40)),'') AS surveyinfo,
+						  CASE WHEN a.eventstart>getdate() THEN '尚未開始' WHEN a.eventend<getdate() THEN '已結束' ELSE '進行中' END AS status
+                          FROM TEL_Event_Events a
+                          INNER JOIN 
+                          (SELECT id,eventid,empid FROM TEL_Event_RegisterModel1
+                           UNION
+                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel2
+                           UNION
+                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel3
+                           UNION
+                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel4
+                           UNION
+                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel5
+                           UNION
+                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel6) b ON a.id=b.eventid
+                          INNER JOIN TEL_Event_Category]c ON a.categoryid=c.id
+                          LEFT JOIN 
+                          (SELECT id,eventid,empid FROM TEL_Event_SurveyModel1
+                           UNION 
+                           SELECT id,eventid,empid FROM TEL_Event_SurveyModel2
+                           UNION 
+                           SELECT id,eventid,empid FROM TEL_Event_SurveyModel3
+                           UNION 
+                           SELECT id,eventid,empid FROM TEL_Event_SurveyModel4)d ON a.id=d.eventid 
+                          WHERE b.empid=@empid ";
 
             if (!string.IsNullOrEmpty(name))
             {
-                sqlString += "and a.name like @name ";
+                sqlString += "AND a.name LIKE @name ";
             }
 
             if (!string.IsNullOrEmpty(catid))
             {
-                sqlString += "and c.id=@catid ";
+                sqlString += "AND c.id=@catid ";
             }
 
             if (!string.IsNullOrEmpty(status))
             {
                 if (status == "N")
-                    sqlString += "and a.eventstart>getdate() ";
+                    sqlString += "AND a.eventstart>GETDATE() ";
                 else if (status == "O")
-                    sqlString += "and (a.eventstart<=getdate() and a.eventend>=getdate()) ";
+                    sqlString += "AND (a.eventstart<=GETDATE() and a.eventend>=GETDATE()) ";
                 else if (status == "F")
-                    sqlString += "and a.eventend<getdate() ";
+                    sqlString += "AND a.eventend<GETDATE() ";
             }
 
-            sqlString += "order by a.eventstart desc";
+            sqlString += "ORDER BY a.eventstart DESC";
 
             DataTable result = null;
 
@@ -95,6 +96,89 @@ namespace TEL.Event.Lab.Data
             }
 
             return result;
+        }
+
+        //取得活動資訊
+        public DataTable QueryEventInfo(string eventid)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            sqlString = @"SELECT a.name AS eventname,b.name AS categoryname,b.color AS categorycolor,a.eventstart,a.eventend,
+                          a.registerstart,a.registerend,a.limit,a.description,a.registermodel,a.surveymodel
+                          FROM TEL_Event_Events a
+                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id
+                          WHERE a.id=@eventid ";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        //取得活動報名人數
+        public String QueryEvnetRegisterCount(string eventid, string registermodel)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            if (registermodel == "1")
+            {
+                sqlString = @"SELECT COUNT(empid) AS count FROM TEL_Event_RegisterModel1 ";
+            }
+            else if (registermodel == "2")
+            {
+                sqlString = @"SELECT COUNT(empid) AS count FROM TEL_Event_RegisterModel2 ";
+            }
+            else if (registermodel == "3")
+            {
+                sqlString = @"SELECT COUNT(empid) AS count FROM TEL_Event_RegisterModel3 ";
+            }
+            else if (registermodel == "4")
+            {
+                sqlString = @"SELECT COUNT(empid) AS count FROM TEL_Event_RegisterModel4 ";
+            }
+            else if (registermodel == "5")
+            {
+                sqlString = @"SELECT COUNT(empid) AS count FROM TEL_Event_RegisterModel5 ";
+            }
+            else if (registermodel == "6")
+            {
+                sqlString = @"SELECT COUNT(empid) AS count FROM TEL_Event_RegisterModel6 ";
+
+            }
+            sqlString += @"WHERE eventid=@eventid ";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result.Rows[0]["count"].ToString();
         }
     }
 }

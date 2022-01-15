@@ -19,7 +19,7 @@ namespace TEL.Event.Lab.Method
         public int IsManager(string empid)
         {
             int i = 0;
-            UserData userinfo = new UserData();
+            SystemData userinfo = new SystemData();
 
             // 系統管理者
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("SiteManager")) && ConfigurationManager.AppSettings.Get("SiteManager").IndexOf(empid) >= 0)
@@ -33,6 +33,31 @@ namespace TEL.Event.Lab.Method
             }
             // 其他活動管理者
             else if (userinfo.QueryOtherEventManagerTable(empid) > 0)
+            {
+                i = 1;
+            }
+
+            return i;
+        }
+
+        //判斷使用者是否須被導到Denied頁面
+        public int IsDenied(string empid,string eventid)
+        {
+            int i = 0;
+            SystemData userinfo = new SystemData();
+
+            // 系統管理者
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("SiteManager")) && ConfigurationManager.AppSettings.Get("SiteManager").IndexOf(empid) >= 0)
+            {
+                i = 3;
+            }
+            // 常態活動管理者
+            else if (userinfo.QueryEventManagerTable(empid) > 0)
+            {
+                i = 2;
+            }
+            // 其他活動管理者
+            else if (userinfo.QueryOtherEventManager(empid,eventid) > 0)
             {
                 i = 1;
             }

@@ -10,12 +10,14 @@ namespace TEL.Event.Lab.Method
 {
     public class Event
     {
+        //查詢活動分類
         public DataTable GetEventCategory(string flag)
         {
             SystemData ss = new SystemData();
             return ss.QueryEventCategory(flag);
         }
 
+        //查詢我的活動
         public DataTable GetMyEvent(string name, string catid, string status, string empid)
         {
             EventData ev = new EventData();

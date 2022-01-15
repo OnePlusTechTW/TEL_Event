@@ -50,6 +50,7 @@
     <Compile Include="Method\System.cs" />
     <Compile Include="Method\Event.cs" />
     <Compile Include="Method\Survey.cs" />
+    <Compile Include="Method\EventInfo.cs" />
     <Compile Include="Method\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
