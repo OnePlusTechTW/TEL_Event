@@ -19,6 +19,14 @@
     color: #595959;
 }
 
+.ShowCategory {
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 1px;
+    font-family: Microsoft JhengHei, Georgia;
+    color: black;
+}
+
 .LargeBold {
     FONT-WEIGHT: bold;
     FONT-SIZE: 18px;

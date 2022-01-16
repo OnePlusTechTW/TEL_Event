@@ -4,13 +4,14 @@
     <table>
         <tr>
             <td>
-                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon1.png" Height="40px" meta:resourcekey="ImageResource1"></asp:Image>
+                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon1.png" Height="40px"></asp:Image>
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
                 <asp:Label ID="LABEL_PageName" runat="server" meta:resourcekey="LABEL_PageNameResource1" CssClass="PageTitle"></asp:Label>
             </td>
-
+        </tr>
+        <tr style="height:10px"></tr>
     </table>
     <table>
         <tr>
@@ -79,7 +80,7 @@
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
                                 <asp:Button ID="Button_RegisterEdit" runat="server" Text="編輯" CssClass="Button_Gridview" CommandArgument='<%# Eval("registerinfo") %>' OnClick="Button_RegisterEdit_Click" />
-                                <asp:Button ID="Button_RegisterView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("registerinfo") %>'  />
+                                <asp:Button ID="Button_RegisterView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("registerinfo") %>' />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>

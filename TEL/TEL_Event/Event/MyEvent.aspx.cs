@@ -17,46 +17,11 @@ public partial class Event_MyEvent : System.Web.UI.Page
             GeneratedCategoryItem();
             QueryData();
         }
-
     }
 
     protected void Button_Query_Click(object sender, EventArgs e)
     {
         QueryData();
-    }
-
-    // 取得活動分類選項
-    protected void GeneratedCategoryItem()
-    {
-        this.FIELD_EventCategory.Items.Clear();
-
-        ListItem li = new ListItem();
-        li.Text = this.GetLocalResourceObject("item_all").ToString();
-        li.Value = "";
-
-        this.FIELD_EventCategory.Items.Add(li);
-
-        Event ev = new Event();
-        DataTable dt = ev.GetEventCategory("All");
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["name"].ToString();
-            li1.Value = rs["id"].ToString();
-
-            this.FIELD_EventCategory.Items.Add(li1);
-        }
-    }
-
-    //查詢資料
-    protected void QueryData()
-    {
-        Event ev = new Event();
-        DataTable dt = ev.GetMyEvent(this.FIELD_EventName.Text.Trim(), this.FIELD_EventCategory.SelectedValue, this.FIELD_EventStatus.SelectedValue, Session["EmpID"].ToString());
-
-        this.FIELD_Result.DataSource = dt;
-        this.FIELD_Result.DataBind();
     }
 
     protected void FIELD_Result_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -84,7 +49,7 @@ public partial class Event_MyEvent : System.Web.UI.Page
                 bt.Visible = false;
 
                 Button bt1 = (Button)e.Row.FindControl("Button_RegisterView");
-                bt1.OnClientClick = "window.ShowModalDialog('/Event/Event_RegisterModel"+ registermodel+ "_View.aspx?id=" + registerid+"'); event.returnValue=false;";
+                bt1.OnClientClick = "window.ShowModalDialog('/Event/Event_RegisterModel" + registermodel + "_View.aspx?id=" + registerid + "'); event.returnValue=false;";
             }
             else
             {
@@ -191,5 +156,40 @@ public partial class Event_MyEvent : System.Web.UI.Page
                 Response.Redirect("/Event/MyEvent.aspx");
                 break;
         }
+    }
+
+
+    // 取得活動分類選項
+    protected void GeneratedCategoryItem()
+    {
+        this.FIELD_EventCategory.Items.Clear();
+
+        ListItem li = new ListItem();
+        li.Text = this.GetLocalResourceObject("item_all").ToString();
+        li.Value = "";
+
+        this.FIELD_EventCategory.Items.Add(li);
+
+        Event ev = new Event();
+        DataTable dt = ev.GetEventCategory("All");
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["name"].ToString();
+            li1.Value = rs["id"].ToString();
+
+            this.FIELD_EventCategory.Items.Add(li1);
+        }
+    }
+
+    //查詢資料
+    protected void QueryData()
+    {
+        Event ev = new Event();
+        DataTable dt = ev.GetMyEvent(this.FIELD_EventName.Text.Trim(), this.FIELD_EventCategory.SelectedValue, this.FIELD_EventStatus.SelectedValue, Session["EmpID"].ToString());
+
+        this.FIELD_Result.DataSource = dt;
+        this.FIELD_Result.DataBind();
     }
 }
