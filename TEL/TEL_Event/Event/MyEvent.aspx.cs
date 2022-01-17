@@ -187,7 +187,7 @@ public partial class Event_MyEvent : System.Web.UI.Page
     protected void QueryData()
     {
         Event ev = new Event();
-        DataTable dt = ev.GetMyEvent(this.FIELD_EventName.Text.Trim(), this.FIELD_EventCategory.SelectedValue, this.FIELD_EventStatus.SelectedValue, Session["EmpID"].ToString());
+        DataTable dt = ev.GetMyEvent(this.FIELD_EventName.Text.Trim(), this.FIELD_EventCategory.SelectedValue, this.FIELD_EventStatus.SelectedValue, Page.Session["EmpID"].ToString());
 
         this.FIELD_Result.DataSource = dt;
         this.FIELD_Result.DataBind();

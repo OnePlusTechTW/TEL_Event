@@ -12,7 +12,7 @@ namespace TEL.Event.Lab.Data
     public class SurveyData
     {
         //取得活動問卷填寫資料
-        public DataTable QuerySurvey(string eventid, string surveymodel,string empid)
+        public DataTable QuerySurvey(string eventid, string surveymodel, string empid)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
@@ -20,7 +20,7 @@ namespace TEL.Event.Lab.Data
             sqlString = @"SELECT a.id AS surveyid, b.EmpID AS empid, b.FullnameCH AS empnamech, b.FullnameEN AS empnameen,
                           CONVERT(VARCHAR, a.fillindate,111) AS fillindate,";
 
-            if (surveymodel=="1")
+            if (surveymodel == "1")
             {
                 sqlString += @"CAST(a.id AS varchar(40))+'_1' AS surveyinfo " +
                     "          FROM TEL_Event_SurveyModel1 a ";
@@ -49,7 +49,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += "AND (b.empid LIKE @empid OR b.FullnameEN LIKE @empid OR b.FullnameCH LIKE @empid) ";
             }
 
-            sqlString += "ORDER BY a.fillindate DESC";
+            sqlString += "ORDER BY a.fillindate ASC";
 
             DataTable result = null;
 
@@ -252,11 +252,11 @@ namespace TEL.Event.Lab.Data
         }
 
         //刪除問卷填寫資料
-        public void  DeleteSurveyData(string surveyid, string surveymodel)
+        public void DeleteSurveyData(string surveyid, string surveymodel)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
-            
+
             if (surveymodel == "1")
             {
                 sqlString = @"DELETE TEL_Event_SurveyModel1 WHERE id=@surveyid";
@@ -282,6 +282,105 @@ namespace TEL.Event.Lab.Data
             sqlcommand.ExecuteNonQuery();
             sqlConn.Close();
             sqlConn.Dispose();
+        }
+
+        //儲存模板1問卷資料(滿意度(講座))
+        public String SaveEventDataMModel1(string eventid, string empid, string q1, string q1other, string q2, string q3, string q4, string q5, string q6, string q7, string q7reason, string q8, string q9, string q10)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            try
+            {
+                sqlString = @"INSERT INTO TEL_Event_SurveyModel1 (id,eventid,empid,fillindate,q1,q1other,q2,q3,q4,q5,q6,q7,q7reason,q8,q9,q10,modifiedby,modifieddate)
+                              VALUES (newid(),@eventid,@empid,GETDATE(),@q1,@q1other,@q2,@q3,@q4,@q5,@q6,@q7,@q7reason,@q8,@q9,@q10,@modifiedby,GETDATE())";
+
+                SqlConnection sqlConn = new SqlConnection(connStr);
+                sqlConn.Open();
+                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                sqlcommand.Parameters.Clear();
+                sqlcommand.Parameters.AddWithValue("@eventid", eventid);
+                sqlcommand.Parameters.AddWithValue("@empid", empid);
+                sqlcommand.Parameters.AddWithValue("@q1", q1);
+                if(!string.IsNullOrEmpty(q1other))
+                    sqlcommand.Parameters.AddWithValue("@q1other", q1other);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q1other", System.DBNull.Value);
+                sqlcommand.Parameters.AddWithValue("@q2", q2);
+                sqlcommand.Parameters.AddWithValue("@q3", q3);
+                sqlcommand.Parameters.AddWithValue("@q4", q4);
+                sqlcommand.Parameters.AddWithValue("@q5", q5);
+                sqlcommand.Parameters.AddWithValue("@q6", q6);
+                sqlcommand.Parameters.AddWithValue("@q7", q7);
+                if (!string.IsNullOrEmpty(q7reason))
+                    sqlcommand.Parameters.AddWithValue("@q7reason", q7reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q7reason", System.DBNull.Value);
+                sqlcommand.Parameters.AddWithValue("@q8", q8);
+                if (!string.IsNullOrEmpty(q9))
+                    sqlcommand.Parameters.AddWithValue("@q9", q9);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q9", System.DBNull.Value);
+                if (!string.IsNullOrEmpty(q10))
+                    sqlcommand.Parameters.AddWithValue("@q10", q10);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q10", System.DBNull.Value);
+                sqlcommand.Parameters.AddWithValue("@modifiedby", empid);
+
+                sqlcommand.ExecuteNonQuery();
+                sqlConn.Close();
+                sqlConn.Dispose();
+            }
+            catch (Exception ex)
+            { 
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        //取得活動問卷填寫資料
+        public DataTable QuerySurveyData(string surveyid, string surveymodel)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+             if (surveymodel == "1")
+            {
+                sqlString += @"SELECT * FROM TEL_Event_SurveyModel1 ";
+            }
+            else if (surveymodel == "2")
+            {
+                sqlString += @"SELECT * FROM TEL_Event_SurveyModel2 ";
+            }
+            else if (surveymodel == "3")
+            {
+                sqlString += @"SELECT * FROM TEL_Event_SurveyModel3 ";
+            }
+            else if (surveymodel == "4")
+            {
+                sqlString += @"SELECT * FROM TEL_Event_SurveyModel4 ";
+            }
+
+            sqlString += @"WHERE id=@surveyid ";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@surveyid", surveyid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
         }
     }
 }

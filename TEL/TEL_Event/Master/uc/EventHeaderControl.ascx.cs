@@ -11,7 +11,7 @@ using System.Text;
 
 public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Init(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
@@ -20,6 +20,10 @@ public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
             UserInfo User = new UserInfo(Session["EmpID"].ToString());
             LABEL_Username.Text = User.FullNameEN;
         }
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
     }
 
     #region Methods

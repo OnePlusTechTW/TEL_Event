@@ -31,5 +31,20 @@ namespace TEL.Event.Lab.Method
             SurveyData sv = new SurveyData();
             sv.DeleteSurveyData(surveyid, surveymodel);
         }
+
+
+        //儲存模板1問卷資料(滿意度(講座))
+        public String SaveSurveyDataMModel1(string eventid, string empid, string q1, string q1other, string q2, string q3, string q4, string q5, string q6, string q7, string q7reason, string q8, string q9, string q10)
+        {
+            SurveyData sd = new SurveyData();
+
+            return sd.SaveEventDataMModel1(eventid,  empid,  q1,  q1other,  q2,  q3,  q4,  q5,  q6, q7, q7reason, q8, q9, q10);
+        }
+
+        public DataTable GetSurveyData(string surveyid, string surveymodel)
+        {
+            SurveyData sv = new SurveyData();
+            return sv.QuerySurveyData(surveyid, surveymodel);
+        }
     }
 }

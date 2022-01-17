@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web;
 
 namespace TEL.Event.Lab.Data
 {
@@ -15,8 +16,11 @@ namespace TEL.Event.Lab.Data
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
+            DataTable result = null;
 
-            sqlString = @"SELECT a.name AS eventname,c.name AS categoryname,
+            try
+            {
+                sqlString = @"SELECT a.name AS eventname,c.name AS categoryname,
                           REPLACE(CONVERT(VARCHAR, a.registerstart,120),'-','/') AS registerstart,REPLACE(CONVERT(VARCHAR, a.registerend,120),'-','/') as registerend,
                           CONVERT(VARCHAR, a.eventstart,111) as eventstart,CONVERT(VARCHAR, a.eventend,111) AS eventend,a.registermodel,
                           a.surveystartdate,a.surveymodel,b.id AS registerid, d.id AS surveyid, 
@@ -36,7 +40,7 @@ namespace TEL.Event.Lab.Data
                            SELECT id,eventid,empid FROM TEL_Event_RegisterModel5
                            UNION
                            SELECT id,eventid,empid FROM TEL_Event_RegisterModel6) b ON a.id=b.eventid
-                          INNER JOIN TEL_Event_Category]c ON a.categoryid=c.id
+                          INNER JOIN TEL_Event_Category c ON a.categoryid=c.id
                           LEFT JOIN 
                           (SELECT id,eventid,empid FROM TEL_Event_SurveyModel1
                            UNION 
@@ -44,55 +48,61 @@ namespace TEL.Event.Lab.Data
                            UNION 
                            SELECT id,eventid,empid FROM TEL_Event_SurveyModel3
                            UNION 
-                           SELECT id,eventid,empid FROM TEL_Event_SurveyModel4)d ON a.id=d.eventid 
+                           SELECT id,eventid,empid FROM TEL_Event_SurveyModel4) d ON a.id=d.eventid and b.empid=d.empid 
                           WHERE b.empid=@empid ";
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                sqlString += "AND a.name LIKE @name ";
-            }
-
-            if (!string.IsNullOrEmpty(catid))
-            {
-                sqlString += "AND c.id=@catid ";
-            }
-
-            if (!string.IsNullOrEmpty(status))
-            {
-                if (status == "N")
-                    sqlString += "AND a.eventstart>GETDATE() ";
-                else if (status == "O")
-                    sqlString += "AND (a.eventstart<=GETDATE() and a.eventend>=GETDATE()) ";
-                else if (status == "F")
-                    sqlString += "AND a.eventend<GETDATE() ";
-            }
-
-            sqlString += "ORDER BY a.eventstart DESC";
-
-            DataTable result = null;
-
-            using (SqlConnection connection = new SqlConnection(connStr))
-            {
-                connection.Open();
-
-                SqlDataAdapter wrDad = new SqlDataAdapter();
-                DataSet DS = new DataSet();
-
-                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
-                wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    wrDad.SelectCommand.Parameters.AddWithValue("@name", '%' + name + '%');
+                    sqlString += "AND a.name LIKE @name ";
                 }
 
                 if (!string.IsNullOrEmpty(catid))
                 {
-                    wrDad.SelectCommand.Parameters.AddWithValue("@catid", catid);
+                    sqlString += "AND c.id=@catid ";
                 }
 
-                wrDad.Fill(DS, "T");
-                result = DS.Tables["T"];
+                if (!string.IsNullOrEmpty(status))
+                {
+                    if (status == "N")
+                        sqlString += "AND a.eventstart>GETDATE() ";
+                    else if (status == "O")
+                        sqlString += "AND (a.eventstart<=GETDATE() AND a.eventend>=GETDATE()) ";
+                    else if (status == "F")
+                        sqlString += "AND a.eventend<GETDATE() ";
+                }
+
+                sqlString += "ORDER BY a.eventstart DESC";
+
+                using (SqlConnection connection = new SqlConnection(connStr))
+                {
+                    connection.Open();
+
+                    SqlDataAdapter wrDad = new SqlDataAdapter();
+                    DataSet DS = new DataSet();
+
+                    wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                    wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        wrDad.SelectCommand.Parameters.AddWithValue("@name", '%' + name + '%');
+                    }
+
+                    if (!string.IsNullOrEmpty(catid))
+                    {
+                        wrDad.SelectCommand.Parameters.AddWithValue("@catid", catid);
+                    }
+
+
+                    wrDad.Fill(DS, "T");
+                    result = DS.Tables["T"];
+                }
+            }
+            catch (Exception ex)
+            {
+
+                var context = HttpContext.Current;
+                context.Response.Write(ex.ToString());
             }
 
             return result;

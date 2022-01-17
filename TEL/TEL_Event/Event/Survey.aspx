@@ -11,7 +11,8 @@
                 <asp:Label ID="LABEL_PageName" runat="server" CssClass="PageTitle" meta:resourcekey="LABEL_PageNameResource1"></asp:Label>
             </td>
         </tr>
-        </table>
+        <tr style="height:10px"></tr>
+    </table>
     <table>
         <tr>
             <td>
@@ -27,7 +28,7 @@
                 <asp:Button ID="Button_Query" runat="server" Text="Button" meta:resourcekey="Button_QueryResource1" OnClick="Button_Query_Click" CssClass="Button" />
             </td>
         </tr>
-         </table>
+    </table>
     <table>
         <tr>
             <td id="TD_Category" runat="server" style="text-align: center; width: 120px">
@@ -79,7 +80,7 @@
                         <asp:TemplateField>
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
-                                <asp:Button ID="Button_Delete" runat="server" Text="編輯"  meta:resourcekey="Button_Delete" CssClass="Button_Gridview" CommandArgument='<%# Eval("surveyinfo") %>' OnClick="Button_Delete_Click" />
+                                <asp:Button ID="Button_Delete" runat="server" Text="編輯" meta:resourcekey="Button_Delete" CssClass="Button_Gridview" CommandArgument='<%# Eval("surveyinfo") %>' OnClick="Button_Delete_Click" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
