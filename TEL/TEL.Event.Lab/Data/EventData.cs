@@ -190,5 +190,36 @@ namespace TEL.Event.Lab.Data
 
             return result.Rows[0]["count"].ToString();
         }
+
+
+        //取得健檢中心資料
+        public DataTable QueryHosipitalData(string eventid)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            sqlString = @"SELECT DISTINCT(hosipital) 
+                          FROM TEL_Event_RegisterOption4 
+                          WHERE eventid=@eventid
+                          ORDER BY hosipital";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
     }
 }

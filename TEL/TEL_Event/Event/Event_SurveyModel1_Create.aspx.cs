@@ -22,10 +22,12 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
         Load_EmpData();
     }
 
-    protected void Page_PreRander(object sender, EventArgs e)
+    protected void Page_PreRender(object sender, EventArgs e)
     {
-        if (IsPostBack && this.FIELD_Q7_2.Checked)
+        if (this.FIELD_Q7_2.Checked)
             this.FIELD_Q7Reason.Enabled = true;
+        else
+            this.FIELD_Q7Reason.Enabled = false;
     }
 
     protected void Button_Cancel_Click(object sender, EventArgs e)

@@ -23,7 +23,7 @@ public partial class Event_Survey : System.Web.UI.Page
     {
         //登入檢查
         //若為一般使用者則導到Denied頁面
-        TEL.Event.Lab.Method.System gm = new TEL.Event.Lab.Method.System();
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
         if (gm.IsDenied(Page.Session["EmpID"].ToString(), Request.QueryString["eventid"]) < 1)
             Response.Redirect("/Event/Denied.aspx");
     }

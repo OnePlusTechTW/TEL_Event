@@ -170,8 +170,8 @@ public partial class Event_MyEvent : System.Web.UI.Page
 
         this.FIELD_EventCategory.Items.Add(li);
 
-        Event ev = new Event();
-        DataTable dt = ev.GetEventCategory("All");
+        SystemInfo si = new SystemInfo();
+        DataTable dt = si.GetEventCategory("All");
 
         foreach (DataRow rs in dt.Rows)
         {

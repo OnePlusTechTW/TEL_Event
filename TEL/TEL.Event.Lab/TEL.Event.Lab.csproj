@@ -69,7 +69,7 @@
     <Compile Include="Method\CheckIDFormat.cs" />
     <Compile Include="Method\ExcelStyle.cs" />
     <Compile Include="Method\ExportExcel.cs" />
-    <Compile Include="Method\System.cs" />
+    <Compile Include="Method\SystemInfo.cs" />
     <Compile Include="Method\Event.cs" />
     <Compile Include="Method\Survey.cs" />
     <Compile Include="Method\EventInfo.cs" />

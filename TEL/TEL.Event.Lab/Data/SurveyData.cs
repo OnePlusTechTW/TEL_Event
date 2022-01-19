@@ -339,6 +339,169 @@ namespace TEL.Event.Lab.Data
             return "";
         }
 
+        //儲存模板2問卷資料(滿意度(活動))
+        public String SaveEventDataMModel2(string eventid, string empid, string q1, string q1other, string q2, string q3, string q4, string q5, string q6, string q7, string q8)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            try
+            {
+                sqlString = @"INSERT INTO TEL_Event_SurveyModel2 (id,eventid,empid,fillindate,q1,q1other,q2,q3,q4,q5,q6,q7,q8,modifiedby,modifieddate)
+                              VALUES (newid(),@eventid,@empid,GETDATE(),@q1,@q1other,@q2,@q3,@q4,@q5,@q6,@q7,@q8,@modifiedby,GETDATE())";
+
+                SqlConnection sqlConn = new SqlConnection(connStr);
+                sqlConn.Open();
+                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                sqlcommand.Parameters.Clear();
+                sqlcommand.Parameters.AddWithValue("@eventid", eventid);
+                sqlcommand.Parameters.AddWithValue("@empid", empid);
+                sqlcommand.Parameters.AddWithValue("@q1", q1);
+                if (!string.IsNullOrEmpty(q1other))
+                    sqlcommand.Parameters.AddWithValue("@q1other", q1other);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q1other", System.DBNull.Value);
+                sqlcommand.Parameters.AddWithValue("@q2", q2);
+                sqlcommand.Parameters.AddWithValue("@q3", q3);
+                sqlcommand.Parameters.AddWithValue("@q4", q4);
+                sqlcommand.Parameters.AddWithValue("@q5", q5);
+                sqlcommand.Parameters.AddWithValue("@q6", q6);
+                if (!string.IsNullOrEmpty(q7))
+                    sqlcommand.Parameters.AddWithValue("@q7", q7);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q7", System.DBNull.Value);
+                if (!string.IsNullOrEmpty(q8))
+                    sqlcommand.Parameters.AddWithValue("@q8", q8);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q8", System.DBNull.Value);
+                sqlcommand.Parameters.AddWithValue("@modifiedby", empid);
+
+                sqlcommand.ExecuteNonQuery();
+                sqlConn.Close();
+                sqlConn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        //儲存模板2問卷資料(滿意度(健檢))
+        public String SaveEventDataMModel3(string eventid, string empid, string q1, string q2, string q2reason, string q3, string q3reason, string q4, string q4reason, string q5, string q5reason, string q6, string q6reason, string q7, string q7reason, string q8, string q9)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            try
+            {
+                sqlString = @"INSERT INTO TEL_Event_SurveyModel3 (id,eventid,empid,fillindate,q1,q2,q2reason,q3,q3reason,q4,q4reason,q5,q5reason,q6,q6reason,q7,q7reason,q8,q9,modifiedby,modifieddate)
+                              VALUES (newid(),@eventid,@empid,GETDATE(),@q1,@q2,@q2reason,@q3,@q3reason,@q4,@q4reason,@q5,@q5reason,@q6,@q6reason,@q7,@q7reason,@q8,@q9,@modifiedby,GETDATE())";
+
+                SqlConnection sqlConn = new SqlConnection(connStr);
+                sqlConn.Open();
+                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                sqlcommand.Parameters.Clear();
+                sqlcommand.Parameters.AddWithValue("@eventid", eventid);
+                sqlcommand.Parameters.AddWithValue("@empid", empid);
+                sqlcommand.Parameters.AddWithValue("@q1", q1);
+                sqlcommand.Parameters.AddWithValue("@q2", q2);
+                if (!string.IsNullOrEmpty(q2reason))
+                    sqlcommand.Parameters.AddWithValue("@q2reason", q2reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q2reason", System.DBNull.Value);
+
+                sqlcommand.Parameters.AddWithValue("@q3", q3);
+                if (!string.IsNullOrEmpty(q3reason))
+                    sqlcommand.Parameters.AddWithValue("@q3reason", q3reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q3reason", System.DBNull.Value);
+
+                sqlcommand.Parameters.AddWithValue("@q4", q4);
+                if (!string.IsNullOrEmpty(q4reason))
+                    sqlcommand.Parameters.AddWithValue("@q4reason", q4reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q4reason", System.DBNull.Value);
+
+                sqlcommand.Parameters.AddWithValue("@q5", q5);
+                if (!string.IsNullOrEmpty(q5reason))
+                    sqlcommand.Parameters.AddWithValue("@q5reason", q5reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q5reason", System.DBNull.Value);
+
+                sqlcommand.Parameters.AddWithValue("@q6", q6);
+                if (!string.IsNullOrEmpty(q6reason))
+                    sqlcommand.Parameters.AddWithValue("@q6reason", q6reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q6reason", System.DBNull.Value);
+
+                sqlcommand.Parameters.AddWithValue("@q7", q7);
+                if (!string.IsNullOrEmpty(q7reason))
+                    sqlcommand.Parameters.AddWithValue("@q7reason", q7reason);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q7reason", System.DBNull.Value);
+
+                if (!string.IsNullOrEmpty(q8))
+                    sqlcommand.Parameters.AddWithValue("@q8", q8);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q8", System.DBNull.Value);
+
+                sqlcommand.Parameters.AddWithValue("@q9", q9);
+
+                sqlcommand.Parameters.AddWithValue("@modifiedby", empid);
+
+                sqlcommand.ExecuteNonQuery();
+                sqlConn.Close();
+                sqlConn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        //儲存模板4問卷資料(滿意度(電腦替換))
+        public String SaveEventDataMModel4(string eventid, string empid, string q1, string q2, string q3, string q4, string q5)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            try
+            {
+                sqlString = @"INSERT INTO TEL_Event_SurveyModel4 (id,eventid,empid,fillindate,q1,q2,q3,q4,q5,modifiedby,modifieddate)
+                              VALUES (newid(),@eventid,@empid,GETDATE(),@q1,@q2,@q3,@q4,@q5,@modifiedby,GETDATE())";
+
+                SqlConnection sqlConn = new SqlConnection(connStr);
+                sqlConn.Open();
+                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                sqlcommand.Parameters.Clear();
+                sqlcommand.Parameters.AddWithValue("@eventid", eventid);
+                sqlcommand.Parameters.AddWithValue("@empid", empid);
+                sqlcommand.Parameters.AddWithValue("@q1", q1);
+                sqlcommand.Parameters.AddWithValue("@q2", q2);
+                sqlcommand.Parameters.AddWithValue("@q3", q3);
+                sqlcommand.Parameters.AddWithValue("@q4", q4);
+                if (!string.IsNullOrEmpty(q5))
+                    sqlcommand.Parameters.AddWithValue("@q5", q5);
+                else
+                    sqlcommand.Parameters.AddWithValue("@q5", System.DBNull.Value);
+                sqlcommand.Parameters.AddWithValue("@modifiedby", empid);
+
+                sqlcommand.ExecuteNonQuery();
+                sqlConn.Close();
+                sqlConn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
         //取得活動問卷填寫資料
         public DataTable QuerySurveyData(string surveyid, string surveymodel)
         {

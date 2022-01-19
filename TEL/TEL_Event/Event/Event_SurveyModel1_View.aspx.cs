@@ -37,7 +37,7 @@ public partial class Event_Event_SurveyModel1_View : System.Web.UI.Page
 
         if (WMTB.Rows.Count > 0)
         {
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 6; i++)
             {
                 CheckBox cb = (CheckBox)this.Page.FindControl("FIELD_Q1_" + i);
 
