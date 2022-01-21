@@ -8,6 +8,10 @@
 
 <html>
 <head runat="server">
+    <link href="../Scripts/jquery-ui.css" rel="stylesheet">
+    <script src="../Scripts/jquery-1.12.4.js"></script>
+    <script src="../Scripts/jquery-1.12.4.min.js"></script>
+    <script src="../Scripts/jquery-ui.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
