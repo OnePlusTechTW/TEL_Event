@@ -106,7 +106,6 @@
                 preMenu= $("#" + preMenuID);
             }
 
-            debugger
             if (ispostback == true) {
                 if (preMenuID !="") {
                     //preMenu.style.background = "rgba(0, 0, 0, 0)";
@@ -361,6 +360,39 @@
 
         };
 
+        function ShowDialogSuccessReload(event) {
+            $(function () {
+                $("#dialogSuccess").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            switch (event) {
+                                case 'SuccessCategory':
+                                    <%= btnReloadCategoryGrid.ClientID%>.click();
+
+                                    break;
+                                case 'SuccessManager':
+                                    <%= btnReloadManagerGrid.ClientID%>.click();
+                                    break;
+                                case 'SuccessMailGroup':
+                                    <%= btnReloadMailGroupGrid.ClientID%>.click();
+                                    break;
+                                default:
+                            }
+
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
         function ShowDialogFailed(ErrMsg) {
             $(function () {
                 $("#dialogFailed").dialog({
@@ -394,7 +426,6 @@
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
-
                     }
                 });
             });
@@ -432,11 +463,89 @@
             });
 
         };
+
+        function ShowDialogDelete(event, id) {
+            $(function () {
+                $("#dialogDelete").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "確定",
+                            click: function () {
+                                onDelete(event, id);
+                                $(this).dialog("close");
+                            }
+                        },
+                        {
+                            text: "取消",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel6").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
+        function ShowDialogFileUpload(event, id) {
+            $(function () {
+                var dialog = $("#dialogFileUpload").dialog({
+                    title:"",
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "關閉",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel7").style.display = "block";
+                    },
+                    width: "450px",
+                    Height: "500px",
+                    position: { my: "center center", at: "center top+175", }
+                });
+                dialog.parent().appendTo(jQuery("form:first"));
+            });
+
+        };
+
+        function onDelete(event, id) {
+            switch (event) {
+                case 'Category':
+                    PageMethods.DeleteCategory(id, Success, Failure);
+                    break;
+                case 'Manager':
+                    PageMethods.DeleteManager(id, Success, Failure);
+                    break;
+                case 'MailGroup':
+                    PageMethods.DeleteMailGroup(id, Success, Failure);
+                    break;
+                default:
+            }
+        }
+
+        function Success(result) {
+            ShowDialogSuccessReload(result);
+        }
+
+        function Failure(error) {
+            ShowDialogFailed();
+        } 
         
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <table>
         <tr>
             <td>
@@ -605,7 +714,8 @@
                             <asp:TemplateField HeaderText="">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_DeleteCategory" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' OnClick="Button_DeleteCategory_Click" />
+                                    <asp:Button ID="Button_DeleteCategory" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' 
+                                        OnClientClick='<%# "ShowDialogDelete(\"Category\",\""+ Eval("id") + "\");return false;" %>' />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -650,7 +760,8 @@
                             <asp:TemplateField HeaderText="">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("empid") %>' OnClick="Button_DeleteManager_Click" />
+                                    <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("empid") %>' 
+                                        OnClientClick='<%# "ShowDialogDelete(\"Manager\",\""+ Eval("empid") + "\");return false;" %>' />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -716,7 +827,9 @@
                             <asp:TemplateField HeaderText="">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_DeleteMailGroup" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' OnClick="Button_DeleteMailGroup_Click" />
+                                    <asp:Button ID="Button_DeleteMailGroup" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' 
+                                         OnClientClick='<%# "ShowDialogDelete(\"MailGroup\",\""+ Eval("id") + "\");return false;" %>'
+                                        />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -728,7 +841,41 @@
             </tr>
         </table>
     </div>
-    <div id="checkupContent" style="display: none;">員工健檢報名組別</div>
+    <div id="checkupContent" style="display: none;">
+        <table>
+            <tr>
+                <td>
+                    <asp:Button ID="btnImportHealthGroup" runat="server"  CssClass="Button" Text="匯入組別" OnClick="btnImportHealthGroup_Click" />
+                </td>
+                <td>
+                    <asp:HyperLink ID="hlnkFileAttachment" runat="server"  Text="匯入格式範例" style="color:blue;" NavigateUrl="~/Sample/Import_HealthGroup.xlsx" />
+                </td>
+            </tr>
+        </table>
+        <table cellspacing="0">
+            <tr>
+                <td>
+                    <asp:GridView ID="gridHealthGroup" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
+                        EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
+                        PageSize="20" OnRowDataBound="gridHealthGroup_RowDataBound" OnPageIndexChanging="gridHealthGroup_PageIndexChanging">
+                        <Columns>
+                            <asp:BoundField HeaderText="工號" DataField="empid">
+                                <HeaderStyle Width="250px"></HeaderStyle>
+                            </asp:BoundField>
+                             <asp:BoundField HeaderText="姓名" DataField="name">
+                                <HeaderStyle Width="250px"></HeaderStyle>
+                            </asp:BoundField>
+                             <asp:BoundField HeaderText="健檢報名組別" DataField="groupname">
+                                <HeaderStyle Width="250px"></HeaderStyle>
+                            </asp:BoundField>
+                        </Columns>
+                        <HeaderStyle BackColor="#595959" ForeColor="White" Font-Names=" Microsoft JhengHei, Georgia" Font-Size="14px" Height="30px" HorizontalAlign="Center"></HeaderStyle>
+                        <RowStyle Font-Names=" Microsoft JhengHei, Georgia" Font-Size="12px" Height="25px" />
+                    </asp:GridView>
+                </td>
+            </tr>
+        </table>
+    </div>
 
 
 
@@ -769,7 +916,42 @@
             <asp:Label ID="lblExist" runat="server" Text="已存在。"></asp:Label>
         </asp:Panel>
     </div>
-    
+
+    <div id="dialogDelete" title="Dialog Title">
+        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
+            <%--dialog content--%>
+            <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？"></asp:Label>
+        </asp:Panel>
+    </div>
+
+    <div id="dialogFileUpload" title="Dialog Title">
+        <asp:Panel ID="ContentPanel7" runat="server" Style="display: none">
+            <%--dialog content--%>
+            <div>
+                <asp:FileUpload ID="FileUpload1" runat="server" />
+            </div>
+            <div style="margin-top: 20px;">
+                <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" />
+            </div>
+            <div style="margin-top: 5px;">
+                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
+            </div>
+        </asp:Panel>
+    </div>
+
+    <asp:Button ID="btnReloadCategoryGrid" runat="server" Text="Button" OnClick="btnReloadCategoryGrid_Click" style="display:none;" />
+    <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" style="display:none;" />
+    <asp:Button ID="btnReloadMailGroupGrid" runat="server" Text="Button" OnClick="btnReloadMailGroupGrid_Click" style="display:none;" />
+
+    <asp:Label ID="lblDuplicate" runat="server" Text="以下員工報名健檢組別重複：" Visible="false"></asp:Label>
+    <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="false"></asp:Label>
+    <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>
+    <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
+    <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
+
+
+
+
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfEventCategory" runat="server" Value="活動分類" />

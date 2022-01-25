@@ -1,9 +1,15 @@
-﻿using System;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
@@ -28,6 +34,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         GetGridEventCategory();
         GetGridEventManager();
         GetGridMailGroup();
+        GetGridHealthGroup();
     }
 
     /// <summary>
@@ -63,6 +70,15 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 
         this.gridMailGroup.DataSource = dt;
         this.gridMailGroup.DataBind();
+    }
+
+    private void GetGridHealthGroup()
+    {
+        SystemSetup systemSetup = new SystemSetup();
+        DataTable dt = systemSetup.GetHealthGroup();
+
+        this.gridHealthGroup.DataSource = dt;
+        this.gridHealthGroup.DataBind();
     }
 
     #region Category
@@ -149,22 +165,52 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Button_DeleteCategory_Click(object sender, EventArgs e)
     {
-        Button btn = (Button)sender;
-        string id = btn.CommandArgument.ToString();
+        //Button btn = (Button)sender;
+        //string id = btn.CommandArgument.ToString();
 
+        //SystemSetup systemSetup = new SystemSetup();
+        //string result = systemSetup.DeleteEventCategory(id);
+        //if (string.IsNullOrEmpty(result))
+        //{
+        //    //成功
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
+        //    GetGridEventCategory();
+        //}
+        //else
+        //{
+        //    //失敗
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+        //}
+    }
+
+    /// <summary>
+    /// 刪除活動類別
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteCategory(string id)
+    {
         SystemSetup systemSetup = new SystemSetup();
         string result = systemSetup.DeleteEventCategory(id);
-        if (string.IsNullOrEmpty(result))
-        {
-            //成功
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
-            GetGridEventCategory();
-        }
-        else
+
+        if (!string.IsNullOrEmpty(result))
         {
             //失敗
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+            throw new Exception("Failed");
         }
+
+        return "SuccessCategory";
+    }
+
+    /// <summary>
+    /// 刪除分類後 重新reload grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnReloadCategoryGrid_Click(object sender, EventArgs e)
+    {
+        GetGridEventCategory();
     }
 
     protected void gridEventCategory_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -193,7 +239,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             gridDdlIsEnableCategory.SelectedValue = dv["enabled"].ToString();
         }
     }
-
 
     //GridView換頁
     protected void gridEventCategory_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -334,24 +379,54 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Button_DeleteManager_Click(object sender, EventArgs e)
     {
-        Button btn = (Button)sender;
-        string empID = btn.CommandArgument.ToString();
+        //Button btn = (Button)sender;
+        //string empID = btn.CommandArgument.ToString();
 
+        //SystemSetup systemSetup = new SystemSetup();
+        //string result = systemSetup.DeleteEventAdmin(empID);
+        //if (string.IsNullOrEmpty(result))
+        //{
+        //    //成功
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
+        //    GetGridEventManager();
+
+        //}
+        //else
+        //{
+        //    //失敗
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+
+        //}
+    }
+
+    /// <summary>
+    /// 刪除活動類別
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteManager(string id)
+    {
         SystemSetup systemSetup = new SystemSetup();
-        string result = systemSetup.DeleteEventAdmin(empID);
-        if (string.IsNullOrEmpty(result))
-        {
-            //成功
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
-            GetGridEventManager();
+        string result = systemSetup.DeleteEventAdmin(id);
 
-        }
-        else
+        if (!string.IsNullOrEmpty(result))
         {
             //失敗
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
-
+            throw new Exception("Failed");
         }
+
+        return "SuccessManager";
+    }
+
+    /// <summary>
+    /// 刪除分類後 重新reload grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnReloadManagerGrid_Click(object sender, EventArgs e)
+    {
+        GetGridEventManager();
     }
 
     protected void gridEventManager_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -458,22 +533,52 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Button_DeleteMailGroup_Click(object sender, EventArgs e)
     {
-        Button btn = (Button)sender;
-        string id = btn.CommandArgument.ToString();
+        //Button btn = (Button)sender;
+        //string id = btn.CommandArgument.ToString();
 
+        //SystemSetup systemSetup = new SystemSetup();
+        //string result = systemSetup.DeleteMailGroup(id);
+        //if (string.IsNullOrEmpty(result))
+        //{
+        //    //成功
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
+        //    GetGridMailGroup();
+        //}
+        //else
+        //{
+        //    //失敗
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+        //}
+    }
+
+    /// <summary>
+    /// 刪除活動類別
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteMailGroup(string id)
+    {
         SystemSetup systemSetup = new SystemSetup();
         string result = systemSetup.DeleteMailGroup(id);
-        if (string.IsNullOrEmpty(result))
-        {
-            //成功
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
-            GetGridMailGroup();
-        }
-        else
+
+        if (!string.IsNullOrEmpty(result))
         {
             //失敗
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+            throw new Exception("Failed");
         }
+
+        return "SuccessMailGroup";
+    }
+
+    /// <summary>
+    /// 刪除分類後 重新reload grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnReloadMailGroupGrid_Click(object sender, EventArgs e)
+    {
+        GetGridMailGroup();
     }
 
     protected void gridMailGroup_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -506,4 +611,219 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         GetGridMailGroup();
     }
     #endregion
+
+
+
+    protected void btnImportHealthGroup_Click(object sender, EventArgs e)
+    {
+        tbImportMsg.Text = string.Empty;
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+    }
+
+    protected void btnImport_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            List<UserHealthGroup> listUserHealthGroup = new List<UserHealthGroup>();
+            listUserHealthGroup = ExcelToList();
+            
+            //
+            var duplicateList = listUserHealthGroup.AsEnumerable().GroupBy(x => new { x.empid })
+                 .Select(group => new
+                 {
+                     group.Key.empid,
+                     Count = group.Count()
+                 }).Where(a => a.Count > 1).
+                 Select(g => g.empid).ToList();
+
+            StringBuilder sb = new StringBuilder();
+            if (duplicateList.Count > 0)
+            {
+                
+                sb.Append(lblDuplicate.Text);
+                sb.AppendLine();
+
+                string empinList = string.Empty;
+                foreach (string empid in duplicateList)
+                {
+                    empinList += empid + ",";
+                }
+                sb.Append(empinList.Substring(0, empinList.Length - 1));
+                sb.AppendLine();
+                sb.AppendLine();
+                sb.AppendLine();
+                sb.Append(lblReimport.Text);
+                tbImportMsg.Text = sb.ToString();
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+
+            }
+            else
+            {
+                //先刪除
+
+                //寫入DB
+                SystemSetup systemSetup = new SystemSetup();
+                string result = systemSetup.AddUserHealthGroup(listUserHealthGroup, Page.Session["EmpID"].ToString());
+                if (string.IsNullOrEmpty(result))
+                {
+                    //成功
+                    tbImportMsg.Text = lblImportSuccess.Text;
+                    GetGridHealthGroup();
+                }
+                else
+                {
+                    //失敗
+                    sb.Append(lblImportFailed.Text);
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.Append(lblImportFailedMsg.Text);
+                    sb.AppendLine();
+                    sb.Append(result);
+
+
+                    tbImportMsg.Text = sb.ToString();
+                }
+
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    
+
+
+    /// <summary>
+    /// Excel匯入成Datable
+    /// </summary>
+    /// <param name="file">匯入路徑(包含檔名與副檔名)</param>
+    /// <returns></returns>
+    public List<UserHealthGroup> ExcelToList()
+    {
+        DataTable dt = new DataTable();
+        IWorkbook workbook;
+        string fileExt = Path.GetExtension(FileUpload1.FileName).ToLower();
+        Stream uploadFileStream = FileUpload1.PostedFile.InputStream;
+
+        //XSSFWorkbook 適用XLSX格式，HSSFWorkbook 適用XLS格式
+        if (fileExt == ".xlsx")
+        {
+            workbook = new XSSFWorkbook(uploadFileStream);
+        }
+        else if (fileExt == ".xls")
+        {
+            workbook = new HSSFWorkbook(uploadFileStream);
+        }
+        else
+        {
+            workbook = null;
+        }
+        if (workbook == null) { return null; }
+
+        ISheet sheet = workbook.GetSheetAt(0);
+
+        //表頭  
+        IRow header = sheet.GetRow(sheet.FirstRowNum);
+        List<int> columns = new List<int>();
+        for (int i = 0; i < header.LastCellNum; i++)
+        {
+            object obj = GetValueType(header.GetCell(i));
+            if (obj == null || obj.ToString() == string.Empty)
+            {
+                dt.Columns.Add(new DataColumn("Columns" + i.ToString()));
+            }
+            else
+                dt.Columns.Add(new DataColumn(obj.ToString()));
+            columns.Add(i);
+        }
+        //資料  
+        for (int i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
+        {
+            UserHealthGroup group = new UserHealthGroup();
+            DataRow dr = dt.NewRow();
+            bool hasValue = false;
+            foreach (int j in columns)
+            {
+                dr[j] = GetValueType(sheet.GetRow(i).GetCell(j));
+                if (dr[j] != null && dr[j].ToString() != string.Empty)
+                {
+                    hasValue = true;
+                }
+            }
+            if (hasValue)
+            {
+                dt.Rows.Add(dr);
+            }
+        }
+
+        List<UserHealthGroup> list = new List<UserHealthGroup>();
+        list = (from DataRow dr in dt.Rows
+                       select new UserHealthGroup()
+                       {
+                           empid = dr["工號"].ToString(),
+                           groupid = dr["員工健檢報名組別"].ToString()
+                       }).ToList();
+
+
+        return list;
+    }
+
+    /// <summary>
+    /// 獲取單元格型別
+    /// </summary>
+    /// <param name="cell"></param>
+    /// <returns></returns>
+    private static object GetValueType(ICell cell)
+    {
+        if (cell == null)
+            return null;
+        switch (cell.CellType)
+        {
+            case CellType.Blank: //BLANK:  
+                return null;
+            case CellType.Boolean: //BOOLEAN:  
+                return cell.BooleanCellValue;
+            case CellType.Numeric: //NUMERIC:  
+                return cell.NumericCellValue;
+            case CellType.String: //STRING:  
+                return cell.StringCellValue;
+            case CellType.Error: //ERROR:  
+                return cell.ErrorCellValue;
+            case CellType.Formula: //FORMULA:  
+            default:
+                return "=" + cell.CellFormula;
+        }
+    }
+
+    protected void gridHealthGroup_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            //調整GridView資料行底色
+            if (e.Row.RowIndex > -1)
+            {
+                //奇數行
+                if (e.Row.RowIndex % 2 == 0)
+                    e.Row.BackColor = Color.FromArgb(225, 225, 225);
+                else
+                    e.Row.BackColor = Color.FromArgb(245, 245, 245);
+            }
+
+        }
+    }
+
+
+    //GridView換頁
+    protected void gridHealthGroup_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gridEventCategory.PageIndex = e.NewPageIndex;
+        GetGridHealthGroup();
+    }
+
+
 }
