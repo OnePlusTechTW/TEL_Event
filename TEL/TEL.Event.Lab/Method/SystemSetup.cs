@@ -68,6 +68,8 @@ namespace TEL.Event.Lab.Method
             SystemSetupData systemSetupData = new SystemSetupData();
             return systemSetupData.QueryEventCategory(name);
         }
+
+        
         #endregion
 
         #region 常態活動管理者
@@ -169,11 +171,35 @@ namespace TEL.Event.Lab.Method
             SystemSetupData systemSetupData = new SystemSetupData();
             return systemSetupData.QueryMailGroup(name);
         }
+
+
         #endregion
 
         #region 員工健檢
+        public string AddUserHealthGroup(List<UserHealthGroup> listUserHealthGroup, string modifiedby)
+        {
+            SystemSetupData systemSetupData = new SystemSetupData();
 
+            string result = systemSetupData.InsertHealthGroup(listUserHealthGroup, modifiedby);
+
+            return result;
+        }
+
+        public DataTable GetHealthGroup()
+        {
+            SystemSetupData systemSetupData = new SystemSetupData();
+            return systemSetupData.QueryHealthGroup();
+        }
         #endregion
 
+
+
+    }
+
+    public class UserHealthGroup
+    {
+        public string empid { get; set; }
+
+        public string groupid { get; set; }
     }
 }

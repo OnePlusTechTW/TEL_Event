@@ -5,11 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using TEL.Event.Lab.Method;
 
 namespace TEL.Event.Lab.Data
 {
     public class SystemSetupData
     {
+        private string GetConnectionString()
+        {
+            return System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+        }
+
         #region 活動分類
         /// <summary>
         /// 新增活動分類
@@ -21,7 +27,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         public string InsertEventCategory(string name, string color, string enabled, string empid)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -86,7 +92,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string UpdateEventCategory(string id, string color, string enabled, string empid)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -139,7 +145,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string DeleteEventCategory(string id)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -167,7 +173,9 @@ namespace TEL.Event.Lab.Data
             return "";
 
         }
-        
+
+
+
         /// <summary>
         /// 查詢活動分類
         /// </summary>
@@ -175,7 +183,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal DataTable QueryEventCategory(string name)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             sqlStr = @"
@@ -232,7 +240,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string InsertEventAdmin(string empid, string modifiedby)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -281,7 +289,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string DeleteEventAdmin(string empID)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -316,7 +324,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal DataTable QueryEventManager(string empid)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             sqlStr = @"
@@ -327,7 +335,7 @@ namespace TEL.Event.Lab.Data
                             ,[modifieddate]
                         FROM 
                             [TEL_Event_Admin] ea 
-                        INNER JOIN Users u ON u.EmpID = ea.empid ";
+                        LEFT JOIN Users u ON u.EmpID = ea.empid ";
 
             if (!string.IsNullOrEmpty(empid))
             {
@@ -373,7 +381,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string InsertMailGroup(string name, string enabled, string modifiedby)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -429,7 +437,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string UpdateMailGroup(string id, string enabled, string modifiedby)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -475,7 +483,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal string DeleteMailGroup(string id)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             try
@@ -509,7 +517,7 @@ namespace TEL.Event.Lab.Data
         /// <returns></returns>
         internal DataTable QueryMailGroup(string name)
         {
-            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string connStr = GetConnectionString();
             string sqlStr = "";
 
             sqlStr = @"
@@ -556,7 +564,119 @@ namespace TEL.Event.Lab.Data
         #endregion
 
         #region 員工健檢
+        internal string InsertHealthGroup(List<UserHealthGroup> listUserHealthGroup, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = string.Empty;
 
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlTransaction transaction;
+
+            conn.Open();
+            transaction = conn.BeginTransaction();
+            try
+            {
+                //先刪除
+                sqlStr = @"
+                DELETE 
+                    TEL_Event_HealthGroup 
+                ";
+
+                SqlCommand commandDelete = new SqlCommand(sqlStr, conn, transaction);
+                commandDelete.ExecuteNonQuery();
+
+                //再新增
+                foreach (UserHealthGroup item in listUserHealthGroup)
+                {
+                    sqlStr = @"
+                        INSERT INTO 
+                        TEL_Event_HealthGroup
+                            (
+                                empid,
+                                groupname,
+                                modifiedby,
+                                modifieddate
+                            )
+                        VALUES 
+                            (
+                                @empid,
+                                @groupname,
+                                @modifiedby,
+                                GETDATE()
+                            )";
+
+                    SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@empid", item.empid);
+                    command.Parameters.AddWithValue("@groupname", item.groupid);
+                    command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                    command.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+            }
+            catch (SqlException ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+
+            }
+
+            conn.Close();
+            conn.Dispose();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢郵件群組
+        /// </summary>
+        /// <returns></returns>
+        internal DataTable QueryHealthGroup()
+        {
+            string connStr = GetConnectionString();
+
+            string sqlStr = @"
+                        SELECT 
+                            h.empid,
+                            u.FirstNameEN+' '+u.LastNameEN as name,
+                            groupname,
+                            modifiedby,
+                            modifieddate
+                        FROM 
+                            TEL_Event_HealthGroup h
+                        LEFT JOIN Users u ON u.EmpID = h.empid 
+                        ORDER BY h.[empid]";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
         #endregion
+
+
     }
+
+
 }
