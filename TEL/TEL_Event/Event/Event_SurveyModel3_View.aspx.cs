@@ -19,7 +19,7 @@ public partial class Event_SurveyModel3_View : System.Web.UI.Page
     //Load員工相關資料
     protected void Load_EmpData()
     {
-        UserInfo ui = new UserInfo("123456");
+        UserInfo ui = new UserInfo(Page.Session["EmpID"].ToString());
         this.FIELD_Empid.Text = ui.EmpID;
         this.FIELD_EmpNameCH.Text = ui.FullNameCH;
         this.FIELD_EmpNameEN.Text = ui.FullNameEN;

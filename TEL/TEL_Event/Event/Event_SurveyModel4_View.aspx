@@ -26,6 +26,9 @@
         <table>
             <tr>
                 <td>
+                    <asp:Label ID="LABEL_Station" runat="server" meta:resourcekey="LABEL_StationResource1"></asp:Label>
+                </td>
+                <td>
                     <asp:Label ID="LABEL_Empid" runat="server" meta:resourcekey="LABEL_EmpidResource1"></asp:Label>
                 </td>
                 <td>
@@ -37,46 +40,47 @@
                 <td>
                     <asp:Label ID="LABEL_UnitName" runat="server" meta:resourcekey="LABEL_UnitNameResource1"></asp:Label>
                 </td>
-                <td>
-                    <asp:Label ID="LABEL_Station" runat="server" meta:resourcekey="LABEL_StationResource1"></asp:Label>
-                </td>
+
             </tr>
             <tr>
                 <td>
-                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+                </td>
+                <td>
+                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
                     <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
                 </td>
-                <td>
-                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
-                </td>
+
             </tr>
+        </table>
+        <table>
             <tr>
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td style="width: 120px">
                     <asp:RadioButton ID="FIELD_Q1_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q1" Enabled="false"></asp:RadioButton>
                 </td>
-                <td>
+                <td style="width: 120px">
                     <asp:RadioButton ID="FIELD_Q1_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q1" Enabled="false"></asp:RadioButton>
                 </td>
-                <td>
+                <td style="width: 120px">
                     <asp:RadioButton ID="FIELD_Q1_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q1" Enabled="false"></asp:RadioButton>
                 </td>
-                <td>
+                <td style="width: 120px">
                     <asp:RadioButton ID="FIELD_Q1_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q1" Enabled="false"></asp:RadioButton>
                 </td>
-                <td>
+                <td style="width: 120px">
                     <asp:RadioButton ID="FIELD_Q1_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q1" Enabled="false"></asp:RadioButton>
                 </td>
             </tr>

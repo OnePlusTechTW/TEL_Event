@@ -21,9 +21,16 @@
 
 .ShowCategory {
     font-weight: bold;
+    font-size: 18px;
+    padding-top: 1px;
+    font-family: Calibri, Microsoft JhengHei;
+}
+
+.ShowPeopleCount {
+    font-weight: bold;
     font-size: 14px;
     padding-top: 1px;
-    font-family: Microsoft JhengHei, Georgia;
+    font-family: Georgia, Microsoft JhengHei;
     color: black;
 }
 

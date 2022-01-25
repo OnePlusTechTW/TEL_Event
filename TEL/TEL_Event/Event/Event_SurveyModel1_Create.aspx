@@ -5,6 +5,58 @@
         function fk(isWrite) {
             document.getElementById('<%= FIELD_Q7Reason.ClientID %>').disabled = isWrite;
         }
+
+        function ShowDialogRequired() {
+            $(function () {
+                $("#dialogRequired").dialog({
+                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel1").style.display = "block";
+                    },
+                    width: "450px",
+                    Height: "500px",
+                    position: { my: "center center", at: "center top+175", }
+                });
+            });
+
+        };
+
+        function ShowDialogConfirm() {
+            $(function () {
+                $("#dialogSubmit").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "確定",
+                            click: function () {
+                               <%= Button_AddConfirm.ClientID%>.click();
+                                $(this).dialog("close");
+                            }
+                        },
+                        {
+                            text: "取消",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel6").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
     </script>
 
     <table>
@@ -24,6 +76,9 @@
     <table>
         <tr>
             <td>
+                <asp:Label ID="LABEL_Station" runat="server" meta:resourcekey="LABEL_StationResource1"></asp:Label>
+            </td>
+            <td>
                 <asp:Label ID="LABEL_Empid" runat="server" meta:resourcekey="LABEL_EmpidResource1"></asp:Label>
             </td>
             <td>
@@ -35,46 +90,47 @@
             <td>
                 <asp:Label ID="LABEL_UnitName" runat="server" meta:resourcekey="LABEL_UnitNameResource1"></asp:Label>
             </td>
-            <td>
-                <asp:Label ID="LABEL_Station" runat="server" meta:resourcekey="LABEL_StationResource1"></asp:Label>
-            </td>
+
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+            </td>
+            <td>
+                <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
             </td>
             <td>
                 <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
             </td>
-            <td>
-                <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
-            </td>
+
         </tr>
+    </table>
+    <table>
         <tr>
             <td colspan="5">
                 <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_1" runat="server" Text="公告" Value="公告" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_2" runat="server" Text="信件宣傳" Value="信件宣傳" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_3" runat="server" Text="海報" Value="海報" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_4" runat="server" Text="同事分享" Value="同事分享" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_5" runat="server" Text="螢幕鎖定畫面" Value="螢幕鎖定畫面" CssClass="Normal"></asp:CheckBox>
             </td>
         </tr>
@@ -254,5 +310,23 @@
             </td>
         </tr>
     </table>
+
+    <div id="dialogRequired" title="Dialog Title">
+        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
+            <asp:Label ID="lblFiledName" runat="server" Text=""></asp:Label>
+        </asp:Panel>
+    </div>
+
+     <div id="dialogSubmit" title="Dialog Title">
+        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
+            <%--dialog content--%>
+            <asp:Label ID="lblDeleteWarning" runat="server" Text="問卷送出後即不可修正，您確定要送出嗎？"></asp:Label>
+        </asp:Panel>
+    </div>
+
+    <asp:Button ID="Button_AddConfirm" runat="server" Text="Button" meta:resourcekey="Button_SubmitResource1" CssClass="Button" style="display:none" OnClick="Button_AddConfirm_Click"/>
+    <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
+    <asp:HiddenField ID="hfmsg" runat="server" Value="確認" />
+
 </asp:Content>
 
