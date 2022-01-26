@@ -7,11 +7,16 @@ using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 using System.Data;
 using System.Drawing;
+using System.Windows.Forms;
+using Button = System.Web.UI.WebControls.Button;
 
 public partial class Event_Survey : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
+            Response.Redirect("/Event/Event.aspx");
+
         if (!IsPostBack)
         {
             LoadDate();
@@ -24,7 +29,7 @@ public partial class Event_Survey : System.Web.UI.Page
         //登入檢查
         //若為一般使用者則導到Denied頁面
         TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
-        if (gm.IsDenied(Page.Session["EmpID"].ToString(), Request.QueryString["eventid"]) < 1)
+        if (gm.IsDenied(Page.Session["EmpID"].ToString(), Request.QueryString["id"]) < 1)
             Response.Redirect("/Event/Denied.aspx");
     }
 
@@ -39,28 +44,37 @@ public partial class Event_Survey : System.Web.UI.Page
         //si[0]=Survey ID
         //si[1]=Survey Model
         string[] si = ((Button)sender).CommandArgument.ToString().Split('_');
-        Survey sv = new Survey();
-        sv.DeleteSurveyData(si[0], si[1]);
+        string errormsg = "";
 
-        //重新Load Data & Query Data
-        LoadDate();
-        QueryData();
+        Survey sv = new Survey();
+        errormsg = sv.DeleteSurveyData(Request.QueryString["id"], si[0], si[1], Session["EmpID"].ToString());
+
+        if (!string.IsNullOrEmpty(errormsg))
+        {
+            MessageBox.Show(errormsg);
+        }
+        else
+        {
+            //重新Load Data & Query Data
+            LoadDate();
+            QueryData();
+        }
     }
 
     protected void Button_ExportExcel_Click(object sender, EventArgs e)
     {
-        string eventid = Request.QueryString["eventid"];
+        string eventid = Request.QueryString["id"];
         EventInfo ev = new EventInfo(eventid);
         ExportExcel ep = new ExportExcel();
 
         if (ev.EventSurveyModel == "1")
-            ep.ExportSurveyModel1(Request.QueryString["eventid"]);
+            ep.ExportSurveyModel1(Request.QueryString["id"]);
         else if (ev.EventSurveyModel == "2")
-            ep.ExportSurveyModel2(Request.QueryString["eventid"]);
+            ep.ExportSurveyModel2(Request.QueryString["id"]);
         else if (ev.EventSurveyModel == "3")
-            ep.ExportSurveyModel3(Request.QueryString["eventid"]);
+            ep.ExportSurveyModel3(Request.QueryString["id"]);
         else if (ev.EventSurveyModel == "4")
-            ep.ExportSurveyModel4(Request.QueryString["eventid"]);
+            ep.ExportSurveyModel4(Request.QueryString["id"]);
     }
 
     protected void FIELD_Result_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -96,12 +110,12 @@ public partial class Event_Survey : System.Web.UI.Page
     //讀取Event資料
     protected void LoadDate()
     {
-        string eventid = Request.QueryString["eventid"];
+        string eventid = Request.QueryString["id"];
         EventInfo ev = new EventInfo(eventid);
         Survey sv = new Survey();
 
-        this.TD_Category.Style["background"] = ev.EventCategoryColor;
-        this.FIELD_Category.Text = ev.EventCategory;
+        this.FIELD_Category.ForeColor = ColorTranslator.FromHtml(ev.EventCategoryColor);
+        this.FIELD_Category.Text = "．" + ev.EventCategory;
         this.FIELD_EventName.Text = ev.EventName;
         this.FIELD_Count.Text = sv.GetSurveyFillinCount(eventid, ev.EventRegisterModel, ev.EventSurveyModel);
     }
@@ -109,9 +123,9 @@ public partial class Event_Survey : System.Web.UI.Page
     //查詢資料
     protected void QueryData()
     {
-        EventInfo ev = new EventInfo(Request.QueryString["eventid"]);
+        EventInfo ev = new EventInfo(Request.QueryString["id"]);
         Survey sv = new Survey();
-        DataTable dt = sv.GetSurvey(Request.QueryString["eventid"], ev.EventSurveyModel, this.FIELD_EmpName.Text.Trim());
+        DataTable dt = sv.GetSurvey(Request.QueryString["id"], ev.EventSurveyModel, this.FIELD_EmpName.Text.Trim());
 
         this.FIELD_Result.DataSource = dt;
         this.FIELD_Result.DataBind();

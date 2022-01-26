@@ -11,7 +11,7 @@
                 <asp:Label ID="LABEL_PageName" runat="server" meta:resourcekey="LABEL_PageNameResource1" CssClass="PageTitle"></asp:Label>
             </td>
         </tr>
-        <tr style="height:10px"></tr>
+        <tr style="height: 10px"></tr>
     </table>
     <table>
         <tr>
@@ -41,6 +41,9 @@
             <td>
                 <asp:Button ID="Button_Query" runat="server" Text="Button" meta:resourcekey="Button_QueryResource1" OnClick="Button_Query_Click" CssClass="Button" /></td>
         </tr>
+    </table>
+    <table>
+        <tr style="height: 10px"></tr>
     </table>
     <table cellspacing="0">
         <tr>

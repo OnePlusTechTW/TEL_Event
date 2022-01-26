@@ -11,7 +11,21 @@
                 <asp:Label ID="LABEL_PageName" runat="server" CssClass="PageTitle" meta:resourcekey="LABEL_PageNameResource1"></asp:Label>
             </td>
         </tr>
-        <tr style="height:10px"></tr>
+        <tr style="height: 10px"></tr>
+    </table>
+    <table>
+        <tr>
+            <td id="TD_Category" runat="server" style="text-align: center; width: 120px">
+                <asp:Label ID="FIELD_Category" runat="server" CssClass="ShowCategory"></asp:Label>
+            </td>
+            <td>
+                <asp:Label ID="FIELD_EventName" runat="server" CssClass="ShowCategory"></asp:Label>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr style="height: 15px">
+        </tr>
     </table>
     <table>
         <tr>
@@ -29,25 +43,16 @@
             </td>
         </tr>
     </table>
-    <table>
-        <tr>
-            <td id="TD_Category" runat="server" style="text-align: center; width: 120px">
-                <asp:Label ID="FIELD_Category" runat="server" CssClass="ShowCategory"></asp:Label>
-            </td>
-            <td>
-                <asp:Label ID="FIELD_EventName" runat="server" CssClass="ShowCategory"></asp:Label>
-            </td>
-        </tr>
-    </table>
     <table cellspacing="0">
         <tr style="text-align: right">
             <td style="width: 100%">
                 <asp:Image ID="FIELD_People" runat="server" ImageUrl="~/Master/images/people.png" Height="20px" />
-                <asp:Label ID="FIELD_Count" runat="server" CssClass="ShowCategory" Text="1 / 200"></asp:Label>
+                <asp:Label ID="FIELD_Count" runat="server" CssClass="ShowPeopleCount"></asp:Label>
             </td>
             <td>
                 <asp:Button ID="Button_ExportExcel" runat="server" Text="Button" meta:resourcekey="Button_ExportExcelResource1" CssClass="Button" OnClick="Button_ExportExcel_Click" /></td>
         </tr>
+        <tr style="height: 10px"></tr>
         <tr>
             <td colspan="2">
                 <asp:GridView ID="FIELD_Result" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"

@@ -17,8 +17,6 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             Response.Redirect("/Event/MyEvent.aspx");
 
-        this.Button_Submit.Attributes.Add("onclick", "javascrip:return confirm('問卷送出後即不可修正，您確定要送出嗎？')");
-
         Load_EmpData();
     }
 
@@ -36,6 +34,11 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
     }
 
     protected void Button_Submit_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogConfirm();", true);
+    }
+
+    protected void Button_AddConfirm_Click(object sender, EventArgs e)
     {
         if (Check_Input())
             if (Save_Data())
@@ -63,73 +66,74 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
         if (!this.FIELD_Q1_1.Checked && !this.FIELD_Q1_2.Checked && !this.FIELD_Q1_3.Checked && !this.FIELD_Q1_4.Checked && !this.FIELD_Q1_5.Checked && !this.FIELD_Q1_6.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                 ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1").ToString();
         }
         else if (this.FIELD_Q1_6.Checked && string.IsNullOrEmpty(this.FIELD_Q1Other.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1Other").ToString();
         }
 
         if (!this.FIELD_Q2_1.Checked && !this.FIELD_Q2_2.Checked && !this.FIELD_Q2_3.Checked && !this.FIELD_Q2_4.Checked && !this.FIELD_Q2_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q2").ToString();
         }
 
         if (!this.FIELD_Q3_1.Checked && !this.FIELD_Q3_2.Checked && !this.FIELD_Q3_3.Checked && !this.FIELD_Q3_4.Checked && !this.FIELD_Q3_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q3").ToString();
         }
 
         if (!this.FIELD_Q4_1.Checked && !this.FIELD_Q4_2.Checked && !this.FIELD_Q4_3.Checked && !this.FIELD_Q4_4.Checked && !this.FIELD_Q4_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q4").ToString();
         }
 
         if (!this.FIELD_Q5_1.Checked && !this.FIELD_Q5_2.Checked && !this.FIELD_Q5_3.Checked && !this.FIELD_Q5_4.Checked && !this.FIELD_Q5_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                 ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q5").ToString();
         }
 
         if (!this.FIELD_Q6_1.Checked && !this.FIELD_Q6_2.Checked && !this.FIELD_Q6_3.Checked && !this.FIELD_Q6_4.Checked && !this.FIELD_Q6_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q6").ToString();
         }
 
         if (!this.FIELD_Q7_1.Checked && !this.FIELD_Q7_2.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q7").ToString();
         }
         else if (this.FIELD_Q7_2.Checked && string.IsNullOrEmpty(this.FIELD_Q7Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q7Reason").ToString();
         }
         if (string.IsNullOrEmpty(this.FIELD_Q8.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q8").ToString();
         }
 
         if (!string.IsNullOrEmpty(ErrorMsg))
         {
-            MessageBox.Show(ErrorMsg, "錯誤訊息");
+            lblFiledName.Text = ErrorMsg;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
             flag = false;
         }
 
@@ -253,7 +257,7 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
 
         errormsg = sv.SaveSurveyDataMModel1(this.Request.QueryString["id"], Page.Session["EmpID"].ToString(), q1, q1other, q2, q3, q4, q5, q6, q7, q7reason, this.FIELD_Q8.Text.Trim(), this.FIELD_Q9.Text.Trim(), this.FIELD_Q10.Text.Trim());
 
-        if (errormsg != "")
+        if (!string.IsNullOrEmpty(errormsg))
         {
             flag = false;
             MessageBox.Show(errormsg);
@@ -261,4 +265,5 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
 
         return flag;
     }
+
 }

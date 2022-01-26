@@ -55,48 +55,48 @@ public partial class Event_SurveyModel2_Create : System.Web.UI.Page
         if (!this.FIELD_Q1_1.Checked && !this.FIELD_Q1_2.Checked && !this.FIELD_Q1_3.Checked && !this.FIELD_Q1_4.Checked && !this.FIELD_Q1_5.Checked && !this.FIELD_Q1_6.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1").ToString();
         }
         else if (this.FIELD_Q1_6.Checked && string.IsNullOrEmpty(this.FIELD_Q1Other.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1Other").ToString();
         }
 
         if (!this.FIELD_Q2_1.Checked && !this.FIELD_Q2_2.Checked && !this.FIELD_Q2_3.Checked && !this.FIELD_Q2_4.Checked && !this.FIELD_Q2_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q2").ToString();
         }
 
         if (!this.FIELD_Q3_1.Checked && !this.FIELD_Q3_2.Checked && !this.FIELD_Q3_3.Checked && !this.FIELD_Q3_4.Checked && !this.FIELD_Q3_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q3").ToString();
         }
 
         if (!this.FIELD_Q4_1.Checked && !this.FIELD_Q4_2.Checked && !this.FIELD_Q4_3.Checked && !this.FIELD_Q4_4.Checked && !this.FIELD_Q4_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q4").ToString();
         }
 
         if (!this.FIELD_Q5_1.Checked && !this.FIELD_Q5_2.Checked && !this.FIELD_Q5_3.Checked && !this.FIELD_Q5_4.Checked && !this.FIELD_Q5_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q5").ToString();
         }
 
         if (!this.FIELD_Q6_1.Checked && !this.FIELD_Q6_2.Checked && !this.FIELD_Q6_3.Checked && !this.FIELD_Q6_4.Checked && !this.FIELD_Q6_5.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q6").ToString();
         }
 

@@ -114,99 +114,99 @@ public partial class Event_SurveyModel3_Create : System.Web.UI.Page
         if (string.IsNullOrEmpty(this.FIELD_Q1.SelectedValue))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1").ToString();
         }
 
         if (!this.FIELD_Q2_1.Checked && !this.FIELD_Q2_2.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q2").ToString();
         }
         else if (this.FIELD_Q2_1.Checked && string.IsNullOrEmpty(this.FIELD_Q2Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q2Reason").ToString();
         }
 
         if (!this.FIELD_Q3_1.Checked && !this.FIELD_Q3_2.Checked && !this.FIELD_Q3_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q3").ToString();
         }
         else if (this.FIELD_Q3_3.Checked && string.IsNullOrEmpty(this.FIELD_Q3Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q3Reason").ToString();
         }
 
         if (!this.FIELD_Q4_1.Checked && !this.FIELD_Q4_2.Checked && !this.FIELD_Q4_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q4").ToString();
         }
         else if (this.FIELD_Q4_3.Checked && string.IsNullOrEmpty(this.FIELD_Q4Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q4Reason").ToString();
         }
 
         if (!this.FIELD_Q5_1.Checked && !this.FIELD_Q5_2.Checked && !this.FIELD_Q5_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q5").ToString();
         }
         else if (this.FIELD_Q5_3.Checked && string.IsNullOrEmpty(this.FIELD_Q5Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q5Reason").ToString();
         }
 
         if (!this.FIELD_Q6_1.Checked && !this.FIELD_Q6_2.Checked && !this.FIELD_Q6_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q6").ToString();
         }
         else if (this.FIELD_Q6_3.Checked && string.IsNullOrEmpty(this.FIELD_Q6Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q6Reason").ToString();
         }
 
         if (!this.FIELD_Q7_1.Checked && !this.FIELD_Q7_2.Checked && !this.FIELD_Q7_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q7").ToString();
         }
         else if (this.FIELD_Q7_3.Checked && string.IsNullOrEmpty(this.FIELD_Q7Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q7Reason").ToString();
         }
 
         if (string.IsNullOrEmpty(this.FIELD_Q8.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q8").ToString();
         }
 
         if (!this.FIELD_Q9_1.Checked && !this.FIELD_Q9_2.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                ErrorMsg += "\n";
+                  ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q9").ToString();
         }
 

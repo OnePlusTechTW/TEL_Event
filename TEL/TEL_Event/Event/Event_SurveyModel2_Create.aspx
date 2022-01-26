@@ -18,6 +18,9 @@
     <table>
         <tr>
             <td>
+                <asp:Label ID="LABEL_Station" runat="server" meta:resourcekey="LABEL_StationResource1"></asp:Label>
+            </td>
+            <td>
                 <asp:Label ID="LABEL_Empid" runat="server" meta:resourcekey="LABEL_EmpidResource1"></asp:Label>
             </td>
             <td>
@@ -29,46 +32,47 @@
             <td>
                 <asp:Label ID="LABEL_UnitName" runat="server" meta:resourcekey="LABEL_UnitNameResource1"></asp:Label>
             </td>
-            <td>
-                <asp:Label ID="LABEL_Station" runat="server" meta:resourcekey="LABEL_StationResource1"></asp:Label>
-            </td>
+
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+            </td>
+            <td>
+                <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
             </td>
             <td>
                 <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
             </td>
-            <td>
-                <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
-            </td>
+
         </tr>
+    </table>
+    <table>
         <tr>
             <td colspan="5">
                 <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_1" runat="server" Text="公告" Value="公告" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_2" runat="server" Text="信件宣傳" Value="信件宣傳" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_3" runat="server" Text="海報" Value="海報" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_4" runat="server" Text="同事分享" Value="同事分享" CssClass="Normal"></asp:CheckBox>
             </td>
-            <td>
+            <td style="width: 120px">
                 <asp:CheckBox ID="FIELD_Q1_5" runat="server" Text="螢幕鎖定畫面" Value="螢幕鎖定畫面" CssClass="Normal"></asp:CheckBox>
             </td>
         </tr>

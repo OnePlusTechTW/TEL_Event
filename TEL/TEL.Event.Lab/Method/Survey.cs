@@ -26,10 +26,11 @@ namespace TEL.Event.Lab.Method
         }
 
         //刪除活動問卷填寫資料
-        public void DeleteSurveyData(string surveyid, string surveymodel)
+        public String DeleteSurveyData(string eventid, string surveyid, string surveymodel, string empid)
         {
             SurveyData sv = new SurveyData();
-            sv.DeleteSurveyData(surveyid, surveymodel);
+
+            return sv.DeleteSurveyData(eventid, surveyid, surveymodel, empid);
         }
 
         //儲存模板1問卷資料(滿意度(講座))
