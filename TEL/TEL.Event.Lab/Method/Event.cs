@@ -26,20 +26,6 @@ namespace TEL.Event.Lab.Method
         }
 
         /// <summary>
-        /// 
-        /// 
-        /// 
-        /// 
-        /// <summary>
-        /// 
-        /// 
-        /// 
-        /// 
-        /// 
-        /// 
-        /// 
-        /// 
-        /// 
         /// 使用者可報名列表
         /// </summary>
         /// <param name="eventname"></param>

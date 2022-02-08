@@ -72,6 +72,9 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         this.gridMailGroup.DataBind();
     }
 
+    /// <summary>
+    ///  員工報名健檢組別  bind grid
+    /// </summary>
     private void GetGridHealthGroup()
     {
         SystemSetup systemSetup = new SystemSetup();

@@ -154,157 +154,133 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
-    <table style="width: 500px">
+    <table>
         <tr>
-            <td>
+            <td colspan="3">
                 <asp:Label ID="lblEventName" runat="server" Text="活動名稱"></asp:Label>
             </td>
         </tr>
         <tr>
+            <td colspan="3">
+                <asp:TextBox ID="tbEventName" runat="server" CssClass="QueryField" Width="304px"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
             <td>
-                <asp:TextBox ID="tbEventName" runat="server" Width="100%" CssClass="QueryField"></asp:TextBox>
+                <asp:Label ID="lblEventCategory" runat="server" Text="活動分類" Width="150px"></asp:Label>
+            </td>
+            <td>
+                <asp:Label ID="lblEventSDate" runat="server" Text="活動開始日期" Width="150px"></asp:Label>
+            </td>
+            <td>
+                <asp:Label ID="lblEventEDate" runat="server" Text="活動結束日期" Width="150px"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
-                <table>
-                    <tr>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblEventCategory" runat="server" Text="活動分類"></asp:Label>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblEventSDate" runat="server" Text="活動開始日期"></asp:Label>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblEventEDate" runat="server" Text="活動結束日期"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField" Width="150px">
-                            </asp:DropDownList>
-                        </td>
-                        <td>
-                            <asp:TextBox ID="tbEventSDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
-                        </td>
-                        <td>
-                            <asp:TextBox ID="tbEventEDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
-                        </td>
-                    </tr>
-                </table>
+            <td>
+                <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField" Width="150px">
+                </asp:DropDownList>
+            </td>
+            <td>
+                <asp:TextBox ID="tbEventSDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
+            </td>
+            <td>
+                <asp:TextBox ID="tbEventEDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
-                <table>
-                    <tr>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblPeopleLimit" runat="server" Text="人數限制"></asp:Label>
-                            <asp:Label ID="lblPeopleLimit2" runat="server" Text="(無上限勿填)" Style="font-size: 12px;"></asp:Label>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblSignupSDate" runat="server" Text="報名開始日期時間"></asp:Label>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblSignupEDate" runat="server" Text="報名結束日期時間"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:TextBox ID="tbPeopleLimit" runat="server" Width="150px" CssClass="QueryField" onkeypress="if(event.keyCode < 48 || event.keyCode >57) event.returnValue = false;"></asp:TextBox>
-                        </td>
-                        <td>
-                            <asp:TextBox ID="tbSignupSDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
-                        </td>
-                        <td>
-                            <asp:TextBox ID="tbSignupEDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
-                        </td>
-                    </tr>
-                </table>
+            <td >
+                <asp:Label ID="lblPeopleLimit" runat="server" Text="人數限制"></asp:Label>
+                <asp:Label ID="lblPeopleLimit2" runat="server" Text="(無上限勿填)"></asp:Label>
+            </td>
+            <td >
+                <asp:Label ID="lblSignupSDate" runat="server" Text="報名開始日期時間"></asp:Label>
+            </td>
+            <td >
+                <asp:Label ID="lblSignupEDate" runat="server" Text="報名結束日期時間"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
+            <td>
+                <asp:TextBox ID="tbPeopleLimit" runat="server" Width="150px" CssClass="QueryField" onkeypress="if(event.keyCode < 48 || event.keyCode >57) event.returnValue = false;"></asp:TextBox>
+            </td>
+            <td>
+                <asp:TextBox ID="tbSignupSDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
+            </td>
+            <td>
+                <asp:TextBox ID="tbSignupEDate" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
                 <asp:Label ID="lblOrtherEventManager" runat="server" Text="其它活動管理者"></asp:Label>
-                <asp:Label ID="lblOrtherEventManager2" runat="server" Text="(格式:工號,工號)" Style="font-size: 17px;"></asp:Label>
+                <asp:Label ID="lblOrtherEventManager2" runat="server" Text="(格式:工號,工號)"></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <asp:TextBox ID="tbOrtherEventManager" runat="server"  Width="304px" CssClass="QueryField"></asp:TextBox>
             </td>
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="tbOrtherEventManager" runat="server" Width="100%" CssClass="QueryField"></asp:TextBox>
+                <asp:Label ID="lblSignupTemplate" runat="server" Text="報名表模板"></asp:Label>
+            </td>
+            <td colspan="2">
+                <asp:Label ID="lblQuestionnaireTemplate" runat="server" Text="問卷模板"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px;">
-                <table>
-                    <tr>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblSignupTemplate" runat="server" Text="報名表模板"></asp:Label>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblQuestionnaireTemplate" runat="server" Text="問卷模板"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:DropDownList ID="ddlSignupTemplate" runat="server" Style="width: 150px" CssClass="QueryField" OnSelectedIndexChanged="ddlSignupTemplate_SelectedIndexChanged" AutoPostBack="true">
-                                <asp:ListItem Selected="True"></asp:ListItem>
-                                <asp:ListItem Value="1">活動報名(簡易)</asp:ListItem>
-                                <asp:ListItem Value="2">活動報名(詳細)</asp:ListItem>
-                                <asp:ListItem Value="3">健康檢查報名(Local)</asp:ListItem>
-                                <asp:ListItem Value="4">健康檢查報名(駐在員)</asp:ListItem>
-                                <asp:ListItem Value="5">上傳附件</asp:ListItem>
-                                <asp:ListItem Value="6">活動報名(地點時間)</asp:ListItem>
-                            </asp:DropDownList>
-                        </td>
-                        <td>
-                            <asp:DropDownList ID="ddlQuestionnaireTemplate" runat="server" Style="width: 150px" CssClass="QueryField" OnSelectedIndexChanged="ddlQuestionnaireTemplate_SelectedIndexChanged" AutoPostBack="true">
-                                <asp:ListItem Selected="True"></asp:ListItem>
-                                <asp:ListItem Value="1">滿意度(講座)</asp:ListItem>
-                                <asp:ListItem Value="2">滿意度(活動)</asp:ListItem>
-                                <asp:ListItem Value="3">滿意度(健檢)</asp:ListItem>
-                                <asp:ListItem Value="4">滿意度(電腦替換)</asp:ListItem>
-                            </asp:DropDownList>
-                        </td>
-                    </tr>
-                </table>
+            <td>
+                <asp:DropDownList ID="ddlSignupTemplate" runat="server" Style="width: 150px" CssClass="QueryField" OnSelectedIndexChanged="ddlSignupTemplate_SelectedIndexChanged" AutoPostBack="true">
+                    <asp:ListItem Selected="True"></asp:ListItem>
+                    <asp:ListItem Value="1">活動報名(簡易)</asp:ListItem>
+                    <asp:ListItem Value="2">活動報名(詳細)</asp:ListItem>
+                    <asp:ListItem Value="3">健康檢查報名(Local)</asp:ListItem>
+                    <asp:ListItem Value="4">健康檢查報名(駐在員)</asp:ListItem>
+                    <asp:ListItem Value="5">上傳附件</asp:ListItem>
+                    <asp:ListItem Value="6">活動報名(地點時間)</asp:ListItem>
+                </asp:DropDownList>
+            </td>
+            <td colspan="2">
+                <asp:DropDownList ID="ddlQuestionnaireTemplate" runat="server" Style="width: 150px" CssClass="QueryField" OnSelectedIndexChanged="ddlQuestionnaireTemplate_SelectedIndexChanged" AutoPostBack="true">
+                    <asp:ListItem Selected="True"></asp:ListItem>
+                    <asp:ListItem Value="1">滿意度(講座)</asp:ListItem>
+                    <asp:ListItem Value="2">滿意度(活動)</asp:ListItem>
+                    <asp:ListItem Value="3">滿意度(健檢)</asp:ListItem>
+                    <asp:ListItem Value="4">滿意度(電腦替換)</asp:ListItem>
+                </asp:DropDownList>
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px;">
-                <table>
-                    <tr>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblPublish" runat="server" Text="是否上架"></asp:Label>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Label ID="lblDuplicated" runat="server" Text="是否允許重覆報名"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:RadioButtonList ID="rblPublis" runat="server" RepeatDirection="Horizontal">
-                                <asp:ListItem Value="Y">是</asp:ListItem>
-                                <asp:ListItem Value="" Selected="True">否</asp:ListItem>
-                            </asp:RadioButtonList>
-                        </td>
-                        <td>
-                            <asp:RadioButtonList ID="rblDuplicated" runat="server" RepeatDirection="Horizontal">
-                                <asp:ListItem Value="Y">是</asp:ListItem>
-                                <asp:ListItem Value="" Selected="True">否</asp:ListItem>
-                            </asp:RadioButtonList>
-                        </td>
-                    </tr>
-                </table>
+            <td >
+                <asp:Label ID="lblPublish" runat="server" Text="是否上架"></asp:Label>
+            </td>
+            <td colspan="2">
+                <asp:Label ID="lblDuplicated" runat="server" Text="是否允許重覆報名"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
+            <td>
+                <asp:RadioButtonList ID="rblPublis" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem Value="Y">是</asp:ListItem>
+                    <asp:ListItem Value="" Selected="True">否</asp:ListItem>
+                </asp:RadioButtonList>
+            </td>
+            <td colspan="2">
+                <asp:RadioButtonList ID="rblDuplicated" runat="server" RepeatDirection="Horizontal">
+                    <asp:ListItem Value="Y">是</asp:ListItem>
+                    <asp:ListItem Value="" Selected="True">否</asp:ListItem>
+                </asp:RadioButtonList>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
                 <asp:Label ID="lblEventMember" runat="server" Text="活動成員"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="3">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
                         <div>
@@ -334,56 +310,50 @@
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
+            <td colspan="3">
                 <asp:Label ID="lblEventDescription" runat="server" Text="活動說明"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="3">
                 <ajaxToolkit:HtmlEditorExtender ID="HtmlEditorExtender1" runat="server" TargetControlID="txtEditor"></ajaxToolkit:HtmlEditorExtender>
                 <asp:TextBox ID="txtEditor" runat="server" Width="100%" Height="200" />
                 <br />
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
-                <asp:Label ID="lblThumbnail" runat="server" Text="活動縮圖（限上傳jpg、jpeg、png、gif，尺寸為 450x300）"></asp:Label>
+            <td colspan="3">
+                <asp:Label ID="lblThumbnail" runat="server" Text="活動縮圖（限上傳jpg、jpeg、png、gif，尺寸為 360x240）"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="3">
                 <asp:Label ID="lblThumbnailName" runat="server" Text="" Visible="false"></asp:Label>
-                <asp:Button ID="btnThumbnail" runat="server" Text="修改" Visible="false" OnClick="btnThumbnail_Click"/>
+                <asp:Button ID="btnThumbnail" runat="server" Text="修改" Visible="false" OnClick="btnThumbnail_Click" />
                 <asp:FileUpload ID="FileUploadThumbnail" runat="server" accept=".jpg,.jpeg,.png,.gif" />
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
+            <td colspan="3">
                 <asp:Label ID="lblPicture" runat="server" Text="活動大圖（限上傳jpg、jpeg、png、gif，尺寸為 600x400）"></asp:Label>
             </td>
         </tr>
         <tr>
-            <td>
+            <td colspan="3">
                 <asp:Label ID="lblPictureName" runat="server" Text="" Visible="false"></asp:Label>
-                <asp:Button ID="btnPicture" runat="server" Text="修改" Visible="false" OnClick="btnPicture_Click"/>
+                <asp:Button ID="btnPicture" runat="server" Text="修改" Visible="false" OnClick="btnPicture_Click" />
                 <asp:FileUpload ID="FileUploadPicture" runat="server" accept=".jpg,.jpeg,.png,.gif" />
             </td>
         </tr>
         <tr>
-            <td style="padding-top: 15px; width: 165px">
-                <table>
-                    <tr>
-                        <td style="width: 165px">
-                            <asp:Button ID="btnNextStep" runat="server" Text="下一步" OnClick="btnNextStep_Click" Width="150px" CssClass="Button" />
-                        </td>
-                        <td runat="server" id="tdDelete" style="width: 165px" Visible="false">
-                            <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="150px" CssClass="Button" OnClick="btnDelete_Click" Visible="false"/>
-                        </td>
-                        <td style="width: 165px">
-                            <asp:Button ID="btnCancel" runat="server" Text="取消" Width="150px" OnClick="btnCancel_Click" CssClass="Button" />
-                        </td>
-                    </tr>
-                </table>
+            <td>
+                <asp:Button ID="btnNextStep" runat="server" Text="下一步" OnClick="btnNextStep_Click" Width="150px" CssClass="Button" />
+            </td>
+            <td runat="server" id="tdDelete" visible="false">
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="150px" CssClass="Button" OnClick="btnDelete_Click" Visible="false" />
+            </td>
+            <td>
+                <asp:Button ID="btnCancel" runat="server" Text="取消" Width="150px" OnClick="btnCancel_Click" CssClass="Button" />
             </td>
         </tr>
     </table>
@@ -420,6 +390,6 @@
     <asp:Label ID="lblCantDelete" runat="server" Text="已有報名資料，無法刪除。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:Button ID="btnGoBackEventPage" runat="server" Text="" OnClick="btnGoBackEventPage_Click" style="display:none;" />
+    <asp:Button ID="btnGoBackEventPage" runat="server" Text="" OnClick="btnGoBackEventPage_Click" Style="display: none;" />
 </asp:Content>
 

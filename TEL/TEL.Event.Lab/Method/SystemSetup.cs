@@ -191,6 +191,12 @@ namespace TEL.Event.Lab.Method
         #endregion
 
         #region 員工健檢
+        /// <summary>
+        /// 新增 員工報名健檢組別
+        /// </summary>
+        /// <param name="listUserHealthGroup"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
         public string AddUserHealthGroup(List<UserHealthGroup> listUserHealthGroup, string modifiedby)
         {
             SystemSetupData systemSetupData = new SystemSetupData();
@@ -200,6 +206,10 @@ namespace TEL.Event.Lab.Method
             return result;
         }
 
+        /// <summary>
+        /// 取得 員工報名健檢組別
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetHealthGroup()
         {
             SystemSetupData systemSetupData = new SystemSetupData();
