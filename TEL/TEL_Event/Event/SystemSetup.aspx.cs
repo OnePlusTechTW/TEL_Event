@@ -101,12 +101,12 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         }
         else if (string.IsNullOrEmpty(name))
         {
-            errFields = lblCategoryColor.Text;
+            errFields = lblCategoryName.Text;
 
         }
         else if (string.IsNullOrEmpty(color))
         {
-            errFields = lblCategoryName.Text;
+            errFields = lblCategoryColor.Text;
 
         }
 

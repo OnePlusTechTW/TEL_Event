@@ -959,13 +959,13 @@
     <div id="dialogFileUpload" title="Dialog Title">
         <asp:Panel ID="ContentPanel7" runat="server" Style="display: none">
             <div>
-                <asp:FileUpload ID="FileUpload1" runat="server" />
+                <asp:FileUpload ID="FileUpload1" CssClass="Button" runat="server" />
             </div>
             <div style="margin-top: 20px;">
                 <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" CssClass="Button"/>
             </div>
             <div style="margin-top: 5px;">
-                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" CssClass="Button" placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
+                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px"  placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
             </div>
         </asp:Panel>
     </div>
