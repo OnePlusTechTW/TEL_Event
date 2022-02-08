@@ -12,6 +12,9 @@
     <script src="../Scripts/jquery-1.12.4.js"></script>
     <script src="../Scripts/jquery-1.12.4.min.js"></script>
     <script src="../Scripts/jquery-ui.js"></script>
+    <script src="../Scripts/jquery-ui.min.js"></script>
+    <script src="../Scripts/jQuery-Timepicker/jquery-ui-timepicker-addon.min.js"></script>
+    <link href="../Scripts/jQuery-Timepicker/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
