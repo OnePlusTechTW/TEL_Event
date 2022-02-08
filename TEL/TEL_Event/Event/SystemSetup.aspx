@@ -341,6 +341,9 @@
                 case 'SuccessMailGroup':
                     <%= btnReloadMailGroupGrid.ClientID%>.click();
                     break;
+                case 'BeUsedCategory':
+                    ShowDialogMsg($('#<%=lblBeUsedCategory.ClientID%>')[0].textContent);
+                    break;
                 default:
             }
         }
@@ -903,7 +906,7 @@
                                 <HeaderStyle Width="100px"></HeaderStyle>
                             </asp:BoundField>
                              <asp:BoundField HeaderText="姓名" DataField="name">
-                                <HeaderStyle Width="2000px"></HeaderStyle>
+                                <HeaderStyle Width="200px"></HeaderStyle>
                             </asp:BoundField>
                              <asp:BoundField HeaderText="健檢報名組別" DataField="groupname">
                                 <HeaderStyle Width="250px"></HeaderStyle>
@@ -1003,7 +1006,11 @@
     <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="false"></asp:Label>
     <asp:Label ID="lblInvalidEmpid2" runat="server" Text="無效工號。" Visible="false"></asp:Label>
 
-    <asp:Label ID="lblInvalidMailGroup" runat="server" Text="無效郵件群組，請重新輸入。" Visible="false"></asp:Label>
+    <asp:Label ID="lblInvalidMailGroup" runat="server" Text="無效郵件群組，請重新輸入。" style="display:none;"></asp:Label>
+    <asp:Label ID="lblBeUsedCategory" runat="server" Text="此活動分類已被使用，不可刪除。" style="display:none;"></asp:Label>
+    <asp:Label ID="lblBeUsedMailGroup" runat="server" Text="此活郵件群組已被使用，不可刪除。" style="display:none;"></asp:Label>
+
+
 
 
 

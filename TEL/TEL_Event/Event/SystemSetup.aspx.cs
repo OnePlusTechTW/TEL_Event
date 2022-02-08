@@ -206,15 +206,26 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     [WebMethod]
     public static string DeleteCategory(string id)
     {
-        SystemSetup systemSetup = new SystemSetup();
-        string result = systemSetup.DeleteEventCategory(id);
+        Event ev = new Event();
+        DataTable dt = new DataTable();
 
-        if (!string.IsNullOrEmpty(result))
+        dt = ev.GetEventInfo(string.Empty, string.Empty, id, string.Empty, string.Empty, string.Empty, string.Empty);
+
+        if (dt.Rows.Count == 0)
         {
-            //失敗
-            throw new Exception("Failed");
-        }
+            SystemSetup systemSetup = new SystemSetup();
+            string result = systemSetup.DeleteEventCategory(id);
 
+            if (!string.IsNullOrEmpty(result))
+            {
+                //失敗
+                throw new Exception("Failed");
+            }
+        }
+        else
+        {
+            return "BeUsedCategory";
+        }
         return "SuccessCategory";
     }
 

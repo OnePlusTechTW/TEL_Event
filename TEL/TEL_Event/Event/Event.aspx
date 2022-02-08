@@ -154,14 +154,14 @@
                              <asp:TemplateField HeaderText="報名開始日期時間">
                                 <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Label ID="lblRegisterstart" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblRegisterstart" runat="server" Text="" CssClass=" "></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="報名結束日期時間">
                                 <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Label ID="lblRegisterend" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblRegisterend" runat="server" Text="" CssClass=" "></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -176,19 +176,19 @@
                             <asp:TemplateField HeaderText="活動狀態">
                                 <HeaderStyle  Width="95px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Label ID="lblStatus" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblStatus" CssClass=" " runat="server" Text=""></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="上架">
                                 <HeaderStyle  Width="50px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Label ID="lblEnable" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblEnable" CssClass=" " runat="server" Text=""></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="活動資訊">
-                                <HeaderStyle Width="125px"></HeaderStyle>
+                                <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="btnMaintain" runat="server" Text="編輯" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid") %>' OnClick="btnMaintain_Click" />
                                     <asp:Button ID="btnView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid")%>' OnClick="btnView_Click" />
@@ -196,7 +196,7 @@
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="報名資料">
-                                <HeaderStyle Width="125px"></HeaderStyle>
+                                <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="btnSignupManage" runat="server" Text="管理" CssClass="Button_Gridview"/>
                                     <asp:Button ID="btnSignupExport" runat="server" Text="匯出" CssClass="Button_Gridview"/>
@@ -204,7 +204,7 @@
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="問卷資料">
-                                <HeaderStyle Width="125px"></HeaderStyle>
+                                <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="btnSurveyManage" runat="server" Text="管理" CssClass="Button_Gridview"/>
                                     <asp:Button ID="btnSurveyExport" runat="server" Text="匯出" CssClass="Button_Gridview"/>
