@@ -66,7 +66,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     private void GetGridMailGroup()
     {
         SystemSetup systemSetup = new SystemSetup();
-        DataTable dt = systemSetup.GetMailGroup(string.Empty);
+        DataTable dt = systemSetup.GetEventMailGroup(string.Empty);
 
         this.gridMailGroup.DataSource = dt;
         this.gridMailGroup.DataBind();
@@ -93,9 +93,26 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         string color = ddlCategoryColor.SelectedValue;
         string enabled = ddlIsEnableCategory.SelectedValue;
 
-        if (string.IsNullOrEmpty(name))
+        string errFields = string.Empty;
+
+        if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(color))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('CategoryName');", true);
+            errFields = $"{lblCategoryName.Text}、{lblCategoryColor.Text}";
+        }
+        else if (string.IsNullOrEmpty(name))
+        {
+            errFields = lblCategoryColor.Text;
+
+        }
+        else if (string.IsNullOrEmpty(color))
+        {
+            errFields = lblCategoryName.Text;
+
+        }
+
+        if (!string.IsNullOrEmpty(errFields))
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('Category','" + errFields + "');", true);
         }
         else
         {
@@ -104,7 +121,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             DataTable dt = systemSetup.GetEventCategory(name);
             if (dt.Rows.Count > 0)
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogExist('CategoryName');", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblCategoryName.Text} {lblExist.Text}" + "');", true);
             }
             else
             {
@@ -112,7 +129,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
                 if (string.IsNullOrEmpty(result))
                 {
                     //新增成功
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
                     GetGridEventCategory();
 
                 }
@@ -148,7 +164,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         if (string.IsNullOrEmpty(result))
         {
             //成功
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
             GetGridEventCategory();
         }
         else
@@ -236,7 +251,12 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 
             //分類是否啟用
             DropDownList gridDdlIsEnableCategory = (DropDownList)e.Row.FindControl("gridDdlIsEnableCategory");
-            gridDdlIsEnableCategory.SelectedValue = dv["enabled"].ToString();
+            if (dv["enabled"].ToString().ToUpper() == "Y")
+            {
+                gridDdlIsEnableCategory.SelectedValue = "1";
+            }
+            else
+                gridDdlIsEnableCategory.SelectedValue = "0";
         }
     }
 
@@ -271,47 +291,47 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     {
         switch (color)
         {
-            case "00A9E0":
+            case "#00A9E0":
                 return "ddlColor1";
-            case "71C5E8":
+            case "#71C5E8":
                 return "ddlColor2";
-            case "00629B":
+            case "#00629B":
                 return "ddlColor3";
-            case "78BE20":
+            case "#78BE20":
                 return "ddlColor4";
-            case "B7DD79":
+            case "#B7DD79":
                 return "ddlColor5";
-            case "658D1B":
+            case "#658D1B":
                 return "ddlColor6";
-            case "DA1884":
+            case "#DA1884":
                 return "ddlColor7";
-            case "F395C7":
+            case "#F395C7":
                 return "ddlColor8";
-            case "A50050":
+            case "#A50050":
                 return "ddlColor9";
-            case "00B2A9":
+            case "#00B2A9":
                 return "ddlColor10";
-            case "9CDBD9":
+            case "#9CDBD9":
                 return "ddlColor11";
-            case "007367":
+            case "#007367":
                 return "ddlColor12";
-            case "8031A7":
+            case "#8031A7":
                 return "ddlColor13";
-            case "CAA2DD":
+            case "#CAA2DD":
                 return "ddlColor14";
-            case "572C5F":
+            case "#572C5F":
                 return "ddlColor15";
-            case "EEDC00":
+            case "#EEDC00":
                 return "ddlColor16";
-            case "F0EC74":
+            case "#F0EC74":
                 return "ddlColor17";
-            case "BBA600":
+            case "#BBA600":
                 return "ddlColor18";
-            case "FF6A13":
+            case "#FF6A13":
                 return "ddlColor19";
-            case "FAAA8D":
+            case "#FAAA8D":
                 return "ddlColor20";
-            case "A65523":
+            case "#A65523":
                 return "ddlColor21";
             default:
                 return string.Empty;
@@ -338,7 +358,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             UserInfo userInfo = new UserInfo(empid);
             if (string.IsNullOrEmpty(userInfo.EmpID))
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogEmpidErr('Empid');", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblInvalidEmpid.Text+"');", true);
             }
             else
             {
@@ -347,7 +367,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
                 DataTable dt = systemSetup.GetEventManager(empid);
                 if (dt.Rows.Count > 0)
                 {
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogExist('Empid');", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblEventManager.Text} {lblExist.Text}" + "');", true);
                 }
                 else
                 {
@@ -356,7 +376,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
                     if (string.IsNullOrEmpty(result))
                     {
                         //新增成功
-                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
                         GetGridEventManager();
                     }
                     else
@@ -387,7 +406,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         //if (string.IsNullOrEmpty(result))
         //{
         //    //成功
-        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
         //    GetGridEventManager();
 
         //}
@@ -465,6 +483,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         string name = tbMailGroup.Text;
         string enabled = ddlIsEnableMailGroup.SelectedValue;
 
+
         if (string.IsNullOrEmpty(name))
         {
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('MailGroup');", true);
@@ -472,26 +491,34 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         else
         {
             SystemSetup systemSetup = new SystemSetup();
-            DataTable dt = systemSetup.GetMailGroup(name);
+            DataTable dt = systemSetup.GetEventMailGroup(name);
             if (dt.Rows.Count > 0)
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogExist('MailGroup');", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblMailGroup.Text} {lblExist.Text}" + "');", true);
             }
             else
             {
-                string result = systemSetup.AddMailGroup(name, enabled, Page.Session["EmpID"].ToString());
-                if (string.IsNullOrEmpty(result))
+                bool isMailGroupInvalid = true;
+                isMailGroupInvalid = systemSetup.IsMailGroupExist(name);
+                if (!isMailGroupInvalid)
                 {
-                    //新增成功
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
-                    GetGridMailGroup();
-
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblInvalidMailGroup.Text + "');", true);
                 }
                 else
                 {
-                    //新增失敗
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    string result = systemSetup.AddMailGroup(name, enabled, Page.Session["EmpID"].ToString());
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        //新增成功
+                        GetGridMailGroup();
 
+                    }
+                    else
+                    {
+                        //新增失敗
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+
+                    }
                 }
             }
         }
@@ -516,7 +543,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         if (string.IsNullOrEmpty(result))
         {
             //成功
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogSuccess();", true);
             GetGridMailGroup();
         }
         else
@@ -598,8 +624,13 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             DataRowView dv = (DataRowView)e.Row.DataItem;
 
             //郵件群組是否啟用
-            DropDownList gridDdlIsEnableCategory = (DropDownList)e.Row.FindControl("gridDdlIsEnableMailGroup");
-            gridDdlIsEnableCategory.SelectedValue = dv["enabled"].ToString();
+            DropDownList gridDdlIsEnableMailGroup = (DropDownList)e.Row.FindControl("gridDdlIsEnableMailGroup");
+            if (dv["enabled"].ToString().ToUpper() == "Y")
+            {
+                gridDdlIsEnableMailGroup.SelectedValue = "1";
+            }
+            else
+                gridDdlIsEnableMailGroup.SelectedValue = "0";
         }
     }
 
@@ -624,70 +655,72 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     {
         try
         {
-            List<UserHealthGroup> listUserHealthGroup = new List<UserHealthGroup>();
-            listUserHealthGroup = ExcelToList();
-            
-            //
-            var duplicateList = listUserHealthGroup.AsEnumerable().GroupBy(x => new { x.empid })
-                 .Select(group => new
-                 {
-                     group.Key.empid,
-                     Count = group.Count()
-                 }).Where(a => a.Count > 1).
-                 Select(g => g.empid).ToList();
-
-            StringBuilder sb = new StringBuilder();
-            if (duplicateList.Count > 0)
+            if (FileUpload1.HasFile)
             {
-                
-                sb.Append(lblDuplicate.Text);
-                sb.AppendLine();
+                List<UserHealthGroup> listUserHealthGroup = new List<UserHealthGroup>();
+                listUserHealthGroup = ExcelToList();
 
-                string empinList = string.Empty;
-                foreach (string empid in duplicateList)
+                //
+                var duplicateList = listUserHealthGroup.AsEnumerable().GroupBy(x => new { x.empid })
+                     .Select(group => new
+                     {
+                         group.Key.empid,
+                         Count = group.Count()
+                     }).Where(a => a.Count > 1).
+                     Select(g => g.empid).ToList();
+
+                StringBuilder sb = new StringBuilder();
+                if (duplicateList.Count > 0)
                 {
-                    empinList += empid + ",";
-                }
-                sb.Append(empinList.Substring(0, empinList.Length - 1));
-                sb.AppendLine();
-                sb.AppendLine();
-                sb.AppendLine();
-                sb.Append(lblReimport.Text);
-                tbImportMsg.Text = sb.ToString();
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
 
-            }
-            else
-            {
-                //先刪除
+                    sb.Append(lblDuplicate.Text);
+                    sb.AppendLine();
 
-                //寫入DB
-                SystemSetup systemSetup = new SystemSetup();
-                string result = systemSetup.AddUserHealthGroup(listUserHealthGroup, Page.Session["EmpID"].ToString());
-                if (string.IsNullOrEmpty(result))
-                {
-                    //成功
-                    tbImportMsg.Text = lblImportSuccess.Text;
-                    GetGridHealthGroup();
+                    string empinList = string.Empty;
+                    foreach (string empid in duplicateList)
+                    {
+                        empinList += empid + ",";
+                    }
+                    sb.Append(empinList.Substring(0, empinList.Length - 1));
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.Append(lblReimport.Text);
+                    tbImportMsg.Text = sb.ToString();
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+
                 }
                 else
                 {
-                    //失敗
-                    sb.Append(lblImportFailed.Text);
-                    sb.AppendLine();
-                    sb.AppendLine();
-                    sb.Append(lblImportFailedMsg.Text);
-                    sb.AppendLine();
-                    sb.Append(result);
+                    //先刪除
+
+                    //寫入DB
+                    SystemSetup systemSetup = new SystemSetup();
+                    string result = systemSetup.AddUserHealthGroup(listUserHealthGroup, Page.Session["EmpID"].ToString());
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        //成功
+                        tbImportMsg.Text = lblImportSuccess.Text;
+                        GetGridHealthGroup();
+                    }
+                    else
+                    {
+                        //失敗
+                        sb.Append(lblImportFailed.Text);
+                        sb.AppendLine();
+                        sb.AppendLine();
+                        sb.Append(lblImportFailedMsg.Text);
+                        sb.AppendLine();
+                        sb.Append(result);
 
 
-                    tbImportMsg.Text = sb.ToString();
+                        tbImportMsg.Text = sb.ToString();
+                    }
+
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+
                 }
-
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
-
             }
-
         }
         catch (Exception ex)
         {

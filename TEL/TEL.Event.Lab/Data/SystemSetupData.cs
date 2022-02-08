@@ -66,7 +66,11 @@ namespace TEL.Event.Lab.Data
                 else
                     command.Parameters.AddWithValue("@color", System.DBNull.Value);
 
-                command.Parameters.AddWithValue("@enabled", enabled);
+                if (enabled == "1")
+                    command.Parameters.AddWithValue("@enabled", "Y");
+                else
+                    command.Parameters.AddWithValue("@enabled", System.DBNull.Value);
+
                 command.Parameters.AddWithValue("@modifiedby", empid);
 
 
@@ -122,7 +126,11 @@ namespace TEL.Event.Lab.Data
                 else
                     command.Parameters.AddWithValue("@color", System.DBNull.Value);
 
-                command.Parameters.AddWithValue("@enabled", enabled);
+                if (enabled == "1")
+                    command.Parameters.AddWithValue("@enabled", "Y");
+                else
+                    command.Parameters.AddWithValue("@enabled", System.DBNull.Value);
+
                 command.Parameters.AddWithValue("@modifiedby", empid);
 
 
@@ -412,7 +420,12 @@ namespace TEL.Event.Lab.Data
 
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@name", name);
-                command.Parameters.AddWithValue("@enabled", enabled);
+
+                if (enabled == "1")
+                    command.Parameters.AddWithValue("@enabled", "Y");
+                else
+                    command.Parameters.AddWithValue("@enabled", System.DBNull.Value);
+
                 command.Parameters.AddWithValue("@modifiedby", modifiedby);
 
 
@@ -460,7 +473,12 @@ namespace TEL.Event.Lab.Data
                 command.Parameters.Clear();
 
                 command.Parameters.AddWithValue("@id", id);
-                command.Parameters.AddWithValue("@enabled", enabled);
+
+                if (enabled == "1")
+                    command.Parameters.AddWithValue("@enabled", "Y");
+                else
+                    command.Parameters.AddWithValue("@enabled", System.DBNull.Value);
+
                 command.Parameters.AddWithValue("@modifiedby", modifiedby);
 
 
@@ -512,10 +530,10 @@ namespace TEL.Event.Lab.Data
         }
 
         /// <summary>
-        /// 查詢郵件群組
+        /// 查詢活動郵件群組
         /// </summary>
         /// <returns></returns>
-        internal DataTable QueryMailGroup(string name)
+        internal DataTable QueryEventMailGroup(string name)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -554,6 +572,47 @@ namespace TEL.Event.Lab.Data
                 {
                     wrDad.SelectCommand.Parameters.AddWithValue("@name", name);
                 }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 查詢郵件群組
+        /// </summary>
+        /// <returns></returns>
+        internal DataTable QueryMailGroup(string name)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT
+	                        [UID]
+	                        ,[Name]
+	                        ,[Address]
+	                        ,[EmpID]
+                        FROM 
+	                        [MailGroup] 
+                        WHERE  
+                            [Name] = @name";
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@name", name);
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];

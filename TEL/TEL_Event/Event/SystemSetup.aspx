@@ -94,7 +94,7 @@
             }
         });
 
-
+        //menu 切換
         function Menu(menuid, ispostback) {
             var preMenuID = $('#<%=hfPreMenu.ClientID%>')[0].value;//上一個點選的menu
             if (menuid == preMenuID) return;
@@ -168,138 +168,139 @@
 
         }
 
+        //分類顏色 切換
         var preColor;
         function ddlCategoryColorOnChange(e) {
             var color = $("#ContentPlaceHolder1_ddlCategoryColor")[0].value;
             switch (preColor) {
-                case '00A9E0':
+                case '#00A9E0':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor1');
                     break;
-                case '71C5E8':
+                case '#71C5E8':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor2');
                     break;
-                case '00629B':
+                case '#00629B':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor3');
                     break;
-                case '78BE20':
+                case '#78BE20':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor4');
                     break;
-                case 'B7DD79':
+                case '#B7DD79':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor5');
                     break;
-                case '658D1B':
+                case '#658D1B':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor6');
                     break;
-                case 'DA1884':
+                case '#DA1884':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor7');
                     break;
-                case 'F395C7':
+                case '#F395C7':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor8');
                     break;
-                case 'A50050':
+                case '#A50050':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor9');
                     break;
-                case '00B2A9':
+                case '#00B2A9':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor10');
                     break;
-                case '9CDBD9':
+                case '#9CDBD9':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor11');
                     break;
-                case '007367':
+                case '#007367':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor12');
                     break;
-                case '8031A7':
+                case '#8031A7':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor13');
                     break;
-                case 'CAA2DD':
+                case '#CAA2DD':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor14');
                     break;
-                case '572C5F':
+                case '#572C5F':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor15');
                     break;
-                case 'EEDC00':
+                case '#EEDC00':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor16');
                     break;
-                case 'F0EC74':
+                case '#F0EC74':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor17');
                     break
-                case 'BBA600':
+                case '#BBA600':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor18');
                     break;
-                case 'FF6A13':
+                case '#FF6A13':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor19');
                     break;
-                case 'FAAA8D':
+                case '#FAAA8D':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor20');
                     break;
-                case 'A65523':
+                case '#A65523':
                     $("#ContentPlaceHolder1_ddlCategoryColor").removeClass('ddlColor21');
                     break;
                 default:
             }
 
             switch (color) {
-                case '00A9E0':
+                case '#00A9E0':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor1');
                     break;
-                case '71C5E8':
+                case '#71C5E8':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor2');
                     break;
-                case '00629B':
+                case '#00629B':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor3');
                     break;
-                case '78BE20':
+                case '#78BE20':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor4');
                     break;
-                case 'B7DD79':
+                case '#B7DD79':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor5');
                     break;
-                case '658D1B':
+                case '#658D1B':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor6');
                     break;
-                case 'DA1884':
+                case '#DA1884':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor7');
                     break;
-                case 'F395C7':
+                case '#F395C7':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor8');
                     break;
-                case 'A50050':
+                case '#A50050':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor9');
                     break;
-                case '00B2A9':
+                case '#00B2A9':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor10');
                     break;
-                case '9CDBD9':
+                case '#9CDBD9':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor11');
                     break;
-                case '007367':
+                case '#007367':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor12');
                     break;
-                case '8031A7':
+                case '#8031A7':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor13');
                     break;
-                case 'CAA2DD':
+                case '#CAA2DD':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor14');
                     break;
-                case '572C5F':
+                case '#572C5F':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor15');
                     break
-                case 'EEDC00':
+                case '#EEDC00':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor16');
                     break
-                case 'F0EC74':
+                case '#F0EC74':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor17');
                     break
-                case 'BBA600':
+                case '#BBA600':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor18');
                     break
-                case 'FF6A13':
+                case '#FF6A13':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor19');
                     break
-                case 'FAAA8D':
+                case '#FAAA8D':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor20');
                     break
-                case 'A65523':
+                case '#A65523':
                     $("#ContentPlaceHolder1_ddlCategoryColor").addClass('ddlColor21');
                     break
                 default:
@@ -309,10 +310,53 @@
             return false;
         }
 
-        function ShowDialogRequired(fieldName) {
+        //刪除資料events
+        function onDelete(event, id) {
+            switch (event) {
+                case 'Category':
+                    PageMethods.DeleteCategory(id, Success, Failure);
+                    break;
+                case 'Manager':
+                    PageMethods.DeleteManager(id, Success, Failure);
+                    break;
+                case 'MailGroup':
+                    PageMethods.DeleteMailGroup(id, Success, Failure);
+                    break;
+                default:
+            }
+        }
+
+        //刪除資料events Success callback
+        function Success(result) {
+            //ShowDialogSuccessReload(result);
+            //刪除成功 reload gridview
+            switch (result) {
+                case 'SuccessCategory':
+                    <%= btnReloadCategoryGrid.ClientID%>.click();
+
+                    break;
+                case 'SuccessManager':
+                    <%= btnReloadManagerGrid.ClientID%>.click();
+                    break;
+                case 'SuccessMailGroup':
+                    <%= btnReloadMailGroupGrid.ClientID%>.click();
+                    break;
+                default:
+            }
+        }
+
+        //刪除資料events Failure callback
+        function Failure(error) {
+            ShowDialogFailed();
+        } 
+
+
+        /*  以下為 dialog events  */
+        //必填欄位 訊息開窗
+        function ShowDialogRequired(fieldName, errField) {
             switch (fieldName) {
-                case 'CategoryName':
-                    $('#<%= lblFiledName.ClientID %>').text($('#<%=lblCategoryName.ClientID%>')[0].textContent);
+                case 'Category':
+                    $('#<%= lblFiledName.ClientID %>').text(errField);
                     break;
                 case 'Empid':
                     $('#<%= lblFiledName.ClientID %>').text($('#<%=lblEmpid.ClientID%>')[0].textContent);
@@ -341,6 +385,115 @@
 
         };
 
+        //失敗通知 訊息開窗
+        function ShowDialogFailed(ErrMsg) {
+            $(function () {
+                $("#dialogFailed").dialog({
+                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel3").style.display = "block";
+                        $('#<%= lblErrMsg.ClientID %>').text(ErrMsg);
+
+                    }
+                });
+            });
+
+        };
+
+        //是否刪除 訊息開窗
+        function ShowDialogDelete(event, id) {
+            $(function () {
+                $("#dialogDelete").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "確定",
+                            click: function () {
+                                onDelete(event, id);
+                                $(this).dialog("close");
+                            }
+                        },
+                        {
+                            text: "取消",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel6").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
+        //上傳健檢群組開窗
+        function ShowDialogFileUpload(event, id) {
+            $(function () {
+                var dialog = $("#dialogFileUpload").dialog({
+                    title:"",
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "關閉",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel7").style.display = "block";
+                    },
+                    width: "450px",
+                    Height: "500px",
+                    position: { my: "center center", at: "center top+175", }
+                });
+                dialog.parent().appendTo(jQuery("form:first"));
+            });
+
+        };
+
+        //通用錯誤訊息 通知開窗
+        function ShowDialogMsg(msg) {
+            $('#<%= lblDialogMsg.ClientID %>').text(msg);
+
+            $(function () {
+                $("#dialogMsg").dialog({
+                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel8").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
+        
+
+        
+
+
+
+        //以下為沒用到的javascript function
+
         function ShowDialogSuccess() {
             $(function () {
                 $("#dialogSuccess").dialog({
@@ -359,7 +512,6 @@
             });
 
         };
-
         function ShowDialogSuccessReload(event) {
             $(function () {
                 $("#dialogSuccess").dialog({
@@ -393,26 +545,6 @@
 
         };
 
-        function ShowDialogFailed(ErrMsg) {
-            $(function () {
-                $("#dialogFailed").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
-                    modal: true,
-                    buttons: {
-                        Close: function () {
-                            $(this).dialog('close');
-                        }
-                    },
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel3").style.display = "block";
-                        $('#<%= lblErrMsg.ClientID %>').text(ErrMsg);
-
-                    }
-                });
-            });
-
-        };
         function ShowDialogEmpidErr() {
             $(function () {
                 $("#dialogEmpidErr").dialog({
@@ -463,84 +595,6 @@
             });
 
         };
-
-        function ShowDialogDelete(event, id) {
-            $(function () {
-                $("#dialogDelete").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
-                    modal: true,
-                    buttons: [
-                        {
-                            text: "確定",
-                            click: function () {
-                                onDelete(event, id);
-                                $(this).dialog("close");
-                            }
-                        },
-                        {
-                            text: "取消",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ],
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel6").style.display = "block";
-                    }
-                });
-            });
-
-        };
-
-        function ShowDialogFileUpload(event, id) {
-            $(function () {
-                var dialog = $("#dialogFileUpload").dialog({
-                    title:"",
-                    modal: true,
-                    buttons: [
-                        {
-                            text: "關閉",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ],
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel7").style.display = "block";
-                    },
-                    width: "450px",
-                    Height: "500px",
-                    position: { my: "center center", at: "center top+175", }
-                });
-                dialog.parent().appendTo(jQuery("form:first"));
-            });
-
-        };
-
-        function onDelete(event, id) {
-            switch (event) {
-                case 'Category':
-                    PageMethods.DeleteCategory(id, Success, Failure);
-                    break;
-                case 'Manager':
-                    PageMethods.DeleteManager(id, Success, Failure);
-                    break;
-                case 'MailGroup':
-                    PageMethods.DeleteMailGroup(id, Success, Failure);
-                    break;
-                default:
-            }
-        }
-
-        function Success(result) {
-            ShowDialogSuccessReload(result);
-        }
-
-        function Failure(error) {
-            ShowDialogFailed();
-        } 
         
     </script>
 </asp:Content>
@@ -560,31 +614,20 @@
             <td></td>
         </tr>
     </table>
-    <div style="text-align: center; height: 45px; margin-bottom: 10px;">
-        <div id="category" style="float: left; padding: 0px 5px; border-right: 2px solid lightgray; min-height: 45px; min-width: 100px; padding: 10px 0px;" onclick="Menu('category')">
+    <div style="text-align: center; display:inherit; padding-bottom:5px;">
+        <div id="category" style="float: left; padding: 0px 15px; border-right: 2px solid lightgray;" onclick="Menu('category')">
             <asp:Label ID="lblCategory" runat="server" CssClass="NormalBoldNoColor" Text="活動分類"></asp:Label>
         </div>
-        <div id="eventManager" style="float: left; padding: 0px 5px; border-right: 2px solid lightgray; min-height: 45px; min-width: 100px" onclick="Menu('eventManager')">
-            <div>
-                <asp:Label ID="lblEventManager1" runat="server" CssClass="NormalBoldNoColor" Text="常態活動"></asp:Label>
-            </div>
-            <div>
-                <asp:Label ID="lblEventManager2" runat="server" CssClass="NormalBoldNoColor" Text="管理者"></asp:Label>
-            </div>
+        <div id="eventManager" style="float: left; padding: 0px 15px; border-right: 2px solid lightgray;" onclick="Menu('eventManager')">
+            <asp:Label ID="lblEventManager" runat="server" CssClass="NormalBoldNoColor" Text="常態活動管理者"></asp:Label>
         </div>
-        <div id="mailGroup" style="float: left; padding: 0px 5px; border-right: 2px solid lightgray; min-height: 45px; min-width: 100px; padding: 10px 0px;" onclick="Menu('mailGroup')">
+        <div id="mailGroup" style="float: left; padding: 0px 15px; border-right: 2px solid lightgray;" onclick="Menu('mailGroup')">
             <asp:Label ID="lblMenuMailGroup" runat="server" CssClass="NormalBoldNoColor" Text="郵件群組"></asp:Label>
         </div>
-        <div id="checkup" style="float: left; padding: 0px 5px; min-height: 45px; min-width: 100px" onclick="Menu('checkup')">
-            <div>
-                <asp:Label ID="lblCheckup1" runat="server" CssClass="NormalBoldNoColor" Text="員工健檢"></asp:Label>
-            </div>
-            <div>
-                <asp:Label ID="lblCheckup2" runat="server" CssClass="NormalBoldNoColor" Text="報名組別"></asp:Label>
-            </div>
+        <div id="checkup" style="float: left; padding: 0px 15px;" onclick="Menu('checkup')">
+            <asp:Label ID="lblCheckup1" runat="server" CssClass="NormalBoldNoColor" Text="員工健檢報名組別"></asp:Label>
         </div>
     </div>
-
     <div id="categoryContent" style="display: none;">
         <table>
             <tr>
@@ -607,33 +650,33 @@
                     <asp:DropDownList ID="ddlCategoryColor" runat="server" Width="100px" CssClass="QueryField" onchange="ddlCategoryColorOnChange(this);">
                         <asp:ListItem Selected="True" Text="" Value="" style="display: none;"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="00A9E0" style="background-color: #00A9E0"></asp:ListItem>
-                        <asp:ListItem Text="" Value="71C5E8" style="background-color: #71C5E8"></asp:ListItem>
-                        <asp:ListItem Text="" Value="00629B" style="background-color: #00629B"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#00A9E0" style="background-color: #00A9E0"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#71C5E8" style="background-color: #71C5E8"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#00629B" style="background-color: #00629B"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="78BE20" style="background-color: #78BE20"></asp:ListItem>
-                        <asp:ListItem Text="" Value="B7DD79" style="background-color: #B7DD79"></asp:ListItem>
-                        <asp:ListItem Text="" Value="658D1B" style="background-color: #658D1B"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#78BE20" style="background-color: #78BE20"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#B7DD79" style="background-color: #B7DD79"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#658D1B" style="background-color: #658D1B"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="DA1884" style="background-color: #DA1884"></asp:ListItem>
-                        <asp:ListItem Text="" Value="F395C7" style="background-color: #F395C7"></asp:ListItem>
-                        <asp:ListItem Text="" Value="A50050" style="background-color: #A50050"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#DA1884" style="background-color: #DA1884"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#F395C7" style="background-color: #F395C7"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#A50050" style="background-color: #A50050"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="00B2A9" style="background-color: #00B2A9"></asp:ListItem>
-                        <asp:ListItem Text="" Value="9CDBD9" style="background-color: #9CDBD9"></asp:ListItem>
-                        <asp:ListItem Text="" Value="007367" style="background-color: #007367"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#00B2A9" style="background-color: #00B2A9"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#9CDBD9" style="background-color: #9CDBD9"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#007367" style="background-color: #007367"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="8031A7" style="background-color: #8031A7"></asp:ListItem>
-                        <asp:ListItem Text="" Value="CAA2DD" style="background-color: #CAA2DD"></asp:ListItem>
-                        <asp:ListItem Text="" Value="572C5F" style="background-color: #572C5F"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#8031A7" style="background-color: #8031A7"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#CAA2DD" style="background-color: #CAA2DD"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#572C5F" style="background-color: #572C5F"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="EEDC00" style="background-color: #EEDC00"></asp:ListItem>
-                        <asp:ListItem Text="" Value="F0EC74" style="background-color: #F0EC74"></asp:ListItem>
-                        <asp:ListItem Text="" Value="BBA600" style="background-color: #BBA600"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#EEDC00" style="background-color: #EEDC00"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#F0EC74" style="background-color: #F0EC74"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#BBA600" style="background-color: #BBA600"></asp:ListItem>
 
-                        <asp:ListItem Text="" Value="FF6A13" style="background-color: #FF6A13"></asp:ListItem>
-                        <asp:ListItem Text="" Value="FAAA8D" style="background-color: #FAAA8D"></asp:ListItem>
-                        <asp:ListItem Text="" Value="A65523" style="background-color: #A65523"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#FF6A13" style="background-color: #FF6A13"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#FAAA8D" style="background-color: #FAAA8D"></asp:ListItem>
+                        <asp:ListItem Text="" Value="#A65523" style="background-color: #A65523"></asp:ListItem>
 
                     </asp:DropDownList>
                 </td>
@@ -646,7 +689,7 @@
                     <asp:Button ID="Button_AddCategory" runat="server" Text="新增分類" CssClass="Button" OnClick="Button_AddCategory_Click" /></td>
             </tr>
         </table>
-        <table cellspacing="0">
+        <table style="padding-top:10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridEventCategory" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
@@ -662,33 +705,33 @@
                                     <asp:DropDownList ID="gridDdlCategoryColor" runat="server" Width="100px" CssClass="QueryField" AutoPostBack="true" OnSelectedIndexChanged="gridDdlCategoryColor_SelectedIndexChanged">
                                         <asp:ListItem Selected="True" Text="" Value="" style="display: none;"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="00A9E0" style="background-color: #00A9E0"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="71C5E8" style="background-color: #71C5E8"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="00629B" style="background-color: #00629B"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#00A9E0" style="background-color: #00A9E0"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#71C5E8" style="background-color: #71C5E8"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#00629B" style="background-color: #00629B"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="78BE20" style="background-color: #78BE20"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="B7DD79" style="background-color: #B7DD79"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="658D1B" style="background-color: #658D1B"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#78BE20" style="background-color: #78BE20"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#B7DD79" style="background-color: #B7DD79"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#658D1B" style="background-color: #658D1B"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="DA1884" style="background-color: #DA1884"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="F395C7" style="background-color: #F395C7"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="A50050" style="background-color: #A50050"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#DA1884" style="background-color: #DA1884"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#F395C7" style="background-color: #F395C7"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#A50050" style="background-color: #A50050"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="00B2A9" style="background-color: #00B2A9"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="9CDBD9" style="background-color: #9CDBD9"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="007367" style="background-color: #007367"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#00B2A9" style="background-color: #00B2A9"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#9CDBD9" style="background-color: #9CDBD9"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#007367" style="background-color: #007367"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="8031A7" style="background-color: #8031A7"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="CAA2DD" style="background-color: #CAA2DD"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="572C5F" style="background-color: #572C5F"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#8031A7" style="background-color: #8031A7"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#CAA2DD" style="background-color: #CAA2DD"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#572C5F" style="background-color: #572C5F"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="EEDC00" style="background-color: #EEDC00"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="F0EC74" style="background-color: #F0EC74"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="BBA600" style="background-color: #BBA600"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#EEDC00" style="background-color: #EEDC00"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#F0EC74" style="background-color: #F0EC74"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#BBA600" style="background-color: #BBA600"></asp:ListItem>
 
-                                        <asp:ListItem Text="" Value="FF6A13" style="background-color: #FF6A13"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="FAAA8D" style="background-color: #FAAA8D"></asp:ListItem>
-                                        <asp:ListItem Text="" Value="A65523" style="background-color: #A65523"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#FF6A13" style="background-color: #FF6A13"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#FAAA8D" style="background-color: #FAAA8D"></asp:ListItem>
+                                        <asp:ListItem Text="" Value="#A65523" style="background-color: #A65523"></asp:ListItem>
 
                                     </asp:DropDownList>
                                 </ItemTemplate>
@@ -744,7 +787,7 @@
                 </td>
             </tr>
         </table>
-        <table cellspacing="0">
+        <table style="padding-top:10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridEventManager" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
@@ -755,7 +798,7 @@
                                 <HeaderStyle Width="100px"></HeaderStyle>
                             </asp:BoundField>
                             <asp:BoundField HeaderText="姓名" DataField="name">
-                                <HeaderStyle Width="100px"></HeaderStyle>
+                                <HeaderStyle Width="200px"></HeaderStyle>
                             </asp:BoundField>
                             <asp:TemplateField HeaderText="">
                                 <HeaderStyle Width="80px"></HeaderStyle>
@@ -797,7 +840,7 @@
                     <asp:Button ID="btnAddMailGroup" runat="server" Text="新增郵件群組" CssClass="Button" Width="120px" OnClick="Button_AddMailGroup_Click" /></td>
             </tr>
         </table>
-        <table cellspacing="0">
+        <table style="padding-top:10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridMailGroup" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
@@ -847,12 +890,12 @@
                 <td>
                     <asp:Button ID="btnImportHealthGroup" runat="server"  CssClass="Button" Text="匯入組別" OnClick="btnImportHealthGroup_Click" />
                 </td>
-                <td>
+                <td style="padding-left:10px;">
                     <asp:HyperLink ID="hlnkFileAttachment" runat="server"  Text="匯入格式範例" style="color:blue;" NavigateUrl="~/Sample/Import_HealthGroup.xlsx" />
                 </td>
             </tr>
         </table>
-        <table cellspacing="0">
+        <table style="padding-top:10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridHealthGroup" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
@@ -860,10 +903,10 @@
                         PageSize="20" OnRowDataBound="gridHealthGroup_RowDataBound" OnPageIndexChanging="gridHealthGroup_PageIndexChanging">
                         <Columns>
                             <asp:BoundField HeaderText="工號" DataField="empid">
-                                <HeaderStyle Width="250px"></HeaderStyle>
+                                <HeaderStyle Width="100px"></HeaderStyle>
                             </asp:BoundField>
                              <asp:BoundField HeaderText="姓名" DataField="name">
-                                <HeaderStyle Width="250px"></HeaderStyle>
+                                <HeaderStyle Width="2000px"></HeaderStyle>
                             </asp:BoundField>
                              <asp:BoundField HeaderText="健檢報名組別" DataField="groupname">
                                 <HeaderStyle Width="250px"></HeaderStyle>
@@ -880,64 +923,76 @@
 
 
 
-
+    <%--dialog 必填--%>
     <div id="dialogRequired" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <%--dialog content--%>
             <asp:Label ID="lblFiledName" runat="server" Text=""></asp:Label>
             <asp:Label ID="lblRequired" runat="server" Text="為必填欄位。"></asp:Label>
         </asp:Panel>
     </div>
-    <div id="dialogSuccess" title="Dialog Title">
-        <asp:Panel ID="ContentPanel2" runat="server" Style="display: none">
-            <%--dialog content--%>
-            <asp:Label ID="lblSuccess" runat="server" Text="成功。"></asp:Label>
-        </asp:Panel>
-    </div>
+    
+    <%--dialog 失敗--%>
+
     <div id="dialogFailed" title="Dialog Title">
         <asp:Panel ID="ContentPanel3" runat="server" Style="display: none">
-            <%--dialog content--%>
             <asp:Label ID="lblFailed" runat="server" Text="失敗。"></asp:Label>
             <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label><br />
             <asp:Label ID="lblErrMsg" runat="server" Text="" Visible="false"></asp:Label><br />
         </asp:Panel>
     </div>
-    <div id="dialogEmpidErr" title="Dialog Title">
-        <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-            <%--dialog content--%>
-            <asp:Label ID="Label2" runat="server" Text="工號輸入不正確。"></asp:Label>
+
+    <%--dialog Msg--%>
+    <div id="dialogMsg" title="Dialog Title">
+        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none">
+            <asp:Label ID="lblDialogMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
 
-    <div id="dialogExist" title="Dialog Title">
-        <asp:Panel ID="ContentPanel5" runat="server" Style="display: none">
-            <%--dialog content--%>
-            <asp:Label ID="lblExistFiled" runat="server" Text=""></asp:Label>
-            <asp:Label ID="lblExist" runat="server" Text="已存在。"></asp:Label>
-        </asp:Panel>
-    </div>
-
+    <%--dialog 是否刪除--%>
     <div id="dialogDelete" title="Dialog Title">
         <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
-            <%--dialog content--%>
             <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？"></asp:Label>
         </asp:Panel>
     </div>
 
+    <%--dialog 匯入mailgroup--%>
     <div id="dialogFileUpload" title="Dialog Title">
         <asp:Panel ID="ContentPanel7" runat="server" Style="display: none">
-            <%--dialog content--%>
             <div>
                 <asp:FileUpload ID="FileUpload1" runat="server" />
             </div>
             <div style="margin-top: 20px;">
-                <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" />
+                <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" CssClass="Button"/>
             </div>
             <div style="margin-top: 5px;">
-                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
+                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" CssClass="Button" placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
             </div>
         </asp:Panel>
     </div>
+
+
+
+
+
+    <div id="dialogEmpidErr" title="Dialog Title">
+        <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
+            <asp:Label ID="Label2" runat="server" Text="無效工號，請重新輸入。"></asp:Label>
+        </asp:Panel>
+    </div>
+    <%--dialog content--%>
+    <div id="dialogExist" title="Dialog Title">
+        <asp:Panel ID="ContentPanel5" runat="server" Style="display: none">
+            <asp:Label ID="lblExistFiled" runat="server" Text=""></asp:Label>
+            <asp:Label ID="lblExist" runat="server" Text="已存在。"></asp:Label>
+        </asp:Panel>
+    </div>
+    <%--dialog content--%>
+    <div id="dialogSuccess" title="Dialog Title">
+        <asp:Panel ID="ContentPanel2" runat="server" Style="display: none">
+            <asp:Label ID="lblSuccess" runat="server" Text="成功。"></asp:Label>
+        </asp:Panel>
+    </div>
+
 
     <asp:Button ID="btnReloadCategoryGrid" runat="server" Text="Button" OnClick="btnReloadCategoryGrid_Click" style="display:none;" />
     <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" style="display:none;" />
@@ -948,7 +1003,8 @@
     <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
-
+    <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="false"></asp:Label>
+    <asp:Label ID="lblInvalidMailGroup" runat="server" Text="無效郵件群組，請重新輸入。" Visible="false"></asp:Label>
 
 
 

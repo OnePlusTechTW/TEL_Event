@@ -27,3 +27,9 @@ TEL/TEL.Event.Lab/obj/Debug/TEL.Event.Lab.pdb
 TEL/TEL.Event.Lab/obj/Debug/TEL.Event.Lab.dll
 TEL/TEL.Event.Lab/obj/Debug/TEL.Event.Lab.csproj.FileListAbsolute.txt
 TEL/TEL.Event.Lab/obj/Debug/TEL.Event.Lab.csproj.CoreCompileInputs.cache
+*.cache
+TEL/packages/*
+TEL/TEL.Event.Lab/bin/Debug/*
+TEL/TEL_Event/Event/EventThumbnail/*
+TEL/TEL_Event/Bin/TEL.Event.Lab.dll
+TEL/TEL_Event/Bin/TEL.Event.Lab.pdb

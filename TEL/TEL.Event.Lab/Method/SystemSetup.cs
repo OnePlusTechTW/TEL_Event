@@ -166,12 +166,27 @@ namespace TEL.Event.Lab.Method
         /// 取得郵件群組
         /// </summary>
         /// <returns></returns>
-        public DataTable GetMailGroup(string name)
+        public DataTable GetEventMailGroup(string name)
         {
             SystemSetupData systemSetupData = new SystemSetupData();
-            return systemSetupData.QueryMailGroup(name);
+            return systemSetupData.QueryEventMailGroup(name);
         }
 
+        /// <summary>
+        /// 郵件群組是否有效
+        /// </summary>
+        /// <returns></returns>
+        public bool IsMailGroupExist(string name)
+        {
+            SystemSetupData systemSetupData = new SystemSetupData();
+            DataTable dt = systemSetupData.QueryMailGroup(name);
+
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
 
         #endregion
 
