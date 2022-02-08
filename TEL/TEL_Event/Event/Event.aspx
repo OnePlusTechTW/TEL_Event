@@ -93,13 +93,13 @@
             <td>
                 <asp:Label ID="lblEventName" runat="server" Text="活動名稱"></asp:Label>
             </td>
-            <td style="padding-left:5px;">
+            <td >
                 <asp:Label ID="lblEventCategory" runat="server" Text="活動分類"></asp:Label>
             </td>
-            <td style="padding-left:5px;">
+            <td >
                 <asp:Label ID="lblDateInterval" runat="server" Text="活動開始日期區間"></asp:Label>
             </td>
-            <td style="padding-left:5px;">
+            <td >
                 <asp:Label ID="lblEventStatus" runat="server" Text="活動狀態"></asp:Label>
             </td>
             <td></td>
@@ -108,16 +108,16 @@
             <td>
                 <asp:TextBox ID="tbEventName" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
-            <td style="padding-left:5px;">
+            <td >
                 <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField">
                 </asp:DropDownList>
             </td>
-            <td style="padding-left:5px;">
+            <td >
                 <asp:TextBox ID="sDate" runat="server" Width="160px"  CssClass="QueryField"></asp:TextBox>
                 ~
                 <asp:TextBox ID="eDate" runat="server" Width="160px"  CssClass="QueryField"></asp:TextBox>
             </td>
-            <td style="padding-left:5px;" >
+            <td  >
                 <asp:DropDownList ID="ddlEventStatus" runat="server" CssClass="QueryField">
                     <asp:ListItem Text="- 全部 -" Value="" ></asp:ListItem>
                     <asp:ListItem Text="尚未開始" Value="N" ></asp:ListItem>
@@ -125,7 +125,7 @@
                     <asp:ListItem Text="已結束" Value="F" ></asp:ListItem>
                 </asp:DropDownList>
             </td>
-            <td style="padding-left:5px;">
+            <td >
                 <asp:Button ID="btnSearch" runat="server" Text="查詢" OnClick="btnSearch_Click" CssClass="Button"  />
             </td>
         </tr>

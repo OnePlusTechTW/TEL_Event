@@ -443,14 +443,11 @@
                 var dialog = $("#dialogFileUpload").dialog({
                     title:"",
                     modal: true,
-                    buttons: [
-                        {
-                            text: "關閉",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
                         }
-                    ],
+                    },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel7").style.display = "block";
@@ -959,7 +956,7 @@
     <div id="dialogFileUpload" title="Dialog Title">
         <asp:Panel ID="ContentPanel7" runat="server" Style="display: none">
             <div>
-                <asp:FileUpload ID="FileUpload1" CssClass="Button" runat="server" />
+                <asp:FileUpload ID="FileUpload1" CssClass="FileUpload" runat="server" />
             </div>
             <div style="margin-top: 20px;">
                 <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" CssClass="Button"/>
@@ -1004,6 +1001,8 @@
     <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
     <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="false"></asp:Label>
+    <asp:Label ID="lblInvalidEmpid2" runat="server" Text="無效工號。" Visible="false"></asp:Label>
+
     <asp:Label ID="lblInvalidMailGroup" runat="server" Text="無效郵件群組，請重新輸入。" Visible="false"></asp:Label>
 
 

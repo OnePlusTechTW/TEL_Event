@@ -8,14 +8,11 @@
                 var dialog = $("#dialogFileUpload").dialog({
                     title: "",
                     modal: true,
-                    buttons: [
-                        {
-                            text: "關閉",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
                         }
-                    ],
+                    },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel7").style.display = "block";

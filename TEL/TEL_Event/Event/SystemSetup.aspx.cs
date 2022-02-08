@@ -669,8 +669,27 @@ public partial class Event_SystemSetup : System.Web.UI.Page
                      }).Where(a => a.Count > 1).
                      Select(g => g.empid).ToList();
 
+                string InvalidEmpid = string.Empty;
+                foreach (var UserHealthGroup in listUserHealthGroup)
+                {
+                    UserInfo userInfo = new UserInfo(UserHealthGroup.empid);
+                    if (string.IsNullOrEmpty(userInfo.EmpID))
+                        InvalidEmpid += UserHealthGroup.empid + ",";
+                }
+
                 StringBuilder sb = new StringBuilder();
-                if (duplicateList.Count > 0)
+
+                if (!string.IsNullOrEmpty(InvalidEmpid))
+                {
+                    sb.Append($"{InvalidEmpid.Substring(0, InvalidEmpid.Length - 1)} {lblInvalidEmpid2.Text}");
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.AppendLine();
+                    sb.Append(lblReimport.Text);
+                    tbImportMsg.Text = sb.ToString();
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+                }
+                else if (duplicateList.Count > 0)
                 {
 
                     sb.Append(lblDuplicate.Text);
