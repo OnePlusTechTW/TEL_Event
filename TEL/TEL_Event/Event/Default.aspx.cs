@@ -41,31 +41,41 @@ public partial class Event_Default : System.Web.UI.Page
         CreateTable(dt); //需要再PostBack再次建立表格，否則按鈕後會消失
     }
 
-    protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+    protected void EventDescriptionView_Click(object sender, ImageClickEventArgs e)
     {
-        ImageButton btn1 = (ImageButton)sender;
-        if (btn1 == null)
+        ImageButton btnEventDescriptionView = (ImageButton)sender;
+        if (btnEventDescriptionView == null)
             return;
 
-        string id = btn1.CommandArgument;//可以自訂義參數
+        string id = btnEventDescriptionView.CommandArgument;//可以自訂義參數
         this.UC_EventDescription.setViewDefault(id);
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogEventView();", true);
     }
 
-    protected void btn_Click(object sender, EventArgs e)
+    protected void Register_Click(object sender, EventArgs e)
     {
-        Button btn1 = (Button)sender;
-        if (btn1 == null)
+        Button btnRegister = (Button)sender;
+        if (btnRegister == null)
             return;
 
-        string id = btn1.CommandArgument.Split(',')[0];//可以自訂義參數
-        string registermodel = btn1.CommandArgument.Split(',')[1];
-                
+        string id = btnRegister.CommandArgument.Split(',')[0];//可以自訂義參數
+        string registermodel = btnRegister.CommandArgument.Split(',')[1];
 
         Response.Redirect($"Event_RegisterModel{registermodel}_Create.aspx?id={id}");
-        //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRegisterModel1_Create('" + id + "','"+ registermodel + "');", true);
-
     }
+    protected void View_Click(object sender, EventArgs e)
+    {
+        Button btnView = (Button)sender;
+        if (btnView == null)
+            return;
+
+        string id = btnView.CommandArgument.Split(',')[0];//可以自訂義參數
+        string registermodel = btnView.CommandArgument.Split(',')[1];
+
+        Response.Redirect($"Event_RegisterModel{registermodel}_View.aspx?id={id}");
+        //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRegisterModel1_Create('" + id + "','"+ registermodel + "');", true);
+    }
+    
 
     private void CreateTable(DataTable dt)
     {
@@ -137,7 +147,7 @@ public partial class Event_Default : System.Web.UI.Page
 
             //img.ImageUrl = "~/Event/EventThumbnail/0fc25346-8d04-455a-88a3-b165e7227c4b.png";
             img.ID = "img" + dtEvent.Rows[i]["eventnid"];
-            img.Click += new ImageClickEventHandler(ImageButton1_Click); //添加相應事件
+            img.Click += new ImageClickEventHandler(EventDescriptionView_Click); //添加相應事件
             img.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString();
             //自訂義參數
 
@@ -239,43 +249,43 @@ public partial class Event_Default : System.Web.UI.Page
             TableRow trButton = new TableRow();
             TableCell tdButton = new TableCell();
             tdButton.HorizontalAlign = HorizontalAlign.Right;
+            //馬上報名、檢視報名 按鈕
             Button btnEvent = new Button();
             btnEvent.ID = "btnEvent" + dtEvent.Rows[i]["eventnid"];
             btnEvent.CssClass = "Button";
-            btnEvent.Click += new EventHandler(btn_Click); //添加相應事件
             btnEvent.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
-
+            //尚未開放報名 Lable
             Label lblEvent = new Label();
             lblEvent.CssClass = "tableInfoContentFontSize-medium";
 
-
-            //報名狀態
+            //報名狀態判斷
             DateTime now = DateTime.Now;
             int startCompare = Convert.ToDateTime(dtEvent.Rows[i]["registerstart"].ToString()).CompareTo(now);
             int endCompare = Convert.ToDateTime(dtEvent.Rows[i]["registerend"].ToString()).CompareTo(now);
-
             if (startCompare > 0)
             {
-                // registerstart > now
+                // registerstart > now 當活動尚未開始報名
                 lblEvent.Text = lblNYStart.Text;
                 tdButton.Controls.Add(lblEvent);//在此欄加入按鈕
-
             }
-            else if (endCompare < 0)
-            {
-                // registerend < now
-                btnEvent.Text = lblView.Text;
+            else if (startCompare < 0 && endCompare > 0)
+            {   
+                //registerstart < now < registerend 當活動開始報名
+
+                if (string.IsNullOrEmpty(dtEvent.Rows[i]["RegisterModelID"].ToString()))
+                {
+                    //使用者尚未報名，也沒有報名表id，即未報名
+                    btnEvent.Text = lblSignup.Text;
+                    btnEvent.Click += new EventHandler(Register_Click); //添加相應事件
+                }
+                else
+                {
+                    //使用者已報名，有報名表id，即已報名，顯示檢視報名
+                    btnEvent.Text = lblView.Text;
+                    btnEvent.Click += new EventHandler(View_Click); //添加相應事件
+                }
                 tdButton.Controls.Add(btnEvent);//在此欄加入按鈕
             }
-            else
-            {
-                //registerstart < now < registerend
-                btnEvent.Text = lblSignup.Text;
-                tdButton.Controls.Add(btnEvent);//在此欄加入按鈕
-            }
-
-
-
 
 
             trButton.Cells.Add(tdButton);

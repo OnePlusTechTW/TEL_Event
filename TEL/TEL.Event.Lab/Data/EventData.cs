@@ -536,38 +536,54 @@ namespace TEL.Event.Lab.Data
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
 
-            sqlString = @"SELECT 
-                            a.id AS eventnid,
-                            a.name AS eventname,
-                            b.name AS categoryname,
-                            a.categoryid,
-                            b.color AS categorycolor,
-                            CONVERT(varchar,a.eventstart,111) as eventstart,
-                            CONVERT(varchar,a.eventend,111) as eventend,
-                            a.registerstart,
-                            a.registerend,
-                            a.limit,
-                            a.member,
-                            a.mailgroup,
-                            a.mailgroupother,
-                            a.description,
-                            a.image1,
-                            a.image1_name,
-                            a.image2,
-                            a.image2_name,
-                            isnull(a.enabled, '') as enabled,
-                            isnull(a.duplicated, '' ) as duplicated,
-                            a.registermodel,
-                            a.surveymodel,
-                            a.surveystartdate
-                          FROM TEL_Event_Events a
-                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id
-                         WHERE 
-                               a.id = a.id 
-                        AND
-                            a.eventend >= GETDATE()
-                        AND
-                            a.enabled = 'Y'
+            sqlString = @"
+                    SELECT 
+                        a.id AS eventnid,
+                        a.name AS eventname,
+                        b.name AS categoryname,
+                        a.categoryid,
+                        b.color AS categorycolor,
+                        CONVERT(varchar,a.eventstart,111) as eventstart,
+                        CONVERT(varchar,a.eventend,111) as eventend,
+                        a.registerstart,
+                        a.registerend,
+                        a.limit,
+                        a.member,
+                        a.mailgroup,
+                        a.mailgroupother,
+                        a.description,
+                        a.image1,
+                        a.image1_name,
+                        a.image2,
+                        a.image2_name,
+                        isnull(a.enabled, '') as enabled,
+                        isnull(a.duplicated, '' ) as duplicated,
+                        a.registermodel,
+                        a.surveymodel,
+                        a.surveystartdate,
+                        c.id as RegisterModelID
+                    FROM 
+                        TEL_Event_Events a
+                    INNER JOIN 
+                        TEL_Event_Category b ON a.categoryid=b.id
+                    LEFT JOIN 
+                        (SELECT id,eventid,empid FROM TEL_Event_RegisterModel1
+                        UNION
+                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel2
+                        UNION
+                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel3
+                        UNION
+                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel4
+                        UNION
+                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel5
+                        UNION
+                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel6) c ON a.id = c.eventid
+                    WHERE 
+                        a.id = a.id 
+                    AND
+                        a.registerend >= GETDATE()
+                    AND
+                        a.enabled = 'Y'
                         ";
 
             if (!string.IsNullOrEmpty(eventname))
@@ -580,7 +596,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.categoryid = @eventcateid ";
             }
 
-            sqlString += @" ORDER BY  a.eventstart";
+            sqlString += @" ORDER BY  a.eventstart DESC";
 
             DataTable result = null;
 
@@ -1127,7 +1143,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description]";
+                        ORDER BY [description] DESC";
 
             DataTable result = null;
 
@@ -1266,7 +1282,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description]";
+                        ORDER BY [description] DESC";
 
             DataTable result = null;
 
@@ -1410,7 +1426,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description]";
+                        ORDER BY [description] DESC";
 
             DataTable result = null;
 
@@ -1758,7 +1774,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description]";
+                        ORDER BY [description] DESC";
 
             DataTable result = null;
 
@@ -1818,7 +1834,7 @@ namespace TEL.Event.Lab.Data
                             ";
             }
             sqlStr += @"
-                        ORDER BY [hosipital], area, description, gender";
+                        ORDER BY [hosipital] DESC, area DESC, description DESC, avaliabledate DESC, gender DESC";
 
             DataTable result = null;
 
@@ -1872,7 +1888,7 @@ namespace TEL.Event.Lab.Data
                             ";
             }
             sqlStr += @"
-                        ORDER BY area, avaliabledate";
+                        ORDER BY area DESC, avaliabledate DESC";
 
             DataTable result = null;
 

@@ -213,7 +213,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [name]";
+                        ORDER BY [name] DESC";
 
             DataTable result = null;
 
@@ -353,7 +353,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @" 
-                        ORDER BY ea.[empid]";
+                        ORDER BY ea.[empid] DESC";
 
             DataTable result = null;
 
@@ -556,7 +556,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [name]";
+                        ORDER BY [name] DESC";
 
             DataTable result = null;
 
@@ -581,7 +581,7 @@ namespace TEL.Event.Lab.Data
         }
 
         /// <summary>
-        /// 查詢郵件群組
+        /// 查詢User郵件群組
         /// </summary>
         /// <returns></returns>
         internal DataTable QueryMailGroup(string name)
@@ -623,6 +623,12 @@ namespace TEL.Event.Lab.Data
         #endregion
 
         #region 員工健檢
+        // <summary>
+        /// 新增 員工報名健檢組別
+        /// </summary>
+        /// <param name="listUserHealthGroup"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
         internal string InsertHealthGroup(List<UserHealthGroup> listUserHealthGroup, string modifiedby)
         {
             string connStr = GetConnectionString();
@@ -696,7 +702,7 @@ namespace TEL.Event.Lab.Data
         }
 
         /// <summary>
-        /// 查詢郵件群組
+        /// 取得 員工報名健檢組別
         /// </summary>
         /// <returns></returns>
         internal DataTable QueryHealthGroup()
@@ -713,7 +719,7 @@ namespace TEL.Event.Lab.Data
                         FROM 
                             TEL_Event_HealthGroup h
                         LEFT JOIN Users u ON u.EmpID = h.empid 
-                        ORDER BY h.[empid]";
+                        ORDER BY h.[empid] DESC";
 
             DataTable result = null;
 
