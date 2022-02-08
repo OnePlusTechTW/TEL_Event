@@ -1,12 +1,12 @@
-﻿.NormalBoldNoColor {
+﻿table td {
+    padding: 0px;
+}
+
+.NormalBoldNoColor {
     font-weight: bold;
     font-size: 14px;
     padding-top: 1px;
     font-family: Microsoft JhengHei, Georgia;
-}
-
-.tablecell {
-    border-spacing: 0px;
 }
 
 .tableContent {
