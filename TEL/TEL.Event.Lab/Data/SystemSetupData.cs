@@ -213,7 +213,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [name] DESC";
+                        ORDER BY [name]";
 
             DataTable result = null;
 
@@ -353,7 +353,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @" 
-                        ORDER BY ea.[empid] DESC";
+                        ORDER BY ea.[empid]";
 
             DataTable result = null;
 
@@ -556,7 +556,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [name] DESC";
+                        ORDER BY [name]";
 
             DataTable result = null;
 
@@ -719,7 +719,7 @@ namespace TEL.Event.Lab.Data
                         FROM 
                             TEL_Event_HealthGroup h
                         LEFT JOIN Users u ON u.EmpID = h.empid 
-                        ORDER BY h.[empid] DESC";
+                        ORDER BY h.[empid]";
 
             DataTable result = null;
 

@@ -189,14 +189,14 @@
             </td>
         </tr>
         <tr>
-            <td >
+            <td>
                 <asp:Label ID="lblPeopleLimit" runat="server" Text="人數限制"></asp:Label>
                 <asp:Label ID="lblPeopleLimit2" runat="server" Text="(無上限勿填)"></asp:Label>
             </td>
-            <td >
+            <td>
                 <asp:Label ID="lblSignupSDate" runat="server" Text="報名開始日期時間"></asp:Label>
             </td>
-            <td >
+            <td>
                 <asp:Label ID="lblSignupEDate" runat="server" Text="報名結束日期時間"></asp:Label>
             </td>
         </tr>
@@ -219,7 +219,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="tbOrtherEventManager" runat="server"  Width="304px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="tbOrtherEventManager" runat="server" Width="304px" CssClass="QueryField"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -233,18 +233,18 @@
         <tr>
             <td>
                 <asp:DropDownList ID="ddlSignupTemplate" runat="server" Style="width: 150px" CssClass="QueryField" OnSelectedIndexChanged="ddlSignupTemplate_SelectedIndexChanged" AutoPostBack="true">
-                    <asp:ListItem Selected="True"></asp:ListItem>
+                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                     <asp:ListItem Value="1">活動報名(簡易)</asp:ListItem>
                     <asp:ListItem Value="2">活動報名(詳細)</asp:ListItem>
+                    <asp:ListItem Value="6">活動報名(地點時間)</asp:ListItem>
+                    <asp:ListItem Value="5">上傳附件</asp:ListItem>
                     <asp:ListItem Value="3">健康檢查報名(Local)</asp:ListItem>
                     <asp:ListItem Value="4">健康檢查報名(駐在員)</asp:ListItem>
-                    <asp:ListItem Value="5">上傳附件</asp:ListItem>
-                    <asp:ListItem Value="6">活動報名(地點時間)</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td colspan="2">
                 <asp:DropDownList ID="ddlQuestionnaireTemplate" runat="server" Style="width: 150px" CssClass="QueryField" OnSelectedIndexChanged="ddlQuestionnaireTemplate_SelectedIndexChanged" AutoPostBack="true">
-                    <asp:ListItem Selected="True"></asp:ListItem>
+                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                     <asp:ListItem Value="1">滿意度(講座)</asp:ListItem>
                     <asp:ListItem Value="2">滿意度(活動)</asp:ListItem>
                     <asp:ListItem Value="3">滿意度(健檢)</asp:ListItem>
@@ -253,7 +253,7 @@
             </td>
         </tr>
         <tr>
-            <td >
+            <td>
                 <asp:Label ID="lblPublish" runat="server" Text="是否上架"></asp:Label>
             </td>
             <td colspan="2">
@@ -388,6 +388,7 @@
     <asp:Label ID="lblExtension" runat="server" Text=" 限上傳jpg、jpeg、png、gif圖檔" Visible="false"></asp:Label>
     <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="false"></asp:Label>
     <asp:Label ID="lblCantDelete" runat="server" Text="已有報名資料，無法刪除。" Visible="false"></asp:Label>
+    <asp:Label ID="lblUnselect" runat="server" Text="- 未指定 -" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:Button ID="btnGoBackEventPage" runat="server" Text="" OnClick="btnGoBackEventPage_Click" Style="display: none;" />

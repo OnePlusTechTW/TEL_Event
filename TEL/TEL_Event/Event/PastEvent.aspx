@@ -106,14 +106,15 @@
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動分類" DataField="categoryname">
                                 <HeaderStyle Width="95px"></HeaderStyle>
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動開始日期" DataField="eventstart">
                                 <HeaderStyle Width="105px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動結束日期" DataField="eventend">
                                 <HeaderStyle  Width="105px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             
                             <asp:TemplateField HeaderText="活動資訊">

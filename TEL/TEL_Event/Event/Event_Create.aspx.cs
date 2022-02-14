@@ -18,8 +18,6 @@ public partial class Event_Event_Create : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            
-
             CheckEventThumbnailPathExist();
             GeneratedCategoryItem();
 
@@ -36,15 +34,13 @@ public partial class Event_Event_Create : System.Web.UI.Page
                 btnDelete.Visible = false;
                 this.tdDelete.Visible = false;
             }
-
         }
     }
 
-    
+
 
     protected void ddlSignupTemplate_SelectedIndexChanged(object sender, EventArgs e)
     {
-
         if (!string.IsNullOrEmpty(ddlSignupTemplate.SelectedValue))
         {
             imgTemplate.ImageUrl = "~/Sample/Img/Register_Model" + ddlSignupTemplate.SelectedValue + ".jpg";
@@ -463,7 +459,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
         this.ddlEventCategory.Items.Clear();
 
         ListItem li = new ListItem();
-        li.Text = string.Empty;
+        li.Text = lblUnselect.Text;
         li.Value = string.Empty;
         li.Selected = true;
         this.ddlEventCategory.Items.Add(li);
@@ -596,7 +592,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
                 FileUploadPicture.Visible = false;
             }
 
-            DataTable dtEventAdmin =  ev.GetEventAdmin(id);
+            DataTable dtEventAdmin = ev.GetEventAdmin(id);
             string ortherEventManager = string.Empty;
             foreach (DataRow dr in dtEventAdmin.Rows)
             {

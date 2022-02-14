@@ -224,10 +224,14 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.categoryid = @eventcateid ";
             }
 
-            if (!string.IsNullOrEmpty(eventSdate) && !string.IsNullOrEmpty(eventEdate))
+            if (!string.IsNullOrEmpty(eventSdate))
             {
-                sqlString += @" AND a.eventstart >= @eventSdate 
-                                AND a.eventend <= @eventEdate ";
+                sqlString += @" AND a.eventstart >= @eventSdate ";
+            }
+
+            if (!string.IsNullOrEmpty(eventEdate))
+            {
+                sqlString += @" AND a.eventstart <= @eventEdate ";
             }
 
             if (!string.IsNullOrEmpty(status))
@@ -278,9 +282,13 @@ namespace TEL.Event.Lab.Data
                 if (!string.IsNullOrEmpty(eventcateid))
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventcateid", eventcateid);
 
-                if (!string.IsNullOrEmpty(eventSdate) && !string.IsNullOrEmpty(eventEdate))
+                if (!string.IsNullOrEmpty(eventSdate))
                 {
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventSdate", eventSdate);
+                }
+
+                if (!string.IsNullOrEmpty(eventEdate))
+                {
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventEdate", eventEdate);
                 }
 
@@ -581,6 +589,8 @@ namespace TEL.Event.Lab.Data
                     WHERE 
                         a.id = a.id 
                     AND
+                        a.eventend >= GETDATE()
+                    AND
                         a.registerend >= GETDATE()
                     AND
                         a.enabled = 'Y'
@@ -596,7 +606,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.categoryid = @eventcateid ";
             }
 
-            sqlString += @" ORDER BY  a.eventstart DESC";
+            sqlString += @" ORDER BY  a.eventstart";
 
             DataTable result = null;
 
@@ -1143,7 +1153,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description] DESC";
+                        ORDER BY [description]";
 
             DataTable result = null;
 
@@ -1282,7 +1292,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description] DESC";
+                        ORDER BY [description]";
 
             DataTable result = null;
 
@@ -1426,7 +1436,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description] DESC";
+                        ORDER BY [description]";
 
             DataTable result = null;
 
@@ -1774,7 +1784,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [description] DESC";
+                        ORDER BY [description]";
 
             DataTable result = null;
 
@@ -1834,7 +1844,7 @@ namespace TEL.Event.Lab.Data
                             ";
             }
             sqlStr += @"
-                        ORDER BY [hosipital] DESC, area DESC, description DESC, avaliabledate DESC, gender DESC";
+                        ORDER BY [hosipital], area, description, avaliabledate, gender";
 
             DataTable result = null;
 
@@ -1888,7 +1898,7 @@ namespace TEL.Event.Lab.Data
                             ";
             }
             sqlStr += @"
-                        ORDER BY area DESC, avaliabledate DESC";
+                        ORDER BY area, avaliabledate";
 
             DataTable result = null;
 
