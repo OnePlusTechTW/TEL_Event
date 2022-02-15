@@ -26,9 +26,7 @@
 
         };
 
-        function ShowDialogRequired(fieldName, errField) {
-            $('#<%= lblFiledName.ClientID %>').text(errField);
-
+        function ShowDialogRequired() {
             $(function () {
                 $("#dialogRequired").dialog({
                     title: $('#<%=hfWarning.ClientID%>')[0].value,
@@ -236,8 +234,7 @@
 
     <div id="dialogRequired" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <asp:Label ID="lblFiledName" runat="server" Text=""></asp:Label>
-            <asp:Label ID="lblRequired" runat="server" Text="為必填欄位。"></asp:Label>
+            <asp:Label ID="lblRequiredMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
 
@@ -255,6 +252,7 @@
         </asp:Panel>
     </div>
 
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>

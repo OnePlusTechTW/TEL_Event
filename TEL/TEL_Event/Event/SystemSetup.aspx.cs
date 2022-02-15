@@ -96,26 +96,26 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         string color = ddlCategoryColor.SelectedValue;
         string enabled = ddlIsEnableCategory.SelectedValue;
 
-        string errFields = string.Empty;
 
-        if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(color))
+        StringBuilder sb = new StringBuilder();
+
+        //分類名稱必填
+        if (string.IsNullOrEmpty(name))
         {
-            errFields = $"{lblCategoryName.Text}、{lblCategoryColor.Text}";
+            sb.Append(string.Format(lblRequired.Text, lblCategoryName.Text));
+            sb.Append("<br />");
         }
-        else if (string.IsNullOrEmpty(name))
+        //分類顏色必填
+        if (string.IsNullOrEmpty(color))
         {
-            errFields = lblCategoryName.Text;
-
-        }
-        else if (string.IsNullOrEmpty(color))
-        {
-            errFields = lblCategoryColor.Text;
-
+            sb.Append(string.Format(lblRequired.Text, lblCategoryColor.Text));
+            sb.Append("<br />");
         }
 
-        if (!string.IsNullOrEmpty(errFields))
+        if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('Category','" + errFields + "');", true);
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -365,7 +365,8 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(empid))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('Empid');", true);
+            lblRequiredMsg.Text = string.Format(lblRequired.Text, lblEmpid.Text);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -500,7 +501,8 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(name))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('MailGroup');", true);
+            lblRequiredMsg.Text = string.Format(lblRequired.Text, lblMailGroup.Text);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {

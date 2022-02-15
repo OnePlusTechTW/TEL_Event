@@ -81,17 +81,17 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
     {
         string sendArea = txtSendArea.Text;
 
-        string errFields = string.Empty;
-
+        StringBuilder sb = new StringBuilder();
         if (string.IsNullOrEmpty(sendArea))
         {
-            errFields = lblSendArea.Text;
-
+            sb.Append(string.Format(lblRequired.Text, lblSendArea.Text));
+            sb.Append("<br />");
         }
 
-        if (!string.IsNullOrEmpty(errFields))
+        if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('" + errFields + "');", true);
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {

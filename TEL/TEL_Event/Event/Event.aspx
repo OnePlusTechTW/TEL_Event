@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event.aspx.cs" Inherits="Event_Event" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 
-<%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -26,10 +25,8 @@
 
         });
 
-        function ShowDialogView() {
+        function ShowDialogView(id) {
             $(function () {
-                //$("#dialogView").load('Event_Create.aspx?id=af3bb0d8-3850-4e29-b469-400f372d3868');
-
                 $("#dialogView").dialog({
                     title: "",
                     modal: true,
@@ -40,12 +37,10 @@
                         Close: function () {
                             $(this).dialog('close');
                         }
-                    },
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel1").style.display = "block";
                     }
                 });
+
+                $("#dialogView").load('Event_View.aspx?id=' + id);
             });
 
         }
@@ -221,9 +216,7 @@
             </tr>
         </table>
     <div id="dialogView" title="Dialog Title">
-        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-                <uc1:UC_EventDescription runat="server" id="UC_EventDescription" />
-        </asp:Panel>
+        
     </div>
 
     <div id="dialogMsg" title="Dialog Title">

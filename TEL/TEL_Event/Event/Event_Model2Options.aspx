@@ -2,9 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <script>
-        function ShowDialogRequired(errField) {
-            $('#<%= lblFiledName.ClientID %>').text(errField);
-
+        function ShowDialogRequired() {
             $(function () {
                 $("#dialogRequired").dialog({
                     title: $('#<%=hfWarning.ClientID%>')[0].value,
@@ -249,8 +247,7 @@
 
     <div id="dialogRequired" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <asp:Label ID="lblFiledName" runat="server" Text=""></asp:Label>
-            <asp:Label ID="lblRequired" runat="server" Text="為必填欄位。"></asp:Label>
+            <asp:Label ID="lblRequiredMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
 
@@ -268,6 +265,7 @@
         </asp:Panel>
     </div>
 
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:Button ID="btnReloadGridView" runat="server" Text="Button" OnClick="btnReloadGridView_Click" style="display:none;"/>

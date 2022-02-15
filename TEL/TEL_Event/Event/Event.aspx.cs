@@ -167,8 +167,7 @@ public partial class Event_Event : System.Web.UI.Page
         Button btn = (Button)sender;
         string id = btn.CommandArgument.ToString();
 
-        this.UC_EventDescription.setViewDefault(id);
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView();", true);
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('" + id + "');", true);
     }
 
     protected void btnSurveyPublish_Click(object sender, EventArgs e)

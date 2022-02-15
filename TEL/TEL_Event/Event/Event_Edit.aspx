@@ -62,7 +62,7 @@
         function ShowDialogMsg() {
             $(function () {
                 $("#dialogMsg").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "700px",
                     Height: "500px",
@@ -380,7 +380,7 @@
         </asp:Panel>
     </div>
 
-    <asp:Label ID="lblRequired" runat="server" Text=" 欄位為必填" Visible="false"></asp:Label>
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblThumbnail1" runat="server" Text="活動縮圖" Visible="false"></asp:Label>
     <asp:Label ID="lblPicture1" runat="server" Text="活動大圖" Visible="false"></asp:Label>
     <asp:Label ID="lblExtension" runat="server" Text=" 限上傳jpg、jpeg、png、gif圖檔" Visible="false"></asp:Label>

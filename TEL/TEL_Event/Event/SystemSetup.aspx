@@ -356,20 +356,7 @@
 
         /*  以下為 dialog events  */
         //必填欄位 訊息開窗
-        function ShowDialogRequired(fieldName, errField) {
-            switch (fieldName) {
-                case 'Category':
-                    $('#<%= lblFiledName.ClientID %>').text(errField);
-                    break;
-                case 'Empid':
-                    $('#<%= lblFiledName.ClientID %>').text($('#<%=lblEmpid.ClientID%>')[0].textContent);
-                    break;
-                case 'MailGroup':
-                    $('#<%= lblFiledName.ClientID %>').text($('#<%=lblMailGroup.ClientID%>')[0].textContent);
-                    break;
-                default:
-            }
-
+        function ShowDialogRequired() {
             $(function () {
                 $("#dialogRequired").dialog({
                     title: $('#<%=hfWarning.ClientID%>')[0].value,
@@ -926,8 +913,7 @@
     <%--dialog 必填--%>
     <div id="dialogRequired" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <asp:Label ID="lblFiledName" runat="server" Text=""></asp:Label>
-            <asp:Label ID="lblRequired" runat="server" Text="為必填欄位。"></asp:Label>
+            <asp:Label ID="lblRequiredMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
     
@@ -998,6 +984,7 @@
     <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" style="display:none;" />
     <asp:Button ID="btnReloadMailGroupGrid" runat="server" Text="Button" OnClick="btnReloadMailGroupGrid_Click" style="display:none;" />
 
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblDuplicate" runat="server" Text="以下員工報名健檢組別重複：" Visible="false"></asp:Label>
     <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>

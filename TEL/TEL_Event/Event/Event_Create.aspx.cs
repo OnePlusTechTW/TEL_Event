@@ -69,89 +69,61 @@ public partial class Event_Event_Create : System.Web.UI.Page
         #region 必填
         if (string.IsNullOrEmpty(tbEventName.Text))
         {
-            sb.Append(lblEventName.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblEventName.Text));
+            sb.Append("<br />");
         }
 
         if (string.IsNullOrEmpty(ddlEventCategory.SelectedValue))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-
-            sb.Append(lblEventCategory.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblEventCategory.Text));
+            sb.Append("<br />");
         }
 
         if (string.IsNullOrEmpty(tbEventSDate.Text))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-            sb.Append(lblEventSDate.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblEventSDate.Text));
+            sb.Append("<br />");
         }
 
         if (string.IsNullOrEmpty(tbEventSDate.Text))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-            sb.Append(lblEventEDate.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblEventEDate.Text));
+            sb.Append("<br />");
         }
 
         if (string.IsNullOrEmpty(tbSignupSDate.Text))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-            sb.Append(lblSignupSDate.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblSignupSDate.Text));
+            sb.Append("<br />");
         }
 
         if (string.IsNullOrEmpty(tbSignupEDate.Text))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-            sb.Append(lblSignupEDate.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblSignupEDate.Text));
+            sb.Append("<br />");
         }
 
         if (string.IsNullOrEmpty(ddlSignupTemplate.SelectedValue))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-            sb.Append(lblSignupTemplate.Text);
-            //sb.Append("<br />");
+            sb.Append(string.Format(lblRequired.Text, lblSignupTemplate.Text));
+            sb.Append("<br />");
         }
 
         if (rblEventMember.SelectedValue == "C")
             if (string.IsNullOrEmpty(cblCustMember.SelectedValue) && string.IsNullOrEmpty(tbCustMember.Text))
             {
-                if (!string.IsNullOrEmpty(sb.ToString()))
-                    sb.Append("、");
-
-                sb.Append(lblEventMember.Text);
-                //sb.Append("<br />");
+                sb.Append(string.Format(lblRequired.Text, lblEventMember.Text));
+                sb.Append("<br />");
             }
 
         if (string.IsNullOrEmpty(txtEditor.Text))
         {
-            if (!string.IsNullOrEmpty(sb.ToString()))
-                sb.Append("、");
-
-            sb.Append(lblEventDescription.Text);
-            //sb.Append("<br />");
-
+            sb.Append(string.Format(lblRequired.Text, lblEventDescription.Text));
+            sb.Append("<br />");
         }
 
         if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            sb.Append(lblRequired.Text);
-
             lblMsg.Text = sb.ToString();
 
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
