@@ -1,5 +1,4 @@
-﻿using Microsoft.Security.Application;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,7 +11,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 
-public partial class Event_Event_Create : System.Web.UI.Page
+public partial class Event_Event_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,10 +19,21 @@ public partial class Event_Event_Create : System.Web.UI.Page
         {
             CheckEventThumbnailPathExist();
             GeneratedCategoryItem();
+
+            // 取得key
+            string id = Request.QueryString["id"];
+            if (!string.IsNullOrEmpty(id))
+            {
+                MaintainPageLoadData(id);
+            }
+            else
+            {
+                //沒有id的頁面，都回到導頁的原始頁
+            }
         }
+
+
     }
-
-
 
     protected void ddlSignupTemplate_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -261,7 +271,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
 
         string id = Request.QueryString["id"];
 
-        EventsData.Add("id", Guid.NewGuid().ToString());//活動名稱
+        EventsData.Add("id", id);//活動名稱
         EventsData.Add("name", tbEventName.Text);//活動名稱
         EventsData.Add("categoryid", ddlEventCategory.SelectedValue);//活動分類
         EventsData.Add("eventstart", tbEventSDate.Text);//活動開始日期
@@ -288,26 +298,9 @@ public partial class Event_Event_Create : System.Web.UI.Page
         }
         EventsData.Add("mailgroup", mailgroup);//活動成員 郵件群組
 
-        //活動成員自訂時，用工號取得mailgroup存入DB（mailgroupother）
-        //string[] CustMemEmpid = tbCustMember.Text.Split(',');
-        //string mailgroupother = string.Empty;
-        //foreach (string empid in CustMemEmpid)
-        //{
-        //    UserInfo userInfo = new UserInfo(empid);
-
-        //    if (!string.IsNullOrEmpty(mailgroupother))
-        //        mailgroupother += ",";
-
-        //    mailgroupother += userInfo.Address;
-        //}
-        //EventsData.Add("mailgroupother", mailgroupother);//活動成員 郵件群組自填
-
         EventsData.Add("mailgroupother", tbCustMember.Text);//活動成員 郵件群組自填
 
-
         EventsData.Add("description", Microsoft.Security.Application.Encoder.HtmlEncode(txtEditor.Text));//活動內容
-
-
 
         //圖檔上傳檔名用guid，並用該guid存入DB
         //縮圖
@@ -359,8 +352,9 @@ public partial class Event_Event_Create : System.Web.UI.Page
         Event ev = new Event();
         string result = string.Empty;
 
-        //新增活動
-        ev.CreateEvent(EventsData, EventAdminData, Page.Session["EmpID"].ToString());
+        //更新活動
+        result = ev.UpdateEvent(EventsData, EventAdminData, Page.Session["EmpID"].ToString());
+
 
         if (string.IsNullOrEmpty(result))
         {
@@ -410,6 +404,25 @@ public partial class Event_Event_Create : System.Web.UI.Page
         lblPictureName.Visible = false;
         btnPicture.Visible = false;
         FileUploadPicture.Visible = true;
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        Event ev = new Event();
+        string id = Request.QueryString["id"];
+        DataTable dtRegisteredEvent = new DataTable();
+        dtRegisteredEvent = ev.GetRegisteredEventInfo(id);
+
+        if (dtRegisteredEvent.Rows.Count > 0)
+        {
+            lblMsg.Text = lblCantDelete.Text;
+
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
+        }
     }
 
     protected void btnGoBackEventPage_Click(object sender, EventArgs e)
@@ -588,6 +601,4 @@ public partial class Event_Event_Create : System.Web.UI.Page
 
         return "Success";
     }
-
-
 }

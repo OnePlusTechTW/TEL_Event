@@ -1,8 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Create.aspx.cs" Inherits="Event_Event_Create" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Edit.aspx.cs" Inherits="Event_Event_Edit" %>
 
-<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
-
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <script>
         $(function () {
             //活動開始日期
@@ -152,7 +150,7 @@
         }
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <table>
         <tr>
@@ -350,9 +348,11 @@
                 <asp:Button ID="btnNextStep" runat="server" Text="下一步" OnClick="btnNextStep_Click" Width="145px" CssClass="Button" />
             </td>
             <td style="padding-top:15px">
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="145px" CssClass="Button" OnClick="btnDelete_Click"/>
+            </td>
+            <td style="padding-top:15px">
                 <asp:Button ID="btnCancel" runat="server" Text="取消" Width="145px" OnClick="btnCancel_Click" CssClass="Button" />
             </td>
-            <td></td>
         </tr>
     </table>
     <div id="dialogTemplate" title="Dialog Title">

@@ -159,7 +159,7 @@ public partial class Event_Event : System.Web.UI.Page
         Button btn = (Button)sender;
         string id = btn.CommandArgument.ToString();
 
-        Response.Redirect($"Event_Create.aspx?id={id}");
+        Response.Redirect($"Event_Edit.aspx?id={id}");
     }
 
     protected void btnView_Click(object sender, EventArgs e)

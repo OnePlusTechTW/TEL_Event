@@ -260,7 +260,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.enabled = @enabled ";
             }
 
-            sqlString += @" ORDER BY  a.eventstart";
+            sqlString += @" ORDER BY  a.eventstart DESC";
 
             DataTable result = null;
 
