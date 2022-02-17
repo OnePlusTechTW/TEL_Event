@@ -31,10 +31,13 @@ namespace TEL.Event.Lab.Method
         /// <param name="eventname"></param>
         /// <param name="eventcateid"></param>
         /// <returns></returns>
-        public DataTable GetUserRegisterEventList(string eventname = "", string eventcateid = "")
+        public DataTable GetUserRegisterEventList(string empid, string eventname = "", string eventcateid = "")
         {
             EventData ev = new EventData();
-            return ev.QueryUserRegisterEventList(eventname, eventcateid);
+            MailGroup mg = new MailGroup();
+            DataTable dtUserMailGroup = new DataTable();
+            dtUserMailGroup = mg.GetUserMailGroup(empid);
+            return ev.QueryUserRegisterEventList(dtUserMailGroup, empid, eventname, eventcateid);
         }
 
         public string CreateEvent(Dictionary<string, string> eventsData, Dictionary<string, string> eventAdminData, string empid)
@@ -321,6 +324,17 @@ namespace TEL.Event.Lab.Method
         {
             EventData ev = new EventData();
             return ev.QueryEvnetRegisterCount(eventid, registermodel);
+        }
+
+        /// <summary>
+        /// 取得活動權限 by MailGroup
+        /// </summary>
+        /// <param name="mailgroup"></param>
+        /// <returns></returns>
+        public DataTable GetEventPermissionMailGroup(string mailgroup = "")
+        {
+            EventData ev = new EventData();
+            return ev.QueryEventPermissionMailGroup(mailgroup);
         }
     }
 

@@ -536,10 +536,12 @@ namespace TEL.Event.Lab.Data
         /// <summary>
         /// 使用者可報名列表
         /// </summary>
+        /// <param name="dtUserMailGroupd">User 所存在的MailGroupd</param>
+        /// <param name="empid"></param>
         /// <param name="eventname"></param>
         /// <param name="eventcateid"></param>
         /// <returns></returns>
-        public DataTable QueryUserRegisterEventList(string eventname = "", string eventcateid = "")
+        public DataTable QueryUserRegisterEventList(DataTable dtUserMailGroupd, string empid, string eventname = "", string eventcateid = "")
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
@@ -594,6 +596,15 @@ namespace TEL.Event.Lab.Data
                         a.registerend >= GETDATE()
                     AND
                         a.enabled = 'Y'
+                    AND 
+						(	a.member = 'A' 
+							OR
+							a.id IN (SELECT eventid FROM [TEL_Event_Permission_Empid]
+									WHERE [empid] = @empid
+									UNION
+									SELECT eventid FROM [TEL_Event_Permission_MailGroup]
+									WHERE [mailgroupName] in (@mailgroup))
+						)
                         ";
 
             if (!string.IsNullOrEmpty(eventname))
@@ -619,11 +630,23 @@ namespace TEL.Event.Lab.Data
 
                 wrDad.SelectCommand = new SqlCommand(sqlString, connection);
 
+                wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                StringBuilder sb = new StringBuilder();
+                foreach (DataRow dr in dtUserMailGroupd.Rows)
+                {
+                    sb.Append(dr["Name"].ToString() + ",");
+                }
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@mailgroup", sb.ToString().TrimEnd(','));
+
                 if (!string.IsNullOrEmpty(eventname))
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventname", eventname);
 
                 if (!string.IsNullOrEmpty(eventcateid))
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventcateid", eventcateid);
+
+                
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];
@@ -764,8 +787,9 @@ namespace TEL.Event.Lab.Data
 
                 commandEvents.ExecuteNonQuery();
 
-                //再新增
                 string eventID = eventAdminData["eventid"];
+
+                //新增其它活動管理者
                 string[] empids = eventAdminData["empid"].Split(',');
                 foreach (string empidstr in empids)
                 {
@@ -790,6 +814,60 @@ namespace TEL.Event.Lab.Data
                     command.Parameters.AddWithValue("@modifiedby", empid);
 
                     command.ExecuteNonQuery();
+                }
+
+                //新增活動權限 by mailgroup
+                string[] mailgroups = eventAdminData["mailgroup"].Split(',');
+                foreach (string mailgroupstr in mailgroups)
+                {
+                    sqlStr = @"
+                        INSERT INTO [TEL_Event_Permission_MailGroup]
+                               ([eventid]
+                               ,[mailgroupName]
+                               ,[modifiedby]
+                               ,[modifieddate])
+                         VALUES
+                               (@eventid
+                               ,@mailgroup
+                               ,@modifiedby
+                               ,GETDATE())
+                    ";
+
+                    SqlCommand commandPermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
+
+                    commandPermissionMailGroup.Parameters.Clear();
+                    commandPermissionMailGroup.Parameters.AddWithValue("@eventid", eventID);
+                    commandPermissionMailGroup.Parameters.AddWithValue("@mailgroup", mailgroupstr);
+                    commandPermissionMailGroup.Parameters.AddWithValue("@modifiedby", empid);
+
+                    commandPermissionMailGroup.ExecuteNonQuery();
+                }
+
+                //新增活動權限 by mailgroupother
+                string[] mailgroupothers = eventAdminData["mailgroupother"].Split(',');
+                foreach (string mailgroupotherstr in mailgroupothers)
+                {
+                    sqlStr = @"
+                        INSERT INTO [TEL_Event_Permission_Empid]
+                               ([eventid]
+                               ,[empid]
+                               ,[modifiedby]
+                               ,[modifieddate])
+                         VALUES
+                               (@eventid
+                               ,@empid
+                               ,@modifiedby
+                               ,GETDATE())
+                    ";
+
+                    SqlCommand commandPermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
+
+                    commandPermissionEmpid.Parameters.Clear();
+                    commandPermissionEmpid.Parameters.AddWithValue("@eventid", eventID);
+                    commandPermissionEmpid.Parameters.AddWithValue("@empid", mailgroupotherstr);
+                    commandPermissionEmpid.Parameters.AddWithValue("@modifiedby", empid);
+
+                    commandPermissionEmpid.ExecuteNonQuery();
                 }
 
                 transaction.Commit();
@@ -967,6 +1045,85 @@ namespace TEL.Event.Lab.Data
                     command.Parameters.AddWithValue("@modifiedby", empid);
 
                     command.ExecuteNonQuery();
+                }
+
+                //先刪除活動權限 by mailgroup
+                sqlStr = @"
+                DELETE 
+                    TEL_Event_Permission_MailGroup 
+                WHERE 
+                    eventid = @id
+                ";
+
+                SqlCommand commandDeletePermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
+                commandDeletePermissionMailGroup.Parameters.AddWithValue("@id", eventsData["id"]);
+                commandDeletePermissionMailGroup.ExecuteNonQuery();
+
+
+                //新增活動權限 by mailgroup
+                string[] mailgroups = eventsData["mailgroup"].Split(',');
+                foreach (string mailgroupstr in mailgroups)
+                {
+                    sqlStr = @"
+                        INSERT INTO [TEL_Event_Permission_MailGroup]
+                               ([eventid]
+                               ,[mailgroupName]
+                               ,[modifiedby]
+                               ,[modifieddate])
+                         VALUES
+                               (@eventid
+                               ,@mailgroup
+                               ,@modifiedby
+                               ,GETDATE())
+                    ";
+
+                    SqlCommand commandPermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
+
+                    commandPermissionMailGroup.Parameters.Clear();
+                    commandPermissionMailGroup.Parameters.AddWithValue("@eventid", eventID);
+                    commandPermissionMailGroup.Parameters.AddWithValue("@mailgroup", mailgroupstr);
+                    commandPermissionMailGroup.Parameters.AddWithValue("@modifiedby", empid);
+
+                    commandPermissionMailGroup.ExecuteNonQuery();
+                }
+
+                //先刪除活動權限 by mailgroupother
+                sqlStr = @"
+                DELETE 
+                    TEL_Event_Permission_Empid 
+                WHERE 
+                    eventid = @id
+                ";
+
+                SqlCommand commandDeletePermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
+                commandDeletePermissionEmpid.Parameters.AddWithValue("@id", eventsData["id"]);
+                commandDeletePermissionEmpid.ExecuteNonQuery();
+
+                //新增活動權限 by mailgroupother
+                string[] mailgroupothers = eventsData["mailgroupother"].Split(',');
+                foreach (string mailgroupotherstr in mailgroupothers)
+                {
+                    sqlStr = @"
+                        INSERT INTO [TEL_Event_Permission_Empid]
+                               ([eventid]
+                               ,[empid]
+                               ,[modifiedby]
+                               ,[modifieddate])
+                         VALUES
+                               (@eventid
+                               ,@empid
+                               ,@modifiedby
+                               ,GETDATE())
+                    ";
+
+                    SqlCommand commandPermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
+
+                    commandPermissionEmpid.Parameters.Clear();
+                    commandPermissionEmpid.Parameters.AddWithValue("@eventid", eventID);
+                    commandPermissionEmpid.Parameters.AddWithValue("@empid", mailgroupotherstr);
+                    commandPermissionEmpid.Parameters.AddWithValue("@modifiedby", empid);
+
+                    commandPermissionEmpid.ExecuteNonQuery();
                 }
 
                 transaction.Commit();
@@ -1958,6 +2115,55 @@ namespace TEL.Event.Lab.Data
             catch (Exception ex)
             {
             }
+        }
+
+        /// <summary>
+        /// 取得活動權限 by MailGroup
+        /// </summary>
+        /// <param name="mailgroup"></param>
+        /// <returns></returns>
+        internal DataTable QueryEventPermissionMailGroup(string mailgroup = "")
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [eventid]
+                            ,[mailgroupName]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [TEL_Event_Permission_MailGroup] ";
+
+            if (!string.IsNullOrEmpty(mailgroup))
+            {
+                sqlStr += @" 
+                        WHERE  [mailgroupName] = @mailgroup
+                            ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(mailgroup))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@mailgroup", mailgroup);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
         }
     }
 }

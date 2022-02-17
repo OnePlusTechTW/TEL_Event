@@ -27,7 +27,7 @@ public partial class Event_Default : System.Web.UI.Page
         Event ev = new Event();
         DataTable dt = new DataTable();
 
-        dt = ev.GetUserRegisterEventList(tbEventName.Text, ddlEventCategory.SelectedValue);
+        dt = ev.GetUserRegisterEventList(Page.Session["EmpID"].ToString(), tbEventName.Text, ddlEventCategory.SelectedValue);
         CreateTable(dt); 
 
     }
@@ -37,7 +37,7 @@ public partial class Event_Default : System.Web.UI.Page
         Event ev = new Event();
         DataTable dt = new DataTable();
 
-        dt = ev.GetUserRegisterEventList(tbEventName.Text, ddlEventCategory.SelectedValue);
+        dt = ev.GetUserRegisterEventList(Page.Session["EmpID"].ToString(), tbEventName.Text, ddlEventCategory.SelectedValue);
         CreateTable(dt); //需要再PostBack再次建立表格，否則按鈕後會消失
     }
 
