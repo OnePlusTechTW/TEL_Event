@@ -514,8 +514,9 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             }
             else
             {
+                MailGroup mg = new MailGroup();
                 bool isMailGroupInvalid = true;
-                isMailGroupInvalid = systemSetup.IsMailGroupExist(name);
+                isMailGroupInvalid = mg.IsMailGroupExist(name);
                 if (!isMailGroupInvalid)
                 {
                     ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblInvalidMailGroup.Text + "');", true);
@@ -599,16 +600,29 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     /// <param name="id"></param>
     /// <returns></returns>
     [WebMethod]
-    public static string DeleteMailGroup(string id)
+    public static string DeleteMailGroup(string id, string mailgroup)
     {
-        SystemSetup systemSetup = new SystemSetup();
-        string result = systemSetup.DeleteMailGroup(id);
+        Event ev = new Event();
+        DataTable dt = new DataTable();
 
-        if (!string.IsNullOrEmpty(result))
+        dt = ev.GetEventPermissionMailGroup(mailgroup);
+
+        if (dt.Rows.Count == 0)
         {
-            //失敗
-            throw new Exception("Failed");
+            SystemSetup systemSetup = new SystemSetup();
+            string result = systemSetup.DeleteMailGroup(id);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                //失敗
+                throw new Exception("Failed");
+            }
         }
+        else
+        {
+            return "BeUsedeMailGroup";
+        }
+        
 
         return "SuccessMailGroup";
     }
@@ -727,8 +741,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
                 }
                 else
                 {
-                    //先刪除
-
                     //寫入DB
                     SystemSetup systemSetup = new SystemSetup();
                     string result = systemSetup.AddUserHealthGroup(listUserHealthGroup, Page.Session["EmpID"].ToString());

@@ -260,26 +260,9 @@ public partial class Event_Event_Create : System.Web.UI.Page
         }
         EventsData.Add("mailgroup", mailgroup);//活動成員 郵件群組
 
-        //活動成員自訂時，用工號取得mailgroup存入DB（mailgroupother）
-        //string[] CustMemEmpid = tbCustMember.Text.Split(',');
-        //string mailgroupother = string.Empty;
-        //foreach (string empid in CustMemEmpid)
-        //{
-        //    UserInfo userInfo = new UserInfo(empid);
-
-        //    if (!string.IsNullOrEmpty(mailgroupother))
-        //        mailgroupother += ",";
-
-        //    mailgroupother += userInfo.Address;
-        //}
-        //EventsData.Add("mailgroupother", mailgroupother);//活動成員 郵件群組自填
-
         EventsData.Add("mailgroupother", tbCustMember.Text);//活動成員 郵件群組自填
 
-
         EventsData.Add("description", Microsoft.Security.Application.Encoder.HtmlEncode(txtEditor.Text));//活動內容
-
-
 
         //圖檔上傳檔名用guid，並用該guid存入DB
         //縮圖
