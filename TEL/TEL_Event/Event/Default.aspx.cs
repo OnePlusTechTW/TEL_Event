@@ -48,8 +48,7 @@ public partial class Event_Default : System.Web.UI.Page
             return;
 
         string id = btnEventDescriptionView.CommandArgument;//可以自訂義參數
-        this.UC_EventDescription.setViewDefault(id);
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogEventView();", true);
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('" + id + "');", true);
     }
 
     protected void Register_Click(object sender, EventArgs e)

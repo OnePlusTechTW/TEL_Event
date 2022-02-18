@@ -15,6 +15,9 @@ public partial class Event_Event_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
+            Response.Redirect("Event.aspx");
+
         if (!IsPostBack)
         {
             CheckEventThumbnailPathExist();
@@ -26,13 +29,16 @@ public partial class Event_Event_Edit : System.Web.UI.Page
             {
                 MaintainPageLoadData(id);
             }
-            else
-            {
-                //沒有id的頁面，都回到導頁的原始頁
-            }
         }
+    }
 
-
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        //登入檢查
+        //若為一般使用者則導到Denied頁面
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        if (gm.IsManager(Page.Session["EmpID"].ToString()) < 1)
+            Response.Redirect("Denied.aspx");
     }
 
     protected void ddlSignupTemplate_SelectedIndexChanged(object sender, EventArgs e)

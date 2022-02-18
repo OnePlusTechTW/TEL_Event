@@ -232,5 +232,6 @@
     <asp:Label ID="lblEnd" runat="server" Text="已結束" Visible="false"></asp:Label>
     <asp:Label ID="lblEnableYes" runat="server" Text="是" Visible="false"></asp:Label>
     <asp:Label ID="lblEnableNo" runat="server" Text="否" Visible="false"></asp:Label>
+    <asp:HiddenField ID="hfIsManager" runat="server" />
 </asp:Content>
 

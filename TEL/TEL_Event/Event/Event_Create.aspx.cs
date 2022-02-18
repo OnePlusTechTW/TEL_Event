@@ -23,7 +23,14 @@ public partial class Event_Event_Create : System.Web.UI.Page
         }
     }
 
-
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        //登入檢查
+        //若不為系統管理常態活動、系統管理者者則導到Denied頁面
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        if (gm.IsManager(Page.Session["EmpID"].ToString()) < 2)
+            Response.Redirect("Denied.aspx");
+    }
 
     protected void ddlSignupTemplate_SelectedIndexChanged(object sender, EventArgs e)
     {

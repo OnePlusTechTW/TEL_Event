@@ -88,7 +88,6 @@ public partial class Event_PastEvent : System.Web.UI.Page
         Button btn = (Button)sender;
         string id = btn.CommandArgument.ToString();
 
-        this.UC_EventDescription.setViewDefault(id);
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView();", true);
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('" + id + "');", true);
     }
 }

@@ -54,11 +54,11 @@ namespace TEL.Event.Lab.Method
         }
 
 
-        public DataTable GetEventInfo(string eventid = "", string eventname = "", string eventcateid = "", string eventSdate = "", string eventEdate = "", string status = "", string enabled = "")
+        public DataTable GetEventInfo(string eventid = "", string eventname = "", string eventcateid = "", string eventSdate = "", string eventEdate = "", string status = "", string enabled = "", int isManager = 0, string empid = "")
         {
             EventData ev = new EventData();
 
-            return ev.QueryEventInfo(eventid, eventname, eventcateid, eventSdate, eventEdate, status, enabled);
+            return ev.QueryEventInfo(eventid, eventname, eventcateid, eventSdate, eventEdate, status, enabled, isManager, empid);
         }
 
         /// <summary>

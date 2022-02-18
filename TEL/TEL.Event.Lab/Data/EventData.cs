@@ -175,7 +175,7 @@ namespace TEL.Event.Lab.Data
         }
 
         //取得活動資訊
-        public DataTable QueryEventInfo(string eventid = "", string eventname = "", string eventcateid = "", string eventSdate = "", string eventEdate="", string status = "", string enabled = "")
+        public DataTable QueryEventInfo(string eventid = "", string eventname = "", string eventcateid = "", string eventSdate = "", string eventEdate="", string status = "", string enabled = "", int isManager = 0, string empid = "")
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
@@ -205,9 +205,22 @@ namespace TEL.Event.Lab.Data
                             a.surveymodel,
                             a.surveystartdate
                           FROM TEL_Event_Events a
-                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id
-                         WHERE 
+                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id ";
+
+            if (isManager == 1)
+            {
+                sqlString += @"
+                          INNER JOIN TEL_Event_EventAdmin c ON a.id = c.eventid  ";
+            }
+
+            sqlString += @"
+                          WHERE 
                                a.id = a.id ";
+
+            if (isManager == 1)
+            {
+                sqlString += @" AND c.empid = @empid ";
+            }
 
             if (!string.IsNullOrEmpty(eventid))
             {
@@ -272,6 +285,11 @@ namespace TEL.Event.Lab.Data
                 DataSet DS = new DataSet();
 
                 wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (isManager == 1)
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
+                }
 
                 if (!string.IsNullOrEmpty(eventid))
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
