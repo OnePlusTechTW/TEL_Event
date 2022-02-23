@@ -35,40 +35,6 @@ public partial class Event_Event : System.Web.UI.Page
         }
     }
 
-    private void SetEventsGrid()
-    {
-        Event ev = new Event();
-        int isManager = Convert.ToInt16(hfIsManager.Value);
-        DataTable dt = ev.GetEventInfo(string.Empty, tbEventName.Text, ddlEventCategory.SelectedValue, sDate.Text, eDate.Text, ddlEventStatus.SelectedValue, string.Empty, isManager, Page.Session["EmpID"].ToString());
-
-        this.gridEvents.DataSource = dt;
-        this.gridEvents.DataBind();
-    }
-
-    // 取得活動分類選項
-    protected void GeneratedCategoryItem()
-    {
-        this.ddlEventCategory.Items.Clear();
-
-        ListItem li = new ListItem();
-        li.Text = item_all.Text;
-        li.Value = "";
-
-        this.ddlEventCategory.Items.Add(li);
-
-        SystemInfo si = new SystemInfo();
-        DataTable dt = si.GetEventCategory("All");
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["name"].ToString();
-            li1.Value = rs["id"].ToString();
-
-            this.ddlEventCategory.Items.Add(li1);
-        }
-    }
-
     protected void btnSearch_Click(object sender, EventArgs e)
     {
         Event ev = new Event();
@@ -82,6 +48,58 @@ public partial class Event_Event : System.Web.UI.Page
     protected void tbAddEvent_Click(object sender, EventArgs e)
     {
         Response.Redirect("Event_Create.aspx");
+    }
+
+    protected void btnMaintain_Click(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+        string id = btn.CommandArgument.ToString();
+
+        Response.Redirect($"Event_Edit.aspx?id={id}");
+    }
+
+    protected void btnView_Click(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+        string id = btn.CommandArgument.ToString();
+
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('" + id + "');", true);
+    }
+
+    protected void btnRegisterManage_Click(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+        string eventid = btn.CommandArgument.ToString();
+        Response.Redirect($"Register.aspx?id={eventid}");
+    }
+
+    protected void btnRegisterExport_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void btnSurveyManage_Click(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+        string eventid = btn.CommandArgument.ToString();
+        Response.Redirect($"Survey.aspx?id={eventid}");
+    }
+
+    protected void btnSurveyExport_Click(object sender, EventArgs e)
+    {
+        Button btn = (Button)sender;
+        string eventid = btn.CommandArgument.ToString();
+        EventInfo ev = new EventInfo(eventid);
+        ExportExcel ep = new ExportExcel();
+
+        if (ev.EventSurveyModel == "1")
+            ep.ExportSurveyModel1(eventid);
+        else if (ev.EventSurveyModel == "2")
+            ep.ExportSurveyModel2(eventid);
+        else if (ev.EventSurveyModel == "3")
+            ep.ExportSurveyModel3(eventid);
+        else if (ev.EventSurveyModel == "4")
+            ep.ExportSurveyModel4(eventid);
     }
 
     protected void gridEvent_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -170,21 +188,6 @@ public partial class Event_Event : System.Web.UI.Page
         SetEventsGrid();
     }
 
-    protected void btnMaintain_Click(object sender, EventArgs e)
-    {
-        Button btn = (Button)sender;
-        string id = btn.CommandArgument.ToString();
-
-        Response.Redirect($"Event_Edit.aspx?id={id}");
-    }
-
-    protected void btnView_Click(object sender, EventArgs e)
-    {
-        Button btn = (Button)sender;
-        string id = btn.CommandArgument.ToString();
-
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('" + id + "');", true);
-    }
 
     protected void btnSurveyPublish_Click(object sender, EventArgs e)
     {
@@ -235,7 +238,39 @@ public partial class Event_Event : System.Web.UI.Page
             lblMsg.Text = lblNoRegister.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
         }
-        
+    }
 
+    private void SetEventsGrid()
+    {
+        Event ev = new Event();
+        int isManager = Convert.ToInt16(hfIsManager.Value);
+        DataTable dt = ev.GetEventInfo(string.Empty, tbEventName.Text, ddlEventCategory.SelectedValue, sDate.Text, eDate.Text, ddlEventStatus.SelectedValue, string.Empty, isManager, Page.Session["EmpID"].ToString());
+
+        this.gridEvents.DataSource = dt;
+        this.gridEvents.DataBind();
+    }
+
+    // 取得活動分類選項
+    protected void GeneratedCategoryItem()
+    {
+        this.ddlEventCategory.Items.Clear();
+
+        ListItem li = new ListItem();
+        li.Text = item_all.Text;
+        li.Value = "";
+
+        this.ddlEventCategory.Items.Add(li);
+
+        SystemInfo si = new SystemInfo();
+        DataTable dt = si.GetEventCategory("All");
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["name"].ToString();
+            li1.Value = rs["id"].ToString();
+
+            this.ddlEventCategory.Items.Add(li1);
+        }
     }
 }

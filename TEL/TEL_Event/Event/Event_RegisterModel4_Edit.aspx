@@ -149,7 +149,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
-    <table style="width: 100%; " >
+    <table >
         <tr>
             <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
