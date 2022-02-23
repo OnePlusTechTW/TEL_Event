@@ -36,11 +36,11 @@ namespace TEL.Event.Lab.Method
         /// <param name="enabled"></param>
         /// <param name="empid"></param>
         /// <returns></returns>
-        public string SaveEventCategory(string id, string color, string enabled, string empid)
+        public string SaveEventCategory(string id, string name, string color, string enabled, string empid)
         {
             SystemSetupData systemSetupData = new SystemSetupData();
 
-            string result = systemSetupData.UpdateEventCategory(id, color, enabled, empid);
+            string result = systemSetupData.UpdateEventCategory(id, name, color, enabled, empid);
 
             return result;
         }

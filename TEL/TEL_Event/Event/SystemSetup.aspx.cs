@@ -132,7 +132,7 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             DataTable dt = systemSetup.GetEventCategory(name);
             if (dt.Rows.Count > 0)
             {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblCategoryName.Text} {lblExist.Text}" + "');", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblEventCategory.Text} {lblExist.Text}" + "');", true);
             }
             else
             {
@@ -163,24 +163,34 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     {
         Button btn = (Button)sender;
         GridViewRow row = (GridViewRow)btn.NamingContainer;
+        TextBox txtCategoryName = (TextBox)row.FindControl("txtCategoryName");
         DropDownList gridDdlCategoryColor = (DropDownList)row.FindControl("gridDdlCategoryColor");
         DropDownList gridDdlIsEnableCategory = (DropDownList)row.FindControl("gridDdlIsEnableCategory");
 
         string id = btn.CommandArgument.ToString();
+        string name = txtCategoryName.Text;
         string color = gridDdlCategoryColor.SelectedValue;
         string enabled = gridDdlIsEnableCategory.SelectedValue;
 
         SystemSetup systemSetup = new SystemSetup();
-        string result = systemSetup.SaveEventCategory(id, color, enabled, Page.Session["EmpID"].ToString());
-        if (string.IsNullOrEmpty(result))
+        DataTable dt = systemSetup.GetEventCategory(name);
+        if (dt.Rows.Count > 0)
         {
-            //成功
-            GetGridEventCategory();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblEventCategory.Text} {lblExist.Text}" + "');", true);
         }
         else
         {
-            //失敗
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+            string result = systemSetup.SaveEventCategory(id, name, color, enabled, Page.Session["EmpID"].ToString());
+            if (string.IsNullOrEmpty(result))
+            {
+                //成功
+                GetGridEventCategory();
+            }
+            else
+            {
+                //失敗
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+            }
         }
     }
 
@@ -265,6 +275,8 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             }
 
             DataRowView dv = (DataRowView)e.Row.DataItem;
+            TextBox txtCategoryName = (TextBox)e.Row.FindControl("txtCategoryName");
+            txtCategoryName.Text = dv["name"].ToString(); ;
 
             //分類顏色
             DropDownList gridDdlCategoryColor = (DropDownList)e.Row.FindControl("gridDdlCategoryColor");
