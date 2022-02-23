@@ -619,7 +619,7 @@
             <asp:Label ID="lblCheckup1" runat="server" CssClass="NormalBoldNoColor" Text="員工健檢報名組別"></asp:Label>
         </div>
     </div>
-    <div id="categoryContent" style="display: none;">
+    <div id="categoryContent" >
         <table>
             <tr>
                 <td>
@@ -639,7 +639,7 @@
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlCategoryColor" runat="server" Width="100px" CssClass="QueryField" onchange="ddlCategoryColorOnChange(this);">
-                        <asp:ListItem Selected="True" Text="" Value="" style="display: none;"></asp:ListItem>
+                        <asp:ListItem Selected="True" Text="- 未指定 -" Value="" style="display: none;"></asp:ListItem>
 
                         <asp:ListItem Text="" Value="#00A9E0" style="background-color: #00A9E0"></asp:ListItem>
                         <asp:ListItem Text="" Value="#71C5E8" style="background-color: #71C5E8"></asp:ListItem>
@@ -687,10 +687,13 @@
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
                         PageSize="20" OnRowDataBound="gridEventCategory_RowDataBound" OnPageIndexChanging="gridEventCategory_PageIndexChanging">
                         <Columns>
-                            <asp:BoundField HeaderText="活動分類" DataField="name">
+                            <asp:TemplateField HeaderText="分類名稱">
                                 <HeaderStyle Width="250px"></HeaderStyle>
-                            </asp:BoundField>
-                            <asp:TemplateField HeaderText="活動顏色">
+                                <ItemTemplate>
+                                    <asp:TextBox ID="txtCategoryName" runat="server" Width="250px"  CssClass="QueryField"></asp:TextBox>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="分類顏色">
                                 <HeaderStyle Width="100px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:DropDownList ID="gridDdlCategoryColor" runat="server" Width="100px" CssClass="QueryField" AutoPostBack="true" OnSelectedIndexChanged="gridDdlCategoryColor_SelectedIndexChanged">
@@ -987,7 +990,7 @@
     <asp:Button ID="btnReloadCategoryGrid" runat="server" Text="Button" OnClick="btnReloadCategoryGrid_Click" style="display:none;" />
     <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" style="display:none;" />
     <asp:Button ID="btnReloadMailGroupGrid" runat="server" Text="Button" OnClick="btnReloadMailGroupGrid_Click" style="display:none;" />
-
+    <asp:Label ID="lblEventCategory" runat="server" Text="活動分類" Visible="false"></asp:Label>
     <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblDuplicate" runat="server" Text="以下員工報名健檢組別重複：" Visible="false"></asp:Label>
     <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="false"></asp:Label>

@@ -524,6 +524,8 @@ namespace TEL.Event.Lab.Data
             return result.Rows[0]["count"].ToString();
         }
 
+        
+
         /// <summary>
         /// 取得活動報名 by empid
         /// </summary>
@@ -1435,7 +1437,7 @@ namespace TEL.Event.Lab.Data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        internal int QueryRegisterOption1Limit(string id)
+        internal int QueryRegisterOption1Limit(string eventid, string description)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -1445,15 +1447,12 @@ namespace TEL.Event.Lab.Data
                             [limit]
                         FROM 
                             [TEL_Event_RegisterOption1]
-                        WHERE  [id] = @id";
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            [description] = @description
+                        ";
 
-            if (!string.IsNullOrEmpty(id))
-            {
-                sqlStr += @" 
-                        
-                            ";
-            }
-            
 
             DataTable result = null;
 
@@ -1466,7 +1465,9 @@ namespace TEL.Event.Lab.Data
 
                 wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
 
-                wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@description", description);
+
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];
@@ -3554,6 +3555,39 @@ namespace TEL.Event.Lab.Data
             }
 
             return result;
+        }
+
+        internal int QueryRegisterOption4Limit(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [limit]
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE  [id] = @id";
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return Convert.ToInt16(result.Rows[0]["limit"]);
         }
 
         /// <summary>

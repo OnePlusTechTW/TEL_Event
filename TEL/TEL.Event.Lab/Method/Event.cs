@@ -130,17 +130,15 @@ namespace TEL.Event.Lab.Method
             return dt;
         }
 
-        
-
         /// <summary>
         /// 查詢報名表選項（欲參加內容）限制人數
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public int GetRegisterOption1Limit(string id)
+        public int GetRegisterOption1Limit(string eventid, string description)
         {
             EventData ev = new EventData();
-            return ev.QueryRegisterOption1Limit(id);
+            return ev.QueryRegisterOption1Limit(eventid, description);
         }
 
         /// <summary>
@@ -566,6 +564,12 @@ namespace TEL.Event.Lab.Method
             DataTable dt = new DataTable();
             dt = ev.QueryHealthAddressOption(eventid);
             return dt;
+        }
+
+        public int GetRegisterOption4Limit(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption4Limit(eventid, hosipital, area, solution, gender, expectdate);
         }
 
         public string AddRegisterModel3(Dictionary<string, string> data, string modifiedby)

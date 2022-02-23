@@ -94,7 +94,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="enabled"></param>
         /// <param name="empid"></param>
         /// <returns></returns>
-        internal string UpdateEventCategory(string id, string color, string enabled, string empid)
+        internal string UpdateEventCategory(string id, string name, string color, string enabled, string empid)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -106,6 +106,7 @@ namespace TEL.Event.Lab.Data
                             TEL_Event_Category
                         SET
                             color = @color,
+                            [name] = @name
                             enabled = @enabled,
                             modifiedby = @modifiedby,
                             modifieddate = GETDATE()
@@ -120,6 +121,9 @@ namespace TEL.Event.Lab.Data
                 command.Parameters.Clear();
 
                 command.Parameters.AddWithValue("@id", id);
+
+                command.Parameters.AddWithValue("@name", name);
+
 
                 if (!string.IsNullOrEmpty(color))
                     command.Parameters.AddWithValue("@color", color);
