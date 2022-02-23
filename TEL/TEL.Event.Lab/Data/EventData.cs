@@ -217,9 +217,16 @@ namespace TEL.Event.Lab.Data
                           WHERE 
                                a.id = a.id ";
 
+
+
             if (isManager == 1)
             {
                 sqlString += @" AND c.empid = @empid ";
+            }
+
+            if (isManager == 2)
+            {
+                sqlString += @" AND a.[initby] = @empid ";
             }
 
             if (!string.IsNullOrEmpty(eventid))
@@ -287,6 +294,11 @@ namespace TEL.Event.Lab.Data
                 wrDad.SelectCommand = new SqlCommand(sqlString, connection);
 
                 if (isManager == 1)
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
+                }
+
+                if (isManager == 2)
                 {
                     wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
                 }
@@ -777,6 +789,8 @@ namespace TEL.Event.Lab.Data
                        ,[duplicated]
                        ,[registermodel]
                        ,[surveymodel]
+                       ,[initby]
+                       ,[initdate]
                        ,[modifiedby]
                        ,[modifieddate])
                  VALUES
@@ -800,6 +814,8 @@ namespace TEL.Event.Lab.Data
                        ,@duplicated
                        ,@registermodel
                        ,@surveymodel
+                       ,@initby
+                       ,GETDATE()
                        ,@modifiedby
                        ,GETDATE())
                 ";
@@ -872,6 +888,8 @@ namespace TEL.Event.Lab.Data
                     commandEvents.Parameters.AddWithValue("@surveymodel", eventsData["surveymodel"]);
 
                 commandEvents.Parameters.AddWithValue("@modifiedby", empid);
+                commandEvents.Parameters.AddWithValue("@initby", empid);
+
 
                 commandEvents.ExecuteNonQuery();
 

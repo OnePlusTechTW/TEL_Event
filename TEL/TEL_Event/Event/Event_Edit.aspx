@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Edit.aspx.cs" Inherits="Event_Event_Edit" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Edit.aspx.cs" Inherits="Event_Event_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <script>
