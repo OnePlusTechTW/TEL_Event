@@ -172,8 +172,31 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         string color = gridDdlCategoryColor.SelectedValue;
         string enabled = gridDdlIsEnableCategory.SelectedValue;
 
+        StringBuilder sb = new StringBuilder();
+
+        //分類名稱必填
+        if (string.IsNullOrEmpty(name))
+        {
+            sb.Append(string.Format(lblRequired.Text, lblCategoryName.Text));
+            sb.Append("<br />");
+        }
+        //分類顏色必填
+        if (string.IsNullOrEmpty(color))
+        {
+            sb.Append(string.Format(lblRequired.Text, lblCategoryColor.Text));
+            sb.Append("<br />");
+        }
+
+        if (!string.IsNullOrEmpty(sb.ToString()))
+        {
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
+
+            return;
+        }
+
         SystemSetup systemSetup = new SystemSetup();
-        DataTable dt = systemSetup.GetEventCategory(name);
+        DataTable dt = systemSetup.GetEventCategoryWithoutSelf(name, id);
         if (dt.Rows.Count > 0)
         {
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + $"{lblEventCategory.Text} {lblExist.Text}" + "');", true);

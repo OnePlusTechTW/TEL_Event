@@ -69,7 +69,17 @@ namespace TEL.Event.Lab.Method
             return systemSetupData.QueryEventCategory(name);
         }
 
-        
+        /// <summary>
+        /// 耶得活動類別
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetEventCategoryWithoutSelf(string name, string id)
+        {
+            SystemSetupData systemSetupData = new SystemSetupData();
+            return systemSetupData.QueryEventCategoryWithoutSelf(name, id);
+        }
+
+
         #endregion
 
         #region 常態活動管理者

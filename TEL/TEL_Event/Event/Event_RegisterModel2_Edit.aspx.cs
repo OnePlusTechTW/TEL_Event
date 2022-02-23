@@ -165,7 +165,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
 
         //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
-        int option1Limit = ev.GetRegisterOption1Limit(ddlAttendContent.SelectedValue);
+        int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
         int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue);
 
         if (registerCount >= option1Limit)
