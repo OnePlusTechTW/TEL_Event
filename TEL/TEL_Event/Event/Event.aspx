@@ -28,7 +28,7 @@
         function ShowDialogView(id) {
             $(function () {
                 $("#dialogView").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -48,7 +48,7 @@
         function ShowDialogMsg() {
             $(function () {
                 $("#dialogMsg").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "700px",
                     Height: "500px",
@@ -220,12 +220,13 @@
     </div>
 
     <div id="dialogMsg" title="Dialog Title">
-        <asp:Panel ID="Panel1" runat="server" Style="display: none">
+        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
 
     <asp:Label ID="lblSurveyFailed" runat="server" Text="問券發送失敗。" Visible="false"></asp:Label>
+    <asp:Label ID="lblNoRegister" runat="server" Text="尚無人員報名。" Visible="false"></asp:Label>
     <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
     <asp:Label ID="lblNYStart" runat="server" Text="尚未開始" Visible="false"></asp:Label>
     <asp:Label ID="lblInProgress" runat="server" Text="進行中" Visible="false"></asp:Label>
@@ -233,5 +234,6 @@
     <asp:Label ID="lblEnableYes" runat="server" Text="是" Visible="false"></asp:Label>
     <asp:Label ID="lblEnableNo" runat="server" Text="否" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfIsManager" runat="server" />
+    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
 </asp:Content>
 

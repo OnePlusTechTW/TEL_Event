@@ -26,7 +26,7 @@
         function ShowDialogView(id) {
             $(function () {
                 $("#dialogView").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -131,6 +131,7 @@
         
     </div>
 
+    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
 </asp:Content>
 

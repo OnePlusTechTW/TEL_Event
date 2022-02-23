@@ -39,7 +39,7 @@ namespace TEL.Event.Lab.Method
             dtUserMailGroup = mg.GetUserMailGroup(empid);
             return ev.QueryUserRegisterEventList(dtUserMailGroup, empid, eventname, eventcateid);
         }
-
+        
         public string CreateEvent(Dictionary<string, string> eventsData, Dictionary<string, string> eventAdminData, string empid)
         {
             EventData ev = new EventData();
@@ -88,6 +88,10 @@ namespace TEL.Event.Lab.Method
             return ev.QueryEventAdmin(eventid);
         }
 
+        
+
+
+
         /// <summary>
         /// 新增報名表選項（欲參加的內容）
         /// </summary>
@@ -124,6 +128,19 @@ namespace TEL.Event.Lab.Method
             DataTable dt = new DataTable();
             dt = ev.QueryRegisterOption1(eventid);
             return dt;
+        }
+
+        
+
+        /// <summary>
+        /// 查詢報名表選項（欲參加內容）限制人數
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int GetRegisterOption1Limit(string id)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption1Limit(id);
         }
 
         /// <summary>
@@ -164,7 +181,7 @@ namespace TEL.Event.Lab.Method
             dt = ev.QueryRegisterOption2(eventid);
             return dt;
         }
-
+        
         /// <summary>
         /// 新增報名表選項（餐點內容列表）
         /// </summary>
@@ -190,7 +207,7 @@ namespace TEL.Event.Lab.Method
 
             return ev.DeleteRegisterOption3(id);
         }
-
+        
         /// <summary>
         /// 取得餐點內容列表
         /// </summary>
@@ -231,7 +248,7 @@ namespace TEL.Event.Lab.Method
 
             return ev.InsertRegisterOption6(eventid, list, modifiedby);
         }
-
+        
         /// <summary>
         /// 新增健檢包寄送地點
         /// </summary>
@@ -245,7 +262,7 @@ namespace TEL.Event.Lab.Method
 
             return ev.InsertRegisterOption5(eventid, sendArea, modifiedby);
         }
-
+        
         /// <summary>
         /// 刪除健檢包寄送地點
         /// </summary>
@@ -257,7 +274,7 @@ namespace TEL.Event.Lab.Method
 
             return ev.DeleteRegisterOption5(id);
         }
-
+        
         /// <summary>
         /// 查詢健檢包寄送地點
         /// </summary>
@@ -270,7 +287,7 @@ namespace TEL.Event.Lab.Method
             dt = ev.QueryRegisterOption5(eventid);
             return dt;
         }
-
+        
         /// <summary>
         /// 查詢健檢方案
         /// </summary>
@@ -327,6 +344,19 @@ namespace TEL.Event.Lab.Method
         }
 
         /// <summary>
+        /// 取得活動報名人數 by empid
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="registermodel"></param>
+        /// <param name="empid"></param>
+        /// <returns></returns>
+        public DataTable GetUserEvnetRegister(string eventid, string registermodel, string empid)
+        {
+            EventData ev = new EventData();
+            return ev.GetUserEvnetRegister(eventid, registermodel, empid);
+        }
+
+        /// <summary>
         /// 取得活動權限 by MailGroup
         /// </summary>
         /// <param name="mailgroup"></param>
@@ -336,6 +366,442 @@ namespace TEL.Event.Lab.Method
             EventData ev = new EventData();
             return ev.QueryEventPermissionMailGroup(mailgroup);
         }
+
+        #region RegisterModel1
+
+        //取得活動選項報名人數
+        public int GetEvnetRegisterOption1RegisterCount(string eventid, string optionid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryEvnetRegisterOption1RegisterCount(eventid, optionid);
+        }
+
+        /// <summary>
+        /// 新增 模板1報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="modifiedby"></param>
+        public string AddRegisterModel1(Dictionary<string, string> eventsData, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.InsertRegisterModel1(eventsData, modifiedby);
+        }
+
+        // <summary>
+        /// 更新 模板1報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string UpdateRegisterModel1(Dictionary<string, string> eventsData, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.UpdateRegisterModel1(eventsData, modifiedby);
+        }
+
+        /// <summary>
+        /// 刪除 模板1報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string DeleteRegisterModel1(string id)
+        {
+            EventData ev = new EventData();
+
+            return ev.DeleteRegisterModel1(id);
+        }
+
+        /// <summary>
+        /// 取得 模板1報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel1(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel1(id);
+            return dt;
+        }
+        #endregion
+
+        #region RegisterModel2
+        /// <summary>
+        /// 新增 模板2報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string AddRegisterModel2(Dictionary<string, string> eventsData, DataTable dataTable, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.InsertRegisterModel2(eventsData, dataTable, modifiedby);
+        }
+
+        /// <summary>
+        /// 更新 模板2報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string UpdateRegisterModel2(Dictionary<string, string> eventsData, DataTable dataTable, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.UpdateRegisterModel2(eventsData, dataTable, modifiedby);
+        }
+
+        /// <summary>
+        /// 刪除 模板2報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string DeleteRegisterModel2(string id)
+        {
+            EventData ev = new EventData();
+            return ev.DeleteRegisterModel2(id);
+        }
+
+        /// <summary>
+        /// 查詢 模板2報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel2(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel2(id);
+            return dt;
+        }
+
+        //<summary>
+        /// 查詢 模板2報名資料family
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel2family(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel2family(id);
+            return dt;
+        }
+        #endregion
+
+        #region RegisterModel3
+        public DataTable GetHosipitalOption(string eventid)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryHosipitalOption(eventid);
+            return dt;
+        }
+
+        public DataTable GetAreaOption(string eventid, string hosipital)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryAreaOption(eventid, hosipital);
+            return dt;
+        }
+
+        public DataTable GetSolutionOption(string eventid, string hosipital, string area)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QuerySolutionOption(eventid, hosipital, area);
+            return dt;
+        }
+        public DataTable GetGenderOption(string eventid, string hosipital, string area, string solution)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryGenderOption(eventid, hosipital, area, solution);
+            return dt;
+        }
+
+        public DataTable GetExpectdateOption(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryExpectdateOption(eventid, hosipital, area, solution, gender);
+            return dt;
+        }
+
+        public DataTable GetSecondoption1Option(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QuerySecondoption1Option(eventid, hosipital, area, solution, gender);
+            return dt;
+        }
+
+        public DataTable GetSecondoption2Option(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QuerySecondoption2Option(eventid, hosipital, area, solution, gender);
+            return dt;
+        }
+
+        public DataTable GetSecondoption3Option(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QuerySecondoption3Option(eventid, hosipital, area, solution, gender);
+            return dt;
+        }
+
+        public DataTable GetHealthAddressOption(string eventid)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryHealthAddressOption(eventid);
+            return dt;
+        }
+
+        public string AddRegisterModel3(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.InsertRegisterModel3(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 更新 模板3報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string UpdateRegisterModel3(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.UpdateRegisterModel3(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 刪除 模板3報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string DeleteRegisterModel3(string id)
+        {
+            EventData ev = new EventData();
+
+            return ev.DeleteRegisterModel3(id);
+        }
+
+        /// <summary>
+        /// 查詢 模板3報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel3(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel3(id);
+            return dt;
+        }
+        #endregion
+
+        #region RegisterModel4
+        /// <summary>
+        /// 新增 模板4報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string AddRegisterModel4(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.InsertRegisterModel4(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 更新 模板4報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string UpdateRegisterModel4(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.UpdateRegisterModel4(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 刪除 模板4報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string DeleteRegisterModel4(string id)
+        {
+            EventData ev = new EventData();
+
+            return ev.DeleteRegisterModel4(id);
+        }
+
+        /// <summary>
+        /// 查詢 模板4報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel4(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel4(id);
+            return dt;
+        }
+        #endregion
+
+        #region RegisterModel5
+        /// <summary>
+        /// 新增 模板5報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string AddRegisterModel5(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.InsertRegisterModel5(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 更新 模板5報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string UpdateRegisterModel5(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.UpdateRegisterModel5(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 刪除 模板5報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string DeleteRegisterModel5(string id)
+        {
+            EventData ev = new EventData();
+
+            return ev.DeleteRegisterModel5(id);
+        }
+
+        /// <summary>
+        /// 查詢 模板5報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel5(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel5(id);
+            return dt;
+        }
+        #endregion
+
+        #region RegisterModel6
+
+        /// <summary>
+        /// 查詢地點選項
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <returns></returns>
+        public DataTable GetAreaOption6(string eventid)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryAreaOption6(eventid);
+            return dt;
+        }
+
+        /// <summary>
+        /// 查詢日期選項
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <returns></returns>
+        public DataTable GetAvaliableDatOption(string eventid, string area)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryAvaliableDatOption(eventid, area);
+            return dt;
+        }
+
+        /// <summary>
+        /// 新增 模板6報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string AddRegisterModel6(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.InsertRegisterModel6(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 更新 模板6報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        public string UpdateRegisterModel6(Dictionary<string, string> data, string modifiedby)
+        {
+            EventData ev = new EventData();
+
+            return ev.UpdateRegisterModel6(data, modifiedby);
+        }
+
+        /// <summary>
+        /// 刪除 模板6報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string DeleteRegisterModel6(string id)
+        {
+            EventData ev = new EventData();
+
+            return ev.DeleteRegisterModel6(id);
+        }
+
+        /// <summary>
+        /// 查詢 模板6報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterModel6(string id)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterModel6(id);
+            return dt;
+        }
+        #endregion
+
     }
 
     public class ImportModel

@@ -194,31 +194,48 @@ public partial class Event_Event : System.Web.UI.Page
         string registermodel = btn.CommandArgument.ToString().Split(',')[2];
         string surveymodel = btn.CommandArgument.ToString().Split(',')[3];
 
-        string subject = $"【通知】滿意度問卷填寫通知_{eventName}";
+        Event ev = new Event();
+        string strSender = "FiestaSystem@tel.com";
+        string strSubject = $"【通知】滿意度問卷填寫通知_{eventName}";
+        string strDisplay = "Fiesta System";
+        StringBuilder sbBody = new StringBuilder();
+        DataTable dtRecipient = new DataTable();
 
-        StringBuilder sb = new StringBuilder();
         string surveyLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/Event_SurveyModel{surveymodel}_Create.aspx?id={eventID}");
         string registerLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/Default.aspx");
-        sb.Append("<div>");
-        sb.Append("<div>您好:</div>");
-        sb.Append("<div><br></div>");
-        sb.Append($"<div>此封信件為通知您參與了『<a href='{surveyLink}'>{eventName}（超連結）</a>』，請點選連結進行滿意度問卷填寫。</div>");
-        sb.Append("<div><br></div>");
-        sb.Append($"<div>相關報名資訊，可以至網站『<a href='{registerLink}'>我的活動（超連結）</a>』頁面中查看！</div>");
-        sb.Append("<div>如果有任何問題請聯絡活動單位負責人，謝謝。</div>");
-        sb.Append("<div><br></div>");
-        sb.Append("<div><span style='color: #595959;'>※此信件為系統發送通知使用，請勿直接回覆。</span></div>");
-        sb.Append("</div>");
+        sbBody.Append("<div>");
+        sbBody.Append("<div>您好:</div>");
+        sbBody.Append("<div><br></div>");
+        sbBody.Append($"<div>此封信件為通知您參與了『<a href='{surveyLink}'>{eventName}（超連結）</a>』，請點選連結進行滿意度問卷填寫。</div>");
+        sbBody.Append("<div><br></div>");
+        sbBody.Append($"<div>相關報名資訊，可以至網站『<a href='{registerLink}'>我的活動（超連結）</a>』頁面中查看！</div>");
+        sbBody.Append("<div>如果有任何問題請聯絡活動單位負責人，謝謝。</div>");
+        sbBody.Append("<div><br></div>");
+        sbBody.Append("<div><span style='color: #595959;'>※此信件為系統發送通知使用，請勿直接回覆。</span></div>");
+        sbBody.Append("</div>");
 
-        if (SenMail.Send(subject, sb.ToString(), "happiness26_26@hotmail.com"))
+        dtRecipient = ev.GetRegisteredEventInfo(eventID);
+
+
+
+        if (dtRecipient.Rows.Count > 0)
         {
-            Event ev = new Event();
-            ev.UpdateEventSurveyStartDate(eventID);
+            if (SenMail.SendMail(strSender, dtRecipient, strSubject, sbBody.ToString(), strDisplay))
+            {
+                ev.UpdateEventSurveyStartDate(eventID);
+            }
+            else
+            {
+                lblMsg.Text = lblSurveyFailed.Text;
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+            }
         }
         else
         {
-            lblMsg.Text = lblSurveyFailed.Text;
+            lblMsg.Text = lblNoRegister.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
         }
+        
 
     }
 }

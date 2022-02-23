@@ -393,6 +393,8 @@ namespace TEL.Event.Lab.Data
             return "";
         }
 
+        
+
         /// <summary>
         /// 查詢已報名活動資訊
         /// </summary>
@@ -424,7 +426,9 @@ namespace TEL.Event.Lab.Data
                             isnull(a.duplicated, '' ) as duplicated,
                             a.registermodel,
                             a.surveymodel,
-                            a.surveystartdate
+                            a.surveystartdate,
+                            b.id as registerid,
+							b.empid
                           FROM TEL_Event_Events a
                           INNER JOIN 
                           (SELECT id,eventid,empid FROM TEL_Event_RegisterModel1
@@ -467,8 +471,7 @@ namespace TEL.Event.Lab.Data
 
             return result;
         }
-
-
+        
         //取得活動報名人數
         public String QueryEvnetRegisterCount(string eventid, string registermodel)
         {
@@ -519,6 +522,83 @@ namespace TEL.Event.Lab.Data
             }
 
             return result.Rows[0]["count"].ToString();
+        }
+
+        /// <summary>
+        /// 取得活動報名 by empid
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="registermodel"></param>
+        /// <param name="empid"></param>
+        /// <returns></returns>
+        public DataTable GetUserEvnetRegister(string eventid, string registermodel, string empid)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            if (registermodel == "1")
+            {
+                sqlString = @"SELECT * FROM TEL_Event_RegisterModel1 ";
+            }
+            else if (registermodel == "2")
+            {
+                sqlString = @"SELECT * FROM TEL_Event_RegisterModel2 ";
+            }
+            else if (registermodel == "3")
+            {
+                sqlString = @"SELECT * FROM TEL_Event_RegisterModel3 ";
+            }
+            else if (registermodel == "4")
+            {
+                sqlString = @"SELECT * FROM TEL_Event_RegisterModel4 ";
+            }
+            else if (registermodel == "5")
+            {
+                sqlString = @"SELECT * FROM TEL_Event_RegisterModel5 ";
+            }
+            else if (registermodel == "6")
+            {
+                sqlString = @"SELECT * FROM TEL_Event_RegisterModel6 ";
+
+            }
+            sqlString += @"WHERE id = id ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @eventid
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(empid))
+            {
+                sqlString += @"
+                            AND empid = @empid
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+
+                if (!string.IsNullOrEmpty(empid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
         }
 
         //取得健檢中心資料
@@ -588,24 +668,12 @@ namespace TEL.Event.Lab.Data
                         isnull(a.duplicated, '' ) as duplicated,
                         a.registermodel,
                         a.surveymodel,
-                        a.surveystartdate,
-                        c.id as RegisterModelID
+                        a.surveystartdate
                     FROM 
                         TEL_Event_Events a
                     INNER JOIN 
                         TEL_Event_Category b ON a.categoryid=b.id
-                    LEFT JOIN 
-                        (SELECT id,eventid,empid FROM TEL_Event_RegisterModel1
-                        UNION
-                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel2
-                        UNION
-                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel3
-                        UNION
-                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel4
-                        UNION
-                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel5
-                        UNION
-                        SELECT id,eventid,empid FROM TEL_Event_RegisterModel6) c ON a.id = c.eventid
+                        
                     WHERE 
                         a.id = a.id 
                     AND
@@ -835,10 +903,12 @@ namespace TEL.Event.Lab.Data
                 }
 
                 //新增活動權限 by mailgroup
-                string[] mailgroups = eventAdminData["mailgroup"].Split(',');
-                foreach (string mailgroupstr in mailgroups)
+                if (!string.IsNullOrEmpty(eventsData["mailgroup"]))
                 {
-                    sqlStr = @"
+                    string[] mailgroups = eventsData["mailgroup"].Split(',');
+                    foreach (string mailgroupstr in mailgroups)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_Permission_MailGroup]
                                ([eventid]
                                ,[mailgroupName]
@@ -851,21 +921,23 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand commandPermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand commandPermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
 
-                    commandPermissionMailGroup.Parameters.Clear();
-                    commandPermissionMailGroup.Parameters.AddWithValue("@eventid", eventID);
-                    commandPermissionMailGroup.Parameters.AddWithValue("@mailgroup", mailgroupstr);
-                    commandPermissionMailGroup.Parameters.AddWithValue("@modifiedby", empid);
+                        commandPermissionMailGroup.Parameters.Clear();
+                        commandPermissionMailGroup.Parameters.AddWithValue("@eventid", eventID);
+                        commandPermissionMailGroup.Parameters.AddWithValue("@mailgroup", mailgroupstr);
+                        commandPermissionMailGroup.Parameters.AddWithValue("@modifiedby", empid);
 
-                    commandPermissionMailGroup.ExecuteNonQuery();
+                        commandPermissionMailGroup.ExecuteNonQuery();
+                    }
                 }
-
                 //新增活動權限 by mailgroupother
-                string[] mailgroupothers = eventAdminData["mailgroupother"].Split(',');
-                foreach (string mailgroupotherstr in mailgroupothers)
+                if (!string.IsNullOrEmpty(eventsData["mailgroupother"]))
                 {
-                    sqlStr = @"
+                    string[] mailgroupothers = eventsData["mailgroupother"].Split(',');
+                    foreach (string mailgroupotherstr in mailgroupothers)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_Permission_Empid]
                                ([eventid]
                                ,[empid]
@@ -878,16 +950,16 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand commandPermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand commandPermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
 
-                    commandPermissionEmpid.Parameters.Clear();
-                    commandPermissionEmpid.Parameters.AddWithValue("@eventid", eventID);
-                    commandPermissionEmpid.Parameters.AddWithValue("@empid", mailgroupotherstr);
-                    commandPermissionEmpid.Parameters.AddWithValue("@modifiedby", empid);
+                        commandPermissionEmpid.Parameters.Clear();
+                        commandPermissionEmpid.Parameters.AddWithValue("@eventid", eventID);
+                        commandPermissionEmpid.Parameters.AddWithValue("@empid", mailgroupotherstr);
+                        commandPermissionEmpid.Parameters.AddWithValue("@modifiedby", empid);
 
-                    commandPermissionEmpid.ExecuteNonQuery();
+                        commandPermissionEmpid.ExecuteNonQuery();
+                    }
                 }
-
                 transaction.Commit();
             }
             catch (SqlException ex)
@@ -1077,12 +1149,13 @@ namespace TEL.Event.Lab.Data
                 commandDeletePermissionMailGroup.Parameters.AddWithValue("@id", eventsData["id"]);
                 commandDeletePermissionMailGroup.ExecuteNonQuery();
 
-
-                //新增活動權限 by mailgroup
-                string[] mailgroups = eventsData["mailgroup"].Split(',');
-                foreach (string mailgroupstr in mailgroups)
+                if (!string.IsNullOrEmpty(eventsData["mailgroup"]))
                 {
-                    sqlStr = @"
+                    //新增活動權限 by mailgroup
+                    string[] mailgroups = eventsData["mailgroup"].Split(',');
+                    foreach (string mailgroupstr in mailgroups)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_Permission_MailGroup]
                                ([eventid]
                                ,[mailgroupName]
@@ -1095,14 +1168,15 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand commandPermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand commandPermissionMailGroup = new SqlCommand(sqlStr, conn, transaction);
 
-                    commandPermissionMailGroup.Parameters.Clear();
-                    commandPermissionMailGroup.Parameters.AddWithValue("@eventid", eventID);
-                    commandPermissionMailGroup.Parameters.AddWithValue("@mailgroup", mailgroupstr);
-                    commandPermissionMailGroup.Parameters.AddWithValue("@modifiedby", empid);
+                        commandPermissionMailGroup.Parameters.Clear();
+                        commandPermissionMailGroup.Parameters.AddWithValue("@eventid", eventID);
+                        commandPermissionMailGroup.Parameters.AddWithValue("@mailgroup", mailgroupstr);
+                        commandPermissionMailGroup.Parameters.AddWithValue("@modifiedby", empid);
 
-                    commandPermissionMailGroup.ExecuteNonQuery();
+                        commandPermissionMailGroup.ExecuteNonQuery();
+                    }
                 }
 
                 //先刪除活動權限 by mailgroupother
@@ -1117,11 +1191,13 @@ namespace TEL.Event.Lab.Data
                 commandDeletePermissionEmpid.Parameters.AddWithValue("@id", eventsData["id"]);
                 commandDeletePermissionEmpid.ExecuteNonQuery();
 
-                //新增活動權限 by mailgroupother
-                string[] mailgroupothers = eventsData["mailgroupother"].Split(',');
-                foreach (string mailgroupotherstr in mailgroupothers)
+                if (!string.IsNullOrEmpty(eventsData["mailgroupother"]))
                 {
-                    sqlStr = @"
+                    //新增活動權限 by mailgroupother
+                    string[] mailgroupothers = eventsData["mailgroupother"].Split(',');
+                    foreach (string mailgroupotherstr in mailgroupothers)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_Permission_Empid]
                                ([eventid]
                                ,[empid]
@@ -1134,14 +1210,15 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand commandPermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand commandPermissionEmpid = new SqlCommand(sqlStr, conn, transaction);
 
-                    commandPermissionEmpid.Parameters.Clear();
-                    commandPermissionEmpid.Parameters.AddWithValue("@eventid", eventID);
-                    commandPermissionEmpid.Parameters.AddWithValue("@empid", mailgroupotherstr);
-                    commandPermissionEmpid.Parameters.AddWithValue("@modifiedby", empid);
+                        commandPermissionEmpid.Parameters.Clear();
+                        commandPermissionEmpid.Parameters.AddWithValue("@eventid", eventID);
+                        commandPermissionEmpid.Parameters.AddWithValue("@empid", mailgroupotherstr);
+                        commandPermissionEmpid.Parameters.AddWithValue("@modifiedby", empid);
 
-                    commandPermissionEmpid.ExecuteNonQuery();
+                        commandPermissionEmpid.ExecuteNonQuery();
+                    }
                 }
 
                 transaction.Commit();
@@ -1351,6 +1428,51 @@ namespace TEL.Event.Lab.Data
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 查詢報名表選項（欲參加內容）限制人數
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption1Limit(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [limit]
+                        FROM 
+                            [TEL_Event_RegisterOption1]
+                        WHERE  [id] = @id";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlStr += @" 
+                        
+                            ";
+            }
+            
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return Convert.ToInt16(result.Rows[0]["limit"]);
         }
 
         internal string InsertRegisterOption2(string eventid, string transportation, string modifiedby)
@@ -2183,5 +2305,2496 @@ namespace TEL.Event.Lab.Data
 
             return result;
         }
+
+        #region RegisterModel1
+
+        //取得活動選項報名人數
+        public int QueryEvnetRegisterOption1RegisterCount(string eventid, string optionid)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            sqlString = @"
+                            SELECT 
+                                COUNT(selectedoption) AS count 
+                            FROM 
+                                TEL_Event_RegisterModel1 
+                            WHERE 
+                                eventid = @eventid
+                            AND
+                                selectedoption = @optionid";
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@optionid", optionid);
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return Convert.ToInt16(result.Rows[0]["count"].ToString());
+        }
+
+        /// <summary>
+        /// 新增 模板1報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="modifiedby"></param>
+        internal string InsertRegisterModel1(Dictionary<string, string> eventsData, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                    INSERT INTO [TEL_Event_RegisterModel1]
+                           ([id]
+                           ,[eventid]
+                           ,[empid]
+                           ,[registerdate]
+                           ,[selectedoption]
+                           ,[feedback]
+                           ,[modifiedby]
+                           ,[modifieddate])
+                     VALUES
+                           (@id
+                           ,@eventid
+                           ,@empid
+                           ,@registerdate
+                           ,@selectedoption
+                           ,@feedback
+                           ,@modifiedby
+                           ,GETDATE()
+                            ) ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", eventsData["id"]);
+                command.Parameters.AddWithValue("@eventid", eventsData["eventid"]);
+                command.Parameters.AddWithValue("@empid", eventsData["empid"]);
+                command.Parameters.AddWithValue("@registerdate", eventsData["registerdate"]);
+                command.Parameters.AddWithValue("@selectedoption", eventsData["selectedoption"]);
+                command.Parameters.AddWithValue("@feedback", eventsData["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 更新 模板1報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string UpdateRegisterModel1(Dictionary<string, string> eventsData, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        UPDATE [TEL_Event_RegisterModel1]
+                        SET 
+                            [selectedoption] = @selectedoption
+                            ,[feedback] = @feedback
+                            ,[modifiedby] = @modifiedby
+                            ,[modifieddate] = GETDATE()
+                        WHERE id = @id ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", eventsData["id"]);
+                command.Parameters.AddWithValue("@selectedoption", eventsData["selectedoption"]);
+                command.Parameters.AddWithValue("@feedback", eventsData["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 刪除 模板1報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal string DeleteRegisterModel1(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        DELETE FROM [TEL_Event_RegisterModel1]
+                        WHERE id = @id ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢 模板1報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable QueryRegisterModel1(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                            SELECT [id]
+                                ,[eventid]
+                                ,[empid]
+                                ,[registerdate]
+                                ,[selectedoption]
+                                ,[feedback]
+                                ,[modifiedby]
+                                ,[modifieddate]
+                            FROM 
+                                [TEL_Event_RegisterModel1]
+                            WHERE 
+                                id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND id = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region RegisterModel2
+        /// <summary>
+        /// 新增 模板2報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string InsertRegisterModel2(Dictionary<string, string> eventsData, DataTable dataTable, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlTransaction transaction;
+
+            conn.Open();
+            transaction = conn.BeginTransaction();
+
+            try
+            {
+                sqlStr = @"
+                    INSERT INTO [TEL_Event_RegisterModel2]
+                           ([id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[selectedoption]
+                            ,[mobile]
+                            ,[traffic]
+                            ,[meal]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate])
+                     VALUES
+                           (@id
+                           ,@eventid
+                           ,@empid
+                           ,@registerdate
+                           ,@selectedoption
+                           ,@mobile
+                           ,@traffic
+                           ,@meal
+                           ,@feedback
+                           ,@modifiedby
+                           ,GETDATE()
+                            ) ";
+
+
+                SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", eventsData["id"]);
+                command.Parameters.AddWithValue("@eventid", eventsData["eventid"]);
+                command.Parameters.AddWithValue("@empid", eventsData["empid"]);
+                command.Parameters.AddWithValue("@registerdate", eventsData["registerdate"]);
+                command.Parameters.AddWithValue("@selectedoption", eventsData["selectedoption"]);
+                command.Parameters.AddWithValue("@feedback", eventsData["feedback"]);
+                command.Parameters.AddWithValue("@mobile", eventsData["mobile"]);
+                command.Parameters.AddWithValue("@traffic", eventsData["traffic"]);
+                command.Parameters.AddWithValue("@meal", eventsData["meal"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+
+                foreach (DataRow dr in dataTable.Rows)
+                {
+                    sqlStr = @"
+                        INSERT INTO [TEL_Event_RegisterModel2family]
+                               ([id]
+                                ,[registerid]
+                                ,[name]
+                                ,[idno]
+                                ,[birthday]
+                                ,[gender]
+                                ,[meal]
+                                ,[modifiedby]
+                                ,[modifieddate])
+                         VALUES
+                               (@id
+                               ,@registerid
+                               ,@name
+                               ,@idno
+                               ,@birthday
+                               ,@gender
+                               ,@meal
+                               ,@modifiedby
+                               ,GETDATE())
+                    ";
+
+                    SqlCommand commandRegisterModel2family = new SqlCommand(sqlStr, conn, transaction);
+
+                    commandRegisterModel2family.Parameters.Clear();
+                    commandRegisterModel2family.Parameters.AddWithValue("@id", Guid.NewGuid().ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@registerid", eventsData["id"]);
+                    commandRegisterModel2family.Parameters.AddWithValue("@name", dr["name"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@idno", dr["idno"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@birthday", dr["birthday"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@gender", dr["gender"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@meal", dr["meal"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                    commandRegisterModel2family.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+            }
+            catch (SqlException ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+
+            conn.Close();
+            conn.Dispose();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 更新 模板2報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string UpdateRegisterModel2(Dictionary<string, string> eventsData, DataTable dataTable, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlTransaction transaction;
+
+            conn.Open();
+            transaction = conn.BeginTransaction();
+
+            try
+            {
+                sqlStr = @"
+                        UPDATE 
+                            [TEL_Event_RegisterModel2]
+                        SET 
+                            [registerdate] = @registerdate
+                            ,[selectedoption] = @selectedoption
+                            ,[mobile] = @mobile
+                            ,[traffic] = @traffic
+                            ,[meal] = @meal
+                            ,[feedback] = @feedback
+                            ,[modifiedby] = @modifiedby
+                            ,[modifieddate] = GETDATE()
+                        WHERE 
+                            id = @id";
+
+
+                SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", eventsData["id"]);
+                command.Parameters.AddWithValue("@registerdate", eventsData["registerdate"]);
+                command.Parameters.AddWithValue("@selectedoption", eventsData["selectedoption"]);
+                command.Parameters.AddWithValue("@feedback", eventsData["feedback"]);
+                command.Parameters.AddWithValue("@mobile", eventsData["mobile"]);
+                command.Parameters.AddWithValue("@traffic", eventsData["traffic"]);
+                command.Parameters.AddWithValue("@meal", eventsData["meal"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+
+                sqlStr = @"
+                        DELETE FROM [TEL_Event_RegisterModel2family]
+                        WHERE [registerid] = @id
+                    ";
+
+                SqlCommand commandDelete = new SqlCommand(sqlStr, conn, transaction);
+                commandDelete.Parameters.Clear();
+                commandDelete.Parameters.AddWithValue("@id", eventsData["id"]);
+                commandDelete.ExecuteNonQuery();
+
+                foreach (DataRow dr in dataTable.Rows)
+                {
+                    sqlStr = @"
+                        INSERT INTO [TEL_Event_RegisterModel2family]
+                               ([id]
+                                ,[registerid]
+                                ,[name]
+                                ,[idno]
+                                ,[birthday]
+                                ,[gender]
+                                ,[meal]
+                                ,[modifiedby]
+                                ,[modifieddate])
+                         VALUES
+                               (@id
+                               ,@registerid
+                               ,@name
+                               ,@idno
+                               ,@birthday
+                               ,@gender
+                               ,@meal
+                               ,@modifiedby
+                               ,GETDATE())
+                    ";
+
+                    SqlCommand commandRegisterModel2family = new SqlCommand(sqlStr, conn, transaction);
+
+                    commandRegisterModel2family.Parameters.Clear();
+                    commandRegisterModel2family.Parameters.AddWithValue("@id", Guid.NewGuid().ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@registerid", eventsData["id"]);
+                    commandRegisterModel2family.Parameters.AddWithValue("@name", dr["name"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@idno", dr["idno"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@birthday", dr["birthday"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@gender", dr["gender"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@meal", dr["meal"].ToString());
+                    commandRegisterModel2family.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                    commandRegisterModel2family.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+            }
+            catch (SqlException ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+
+            conn.Close();
+            conn.Dispose();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 刪除 模板2報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string DeleteRegisterModel2(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlTransaction transaction;
+
+            conn.Open();
+            transaction = conn.BeginTransaction();
+
+            try
+            {
+                sqlStr = @"
+                        DELETE FROM [TEL_Event_RegisterModel2]
+                        WHERE 
+                            id = @id";
+
+
+                SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+                
+                command.ExecuteNonQuery();
+
+                sqlStr = @"
+                        DELETE FROM [TEL_Event_RegisterModel2family]
+                        WHERE [registerid] = @id
+                    ";
+
+                SqlCommand commandDelete = new SqlCommand(sqlStr, conn, transaction);
+                commandDelete.Parameters.Clear();
+                commandDelete.Parameters.AddWithValue("@id", id);
+                commandDelete.ExecuteNonQuery();
+
+                transaction.Commit();
+            }
+            catch (SqlException ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                return ex.ToString();
+            }
+
+            conn.Close();
+            conn.Dispose();
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢 模板2報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable QueryRegisterModel2(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[selectedoption]
+                            ,[mobile]
+                            ,[traffic]
+                            ,[meal]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM [TEL_Event_RegisterModel2]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND id = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        //<summary>
+        /// 查詢 模板2報名資料family
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public DataTable QueryRegisterModel2family(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [id]
+                            ,[registerid]
+                            ,[name]
+                            ,[idno]
+                            ,CONVERT(varchar,[birthday],111) as birthday
+                            ,[gender]
+                            ,[meal]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM [TEL_Event_RegisterModel2family]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND registerid = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region RegisterModel3
+        public DataTable QueryHosipitalOption(string eventid)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT [hosipital]
+                        FROM 
+                        [TEL_Event_RegisterOption4]
+                                            WHERE
+                                                id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QueryAreaOption(string eventid, string hosipital)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT [area]
+                        FROM 
+                        [TEL_Event_RegisterOption4]
+                                            WHERE
+                                                id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QuerySolutionOption(string eventid, string hosipital, string area)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT [description]
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND area = @area
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                if (!string.IsNullOrEmpty(area))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        internal DataTable QueryGenderOption(string eventid, string hosipital, string area, string solution)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT [gender]
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND area = @area
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND [description] = @solution
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                if (!string.IsNullOrEmpty(area))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                if (!string.IsNullOrEmpty(solution))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QueryExpectdateOption(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT CONVERT(VARCHAR, [avaliabledate],111) AS [avaliabledate]
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND area = @area
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND [description] = @solution
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                sqlString += @"
+                            AND [gender] = @gender
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                if (!string.IsNullOrEmpty(area))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                if (!string.IsNullOrEmpty(solution))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+
+                if (!string.IsNullOrEmpty(gender))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QuerySecondoption1Option(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT secondoption1
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND area = @area
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND [description] = @solution
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                sqlString += @"
+                            AND [gender] = @gender
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                if (!string.IsNullOrEmpty(area))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                if (!string.IsNullOrEmpty(solution))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+
+                if (!string.IsNullOrEmpty(gender))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QuerySecondoption2Option(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT secondoption2
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND area = @area
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND [description] = @solution
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                sqlString += @"
+                            AND [gender] = @gender
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                if (!string.IsNullOrEmpty(area))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                if (!string.IsNullOrEmpty(solution))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+
+                if (!string.IsNullOrEmpty(gender))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QuerySecondoption3Option(string eventid, string hosipital, string area, string solution, string gender)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            DISTINCT secondoption3
+                        FROM 
+                            [TEL_Event_RegisterOption4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(hosipital))
+            {
+                sqlString += @"
+                            AND hosipital = @hosipital
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND area = @area
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                sqlString += @"
+                            AND [description] = @solution
+                                ";
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                sqlString += @"
+                            AND [gender] = @gender
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                if (!string.IsNullOrEmpty(hosipital))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+
+                if (!string.IsNullOrEmpty(area))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                if (!string.IsNullOrEmpty(solution))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+
+                if (!string.IsNullOrEmpty(gender))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        internal DataTable QueryHealthAddressOption(string eventid)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [description]
+                        FROM 
+                            [TEL_Event_RegisterOption5]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlString += @"
+                            AND eventid = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增 模板3報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string InsertRegisterModel3(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                    INSERT INTO [TEL_Event_RegisterModel3]
+                           (
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[examineeidentity]
+                            ,[examineename]
+                            ,[examineeidno]
+                            ,[examineebirthday]
+                            ,[examineemobile]
+                            ,[hosipital]
+                            ,[area]
+                            ,[solution]
+                            ,[gender]
+                            ,[expectdate]
+                            ,[seconddate]
+                            ,[secondsolution1]
+                            ,[secondsolution2]
+                            ,[secondsolution3]
+                            ,[optional]
+                            ,[address]
+                            ,[meal]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate])
+                     VALUES
+                           (
+                            @id
+                            ,@eventid
+                            ,@empid
+                            ,@registerdate
+                            ,@examineeidentity
+                            ,@examineename
+                            ,@examineeidno
+                            ,@examineebirthday
+                            ,@examineemobile
+                            ,@hosipital
+                            ,@area
+                            ,@solution
+                            ,@gender
+                            ,@expectdate
+                            ,@seconddate
+                            ,@secondsolution1
+                            ,@secondsolution2
+                            ,@secondsolution3
+                            ,@optional
+                            ,@address
+                            ,@meal
+                            ,@feedback
+                            ,@modifiedby
+                            ,GETDATE()
+                            ) ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+
+                
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@eventid", data["eventid"]);
+                command.Parameters.AddWithValue("@empid", data["empid"]);
+                command.Parameters.AddWithValue("@registerdate", data["registerdate"]);
+                command.Parameters.AddWithValue("@examineeidentity", data["examineeidentity"]);
+                command.Parameters.AddWithValue("@examineename", data["examineename"]);
+                command.Parameters.AddWithValue("@examineeidno", data["examineeidno"]);
+                command.Parameters.AddWithValue("@examineebirthday", data["examineebirthday"]);
+                command.Parameters.AddWithValue("@examineemobile", data["examineemobile"]);
+                command.Parameters.AddWithValue("@hosipital", data["hosipital"]);
+                command.Parameters.AddWithValue("@area", data["area"]);
+                command.Parameters.AddWithValue("@solution", data["solution"]);
+                command.Parameters.AddWithValue("@gender", data["gender"]);
+                command.Parameters.AddWithValue("@expectdate", data["expectdate"]);
+                command.Parameters.AddWithValue("@seconddate", data["seconddate"]);
+                command.Parameters.AddWithValue("@secondsolution1", data["secondsolution1"]);
+                command.Parameters.AddWithValue("@secondsolution2", data["secondsolution2"]);
+                command.Parameters.AddWithValue("@secondsolution3", data["secondsolution3"]);
+                command.Parameters.AddWithValue("@optional", data["optional"]);
+                command.Parameters.AddWithValue("@address", data["address"]);
+                command.Parameters.AddWithValue("@meal", data["meal"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+
+        /// <summary>
+        /// 更新 模板3報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string UpdateRegisterModel3(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        UPDATE 
+                            [TEL_Event_RegisterModel3]
+                        SET 
+                            [examineeidentity] = @examineeidentity
+                            ,[examineename] = @examineename
+                            ,[examineeidno] = @examineeidno
+                            ,[examineebirthday] = @examineebirthday
+                            ,[examineemobile] = @examineemobile
+                            ,[hosipital] = @hosipital
+                            ,[area] = @area
+                            ,[solution] = @solution
+                            ,[gender] = @gender
+                            ,[expectdate] = @expectdate
+                            ,[seconddate] = @seconddate
+                            ,[secondsolution1] = @secondsolution1
+                            ,[secondsolution2] = @secondsolution2
+                            ,[secondsolution3] = @secondsolution3
+                            ,[optional] = @optional
+                            ,[address] = @address
+                            ,[meal] = @meal
+                            ,[feedback] = @feedback
+                            ,[modifiedby] = @modifiedby
+                            ,[modifieddate] = GETDATE()
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+                command.Parameters.Clear();
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@examineeidentity", data["examineeidentity"]);
+                command.Parameters.AddWithValue("@examineename", data["examineename"]);
+                command.Parameters.AddWithValue("@examineeidno", data["examineeidno"]);
+                command.Parameters.AddWithValue("@examineebirthday", data["examineebirthday"]);
+                command.Parameters.AddWithValue("@examineemobile", data["examineemobile"]);
+                command.Parameters.AddWithValue("@hosipital", data["hosipital"]);
+                command.Parameters.AddWithValue("@area", data["area"]);
+                command.Parameters.AddWithValue("@solution", data["solution"]);
+                command.Parameters.AddWithValue("@gender", data["gender"]);
+                command.Parameters.AddWithValue("@expectdate", data["expectdate"]);
+                command.Parameters.AddWithValue("@seconddate", data["seconddate"]);
+                command.Parameters.AddWithValue("@secondsolution1", data["secondsolution1"]);
+                command.Parameters.AddWithValue("@secondsolution2", data["secondsolution2"]);
+                command.Parameters.AddWithValue("@secondsolution3", data["secondsolution3"]);
+                command.Parameters.AddWithValue("@optional", data["optional"]);
+                command.Parameters.AddWithValue("@address", data["address"]);
+                command.Parameters.AddWithValue("@meal", data["meal"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 刪除 模板3報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string DeleteRegisterModel3(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        DELETE FROM [dbo].[TEL_Event_RegisterModel3]
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢 模板3報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterModel3(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[examineeidentity]
+                            ,[examineename]
+                            ,[examineeidno]
+                            ,CONVERT(VARCHAR, [examineebirthday],111) as [examineebirthday]
+                            ,[examineemobile]
+                            ,[hosipital]
+                            ,[area]
+                            ,[solution]
+                            ,[gender]
+                            ,[expectdate]
+                            ,[seconddate]
+                            ,[secondsolution1]
+                            ,[secondsolution2]
+                            ,[secondsolution3]
+                            ,[optional]
+                            ,[address]
+                            ,[meal]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [dbo].[TEL_Event_RegisterModel3]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND id = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region RegisterModel4
+        /// <summary>
+        /// 新增 模板4報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string InsertRegisterModel4(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                    INSERT INTO [TEL_Event_RegisterModel4]
+                           (
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[examineeidentity]
+                            ,[examineename]
+                            ,[examineename2]
+                            ,[examineeidno]
+                            ,[examineebirthday]
+                            ,[examineemobile]
+                            ,[hosipital]
+                            ,[area]
+                            ,[solution]
+                            ,[gender]
+                            ,[expectdate]
+                            ,[seconddate]
+                            ,[secondsolution1]
+                            ,[secondsolution2]
+                            ,[secondsolution3]
+                            ,[optional]
+                            ,[address]
+                            ,[meal]
+                            ,[needhotel]
+                            ,[checkininfo]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate])
+                     VALUES
+                           (
+                            @id
+                            ,@eventid
+                            ,@empid
+                            ,@registerdate
+                            ,@examineeidentity
+                            ,@examineename
+                            ,@examineename2
+                            ,@examineeidno
+                            ,@examineebirthday
+                            ,@examineemobile
+                            ,@hosipital
+                            ,@area
+                            ,@solution
+                            ,@gender
+                            ,@expectdate
+                            ,@seconddate
+                            ,@secondsolution1
+                            ,@secondsolution2
+                            ,@secondsolution3
+                            ,@optional
+                            ,@address
+                            ,@meal
+                            ,@needhotel
+                            ,@checkininfo
+                            ,@feedback
+                            ,@modifiedby
+                            ,GETDATE()
+                            ) ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@eventid", data["eventid"]);
+                command.Parameters.AddWithValue("@empid", data["empid"]);
+                command.Parameters.AddWithValue("@registerdate", data["registerdate"]);
+                command.Parameters.AddWithValue("@examineeidentity", data["examineeidentity"]);
+                command.Parameters.AddWithValue("@examineename", data["examineename"]);
+                command.Parameters.AddWithValue("@examineename2", data["examineename2"]);
+                command.Parameters.AddWithValue("@examineeidno", data["examineeidno"]);
+                command.Parameters.AddWithValue("@examineebirthday", data["examineebirthday"]);
+                command.Parameters.AddWithValue("@examineemobile", data["examineemobile"]);
+                command.Parameters.AddWithValue("@hosipital", data["hosipital"]);
+                command.Parameters.AddWithValue("@area", data["area"]);
+                command.Parameters.AddWithValue("@solution", data["solution"]);
+                command.Parameters.AddWithValue("@gender", data["gender"]);
+                command.Parameters.AddWithValue("@expectdate", data["expectdate"]);
+                command.Parameters.AddWithValue("@seconddate", data["seconddate"]);
+                command.Parameters.AddWithValue("@secondsolution1", data["secondsolution1"]);
+                command.Parameters.AddWithValue("@secondsolution2", data["secondsolution2"]);
+                command.Parameters.AddWithValue("@secondsolution3", data["secondsolution3"]);
+                command.Parameters.AddWithValue("@optional", data["optional"]);
+                command.Parameters.AddWithValue("@address", data["address"]);
+                command.Parameters.AddWithValue("@meal", data["meal"]);
+                command.Parameters.AddWithValue("@needhotel", data["needhotel"]);
+                command.Parameters.AddWithValue("@checkininfo", data["checkininfo"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+
+        /// <summary>
+        /// 更新 模板4報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string UpdateRegisterModel4(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        UPDATE 
+                            [TEL_Event_RegisterModel4]
+                        SET 
+                            [examineeidentity] = @examineeidentity
+                            ,[examineename] = @examineename
+                            ,[examineename2] = @examineename2
+                            ,[examineeidno] = @examineeidno
+                            ,[examineebirthday] = @examineebirthday
+                            ,[examineemobile] = @examineemobile
+                            ,[hosipital] = @hosipital
+                            ,[area] = @area
+                            ,[solution] = @solution
+                            ,[gender] = @gender
+                            ,[expectdate] = @expectdate
+                            ,[seconddate] = @seconddate
+                            ,[secondsolution1] = @secondsolution1
+                            ,[secondsolution2] = @secondsolution2
+                            ,[secondsolution3] = @secondsolution3
+                            ,[optional] = @optional
+                            ,[address] = @address
+                            ,[meal] = @meal
+                            ,[needhotel] = @needhotel
+                            ,[checkininfo] = @checkininfo
+                            ,[feedback] = @feedback
+                            ,[modifiedby] = @modifiedby
+                            ,[modifieddate] = GETDATE()
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+                command.Parameters.Clear();
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@examineeidentity", data["examineeidentity"]);
+                command.Parameters.AddWithValue("@examineename", data["examineename"]);
+                command.Parameters.AddWithValue("@examineename2", data["examineename2"]);
+                command.Parameters.AddWithValue("@examineeidno", data["examineeidno"]);
+                command.Parameters.AddWithValue("@examineebirthday", data["examineebirthday"]);
+                command.Parameters.AddWithValue("@examineemobile", data["examineemobile"]);
+                command.Parameters.AddWithValue("@hosipital", data["hosipital"]);
+                command.Parameters.AddWithValue("@area", data["area"]);
+                command.Parameters.AddWithValue("@solution", data["solution"]);
+                command.Parameters.AddWithValue("@gender", data["gender"]);
+                command.Parameters.AddWithValue("@expectdate", data["expectdate"]);
+                command.Parameters.AddWithValue("@seconddate", data["seconddate"]);
+                command.Parameters.AddWithValue("@secondsolution1", data["secondsolution1"]);
+                command.Parameters.AddWithValue("@secondsolution2", data["secondsolution2"]);
+                command.Parameters.AddWithValue("@secondsolution3", data["secondsolution3"]);
+                command.Parameters.AddWithValue("@optional", data["optional"]);
+                command.Parameters.AddWithValue("@address", data["address"]);
+                command.Parameters.AddWithValue("@meal", data["meal"]);
+                command.Parameters.AddWithValue("@needhotel", data["needhotel"]);
+                command.Parameters.AddWithValue("@checkininfo", data["checkininfo"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 刪除 模板4報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string DeleteRegisterModel4(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        DELETE FROM [dbo].[TEL_Event_RegisterModel4]
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢 模板4報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterModel4(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[examineeidentity]
+                            ,[examineename]
+                            ,[examineename2]
+                            ,[examineeidno]
+                            ,CONVERT(VARCHAR, [examineebirthday],111) as [examineebirthday]
+                            ,[examineemobile]
+                            ,[hosipital]
+                            ,[area]
+                            ,[solution]
+                            ,[gender]
+                            ,[expectdate]
+                            ,[seconddate]
+                            ,[secondsolution1]
+                            ,[secondsolution2]
+                            ,[secondsolution3]
+                            ,[optional]
+                            ,[address]
+                            ,[meal]
+                            ,[needhotel]
+                            ,[checkininfo]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [dbo].[TEL_Event_RegisterModel4]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND id = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region RegisterModel5
+        /// <summary>
+        /// 新增 模板5報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string InsertRegisterModel5(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                    INSERT INTO [TEL_Event_RegisterModel5]
+                           (
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[attachment1]
+                            ,[attachment1_name]
+                            ,[description1]
+                            ,[attachment2]
+                            ,[attachment2_name]
+                            ,[description2]
+                            ,[attachment3]
+                            ,[attachment3_name]
+                            ,[description3]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate])
+                     VALUES
+                           (
+                            @id
+                            ,@eventid
+                            ,@empid
+                            ,@registerdate
+                            ,@attachment1
+                            ,@attachment1_name
+                            ,@description1
+                            ,@attachment2
+                            ,@attachment2_name
+                            ,@description2
+                            ,@attachment3
+                            ,@attachment3_name
+                            ,@description3
+                            ,@feedback
+                            ,@modifiedby
+                            ,GETDATE()
+                            ) ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@eventid", data["eventid"]);
+                command.Parameters.AddWithValue("@empid", data["empid"]);
+                command.Parameters.AddWithValue("@registerdate", data["registerdate"]);
+                command.Parameters.AddWithValue("@attachment1", data["attachment1"]);
+                command.Parameters.AddWithValue("@attachment1_name", data["attachment1_name"]);
+                command.Parameters.AddWithValue("@description1", data["description1"]);
+                command.Parameters.AddWithValue("@attachment2", data["attachment2"]);
+                command.Parameters.AddWithValue("@attachment2_name", data["attachment2_name"]);
+                command.Parameters.AddWithValue("@description2", data["description2"]);
+                command.Parameters.AddWithValue("@attachment3", data["attachment3"]);
+                command.Parameters.AddWithValue("@attachment3_name", data["attachment3_name"]);
+                command.Parameters.AddWithValue("@description3", data["description3"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+
+        /// <summary>
+        /// 更新 模板5報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string UpdateRegisterModel5(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        UPDATE 
+                            [TEL_Event_RegisterModel5]
+                        SET 
+                            [modifiedby] = @modifiedby
+                            ,[modifieddate] = GETDATE()
+                            ,[feedback] = @feedback ";
+
+                if (!string.IsNullOrEmpty(data["attachment1"]))
+                {
+                    sqlStr += @"
+                            ,[attachment1] = @attachment1
+                            ,[attachment1_name] = @attachment1_name
+                            ,[description1] = @description1 ";
+                }
+
+                if (!string.IsNullOrEmpty(data["attachment2"]))
+                {
+                    sqlStr += @"
+                            ,[attachment2] = @attachment2
+                            ,[attachment2_name] = @attachment2_name
+                            ,[description2] = @description2 ";
+                }
+
+                if (!string.IsNullOrEmpty(data["attachment3"]))
+                {
+                    sqlStr += @"
+                            ,[attachment3] = @attachment3
+                            ,[attachment3_name] = @attachment3_name
+                            ,[description3] = @description3";
+                }
+                
+
+                sqlStr += @"     
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+                command.Parameters.Clear();
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+
+                if (!string.IsNullOrEmpty(data["attachment1"]))
+                {
+                    command.Parameters.AddWithValue("@attachment1", data["attachment1"]);
+                    command.Parameters.AddWithValue("@attachment1_name", data["attachment1_name"]);
+                    command.Parameters.AddWithValue("@description1", data["description1"]);
+                }
+
+                if (!string.IsNullOrEmpty(data["attachment2"]))
+                {
+                    command.Parameters.AddWithValue("@attachment2", data["attachment2"]);
+                    command.Parameters.AddWithValue("@attachment2_name", data["attachment2_name"]);
+                    command.Parameters.AddWithValue("@description2", data["description2"]);
+                }
+
+                if (!string.IsNullOrEmpty(data["attachment3"]))
+                {
+                    command.Parameters.AddWithValue("@attachment3", data["attachment3"]);
+                    command.Parameters.AddWithValue("@attachment3_name", data["attachment3_name"]);
+                    command.Parameters.AddWithValue("@description3", data["description3"]);
+                }
+                
+                
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 刪除 模板5報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string DeleteRegisterModel5(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        DELETE FROM [dbo].[TEL_Event_RegisterModel5]
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢 模板5報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterModel5(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[attachment1]
+                            ,[attachment1_name]
+                            ,[description1]
+                            ,[attachment2]
+                            ,[attachment2_name]
+                            ,[description2]
+                            ,[attachment3]
+                            ,[attachment3_name]
+                            ,[description3]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [dbo].[TEL_Event_RegisterModel5]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND id = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region RegisterModel6
+        /// <summary>
+        /// 查詢地點選項
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <returns></returns>
+        internal DataTable QueryAreaOption6(string eventid)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            DISTINCT  [area]
+                        FROM 
+                            [TEL_Event_RegisterOption6] ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @" 
+                        WHERE  [eventid] = @eventid
+                            ";
+            }
+            
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 查詢日期選項
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <returns></returns>
+        internal DataTable QueryAvaliableDatOption(string eventid, string area)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            DISTINCT  CONVERT(VARCHAR, [avaliabledate],111) AS [avaliabledate]
+                        FROM 
+                            [TEL_Event_RegisterOption6] 
+                        WHERE  id = id";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @" 
+                       AND [eventid] = @eventid
+                            ";
+            }
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @" 
+                       AND [area] = @area
+                            ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                if (!string.IsNullOrEmpty(area))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 新增 模板5報名資料
+        /// </summary>
+        /// <param name="eventsData"></param>
+        /// <param name="dataTable"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string InsertRegisterModel6(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                    INSERT INTO [TEL_Event_RegisterModel6]
+                           (
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[changearea]
+                            ,[changedate]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate])
+                     VALUES
+                           (
+                            @id
+                            ,@eventid
+                            ,@empid
+                            ,@registerdate
+                            ,@changearea
+                            ,@changedate
+                            ,@feedback
+                            ,@modifiedby
+                            ,GETDATE()
+                            ) ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@eventid", data["eventid"]);
+                command.Parameters.AddWithValue("@empid", data["empid"]);
+                command.Parameters.AddWithValue("@registerdate", data["registerdate"]);
+                command.Parameters.AddWithValue("@changearea", data["changearea"]);
+                command.Parameters.AddWithValue("@changedate", data["changedate"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+
+        /// <summary>
+        /// 更新 模板5報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string UpdateRegisterModel6(Dictionary<string, string> data, string modifiedby)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        UPDATE 
+                            [TEL_Event_RegisterModel6]
+                        SET 
+                            [changearea] = @changearea
+                            ,[changedate] = @changedate
+                            ,[feedback] = @feedback
+                            ,[modifiedby] = @modifiedby
+                            ,[modifieddate] = GETDATE()
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+                command.Parameters.Clear();
+
+                command.Parameters.AddWithValue("@id", data["id"]);
+                command.Parameters.AddWithValue("@changearea", data["changearea"]);
+                command.Parameters.AddWithValue("@changedate", data["changedate"]);
+                command.Parameters.AddWithValue("@feedback", data["feedback"]);
+                command.Parameters.AddWithValue("@modifiedby", modifiedby);
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 刪除 模板5報名資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="modifiedby"></param>
+        /// <returns></returns>
+        internal string DeleteRegisterModel6(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            try
+            {
+                sqlStr = @"
+                        DELETE FROM [dbo].[TEL_Event_RegisterModel6]
+                        WHERE 
+                            id = @id
+                        ";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                conn.Open();
+                SqlCommand command = new SqlCommand(sqlStr, conn);
+
+
+                command.Parameters.Clear();
+                command.Parameters.AddWithValue("@id", id);
+
+
+                command.ExecuteNonQuery();
+                conn.Close();
+                conn.Dispose();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// 查詢 模板5報名資料
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterModel6(string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlString = "";
+
+            sqlString = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[empid]
+                            ,[registerdate]
+                            ,[changearea]
+                            ,CONVERT(VARCHAR, [changedate],111) AS [changedate]
+                            ,[feedback]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [dbo].[TEL_Event_RegisterModel6]
+                        WHERE
+                            id = id
+                            ";
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlString += @"
+                            AND id = @id
+                                ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+
+                if (!string.IsNullOrEmpty(id))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

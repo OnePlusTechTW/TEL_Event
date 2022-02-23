@@ -274,9 +274,9 @@ public partial class Event_Event_Edit : System.Web.UI.Page
                 mailgroup += item.Value;
             }
         }
-        EventsData.Add("mailgroup", mailgroup);//活動成員 郵件群組
+        EventsData.Add("mailgroup", rblEventMember.SelectedValue == "A"? string.Empty : mailgroup);//活動成員 郵件群組
 
-        EventsData.Add("mailgroupother", tbCustMember.Text);//活動成員 郵件群組自填
+        EventsData.Add("mailgroupother", rblEventMember.SelectedValue == "A" ? string.Empty : tbCustMember.Text);//活動成員 郵件群組自填
 
         EventsData.Add("description", Microsoft.Security.Application.Encoder.HtmlEncode(txtEditor.Text));//活動內容
 

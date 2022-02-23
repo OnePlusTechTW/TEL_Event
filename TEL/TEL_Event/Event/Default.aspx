@@ -89,12 +89,12 @@
         }
     </style>
     <script>
-        function ShowDialogView(id) {
+        function ShowDialogView(page, eventid, id) {
             $(function () {
                 $("#dialogView").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
-                    width: "645px",
+                    width: "1200px",
                     Height: "500px",
                     position: { my: "center center", at: "center top+100", },
                     buttons: {
@@ -104,7 +104,15 @@
                     }
                 });
 
-                $("#dialogView").load('Event_View.aspx?id=' + id);
+                switch (page) {
+                    case 'Event_View':
+                        $("#dialogView").load('Event_View.aspx?id=' + eventid);
+                        break;
+                    default:
+                        $("#dialogView").load(page + '.aspx?eventid=' + eventid + '&id=' + id + '&page=Default');
+                        break;
+                }
+
             });
 
         }
@@ -115,7 +123,7 @@
                 $("#dialogRegisterCreate").load('Event_RegisterModel' + registermodel + '_Create.aspx?id=' + id);
 
                 $("#dialogRegisterCreate").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -186,9 +194,7 @@
     <asp:Label ID="lblView" runat="server" Text="檢視報名" Visible="false"></asp:Label>
     <asp:Label ID="lblNYStart" runat="server" Text="尚未開放報名" Visible="false"></asp:Label>
     <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
-
-
-
+    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
 
     <%--<table>
         <tr>

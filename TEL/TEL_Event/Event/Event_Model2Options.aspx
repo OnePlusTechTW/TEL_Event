@@ -219,7 +219,7 @@
                     EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
                     PageSize="20" OnPageIndexChanging="gridRegisterOption3_PageIndexChanging" OnRowDataBound="gridRegisterOption3_RowDataBound" >
                     <Columns>
-                        <asp:BoundField HeaderText="交通車" DataField="description">
+                        <asp:BoundField HeaderText="餐點內容" DataField="description">
                             <HeaderStyle Width="100px"></HeaderStyle>
                         </asp:BoundField>
                         <asp:TemplateField HeaderText="">

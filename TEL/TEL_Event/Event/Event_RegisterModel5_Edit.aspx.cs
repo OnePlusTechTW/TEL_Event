@@ -6,11 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 
-public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
+public partial class Event_Event_RegisterModel5_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -23,21 +24,47 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
 
     private void SetDefaultValues()
     {
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
+        string registerid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
 
         UC_EventDescription.setViewDefault(eventid);
-        InitFormValues(empid);
+        InitFormValues(empid, registerid);
+    }
+
+    protected void btnFileUpload1Maintain_Click(object sender, EventArgs e)
+    {
+        hlnkFileUpload1.Visible = false;
+        btnFileUpload1Maintain.Visible = false;
+        FileUpload1.Visible = true;
+    }
+
+    protected void btnFileUpload2Maintain_Click(object sender, EventArgs e)
+    {
+        hlnkFileUpload2.Visible = false;
+        btnFileUpload2Maintain.Visible = false;
+        FileUpload2.Visible = true;
+    }
+
+    protected void btnFileUpload3Maintain_Click(object sender, EventArgs e)
+    {
+        hlnkFileUpload3.Visible = false;
+        btnFileUpload3Maintain.Visible = false;
+        FileUpload3.Visible = true;
     }
 
     protected void btnSummit_Click(object sender, EventArgs e)
     {
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
+        string registerid = Request.QueryString["id"];
+
         string empid = Page.Session["EmpID"].ToString();
+
+        List<string> deleteFilePathList = new List<string>();
         Dictionary<string, string> Data = new Dictionary<string, string>();
 
-        Data.Add("id", Guid.NewGuid().ToString());
+        Data.Add("id", registerid);
         Data.Add("eventid", eventid);
         Data.Add("empid", empid);
         Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
@@ -58,6 +85,9 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
 
             path = Path.Combine(Server.MapPath(".." + path.Substring(1)), FileUpload1ID);
             this.FileUpload1.PostedFile.SaveAs(path);
+
+            if (!string.IsNullOrEmpty(hlnkFileUpload1.NavigateUrl))
+                deleteFilePathList.Add(hlnkFileUpload1.NavigateUrl);
 
         }
 
@@ -82,6 +112,9 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
             path = Path.Combine(Server.MapPath(".." + path.Substring(1)), FileUpload2ID);
             this.FileUpload2.PostedFile.SaveAs(path);
 
+            if (!string.IsNullOrEmpty(hlnkFileUpload2.NavigateUrl))
+                deleteFilePathList.Add(hlnkFileUpload2.NavigateUrl);
+
         }
 
         Data.Add("attachment2", FileUpload2ID);//存入的檔案
@@ -105,6 +138,8 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
             path = Path.Combine(Server.MapPath(".." + path.Substring(1)), FileUpload3ID);
             this.FileUpload3.PostedFile.SaveAs(path);
 
+            if (!string.IsNullOrEmpty(hlnkFileUpload3.NavigateUrl))
+                deleteFilePathList.Add(hlnkFileUpload3.NavigateUrl);
         }
 
         Data.Add("attachment3", FileUpload3ID);//存入的檔案
@@ -113,12 +148,17 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
 
         Data.Add("feedback", txtComment.Text);//原檔名
 
-        string result = ev.AddRegisterModel5(Data, empid);
+        string result = ev.UpdateRegisterModel5(Data, empid);
 
         if (string.IsNullOrEmpty(result))
         {
             //寄送報名完成通知信給員工
             SendRegisterSuccessMail();
+
+            foreach (string path in deleteFilePathList)
+            {
+                File.Delete(Server.MapPath(path));
+            }
         }
         else
         {
@@ -126,6 +166,14 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
 
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        Event ev = new Event();
+        string id = Request.QueryString["id"];
+
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
 
     protected void btnCannel_Click(object sender, EventArgs e)
@@ -152,7 +200,7 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
     /// 初始表單
     /// </summary>
     /// <param name="empid"></param>
-    private void InitFormValues(string empid)
+    private void InitFormValues(string empid, string registerid)
     {
         UserInfo userInfo = new UserInfo(empid);
         txtEmpid.Text = empid;
@@ -160,12 +208,90 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
         txtEName.Text = userInfo.FullNameEN;
         txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
         txtStation.Text = userInfo.Station;
+
+        Event ev = new Event();
+        DataTable dt = new DataTable();
+        dt = ev.GetRegisterModel5(registerid);
+        if (dt.Rows.Count > 0)
+        {
+            string path = ConfigurationManager.AppSettings.Get("EventThumbnailPath");
+            if (string.IsNullOrEmpty(path))
+                path = "~/App_Data/EventThumbnail";
+
+            if (!string.IsNullOrEmpty(dt.Rows[0]["attachment1"].ToString()))
+            {
+                btnFileUpload1Maintain.Visible = true;
+                hlnkFileUpload1.Visible = true;
+                hlnkFileUpload1.NavigateUrl = Path.Combine(path, dt.Rows[0]["attachment1"].ToString());//"~/Sample/Import_HealthGroup.xlsx";
+                hlnkFileUpload1.Text = dt.Rows[0]["attachment1_name"].ToString();
+                
+            }
+            else
+            {
+                FileUpload1.Visible = true;
+            }
+            txtDescription1.Text = dt.Rows[0]["description1"].ToString();
+
+
+            if (!string.IsNullOrEmpty(dt.Rows[0]["attachment2"].ToString()))
+            {
+                btnFileUpload2Maintain.Visible = true;
+                hlnkFileUpload2.Visible = true;
+                hlnkFileUpload2.NavigateUrl = Path.Combine(path, dt.Rows[0]["attachment2"].ToString());//"~/Sample/Import_HealthGroup.xlsx";
+                hlnkFileUpload2.Text = dt.Rows[0]["attachment2_name"].ToString();
+
+            }
+            else
+            {
+                FileUpload2.Visible = true;
+            }
+            txtDescription2.Text = dt.Rows[0]["description2"].ToString();
+
+            if (!string.IsNullOrEmpty(dt.Rows[0]["attachment3"].ToString()))
+            {
+                btnFileUpload3Maintain.Visible = true;
+                hlnkFileUpload3.Visible = true;
+                hlnkFileUpload3.NavigateUrl = Path.Combine(path, dt.Rows[0]["attachment3"].ToString());//"~/Sample/Import_HealthGroup.xlsx";
+                hlnkFileUpload3.Text = dt.Rows[0]["attachment3_name"].ToString();
+
+            }
+            else
+            {
+                FileUpload3.Visible = true;
+            }
+            txtDescription3.Text = dt.Rows[0]["description3"].ToString();
+
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowNoRegisterInfo();", true);
+        }
+    }
+
+    /// <summary>
+    /// 刪除報名資料
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteRegisterModel(string id)
+    {
+        Event ev = new Event();
+        string result = ev.DeleteRegisterModel5(id);
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            //失敗
+            throw new Exception("Failed");
+        }
+
+        return "Success";
     }
 
     private void SendRegisterSuccessMail()
     {
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         EventInfo eventInfo = new EventInfo(eventid);
 
         ev.GetEventInfo(eventid);
@@ -199,4 +325,6 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
         }
     }
+
+    
 }

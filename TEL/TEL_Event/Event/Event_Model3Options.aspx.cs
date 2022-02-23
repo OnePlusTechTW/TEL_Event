@@ -138,7 +138,7 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
 
     protected void gridRegisterOption4_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
-        gridRegisterOption5.PageIndex = e.NewPageIndex;
+        gridRegisterOption4.PageIndex = e.NewPageIndex;
         SetDefaultGridView();
     }
 

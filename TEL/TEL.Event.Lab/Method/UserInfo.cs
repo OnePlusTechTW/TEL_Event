@@ -40,6 +40,8 @@ namespace TEL.Event.Lab.Method
         public string Language = "";
         public string AccountType = "";
         public string ArrivalDate = "";
+        public string HealthGroup = "";
+
 
         public UserInfo(string empID)
         {
@@ -74,6 +76,8 @@ namespace TEL.Event.Lab.Method
                 Mark = WMTB.Rows[0]["Mark"].ToString();
                 Language = WMTB.Rows[0]["Language"].ToString();
                 AccountType = WMTB.Rows[0]["Language"].ToString();
+                HealthGroup = WMTB.Rows[0]["groupname"].ToString();
+
                 //生日
                 if (!Convert.IsDBNull(WMTB.Rows[0]["Birthday"]))
                 {

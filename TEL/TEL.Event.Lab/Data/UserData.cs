@@ -14,7 +14,10 @@ namespace TEL.Event.Lab.Data
         internal DataTable QueryUserInfoTable(string empID)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
-            string sqlString = $@"SELECT * FROM Users WITH(NOLOCK) WHERE EmpID =@empid";
+            string sqlString = $@"
+                                SELECT *,b.groupname FROM Users A WITH(NOLOCK) 
+                                LEFT JOIN TEL_Event_HealthGroup B ON A.empid = B.empid
+                                WHERE A.EmpID =@empid ";
 
             DataTable result = null;
 
