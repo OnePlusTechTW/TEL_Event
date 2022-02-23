@@ -35,7 +35,7 @@
     <form id="form1" runat="server">
         <div>
             <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
-            <table style="width: 950px;" >
+            <table>
                 <tr>
                     <td>
                         <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>

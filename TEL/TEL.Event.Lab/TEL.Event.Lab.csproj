@@ -73,6 +73,7 @@
     <Compile Include="Method\ExcelStyle.cs" />
     <Compile Include="Method\ExportExcel.cs" />
     <Compile Include="Method\MailGroup.cs" />
+    <Compile Include="Method\Register.cs" />
     <Compile Include="Method\SenMail.cs" />
     <Compile Include="Method\SqlLog.cs" />
     <Compile Include="Method\SystemInfo.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Method\SystemSetup.cs" />
     <Compile Include="Method\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterData.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

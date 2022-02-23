@@ -76,7 +76,7 @@
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="LABEL1" runat="server" CssClass="PageTitle" Text="管理活動"></asp:Label>
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理活動"></asp:Label>
             </td>
         </tr>
         <tr style="height: 10px">
@@ -194,16 +194,16 @@
                             <asp:TemplateField HeaderText="報名資料">
                                 <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="btnSignupManage" runat="server" Text="管理" CssClass="Button_Gridview"/>
-                                    <asp:Button ID="btnSignupExport" runat="server" Text="匯出" CssClass="Button_Gridview"/>
+                                    <asp:Button ID="btnRegisterManage" runat="server" Text="管理" CssClass="Button_Gridview"  CommandArgument='<%# Eval("eventnid") %>' OnClick="btnRegisterManage_Click"/>
+                                    <asp:Button ID="btnRegisterExport" runat="server" Text="匯出" CssClass="Button_Gridview" OnClick="btnRegisterExport_Click"/>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="問卷資料">
                                 <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="btnSurveyManage" runat="server" Text="管理" CssClass="Button_Gridview"/>
-                                    <asp:Button ID="btnSurveyExport" runat="server" Text="匯出" CssClass="Button_Gridview"/>
+                                    <asp:Button ID="btnSurveyManage" runat="server" Text="管理" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid") %>' OnClick="btnSurveyManage_Click"/>
+                                    <asp:Button ID="btnSurveyExport" runat="server" Text="匯出" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid") %>' OnClick="btnSurveyExport_Click"/>
                                     <asp:Button ID="btnSurveyPublish" runat="server" Text="發送問券" CssClass="Button_Gridview" OnClick="btnSurveyPublish_Click" CommandArgument='<%# Eval("eventnid") +","+ Eval("eventname")+","+ Eval("registermodel")+","+ Eval("surveymodel")%>'/>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
