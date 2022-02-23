@@ -106,7 +106,7 @@ namespace TEL.Event.Lab.Data
                             TEL_Event_Category
                         SET
                             color = @color,
-                            [name] = @name
+                            [name] = @name,
                             enabled = @enabled,
                             modifiedby = @modifiedby,
                             modifieddate = GETDATE()
@@ -233,6 +233,75 @@ namespace TEL.Event.Lab.Data
                 if (!string.IsNullOrEmpty(name))
                 {
                     wrDad.SelectCommand.Parameters.AddWithValue("@name", name);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 查詢活動分類
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal DataTable QueryEventCategoryWithoutSelf(string name,string id)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [id]
+	                        ,[name]
+	                        ,[color]
+	                        ,[enabled]
+	                        ,[modifiedby]
+	                        ,[modifieddate]
+                        FROM 
+                            [TEL_Event_Category] 
+                        WHERE 
+                            id = id";
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                sqlStr += @" 
+                        AND  [name] = @name
+                            ";
+            }
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                sqlStr += @" 
+                        AND  [id] != @id
+                            ";
+            }
+
+            sqlStr += @"
+                        ORDER BY [name]";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@name", name);
+                }
+
+                if (!string.IsNullOrEmpty(id))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@id", id);
+
                 }
 
                 wrDad.Fill(DS, "T");

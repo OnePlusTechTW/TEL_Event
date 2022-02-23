@@ -619,7 +619,7 @@
             <asp:Label ID="lblCheckup1" runat="server" CssClass="NormalBoldNoColor" Text="員工健檢報名組別"></asp:Label>
         </div>
     </div>
-    <div id="categoryContent" >
+    <div id="categoryContent" style="display: none;">
         <table>
             <tr>
                 <td>
@@ -639,7 +639,7 @@
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlCategoryColor" runat="server" Width="100px" CssClass="QueryField" onchange="ddlCategoryColorOnChange(this);">
-                        <asp:ListItem Selected="True" Text="- 未指定 -" Value="" style="display: none;"></asp:ListItem>
+                        <asp:ListItem Selected="True" Text="- 未指定 -" Value="" ></asp:ListItem>
 
                         <asp:ListItem Text="" Value="#00A9E0" style="background-color: #00A9E0"></asp:ListItem>
                         <asp:ListItem Text="" Value="#71C5E8" style="background-color: #71C5E8"></asp:ListItem>

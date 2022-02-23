@@ -3567,10 +3567,22 @@ namespace TEL.Event.Lab.Data
                             [limit]
                         FROM 
                             [TEL_Event_RegisterOption4]
-                        WHERE  [id] = @id";
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            hosipital = @hosipital
+                        AND
+                            area = @area
+                        AND
+                            description = @solution
+                        AND
+                            [gender] = @gender
+                        AND
+                            avaliabledate = @expectdate ";
 
 
-            DataTable result = null;
+
+        DataTable result = null;
 
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -3581,7 +3593,11 @@ namespace TEL.Event.Lab.Data
 
                 wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
 
-                wrDad.SelectCommand.Parameters.AddWithValue("@id", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];
