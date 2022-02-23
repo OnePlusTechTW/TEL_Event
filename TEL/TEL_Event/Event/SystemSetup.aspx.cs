@@ -26,7 +26,15 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         //postback後，會將前端 ddlCategoryColor 顏色還原，故在postback時，再設定一次ddlCategoryColor 顏色
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ddlCategoryColorOnChange();", true);
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "Menu(null, true);", true);
+    }
 
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        //登入檢查
+        //若不為系統管理者則導到Denied頁面
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        if (gm.IsManager(Page.Session["EmpID"].ToString()) != 3)
+            Response.Redirect("Denied.aspx");
     }
 
     private void GetDefaultData()
@@ -96,26 +104,26 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         string color = ddlCategoryColor.SelectedValue;
         string enabled = ddlIsEnableCategory.SelectedValue;
 
-        string errFields = string.Empty;
 
-        if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(color))
+        StringBuilder sb = new StringBuilder();
+
+        //分類名稱必填
+        if (string.IsNullOrEmpty(name))
         {
-            errFields = $"{lblCategoryName.Text}、{lblCategoryColor.Text}";
+            sb.Append(string.Format(lblRequired.Text, lblCategoryName.Text));
+            sb.Append("<br />");
         }
-        else if (string.IsNullOrEmpty(name))
+        //分類顏色必填
+        if (string.IsNullOrEmpty(color))
         {
-            errFields = lblCategoryName.Text;
-
-        }
-        else if (string.IsNullOrEmpty(color))
-        {
-            errFields = lblCategoryColor.Text;
-
+            sb.Append(string.Format(lblRequired.Text, lblCategoryColor.Text));
+            sb.Append("<br />");
         }
 
-        if (!string.IsNullOrEmpty(errFields))
+        if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('Category','" + errFields + "');", true);
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -365,7 +373,8 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(empid))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('Empid');", true);
+            lblRequiredMsg.Text = string.Format(lblRequired.Text, lblEmpid.Text);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -500,7 +509,8 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 
         if (string.IsNullOrEmpty(name))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('MailGroup');", true);
+            lblRequiredMsg.Text = string.Format(lblRequired.Text, lblMailGroup.Text);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -512,8 +522,9 @@ public partial class Event_SystemSetup : System.Web.UI.Page
             }
             else
             {
+                MailGroup mg = new MailGroup();
                 bool isMailGroupInvalid = true;
-                isMailGroupInvalid = systemSetup.IsMailGroupExist(name);
+                isMailGroupInvalid = mg.IsMailGroupExist(name);
                 if (!isMailGroupInvalid)
                 {
                     ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblInvalidMailGroup.Text + "');", true);
@@ -597,16 +608,29 @@ public partial class Event_SystemSetup : System.Web.UI.Page
     /// <param name="id"></param>
     /// <returns></returns>
     [WebMethod]
-    public static string DeleteMailGroup(string id)
+    public static string DeleteMailGroup(string id, string mailgroup)
     {
-        SystemSetup systemSetup = new SystemSetup();
-        string result = systemSetup.DeleteMailGroup(id);
+        Event ev = new Event();
+        DataTable dt = new DataTable();
 
-        if (!string.IsNullOrEmpty(result))
+        dt = ev.GetEventPermissionMailGroup(mailgroup);
+
+        if (dt.Rows.Count == 0)
         {
-            //失敗
-            throw new Exception("Failed");
+            SystemSetup systemSetup = new SystemSetup();
+            string result = systemSetup.DeleteMailGroup(id);
+
+            if (!string.IsNullOrEmpty(result))
+            {
+                //失敗
+                throw new Exception("Failed");
+            }
         }
+        else
+        {
+            return "BeUsedeMailGroup";
+        }
+        
 
         return "SuccessMailGroup";
     }
@@ -725,8 +749,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
                 }
                 else
                 {
-                    //先刪除
-
                     //寫入DB
                     SystemSetup systemSetup = new SystemSetup();
                     string result = systemSetup.AddUserHealthGroup(listUserHealthGroup, Page.Session["EmpID"].ToString());

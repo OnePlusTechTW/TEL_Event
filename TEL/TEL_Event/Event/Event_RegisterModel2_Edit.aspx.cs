@@ -5,16 +5,17 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 
-public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
+public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
-            Response.Redirect("Default.aspx");
+            Response.Redirect("Register.aspx");
 
         if (!IsPostBack)
             SetDefaultValues();
@@ -22,16 +23,18 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
 
     private void SetDefaultValues()
     {
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         string empid = Page.Session["EmpID"].ToString();
+        string registerid = Request.QueryString["id"].ToString();
+
 
         UC_EventDescription.setViewDefault(eventid);
-        InitFormValues(empid);
         InitDDLValues(eventid);
-        InitGridRegisterModel2family();
+        InitFormValues(empid, registerid);
+        InitGridRegisterModel2family(registerid);
     }
 
-    
+
 
     /// <summary>
     /// 家屬資料新增
@@ -49,7 +52,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         }
         //家屬身分證字號 必填
         if (string.IsNullOrEmpty(txtFID.Text))
-        { 
+        {
             sb.AppendLine(string.Format(lblRequired.Text, lblFID.Text));
             sb.AppendLine("<br />");
         }
@@ -61,13 +64,13 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         }
         //	家屬姓別 必填
         if (string.IsNullOrEmpty(ddlGender.SelectedValue))
-        { 
+        {
             sb.AppendLine(string.Format(lblRequired.Text, lblFGender.Text));
             sb.AppendLine("<br />");
         }
         //餐點內容 必填
         if (string.IsNullOrEmpty(ddlFMeal.SelectedValue))
-        { 
+        {
             sb.AppendLine(string.Format(lblRequired.Text, lblFMeal.Text));
             sb.AppendLine("<br />");
         }
@@ -81,11 +84,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         }
 
         DataTable dt = GetGridViewToDatatable();
-        //dt.Columns.Add("家屬姓名");
-        //dt.Columns.Add("家屬身分證字號");
-        //dt.Columns.Add("家屬生日年月日");
-        //dt.Columns.Add("家屬性別");
-        //dt.Columns.Add("餐點內容");
+        
         DataRow dr = dt.NewRow();
         dr["name"] = txtFName.Text;
         dr["idno"] = txtFID.Text;
@@ -116,14 +115,15 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
     }
 
     /// <summary>
-    /// 送出
+    /// 送芔
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnSummit_Click(object sender, EventArgs e)
     {
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         string empid = Page.Session["EmpID"].ToString();
+        string registerid = Request.QueryString["id"].ToString();
 
         StringBuilder sb = new StringBuilder();
 
@@ -177,7 +177,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         }
 
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
-        EventsData.Add("id", Guid.NewGuid().ToString());
+        EventsData.Add("id", registerid);
         EventsData.Add("eventid", eventid);
         EventsData.Add("empid", empid);
         EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
@@ -187,7 +187,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         EventsData.Add("meal", ddlMeal.SelectedValue);
         EventsData.Add("feedback", txtComment.Text);
 
-        string result = ev.AddRegisterModel2(EventsData, GetGridViewToDatatable(), empid);
+        string result = ev.UpdateRegisterModel2(EventsData, GetGridViewToDatatable(), empid);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -199,6 +199,14 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        Event ev = new Event();
+        string id = Request.QueryString["id"];
+
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
 
     /// <summary>
@@ -230,13 +238,14 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
 
         Response.Redirect($"{returnPage}.aspx");
     }
-    
+
 
     protected void gridRegisterModel2family_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
+        string registerid = Request.QueryString["id"].ToString();
+
         gridRegisterModel2family.PageIndex = e.NewPageIndex;
-        this.gridRegisterModel2family.DataSource = GetGridViewToDatatable();
-        this.gridRegisterModel2family.DataBind();
+        InitGridRegisterModel2family(registerid);
     }
 
     protected void gridRegisterModel2family_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -259,7 +268,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
     /// 初始表單
     /// </summary>
     /// <param name="empid"></param>
-    private void InitFormValues(string empid)
+    private void InitFormValues(string empid, string registerid)
     {
         UserInfo userInfo = new UserInfo(empid);
         txtEmpid.Text = empid;
@@ -271,6 +280,22 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         txtBDay.Text = userInfo.Birthday;
         txtGender.Text = userInfo.Gender;
         txtEmail.Text = userInfo.EMail;
+
+        Event ev = new Event();
+        DataTable dt = new DataTable();
+        dt = ev.GetRegisterModel2(registerid);
+        if (dt.Rows.Count > 0)
+        {
+            ddlAttendContent.SelectedValue = dt.Rows[0]["selectedoption"].ToString();
+            txtPhone.Text = dt.Rows[0]["mobile"].ToString();
+            ddlTransportation.SelectedValue = dt.Rows[0]["traffic"].ToString();
+            ddlMeal.SelectedValue = dt.Rows[0]["meal"].ToString();
+            txtComment.Text = dt.Rows[0]["feedback"].ToString();
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowNoRegisterInfo();", true);
+        }
     }
 
     /// <summary>
@@ -342,14 +367,26 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
             li1.Value = rs["description"].ToString();
 
             this.ddlMeal.Items.Add(li1);
+
+        }
+
+        foreach (DataRow rs in dtMeal.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["description"].ToString();
+            li1.Value = rs["description"].ToString();
+
             this.ddlFMeal.Items.Add(li1);
 
         }
     }
 
-    private void InitGridRegisterModel2family()
+    private void InitGridRegisterModel2family(string id)
     {
-        this.gridRegisterModel2family.DataSource = GetGridViewToDatatable();
+        Event ev = new Event();
+        DataTable dt = new DataTable();
+        dt = ev.GetRegisterModel2family(id);
+        this.gridRegisterModel2family.DataSource = dt;
         this.gridRegisterModel2family.DataBind();
     }
     private DataTable GetGridViewToDatatable()
@@ -379,7 +416,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
     private void SendRegisterSuccessMail()
     {
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         EventInfo eventInfo = new EventInfo(eventid);
 
         ev.GetEventInfo(eventid);
@@ -413,5 +450,24 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
         }
     }
-    
+
+    /// <summary>
+    /// 刪除報名資料
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteRegisterModel2(string id)
+    {
+        Event ev = new Event();
+        string result = ev.DeleteRegisterModel2(id);
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            //失敗
+            throw new Exception("Failed");
+        }
+
+        return "Success";
+    }
 }

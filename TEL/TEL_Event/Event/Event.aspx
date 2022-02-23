@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event.aspx.cs" Inherits="Event_Event" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 
-<%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -26,12 +25,10 @@
 
         });
 
-        function ShowDialogView() {
+        function ShowDialogView(id) {
             $(function () {
-                //$("#dialogView").load('Event_Create.aspx?id=af3bb0d8-3850-4e29-b469-400f372d3868');
-
                 $("#dialogView").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -40,12 +37,10 @@
                         Close: function () {
                             $(this).dialog('close');
                         }
-                    },
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel1").style.display = "block";
                     }
                 });
+
+                $("#dialogView").load('Event_View.aspx?id=' + id);
             });
 
         }
@@ -53,7 +48,7 @@
         function ShowDialogMsg() {
             $(function () {
                 $("#dialogMsg").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "700px",
                     Height: "500px",
@@ -149,6 +144,7 @@
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動分類" DataField="categoryname">
                                 <HeaderStyle Width="95px"></HeaderStyle>
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             
                              <asp:TemplateField HeaderText="報名開始日期時間">
@@ -167,11 +163,11 @@
                             </asp:TemplateField>
                             <asp:BoundField HeaderText="活動開始日期" DataField="eventstart">
                                 <HeaderStyle Width="105px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動結束日期" DataField="eventend">
                                 <HeaderStyle  Width="105px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:TemplateField HeaderText="活動狀態">
                                 <HeaderStyle  Width="95px"></HeaderStyle>
@@ -220,23 +216,24 @@
             </tr>
         </table>
     <div id="dialogView" title="Dialog Title">
-        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-                <uc1:UC_EventDescription runat="server" id="UC_EventDescription" />
-        </asp:Panel>
+        
     </div>
 
     <div id="dialogMsg" title="Dialog Title">
-        <asp:Panel ID="Panel1" runat="server" Style="display: none">
+        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
 
     <asp:Label ID="lblSurveyFailed" runat="server" Text="問券發送失敗。" Visible="false"></asp:Label>
+    <asp:Label ID="lblNoRegister" runat="server" Text="尚無人員報名。" Visible="false"></asp:Label>
     <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
     <asp:Label ID="lblNYStart" runat="server" Text="尚未開始" Visible="false"></asp:Label>
     <asp:Label ID="lblInProgress" runat="server" Text="進行中" Visible="false"></asp:Label>
     <asp:Label ID="lblEnd" runat="server" Text="已結束" Visible="false"></asp:Label>
     <asp:Label ID="lblEnableYes" runat="server" Text="是" Visible="false"></asp:Label>
     <asp:Label ID="lblEnableNo" runat="server" Text="否" Visible="false"></asp:Label>
+    <asp:HiddenField ID="hfIsManager" runat="server" />
+    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
 </asp:Content>
 

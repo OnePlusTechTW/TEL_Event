@@ -311,16 +311,17 @@
         }
 
         //刪除資料events
-        function onDelete(event, id) {
+        function onDelete(event, eventid, id) {
+            debugger
             switch (event) {
                 case 'Category':
-                    PageMethods.DeleteCategory(id, Success, Failure);
+                    PageMethods.DeleteCategory(eventid, Success, Failure);
                     break;
                 case 'Manager':
-                    PageMethods.DeleteManager(id, Success, Failure);
+                    PageMethods.DeleteManager(eventid, Success, Failure);
                     break;
                 case 'MailGroup':
-                    PageMethods.DeleteMailGroup(id, Success, Failure);
+                    PageMethods.DeleteMailGroup(eventid, id, Success, Failure);
                     break;
                 default:
             }
@@ -343,7 +344,10 @@
                     break;
                 case 'BeUsedCategory':
                     ShowDialogMsg($('#<%=lblBeUsedCategory.ClientID%>')[0].textContent);
-                    break;
+                    break; "BeUsedeMailGroup"
+                case 'BeUsedeMailGroup':
+                    ShowDialogMsg($('#<%=lblBeUsedMailGroup.ClientID%>')[0].textContent);
+                    break; 
                 default:
             }
         }
@@ -356,20 +360,7 @@
 
         /*  以下為 dialog events  */
         //必填欄位 訊息開窗
-        function ShowDialogRequired(fieldName, errField) {
-            switch (fieldName) {
-                case 'Category':
-                    $('#<%= lblFiledName.ClientID %>').text(errField);
-                    break;
-                case 'Empid':
-                    $('#<%= lblFiledName.ClientID %>').text($('#<%=lblEmpid.ClientID%>')[0].textContent);
-                    break;
-                case 'MailGroup':
-                    $('#<%= lblFiledName.ClientID %>').text($('#<%=lblMailGroup.ClientID%>')[0].textContent);
-                    break;
-                default:
-            }
-
+        function ShowDialogRequired() {
             $(function () {
                 $("#dialogRequired").dialog({
                     title: $('#<%=hfWarning.ClientID%>')[0].value,
@@ -411,7 +402,7 @@
         };
 
         //是否刪除 訊息開窗
-        function ShowDialogDelete(event, id) {
+        function ShowDialogDelete(event, eventid, id) {
             $(function () {
                 $("#dialogDelete").dialog({
                     title: $('#<%=hfmsg.ClientID%>')[0].value,
@@ -420,7 +411,7 @@
                         {
                             text: "確定",
                             click: function () {
-                                onDelete(event, id);
+                                onDelete(event, eventid, id);
                                 $(this).dialog("close");
                             }
                         },
@@ -758,7 +749,7 @@
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="Button_DeleteCategory" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' 
-                                        OnClientClick='<%# "ShowDialogDelete(\"Category\",\""+ Eval("id") + "\");return false;" %>' />
+                                        OnClientClick='<%# "ShowDialogDelete(\"Category\",\""+ Eval("id")  + "\");return false;" %>' />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -871,7 +862,7 @@
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="Button_DeleteMailGroup" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' 
-                                         OnClientClick='<%# "ShowDialogDelete(\"MailGroup\",\""+ Eval("id") + "\");return false;" %>'
+                                         OnClientClick='<%# "ShowDialogDelete(\"MailGroup\",\""+ Eval("id")+ "\",\""+ Eval("name") + "\");return false;" %>'
                                         />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
@@ -926,8 +917,7 @@
     <%--dialog 必填--%>
     <div id="dialogRequired" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <asp:Label ID="lblFiledName" runat="server" Text=""></asp:Label>
-            <asp:Label ID="lblRequired" runat="server" Text="為必填欄位。"></asp:Label>
+            <asp:Label ID="lblRequiredMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
     
@@ -998,6 +988,7 @@
     <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" style="display:none;" />
     <asp:Button ID="btnReloadMailGroupGrid" runat="server" Text="Button" OnClick="btnReloadMailGroupGrid_Click" style="display:none;" />
 
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblDuplicate" runat="server" Text="以下員工報名健檢組別重複：" Visible="false"></asp:Label>
     <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>

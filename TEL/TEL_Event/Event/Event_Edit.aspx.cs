@@ -1,5 +1,4 @@
-﻿using Microsoft.Security.Application;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,23 +11,33 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 
-public partial class Event_Event_Create : System.Web.UI.Page
+public partial class Event_Event_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
+            Response.Redirect("Event.aspx");
+
         if (!IsPostBack)
         {
             CheckEventThumbnailPathExist();
             GeneratedCategoryItem();
+
+            // 取得key
+            string id = Request.QueryString["id"];
+            if (!string.IsNullOrEmpty(id))
+            {
+                MaintainPageLoadData(id);
+            }
         }
     }
 
     protected void Page_PreRender(object sender, EventArgs e)
     {
         //登入檢查
-        //若不為系統管理常態活動、系統管理者者則導到Denied頁面
+        //若為一般使用者則導到Denied頁面
         TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
-        if (gm.IsManager(Page.Session["EmpID"].ToString()) < 2)
+        if (gm.IsManager(Page.Session["EmpID"].ToString()) < 1)
             Response.Redirect("Denied.aspx");
     }
 
@@ -240,7 +249,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
 
         string id = Request.QueryString["id"];
 
-        EventsData.Add("id", Guid.NewGuid().ToString());//活動名稱
+        EventsData.Add("id", id);//活動名稱
         EventsData.Add("name", tbEventName.Text);//活動名稱
         EventsData.Add("categoryid", ddlEventCategory.SelectedValue);//活動分類
         EventsData.Add("eventstart", tbEventSDate.Text);//活動開始日期
@@ -265,7 +274,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
                 mailgroup += item.Value;
             }
         }
-        EventsData.Add("mailgroup", rblEventMember.SelectedValue == "A" ? string.Empty : mailgroup);//活動成員 郵件群組
+        EventsData.Add("mailgroup", rblEventMember.SelectedValue == "A"? string.Empty : mailgroup);//活動成員 郵件群組
 
         EventsData.Add("mailgroupother", rblEventMember.SelectedValue == "A" ? string.Empty : tbCustMember.Text);//活動成員 郵件群組自填
 
@@ -321,8 +330,9 @@ public partial class Event_Event_Create : System.Web.UI.Page
         Event ev = new Event();
         string result = string.Empty;
 
-        //新增活動
-        result = ev.CreateEvent(EventsData, EventAdminData, Page.Session["EmpID"].ToString());
+        //更新活動
+        result = ev.UpdateEvent(EventsData, EventAdminData, Page.Session["EmpID"].ToString());
+
 
         if (string.IsNullOrEmpty(result))
         {
@@ -372,6 +382,25 @@ public partial class Event_Event_Create : System.Web.UI.Page
         lblPictureName.Visible = false;
         btnPicture.Visible = false;
         FileUploadPicture.Visible = true;
+    }
+
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        Event ev = new Event();
+        string id = Request.QueryString["id"];
+        DataTable dtRegisteredEvent = new DataTable();
+        dtRegisteredEvent = ev.GetRegisteredEventInfo(id);
+
+        if (dtRegisteredEvent.Rows.Count > 0)
+        {
+            lblMsg.Text = lblCantDelete.Text;
+
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
+        }
     }
 
     protected void btnGoBackEventPage_Click(object sender, EventArgs e)
@@ -550,6 +579,4 @@ public partial class Event_Event_Create : System.Web.UI.Page
 
         return "Success";
     }
-
-
 }

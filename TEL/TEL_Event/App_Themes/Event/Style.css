@@ -50,9 +50,13 @@
     vertical-align: text-bottom;
 }
 
-.FileUpload {
+.controlCommon {
     font-family: Microsoft JhengHei, Georgia;
     font-weight: bold;
+}
+
+.FormTRStyle td {
+    padding-top: 15px;
 }
 
 

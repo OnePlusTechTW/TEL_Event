@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -24,26 +25,23 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
         string content = txtContent.Text;
         string limit = txtLimit.Text;
 
-        string errFields = string.Empty;
-
-        if (string.IsNullOrEmpty(content) && string.IsNullOrEmpty(limit))
+        StringBuilder sb = new StringBuilder();
+        if (string.IsNullOrEmpty(content))
         {
-            errFields = $"{lblContent.Text}、{lblLimit.Text}";
-        }
-        else if (string.IsNullOrEmpty(content))
-        {
-            errFields = lblContent.Text;
-
-        }
-        else if (string.IsNullOrEmpty(limit))
-        {
-            errFields = lblLimit.Text;
-
+            sb.Append(string.Format(lblRequired.Text, lblContent.Text));
+            sb.Append("<br />");
         }
 
-        if (!string.IsNullOrEmpty(errFields))
+        if (string.IsNullOrEmpty(limit))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('" + errFields + "');", true);
+            sb.Append(string.Format(lblRequired.Text, lblLimit.Text));
+            sb.Append("<br />");
+        }
+
+        if (!string.IsNullOrEmpty(sb.ToString()))
+        {
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -78,17 +76,17 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
     {
         string transportation = txtTransportation.Text;
 
-        string errFields = string.Empty;
-
+        StringBuilder sb = new StringBuilder();
         if (string.IsNullOrEmpty(transportation))
         {
-            errFields = lblTransportation.Text;
-
+            sb.Append(string.Format(lblRequired.Text, lblTransportation.Text));
+            sb.Append("<br />");
         }
 
-        if (!string.IsNullOrEmpty(errFields))
+        if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('" + errFields + "');", true);
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {
@@ -116,16 +114,17 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
     {
         string meal = txtMeal.Text;
 
-        string errFields = string.Empty;
-
+        StringBuilder sb = new StringBuilder();
         if (string.IsNullOrEmpty(meal))
         {
-            errFields = lblMeal.Text;
+            sb.Append(string.Format(lblRequired.Text, lblMeal.Text));
+            sb.Append("<br />");
         }
 
-        if (!string.IsNullOrEmpty(errFields))
+        if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired('" + errFields + "');", true);
+            lblRequiredMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
         }
         else
         {

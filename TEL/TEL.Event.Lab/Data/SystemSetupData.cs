@@ -213,7 +213,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [name] DESC";
+                        ORDER BY [name]";
 
             DataTable result = null;
 
@@ -353,7 +353,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @" 
-                        ORDER BY ea.[empid] DESC";
+                        ORDER BY ea.[empid]";
 
             DataTable result = null;
 
@@ -556,7 +556,7 @@ namespace TEL.Event.Lab.Data
             }
 
             sqlStr += @"
-                        ORDER BY [name] DESC";
+                        ORDER BY [name]";
 
             DataTable result = null;
 
@@ -580,46 +580,7 @@ namespace TEL.Event.Lab.Data
             return result;
         }
 
-        /// <summary>
-        /// 查詢User郵件群組
-        /// </summary>
-        /// <returns></returns>
-        internal DataTable QueryMailGroup(string name)
-        {
-            string connStr = GetConnectionString();
-            string sqlStr = "";
-
-            sqlStr = @"
-                        SELECT
-	                        [UID]
-	                        ,[Name]
-	                        ,[Address]
-	                        ,[EmpID]
-                        FROM 
-	                        [MailGroup] 
-                        WHERE  
-                            [Name] = @name";
-
-
-            DataTable result = null;
-
-            using (SqlConnection connection = new SqlConnection(connStr))
-            {
-                connection.Open();
-
-                SqlDataAdapter wrDad = new SqlDataAdapter();
-                DataSet DS = new DataSet();
-
-                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
-
-                wrDad.SelectCommand.Parameters.AddWithValue("@name", name);
-
-                wrDad.Fill(DS, "T");
-                result = DS.Tables["T"];
-            }
-
-            return result;
-        }
+        
         #endregion
 
         #region 員工健檢
@@ -719,7 +680,7 @@ namespace TEL.Event.Lab.Data
                         FROM 
                             TEL_Event_HealthGroup h
                         LEFT JOIN Users u ON u.EmpID = h.empid 
-                        ORDER BY h.[empid] DESC";
+                        ORDER BY h.[empid]";
 
             DataTable result = null;
 

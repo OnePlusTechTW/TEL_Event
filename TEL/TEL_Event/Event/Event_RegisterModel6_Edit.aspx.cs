@@ -4,11 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 
-public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
+public partial class Event_Event_RegisterModel6_Edit : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -21,12 +22,14 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
 
     private void SetDefaultValues()
     {
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         string empid = Page.Session["EmpID"].ToString();
+        string registerid = Request.QueryString["id"];
+
 
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
-        InitFormValues(empid);
+        InitFormValues(empid, eventid, registerid);
     }
 
     protected void btnSummit_Click(object sender, EventArgs e)
@@ -55,10 +58,11 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         }
 
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
+        string registerid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
         Dictionary<string, string> Data = new Dictionary<string, string>();
-        Data.Add("id", Guid.NewGuid().ToString());
+        Data.Add("id", registerid);
         Data.Add("eventid", eventid);
         Data.Add("empid", empid);
         Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
@@ -67,7 +71,7 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         Data.Add("feedback", txtComment.Text);
 
 
-        string result = ev.AddRegisterModel6(Data, empid);
+        string result = ev.UpdateRegisterModel6(Data, empid);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -79,6 +83,13 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
+    }
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        Event ev = new Event();
+        string id = Request.QueryString["id"];
+
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
 
     protected void btnCannel_Click(object sender, EventArgs e)
@@ -93,8 +104,8 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
 
     protected void ddlArea_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string eventid = Request.QueryString["id"];
-        BindDDLAvaliableDat(eventid, ddlArea.SelectedValue);
+        string eventid = Request.QueryString["eventid"];
+        BindDDLAvaliabledate(eventid, ddlArea.SelectedValue);
     }
 
 
@@ -109,7 +120,7 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         Response.Redirect($"{returnPage}.aspx");
     }
 
-    private void InitFormValues(string empid)
+    private void InitFormValues(string empid, string eventid, string registerid)
     {
         UserInfo userInfo = new UserInfo(empid);
         txtEmpid.Text = empid;
@@ -117,6 +128,22 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         txtEName.Text = userInfo.FullNameEN;
         txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
         txtStation.Text = userInfo.Station;
+
+        Event ev = new Event();
+        DataTable dt = new DataTable();
+        dt = ev.GetRegisterModel6(registerid);
+        if (dt.Rows.Count > 0)
+        {
+            ddlArea.SelectedValue = dt.Rows[0]["changearea"].ToString();
+            BindDDLAvaliabledate(eventid, ddlArea.SelectedValue);
+
+            ddlAvaliabledate.SelectedValue = dt.Rows[0]["changedate"].ToString();
+
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowNoRegisterInfo();", true);
+        }
     }
 
     private void InitDDLValues(string eventid)
@@ -146,7 +173,7 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         }
     }
 
-    private void BindDDLAvaliableDat(string eventid, string selectedValue)
+    private void BindDDLAvaliabledate(string eventid, string selectedValue)
     {
         Event ev = new Event();
 
@@ -174,10 +201,30 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// 刪除報名資料
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteRegisterModel(string id)
+    {
+        Event ev = new Event();
+        string result = ev.DeleteRegisterModel6(id);
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            //失敗
+            throw new Exception("Failed");
+        }
+
+        return "Success";
+    }
+
     private void SendRegisterSuccessMail()
     {
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         EventInfo eventInfo = new EventInfo(eventid);
 
         ev.GetEventInfo(eventid);
@@ -211,4 +258,6 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
         }
     }
+
+    
 }

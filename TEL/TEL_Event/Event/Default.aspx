@@ -1,6 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Event_Default" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 
-<%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -90,26 +89,30 @@
         }
     </style>
     <script>
-        function ShowDialogEventView() {
+        function ShowDialogView(page, eventid, id) {
             $(function () {
-                //$("#dialogView").load('Event_Create.aspx?id=af3bb0d8-3850-4e29-b469-400f372d3868');
-
-                $("#dialogEventView").dialog({
-                    title: "",
+                $("#dialogView").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
-                    width: "645px",
+                    width: "1200px",
                     Height: "500px",
                     position: { my: "center center", at: "center top+100", },
                     buttons: {
                         Close: function () {
                             $(this).dialog('close');
                         }
-                    },
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel1").style.display = "block";
                     }
                 });
+
+                switch (page) {
+                    case 'Event_View':
+                        $("#dialogView").load('Event_View.aspx?id=' + eventid);
+                        break;
+                    default:
+                        $("#dialogView").load(page + '.aspx?eventid=' + eventid + '&id=' + id + '&page=Default');
+                        break;
+                }
+
             });
 
         }
@@ -120,7 +123,7 @@
                 $("#dialogRegisterCreate").load('Event_RegisterModel' + registermodel + '_Create.aspx?id=' + id);
 
                 $("#dialogRegisterCreate").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -183,19 +186,15 @@
         </asp:Panel>
     </div>
 
-    <div id="dialogEventView" title="Dialog Title">
-        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
-        </asp:Panel>
+    <div id="dialogView" title="Dialog Title">
+        
     </div>
     <asp:Label ID="lblLimit" runat="server" Text="無限制" Visible="false"></asp:Label>
     <asp:Label ID="lblSignup" runat="server" Text="馬上報名" Visible="false"></asp:Label>
     <asp:Label ID="lblView" runat="server" Text="檢視報名" Visible="false"></asp:Label>
     <asp:Label ID="lblNYStart" runat="server" Text="尚未開放報名" Visible="false"></asp:Label>
     <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
-
-
-
+    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
 
     <%--<table>
         <tr>

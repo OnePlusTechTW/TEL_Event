@@ -1,7 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel5_Create.aspx.cs" Inherits="Event_Event_RegisterModel5_Create" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel5_Edit.aspx.cs" Inherits="Event_Event_RegisterModel5_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
-
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <script>
@@ -71,9 +69,79 @@
             });
 
         };
+
+        //是否刪除 訊息開窗
+        function ShowDialogDelete(id) {
+            $(function () {
+                $("#dialogDelete").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "確定",
+                            click: function () {
+                                onDelete(id);
+                                $(this).dialog("close");
+                            }
+                        },
+                        {
+                            text: "取消",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ],
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel6").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
+        //刪除資料events
+        function onDelete(id) {
+            PageMethods.DeleteRegisterModel(id, Success, Failure);
+        }
+
+        //刪除資料events Success callback
+        function Success(result) {
+            //ShowDialogSuccessReload(result);
+            //刪除成功 reload gridview
+            <%= btnGoBackPage.ClientID%>.click();
+        }
+
+        //刪除資料events Failure callback
+        function Failure(error) {
+            ShowDialogFailed();
+        }
+
+        function ShowNoRegisterInfo() {
+            $(function () {
+                $("#dialogNoRegisterInfo").dialog({
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    modal: true,
+                    width: "700px",
+                    Height: "500px",
+                    position: { my: "center center", at: "center top+175", },
+                    buttons: {
+                        Close: function () {
+                            <%= btnGoBackPage.ClientID%>.click();
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
+                    }
+                });
+            });
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table style="width: 100%; ">
         <tr>
@@ -89,7 +157,7 @@
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
+                <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
             <td>
                 <asp:TextBox ID="txtCName" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
@@ -120,12 +188,14 @@
         </tr>
         <tr class="FormTRStyle">
             <td colspan="3">
-                <asp:Label ID="txtFileUpload1" runat="server" Text="上傳附件1"></asp:Label>
+                <asp:Label ID="lblFileUpload1" runat="server" Text="上傳附件1"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:FileUpload ID="FileUpload1" runat="server" />
+                <asp:HyperLink ID="hlnkFileUpload1" runat="server"  style="color:blue;" Visible="false"/>
+                <asp:Button ID="btnFileUpload1Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload1Maintain_Click" />
+                <asp:FileUpload ID="FileUpload1" runat="server" Visible="false" />
             </td>
         </tr>
         <tr class="FormTRStyle">
@@ -140,12 +210,15 @@
         </tr>
         <tr class="FormTRStyle">
             <td colspan="3">
-                <asp:Label ID="txtFileUpload2" runat="server" Text="上傳附件2"></asp:Label>
+                
+                <asp:Label ID="lblFileUpload2" runat="server" Text="上傳附件2"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:FileUpload ID="FileUpload2" runat="server" />
+                <asp:HyperLink ID="hlnkFileUpload2" runat="server"  style="color:blue;" Visible="false"/>
+                <asp:Button ID="btnFileUpload2Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload2Maintain_Click"  />
+                <asp:FileUpload ID="FileUpload2" runat="server" Visible="false" />
             </td>
         </tr>
         <tr class="FormTRStyle">
@@ -160,12 +233,15 @@
         </tr>
         <tr class="FormTRStyle">
             <td colspan="3">
-                <asp:Label ID="txtFileUpload3" runat="server" Text="上傳附件3"></asp:Label>
+                
+                <asp:Label ID="lblFileUpload3" runat="server" Text="上傳附件3"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:FileUpload ID="FileUpload3" runat="server" />
+                <asp:HyperLink ID="hlnkFileUpload3" runat="server"  style="color:blue;" Visible="false"/>
+                <asp:Button ID="btnFileUpload3Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload3Maintain_Click"  />
+                <asp:FileUpload ID="FileUpload3" runat="server" Visible="false" />
             </td>
         </tr>
         <tr class="FormTRStyle">
@@ -178,7 +254,7 @@
                 <asp:TextBox ID="txtDescription3" runat="server" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
         </tr>
-        <tr class="FormTRStyle" >
+        <tr  class="FormTRStyle">
             <td colspan="3">
                 <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
             </td>
@@ -190,17 +266,18 @@
         </tr>
         <tr>
             <td style="padding-top:15px">
-                <asp:Button ID="btnSummit" runat="server" Text="送出" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
             </td>
             <td style="padding-top:15px">
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="99%" CssClass="Button" OnClick="btnDelete_Click"/>
             </td>
             <td>
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
             </td>
         </tr>
     </table>
 
-    <div id="dialogMsg" title="Dialog Title">
+     <div id="dialogMsg" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
@@ -217,9 +294,19 @@
             <asp:Label ID="lblErrMsg" runat="server" Text="" Visible="false"></asp:Label><br />
         </asp:Panel>
     </div>
+    <div id="dialogDelete" title="Dialog Title">
+        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
+            <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？"></asp:Label>
+        </asp:Panel>
+    </div>
+
+    <div id="dialogNoRegisterInfo" title="Dialog Title">
+        <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
+            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。" ></asp:Label>
+        </asp:Panel>
+    </div>
 
     <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
-    <asp:Label ID="lblUnselect" runat="server" Text="- 未指定 -" Visible="false"></asp:Label>
     <asp:Label ID="lblLimitReached" runat="server" Text="此方案報名人數已達上限，請重新選擇其他方案" Visible="false"></asp:Label>
     <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />

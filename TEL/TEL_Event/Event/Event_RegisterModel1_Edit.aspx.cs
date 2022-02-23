@@ -4,16 +4,19 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using TEL.Event.Lab.Method;
 
-public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
+public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
 {
+    ///Event_RegisterModel1_Edit.aspx?eventid=6e54d90b-65af-4952-985f-8dfa239d3e51&id=4753BB1D-91B1-4312-B3FB-6CFA6A44B159&page=Register
+    ///
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
-            Response.Redirect("Default.aspx");
+            Response.Redirect("Register.aspx");
 
         if (!IsPostBack)
             SetDefaultValues();
@@ -21,53 +24,56 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
 
     private void SetDefaultValues()
     {
-        string eventid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
+        string eventid = Request.QueryString["eventid"];
+        string id = Request.QueryString["id"].ToString();
+
 
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
-        InitFormValues(empid);
+        InitFormValues(empid, id);
     }
+    
 
     protected void btnSummit_Click(object sender, EventArgs e)
     {
-        StringBuilder sb = new StringBuilder();
-        //地點 必填
-        if (string.IsNullOrEmpty(ddlArea.SelectedValue))
-        {
-            sb.AppendLine(string.Format(lblRequired.Text, lblChangeArea.Text));
-            sb.AppendLine("<br />");
-        }
+        string eventid = Request.QueryString["eventid"];
+        string empid = Page.Session["EmpID"].ToString();
+        string id = Request.QueryString["id"].ToString();
 
-        //日期時間 必填
-        if (string.IsNullOrEmpty(ddlAvaliabledate.SelectedValue))
+        //欲參加的內容 必填
+        if (string.IsNullOrEmpty(this.ddlAttendContent.SelectedValue))
         {
-            sb.AppendLine(string.Format(lblRequired.Text, lblChangeDate.Text));
-            sb.AppendLine("<br />");
-        }
-
-        if (!string.IsNullOrEmpty(sb.ToString()))
-        {
-            lblMsg.Text = sb.ToString();
+            lblMsg.Text = string.Format(lblRequired.Text, lblAttendContent.Text);
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
 
             return;
         }
 
+        //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
-        string empid = Page.Session["EmpID"].ToString();
-        Dictionary<string, string> Data = new Dictionary<string, string>();
-        Data.Add("id", Guid.NewGuid().ToString());
-        Data.Add("eventid", eventid);
-        Data.Add("empid", empid);
-        Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
-        Data.Add("changearea", ddlArea.SelectedValue);
-        Data.Add("changedate", ddlAvaliabledate.SelectedValue);
-        Data.Add("feedback", txtComment.Text);
+        int option1Limit = ev.GetRegisterOption1Limit(ddlAttendContent.SelectedValue);
+        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue);
+
+        if (registerCount >= option1Limit)
+        {
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
+        Dictionary<string, string> EventsData = new Dictionary<string, string>();
+        EventsData.Add("id", id);
+        EventsData.Add("eventid", eventid);
+        EventsData.Add("empid", empid);
+        EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
+        EventsData.Add("selectedoption", ddlAttendContent.SelectedValue);
+        EventsData.Add("feedback", txtComment.Text);
 
 
-        string result = ev.AddRegisterModel6(Data, empid);
+        string result = ev.UpdateRegisterModel1(EventsData, empid);
+
 
         if (string.IsNullOrEmpty(result))
         {
@@ -91,14 +97,6 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         Response.Redirect($"{returnPage}.aspx");
     }
 
-    protected void ddlArea_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string eventid = Request.QueryString["id"];
-        BindDDLAvaliableDat(eventid, ddlArea.SelectedValue);
-    }
-
-
-
     protected void btnGoBackPage_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
@@ -109,75 +107,74 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         Response.Redirect($"{returnPage}.aspx");
     }
 
-    private void InitFormValues(string empid)
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        Event ev = new Event();
+        string id = Request.QueryString["id"];
+
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
+    }
+
+    /// <summary>
+    /// 初始下拉選單值
+    /// </summary>
+    /// <param name="eventid"></param>
+    private void InitDDLValues(string eventid)
+    {
+        this.ddlAttendContent.Items.Clear();
+        ListItem li = new ListItem();
+        li.Text = lblUnselect.Text;
+        li.Value = string.Empty;
+        li.Selected = true;
+        this.ddlAttendContent.Items.Add(li);
+
+        Event ev = new Event();
+        DataTable dt = new DataTable();
+        dt = ev.GetRegisterOption1(eventid);
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["description"].ToString();
+            li1.Value = rs["description"].ToString();
+
+            this.ddlAttendContent.Items.Add(li1);
+        }
+    }
+
+    /// <summary>
+    /// 初始表單
+    /// </summary>
+    /// <param name="empid"></param>
+    private void InitFormValues(string empid, string id)
     {
         UserInfo userInfo = new UserInfo(empid);
+        //user info
         txtEmpid.Text = empid;
         txtCName.Text = userInfo.FullNameCH;
         txtEName.Text = userInfo.FullNameEN;
         txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
         txtStation.Text = userInfo.Station;
-    }
 
-    private void InitDDLValues(string eventid)
-    {
+        //form info
         Event ev = new Event();
-
-        //地點
-        this.ddlArea.Items.Clear();
-
-        ListItem li = new ListItem();
-        li.Text = lblUnselect.Text;
-        li.Value = string.Empty;
-        li.Selected = true;
-        this.ddlArea.Items.Add(li);
-        this.ddlAvaliabledate.Items.Add(li);
-
-        DataTable dtArea = new DataTable();
-        dtArea = ev.GetAreaOption6(eventid);
-
-        foreach (DataRow rs in dtArea.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["area"].ToString();
-            li1.Value = rs["area"].ToString();
-
-            this.ddlArea.Items.Add(li1);
-        }
-    }
-
-    private void BindDDLAvaliableDat(string eventid, string selectedValue)
-    {
-        Event ev = new Event();
-
-        //地區
-        this.ddlAvaliabledate.Enabled = true;
-        this.ddlAvaliabledate.Items.Clear();
-
-        ListItem li = new ListItem();
-        li.Text = lblUnselect.Text;
-        li.Value = string.Empty;
-        li.Selected = true;
-        this.ddlAvaliabledate.Items.Add(li);
-
-
         DataTable dt = new DataTable();
-        dt = ev.GetAvaliableDatOption(eventid, ddlArea.SelectedValue);
-
-        foreach (DataRow rs in dt.Rows)
+        dt = ev.GetRegisterModel1(id);
+        if (dt.Rows.Count > 0)
         {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["avaliabledate"].ToString();
-            li1.Value = rs["avaliabledate"].ToString();
-
-            this.ddlAvaliabledate.Items.Add(li1);
+            ddlAttendContent.SelectedValue = dt.Rows[0]["selectedoption"].ToString();
+            txtComment.Text = dt.Rows[0]["feedback"].ToString();
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowNoRegisterInfo();", true);
         }
     }
 
     private void SendRegisterSuccessMail()
     {
         Event ev = new Event();
-        string eventid = Request.QueryString["id"];
+        string eventid = Request.QueryString["eventid"];
         EventInfo eventInfo = new EventInfo(eventid);
 
         ev.GetEventInfo(eventid);
@@ -210,5 +207,25 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
             lblRegisterSccess.Text = $"{lblRegisterSccess.Text}，{lblSendMailFailed.Text}";
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
         }
+    }
+
+    /// <summary>
+    /// 刪除活動報名
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static string DeleteRegisterModel1(string id)
+    {
+        Event ev = new Event();
+        string result = ev.DeleteRegisterModel1(id);
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            //失敗
+            throw new Exception("Failed");
+        }
+
+        return "Success";
     }
 }

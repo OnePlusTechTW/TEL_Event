@@ -163,7 +163,7 @@ namespace TEL.Event.Lab.Method
         }
 
         /// <summary>
-        /// 取得郵件群組
+        /// 取得活動郵件群組
         /// </summary>
         /// <returns></returns>
         public DataTable GetEventMailGroup(string name)
@@ -171,23 +171,6 @@ namespace TEL.Event.Lab.Method
             SystemSetupData systemSetupData = new SystemSetupData();
             return systemSetupData.QueryEventMailGroup(name);
         }
-
-        /// <summary>
-        /// 郵件群組是否有效
-        /// </summary>
-        /// <returns></returns>
-        public bool IsMailGroupExist(string name)
-        {
-            SystemSetupData systemSetupData = new SystemSetupData();
-            DataTable dt = systemSetupData.QueryMailGroup(name);
-
-            if (dt.Rows.Count > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
         #endregion
 
         #region 員工健檢

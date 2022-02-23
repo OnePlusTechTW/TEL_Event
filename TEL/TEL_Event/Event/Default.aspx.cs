@@ -27,7 +27,7 @@ public partial class Event_Default : System.Web.UI.Page
         Event ev = new Event();
         DataTable dt = new DataTable();
 
-        dt = ev.GetUserRegisterEventList(tbEventName.Text, ddlEventCategory.SelectedValue);
+        dt = ev.GetUserRegisterEventList(Page.Session["EmpID"].ToString(), tbEventName.Text, ddlEventCategory.SelectedValue);
         CreateTable(dt); 
 
     }
@@ -37,7 +37,7 @@ public partial class Event_Default : System.Web.UI.Page
         Event ev = new Event();
         DataTable dt = new DataTable();
 
-        dt = ev.GetUserRegisterEventList(tbEventName.Text, ddlEventCategory.SelectedValue);
+        dt = ev.GetUserRegisterEventList(Page.Session["EmpID"].ToString(), tbEventName.Text, ddlEventCategory.SelectedValue);
         CreateTable(dt); //需要再PostBack再次建立表格，否則按鈕後會消失
     }
 
@@ -48,8 +48,7 @@ public partial class Event_Default : System.Web.UI.Page
             return;
 
         string id = btnEventDescriptionView.CommandArgument;//可以自訂義參數
-        this.UC_EventDescription.setViewDefault(id);
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogEventView();", true);
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('Event_View','" + id + "');", true);
     }
 
     protected void Register_Click(object sender, EventArgs e)
@@ -61,7 +60,7 @@ public partial class Event_Default : System.Web.UI.Page
         string id = btnRegister.CommandArgument.Split(',')[0];//可以自訂義參數
         string registermodel = btnRegister.CommandArgument.Split(',')[1];
 
-        Response.Redirect($"Event_RegisterModel{registermodel}_Create.aspx?id={id}");
+        Response.Redirect($"Event_RegisterModel{registermodel}_Create.aspx?id={id}&page=Default");
     }
     protected void View_Click(object sender, EventArgs e)
     {
@@ -69,13 +68,16 @@ public partial class Event_Default : System.Web.UI.Page
         if (btnView == null)
             return;
 
-        string id = btnView.CommandArgument.Split(',')[0];//可以自訂義參數
-        string registermodel = btnView.CommandArgument.Split(',')[1];
+        string eventid = btnView.CommandArgument.Split(',')[0];//可以自訂義參數
+        string id = btnView.CommandArgument.Split(',')[1];
+        string registermodel = btnView.CommandArgument.Split(',')[2];//可以自訂義參數
 
-        Response.Redirect($"Event_RegisterModel{registermodel}_View.aspx?id={id}");
+        //Response.Redirect($"Event_RegisterModel{registermodel}_View.aspx?eventid={eventid}&id={id}");
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), $"ShowDialogView('Event_RegisterModel{registermodel}_View','" + eventid + "','" + id + "');", true);
+
         //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRegisterModel1_Create('" + id + "','"+ registermodel + "');", true);
     }
-    
+
 
     private void CreateTable(DataTable dt)
     {
@@ -142,7 +144,7 @@ public partial class Event_Default : System.Web.UI.Page
             }
             else
             {
-                img.ImageUrl = "~/Master/images/Empty.jpg";
+                img.ImageUrl = "~/Master/images/LOT-0003-l.jpg";
             }
 
             //img.ImageUrl = "~/Event/EventThumbnail/0fc25346-8d04-455a-88a3-b165e7227c4b.png";
@@ -208,12 +210,20 @@ public partial class Event_Default : System.Web.UI.Page
             TableRow trEventLimit = new TableRow();
             TableCell tdEventLimit = new TableCell();
 
-            Label lblEventLimit = new Label();
-            lblEventLimit.Text = "◆";
-            lblEventLimit.CssClass = "tableInfoContentFontSize-Icon-large ";
-            lblEventLimit.ID = "lblEventLimit" + dtEvent.Rows[i]["eventnid"];
+            //Label lblEventLimit = new Label();
+            //lblEventLimit.Text = "◆";
+            //lblEventLimit.CssClass = "tableInfoContentFontSize-Icon-large ";
+            //lblEventLimit.ID = "lblEventLimit" + dtEvent.Rows[i]["eventnid"];
 
-            tdEventLimit.Controls.Add(lblEventLimit);//在此欄加入按鈕
+            //tdEventLimit.Controls.Add(lblEventLimit);//在此欄加入按鈕
+
+            Image imgEventLimit = new Image();
+            imgEventLimit.ImageUrl = "~/Master/images/Grey_Fill_Employee_G.png";
+            imgEventLimit.CssClass = "tableInfoContentFontSize-Icon-large ";
+            imgEventLimit.Width = 26;
+            imgEventLimit.ID = "lblEventLimit" + dtEvent.Rows[i]["eventnid"];
+
+            tdEventLimit.Controls.Add(imgEventLimit);//在此欄加入按鈕
 
             Label lblEventLimit1 = new Label();
             lblEventLimit1.Text = $"{ev.GetEvnetRegisterCount(dtEvent.Rows[i]["eventnid"].ToString(), dtEvent.Rows[i]["registermodel"].ToString())}/{(dtEvent.Rows[i]["limit"].ToString() == string.Empty ? lblLimit.Text : dtEvent.Rows[i]["limit"].ToString())}";
@@ -253,7 +263,6 @@ public partial class Event_Default : System.Web.UI.Page
             Button btnEvent = new Button();
             btnEvent.ID = "btnEvent" + dtEvent.Rows[i]["eventnid"];
             btnEvent.CssClass = "Button";
-            btnEvent.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
             //尚未開放報名 Lable
             Label lblEvent = new Label();
             lblEvent.CssClass = "tableInfoContentFontSize-medium";
@@ -269,18 +278,22 @@ public partial class Event_Default : System.Web.UI.Page
                 tdButton.Controls.Add(lblEvent);//在此欄加入按鈕
             }
             else if (startCompare < 0 && endCompare > 0)
-            {   
+            {
                 //registerstart < now < registerend 當活動開始報名
+                DataTable dt = new DataTable();
+                dt = ev.GetUserEvnetRegister(string.Empty, dtEvent.Rows[i]["registermodel"].ToString(), Page.Session["EmpID"].ToString());
 
-                if (string.IsNullOrEmpty(dtEvent.Rows[i]["RegisterModelID"].ToString()))
+                if (dt.Rows.Count == 0)
                 {
                     //使用者尚未報名，也沒有報名表id，即未報名
+                    btnEvent.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
                     btnEvent.Text = lblSignup.Text;
                     btnEvent.Click += new EventHandler(Register_Click); //添加相應事件
                 }
                 else
                 {
                     //使用者已報名，有報名表id，即已報名，顯示檢視報名
+                    btnEvent.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dt.Rows[0]["id"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
                     btnEvent.Text = lblView.Text;
                     btnEvent.Click += new EventHandler(View_Click); //添加相應事件
                 }

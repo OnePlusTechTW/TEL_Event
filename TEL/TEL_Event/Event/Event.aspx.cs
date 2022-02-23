@@ -15,15 +15,31 @@ public partial class Event_Event : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+            int isManager = gm.IsManager(Page.Session["EmpID"].ToString());
+            hfIsManager.Value = isManager.ToString(); ;
             GeneratedCategoryItem();
             SetEventsGrid();
+        }
+    }
+
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        //登入檢查
+        int isManager = Convert.ToInt16(hfIsManager.Value);
+        if (isManager == 0)
+            Response.Redirect("Denied.aspx");//若為一般使用者則導到Denied頁面
+        else if (isManager < 2)
+        {
+            tbAddEvent.Visible = false;
         }
     }
 
     private void SetEventsGrid()
     {
         Event ev = new Event();
-        DataTable dt = ev.GetEventInfo();
+        int isManager = Convert.ToInt16(hfIsManager.Value);
+        DataTable dt = ev.GetEventInfo(string.Empty, tbEventName.Text, ddlEventCategory.SelectedValue, sDate.Text, eDate.Text, ddlEventStatus.SelectedValue, string.Empty, isManager, Page.Session["EmpID"].ToString());
 
         this.gridEvents.DataSource = dt;
         this.gridEvents.DataBind();
@@ -55,9 +71,9 @@ public partial class Event_Event : System.Web.UI.Page
 
     protected void btnSearch_Click(object sender, EventArgs e)
     {
-        string aa = sDate.Text;
         Event ev = new Event();
-        DataTable dt = ev.GetEventInfo(string.Empty, tbEventName.Text, ddlEventCategory.SelectedValue, sDate.Text, eDate.Text, ddlEventStatus.SelectedValue);
+        int isManager = Convert.ToInt16(hfIsManager.Value);
+        DataTable dt = ev.GetEventInfo(string.Empty, tbEventName.Text, ddlEventCategory.SelectedValue, sDate.Text, eDate.Text, ddlEventStatus.SelectedValue, string.Empty, isManager, Page.Session["EmpID"].ToString());
 
         this.gridEvents.DataSource = dt;
         this.gridEvents.DataBind();
@@ -159,7 +175,7 @@ public partial class Event_Event : System.Web.UI.Page
         Button btn = (Button)sender;
         string id = btn.CommandArgument.ToString();
 
-        Response.Redirect($"Event_Create.aspx?id={id}");
+        Response.Redirect($"Event_Edit.aspx?id={id}");
     }
 
     protected void btnView_Click(object sender, EventArgs e)
@@ -167,8 +183,7 @@ public partial class Event_Event : System.Web.UI.Page
         Button btn = (Button)sender;
         string id = btn.CommandArgument.ToString();
 
-        this.UC_EventDescription.setViewDefault(id);
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView();", true);
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogView('" + id + "');", true);
     }
 
     protected void btnSurveyPublish_Click(object sender, EventArgs e)
@@ -179,31 +194,48 @@ public partial class Event_Event : System.Web.UI.Page
         string registermodel = btn.CommandArgument.ToString().Split(',')[2];
         string surveymodel = btn.CommandArgument.ToString().Split(',')[3];
 
-        string subject = $"【通知】滿意度問卷填寫通知_{eventName}";
+        Event ev = new Event();
+        string strSender = "FiestaSystem@tel.com";
+        string strSubject = $"【通知】滿意度問卷填寫通知_{eventName}";
+        string strDisplay = "Fiesta System";
+        StringBuilder sbBody = new StringBuilder();
+        DataTable dtRecipient = new DataTable();
 
-        StringBuilder sb = new StringBuilder();
         string surveyLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/Event_SurveyModel{surveymodel}_Create.aspx?id={eventID}");
         string registerLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/Default.aspx");
-        sb.Append("<div>");
-        sb.Append("<div>您好:</div>");
-        sb.Append("<div><br></div>");
-        sb.Append($"<div>此封信件為通知您參與了『<a href='{surveyLink}'>{eventName}（超連結）</a>』，請點選連結進行滿意度問卷填寫。</div>");
-        sb.Append("<div><br></div>");
-        sb.Append($"<div>相關報名資訊，可以至網站『<a href='{registerLink}'>我的活動（超連結）</a>』頁面中查看！</div>");
-        sb.Append("<div>如果有任何問題請聯絡活動單位負責人，謝謝。</div>");
-        sb.Append("<div><br></div>");
-        sb.Append("<div><span style='color: #595959;'>※此信件為系統發送通知使用，請勿直接回覆。</span></div>");
-        sb.Append("</div>");
+        sbBody.Append("<div>");
+        sbBody.Append("<div>您好:</div>");
+        sbBody.Append("<div><br></div>");
+        sbBody.Append($"<div>此封信件為通知您參與了『<a href='{surveyLink}'>{eventName}（超連結）</a>』，請點選連結進行滿意度問卷填寫。</div>");
+        sbBody.Append("<div><br></div>");
+        sbBody.Append($"<div>相關報名資訊，可以至網站『<a href='{registerLink}'>我的活動（超連結）</a>』頁面中查看！</div>");
+        sbBody.Append("<div>如果有任何問題請聯絡活動單位負責人，謝謝。</div>");
+        sbBody.Append("<div><br></div>");
+        sbBody.Append("<div><span style='color: #595959;'>※此信件為系統發送通知使用，請勿直接回覆。</span></div>");
+        sbBody.Append("</div>");
 
-        if (SenMail.Send(subject, sb.ToString(), "happiness26_26@hotmail.com"))
+        dtRecipient = ev.GetRegisteredEventInfo(eventID);
+
+
+
+        if (dtRecipient.Rows.Count > 0)
         {
-            Event ev = new Event();
-            ev.UpdateEventSurveyStartDate(eventID);
+            if (SenMail.SendMail(strSender, dtRecipient, strSubject, sbBody.ToString(), strDisplay))
+            {
+                ev.UpdateEventSurveyStartDate(eventID);
+            }
+            else
+            {
+                lblMsg.Text = lblSurveyFailed.Text;
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+            }
         }
         else
         {
-            lblMsg.Text = lblSurveyFailed.Text;
+            lblMsg.Text = lblNoRegister.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
         }
+        
 
     }
 }

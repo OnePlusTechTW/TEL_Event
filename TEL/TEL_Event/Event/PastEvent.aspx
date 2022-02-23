@@ -23,12 +23,10 @@
 
         });
 
-        function ShowDialogView() {
+        function ShowDialogView(id) {
             $(function () {
-                //$("#dialogView").load('Event_Create.aspx?id=af3bb0d8-3850-4e29-b469-400f372d3868');
-
                 $("#dialogView").dialog({
-                    title: "",
+                    title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -37,12 +35,10 @@
                         Close: function () {
                             $(this).dialog('close');
                         }
-                    },
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel1").style.display = "block";
                     }
                 });
+
+                $("#dialogView").load('Event_View.aspx?id=' + id);
             });
 
         }
@@ -106,14 +102,15 @@
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動分類" DataField="categoryname">
                                 <HeaderStyle Width="95px"></HeaderStyle>
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動開始日期" DataField="eventstart">
                                 <HeaderStyle Width="105px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動結束日期" DataField="eventend">
                                 <HeaderStyle  Width="105px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             
                             <asp:TemplateField HeaderText="活動資訊">
@@ -131,11 +128,10 @@
             </tr>
         </table>
     <div id="dialogView" title="Dialog Title">
-        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-                <uc1:UC_EventDescription runat="server" id="UC_EventDescription" />
-        </asp:Panel>
+        
     </div>
 
+    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
 </asp:Content>
 
