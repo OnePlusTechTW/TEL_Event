@@ -28,7 +28,7 @@ public partial class Event_Default : System.Web.UI.Page
         DataTable dt = new DataTable();
 
         dt = ev.GetUserRegisterEventList(Page.Session["EmpID"].ToString(), tbEventName.Text, ddlEventCategory.SelectedValue);
-        CreateTable(dt); 
+        CreateTable(dt);
 
     }
 
@@ -198,7 +198,7 @@ public partial class Event_Default : System.Web.UI.Page
             tdEventDate.Controls.Add(lblEventDate);//在此欄加入按鈕
 
             Label lblEventDate1 = new Label();
-            lblEventDate1.Text = $"{dtEvent.Rows[i]["eventstart"].ToString()} ~ {dtEvent.Rows[i]["eventstart"].ToString()}";
+            lblEventDate1.Text = $"{dtEvent.Rows[i]["eventstart"].ToString()} ~ {dtEvent.Rows[i]["eventend"].ToString()}";
             lblEventDate1.CssClass = "tableInfoContentFontSize-small ";
             tdEventDate.Controls.Add(lblEventDate1);//在此欄加入按鈕
             tdEventDate.ID = "tdEventDate" + dtEvent.Rows[i]["eventnid"];
@@ -230,7 +230,7 @@ public partial class Event_Default : System.Web.UI.Page
             lblEventLimit1.CssClass = "tableInfoContentFontSize-small ";
 
             lblEventLimit1.ID = "lblEventLimit1" + dtEvent.Rows[i]["eventnid"];
-            
+
             tdEventLimit.Controls.Add(lblEventLimit1);//在此欄加入按鈕
 
             trEventLimit.Cells.Add(tdEventLimit);
@@ -281,7 +281,7 @@ public partial class Event_Default : System.Web.UI.Page
             {
                 //registerstart < now < registerend 當活動開始報名
                 DataTable dt = new DataTable();
-                dt = ev.GetUserEvnetRegister(string.Empty, dtEvent.Rows[i]["registermodel"].ToString(), Page.Session["EmpID"].ToString());
+                dt = ev.GetUserEvnetRegister(dtEvent.Rows[i]["eventnid"].ToString(), dtEvent.Rows[i]["registermodel"].ToString(), Page.Session["EmpID"].ToString());
 
                 if (dt.Rows.Count == 0)
                 {
@@ -401,5 +401,5 @@ public partial class Event_Default : System.Web.UI.Page
         }
     }
 
-    
+
 }
