@@ -24,6 +24,11 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
         string eventid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
 
+        if (!string.IsNullOrEmpty(Request.QueryString["EmpID"]))
+        {
+            empid = Request.QueryString["EmpID"];
+        }
+
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
         InitRBLValues(eventid);
@@ -156,7 +161,7 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
         //依照使用者選擇的健檢醫院、地區、費用&方案、受診者性別、期望受檢日，在TEL_Event_RegisterOption4維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
         string eventid = Request.QueryString["id"];
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = Page.Session["EmpID"].ToString();
 
         int option1Limit = ev.GetRegisterOption4Limit(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue);
         ////int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue);
@@ -173,7 +178,7 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", Guid.NewGuid().ToString());
         Data.Add("eventid", eventid);
-        Data.Add("empid", empid);
+        Data.Add("empid", txtEmpid.Text);
         Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         Data.Add("examineeidentity", ddlIdentity.SelectedValue);
         Data.Add("examineename", txtExamineename.Text);
@@ -201,7 +206,7 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
         Data.Add("meal", ddlMeal.SelectedValue);
         Data.Add("feedback", txtComment.Text);
 
-        string result = ev.AddRegisterModel3(Data, empid);
+        string result = ev.AddRegisterModel3(Data, modifiedby);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -219,11 +224,21 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
     protected void btnCannel_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["id"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     /// <summary>
@@ -234,11 +249,21 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
     protected void btnGoBackPage_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["id"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     protected void ddlHosipital_SelectedIndexChanged(object sender, EventArgs e)

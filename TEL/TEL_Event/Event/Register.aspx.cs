@@ -39,7 +39,9 @@ public partial class Event_Register : System.Web.UI.Page
 
     protected void btnPreCreate_Click(object sender, EventArgs e)
     {
+        string eventid = Request.QueryString["id"].ToString();
 
+        Response.Redirect($"Register_PreCreate.aspx?id={eventid}");
     }
 
     protected void btnExportExcel_Click(object sender, EventArgs e)

@@ -30,7 +30,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
 
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
-        InitFormValues(empid, registerid);
+        InitFormValues(registerid);
         InitGridRegisterModel2family(registerid);
     }
 
@@ -122,7 +122,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
     protected void btnSummit_Click(object sender, EventArgs e)
     {
         string eventid = Request.QueryString["eventid"];
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = Page.Session["EmpID"].ToString();
         string registerid = Request.QueryString["id"].ToString();
 
         StringBuilder sb = new StringBuilder();
@@ -179,7 +179,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
         EventsData.Add("id", registerid);
         EventsData.Add("eventid", eventid);
-        EventsData.Add("empid", empid);
+        EventsData.Add("empid", txtEmpid.Text);
         EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
         EventsData.Add("selectedoption", ddlAttendContent.SelectedValue);
         EventsData.Add("mobile", txtPhone.Text);
@@ -187,7 +187,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
         EventsData.Add("meal", ddlMeal.SelectedValue);
         EventsData.Add("feedback", txtComment.Text);
 
-        string result = ev.UpdateRegisterModel2(EventsData, GetGridViewToDatatable(), empid);
+        string result = ev.UpdateRegisterModel2(EventsData, GetGridViewToDatatable(), modifiedby);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -288,24 +288,25 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
     /// 初始表單
     /// </summary>
     /// <param name="empid"></param>
-    private void InitFormValues(string empid, string registerid)
+    private void InitFormValues(string registerid)
     {
-        UserInfo userInfo = new UserInfo(empid);
-        txtEmpid.Text = empid;
-        txtCName.Text = userInfo.FullNameCH;
-        txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
-        txtStation.Text = userInfo.Station;
-        txtID.Text = userInfo.NationalID;
-        txtBDay.Text = userInfo.Birthday;
-        txtGender.Text = userInfo.Gender;
-        txtEmail.Text = userInfo.EMail;
-
         Event ev = new Event();
         DataTable dt = new DataTable();
         dt = ev.GetRegisterModel2(registerid);
+       
         if (dt.Rows.Count > 0)
         {
+            UserInfo userInfo = new UserInfo(dt.Rows[0]["empid"].ToString());
+            txtEmpid.Text = dt.Rows[0]["empid"].ToString();
+            txtCName.Text = userInfo.FullNameCH;
+            txtEName.Text = userInfo.FullNameEN;
+            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtStation.Text = userInfo.Station;
+            txtID.Text = userInfo.NationalID;
+            txtBDay.Text = userInfo.Birthday;
+            txtGender.Text = userInfo.Gender;
+            txtEmail.Text = userInfo.EMail;
+
             ddlAttendContent.SelectedValue = dt.Rows[0]["selectedoption"].ToString();
             txtPhone.Text = dt.Rows[0]["mobile"].ToString();
             ddlTransportation.SelectedValue = dt.Rows[0]["traffic"].ToString();

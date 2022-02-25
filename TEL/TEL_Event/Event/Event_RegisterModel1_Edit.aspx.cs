@@ -31,14 +31,14 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
 
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
-        InitFormValues(empid, id);
+        InitFormValues(id);
     }
     
 
     protected void btnSummit_Click(object sender, EventArgs e)
     {
         string eventid = Request.QueryString["eventid"];
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = Page.Session["EmpID"].ToString();
         string id = Request.QueryString["id"].ToString();
 
         //欲參加的內容 必填
@@ -66,13 +66,13 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
         EventsData.Add("id", id);
         EventsData.Add("eventid", eventid);
-        EventsData.Add("empid", empid);
+        EventsData.Add("empid", txtEmpid.Text);
         EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
         EventsData.Add("selectedoption", ddlAttendContent.SelectedValue);
         EventsData.Add("feedback", txtComment.Text);
 
 
-        string result = ev.UpdateRegisterModel1(EventsData, empid);
+        string result = ev.UpdateRegisterModel1(EventsData, modifiedby);
 
 
         if (string.IsNullOrEmpty(result))
@@ -165,23 +165,22 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
     /// <summary>
     /// 初始表單
     /// </summary>
-    /// <param name="empid"></param>
-    private void InitFormValues(string empid, string id)
+    private void InitFormValues(string id)
     {
-        UserInfo userInfo = new UserInfo(empid);
-        //user info
-        txtEmpid.Text = empid;
-        txtCName.Text = userInfo.FullNameCH;
-        txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
-        txtStation.Text = userInfo.Station;
-
-        //form info
         Event ev = new Event();
         DataTable dt = new DataTable();
         dt = ev.GetRegisterModel1(id);
+        //form info
         if (dt.Rows.Count > 0)
         {
+            UserInfo userInfo = new UserInfo(dt.Rows[0]["empid"].ToString());
+            //user info
+            txtEmpid.Text = userInfo.EmpID;
+            txtCName.Text = userInfo.FullNameCH;
+            txtEName.Text = userInfo.FullNameEN;
+            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtStation.Text = userInfo.Station;
+
             ddlAttendContent.SelectedValue = dt.Rows[0]["selectedoption"].ToString();
             txtComment.Text = dt.Rows[0]["feedback"].ToString();
         }

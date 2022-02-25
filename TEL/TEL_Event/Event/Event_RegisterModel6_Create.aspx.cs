@@ -24,6 +24,11 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         string eventid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
 
+        if (!string.IsNullOrEmpty(Request.QueryString["EmpID"]))
+        {
+            empid = Request.QueryString["EmpID"];
+        }
+
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
         InitFormValues(empid);
@@ -56,18 +61,18 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
 
         Event ev = new Event();
         string eventid = Request.QueryString["id"];
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = lblEmpid.Text;
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", Guid.NewGuid().ToString());
         Data.Add("eventid", eventid);
-        Data.Add("empid", empid);
+        Data.Add("empid", txtEmpid.Text);
         Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         Data.Add("changearea", ddlArea.SelectedValue);
         Data.Add("changedate", ddlAvaliabledate.SelectedValue);
         Data.Add("feedback", txtComment.Text);
 
 
-        string result = ev.AddRegisterModel6(Data, empid);
+        string result = ev.AddRegisterModel6(Data, modifiedby);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -84,11 +89,21 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
     protected void btnCannel_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["id"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     protected void ddlArea_SelectedIndexChanged(object sender, EventArgs e)
@@ -102,11 +117,21 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
     protected void btnGoBackPage_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["id"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     private void InitFormValues(string empid)

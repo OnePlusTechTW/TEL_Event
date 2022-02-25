@@ -29,7 +29,7 @@ public partial class Event_Event_RegisterModel6_Edit : System.Web.UI.Page
 
         UC_EventDescription.setViewDefault(eventid);
         InitDDLValues(eventid);
-        InitFormValues(empid, eventid, registerid);
+        InitFormValues(eventid, registerid);
     }
 
     protected void btnSummit_Click(object sender, EventArgs e)
@@ -60,18 +60,18 @@ public partial class Event_Event_RegisterModel6_Edit : System.Web.UI.Page
         Event ev = new Event();
         string eventid = Request.QueryString["eventid"];
         string registerid = Request.QueryString["id"];
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = Page.Session["EmpID"].ToString();
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", registerid);
         Data.Add("eventid", eventid);
-        Data.Add("empid", empid);
+        Data.Add("empid", txtEmpid.Text);
         Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));
         Data.Add("changearea", ddlArea.SelectedValue);
         Data.Add("changedate", ddlAvaliabledate.SelectedValue);
         Data.Add("feedback", txtComment.Text);
 
 
-        string result = ev.UpdateRegisterModel6(Data, empid);
+        string result = ev.UpdateRegisterModel6(Data, modifiedby);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -140,23 +140,22 @@ public partial class Event_Event_RegisterModel6_Edit : System.Web.UI.Page
         Response.Redirect(returnPage);
     }
 
-    private void InitFormValues(string empid, string eventid, string registerid)
+    private void InitFormValues(string eventid, string registerid)
     {
-        UserInfo userInfo = new UserInfo(empid);
-        txtEmpid.Text = empid;
-        txtCName.Text = userInfo.FullNameCH;
-        txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
-        txtStation.Text = userInfo.Station;
-
         Event ev = new Event();
         DataTable dt = new DataTable();
         dt = ev.GetRegisterModel6(registerid);
         if (dt.Rows.Count > 0)
         {
+            UserInfo userInfo = new UserInfo(dt.Rows[0]["empid"].ToString());
+            txtEmpid.Text = dt.Rows[0]["empid"].ToString();
+            txtCName.Text = userInfo.FullNameCH;
+            txtEName.Text = userInfo.FullNameEN;
+            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtStation.Text = userInfo.Station;
+
             ddlArea.SelectedValue = dt.Rows[0]["changearea"].ToString();
             BindDDLAvaliabledate(eventid, ddlArea.SelectedValue);
-
             ddlAvaliabledate.SelectedValue = dt.Rows[0]["changedate"].ToString();
 
         }
