@@ -243,11 +243,21 @@ public partial class Event_Event_RegisterModel3_Edit : System.Web.UI.Page
     protected void btnGoBackPage_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["eventid"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     protected void ddlHosipital_SelectedIndexChanged(object sender, EventArgs e)

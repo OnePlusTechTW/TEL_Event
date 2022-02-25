@@ -45,17 +45,22 @@ public partial class Event_Register : System.Web.UI.Page
     protected void btnExportExcel_Click(object sender, EventArgs e)
     {
         string eventid = Request.QueryString["id"];
-        EventInfo ev = new EventInfo(eventid);
-        //ExportExcel ep = new ExportExcel();
 
-        //if (ev.EventSurveyModel == "1")
-        //    ep.ExportSurveyModel1(Request.QueryString["id"]);
-        //else if (ev.EventSurveyModel == "2")
-        //    ep.ExportSurveyModel2(Request.QueryString["id"]);
-        //else if (ev.EventSurveyModel == "3")
-        //    ep.ExportSurveyModel3(Request.QueryString["id"]);
-        //else if (ev.EventSurveyModel == "4")
-        //    ep.ExportSurveyModel4(Request.QueryString["id"]);
+        EventInfo evinfo = new EventInfo(eventid);
+        ExportExcel ep = new ExportExcel();
+
+        if (evinfo.EventRegisterModel == "1")
+            ep.ExportRegisterModel1(eventid, this.txtEmpName.Text.Trim());
+        else if (evinfo.EventRegisterModel == "2")
+            ep.ExportRegisterModel2(eventid, this.txtEmpName.Text.Trim());
+        else if (evinfo.EventRegisterModel == "3")
+            ep.ExportRegisterModel3(eventid, this.txtEmpName.Text.Trim());
+        else if (evinfo.EventRegisterModel == "4")
+            ep.ExportRegisterModel4(eventid, this.txtEmpName.Text.Trim());
+        else if (evinfo.EventRegisterModel == "5")
+            ep.ExportRegisterModel5(eventid, this.txtEmpName.Text.Trim());
+        else if (evinfo.EventRegisterModel == "6")
+            ep.ExportRegisterModel6(eventid, this.txtEmpName.Text.Trim());
     }
 
     protected void btnEdit_Click(object sender, EventArgs e)

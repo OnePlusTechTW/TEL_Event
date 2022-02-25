@@ -75,6 +75,24 @@ public partial class Event_Event : System.Web.UI.Page
 
     protected void btnRegisterExport_Click(object sender, EventArgs e)
     {
+        Button btn = (Button)sender;
+        string eventid = btn.CommandArgument.ToString();
+
+        EventInfo evinfo = new EventInfo(eventid);
+        ExportExcel ep = new ExportExcel();
+
+        if (evinfo.EventRegisterModel == "1")
+            ep.ExportRegisterModel1(eventid, string.Empty);
+        else if (evinfo.EventRegisterModel == "2")
+            ep.ExportRegisterModel2(eventid, string.Empty);
+        else if (evinfo.EventRegisterModel == "3")
+            ep.ExportRegisterModel3(eventid, string.Empty);
+        else if (evinfo.EventRegisterModel == "4")
+            ep.ExportRegisterModel4(eventid, string.Empty);
+        else if (evinfo.EventRegisterModel == "5")
+            ep.ExportRegisterModel5(eventid, string.Empty);
+        else if (evinfo.EventRegisterModel == "6")
+            ep.ExportRegisterModel6(eventid, string.Empty);
 
     }
 

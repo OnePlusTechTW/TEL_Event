@@ -598,7 +598,7 @@
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="LABEL1" runat="server" CssClass="PageTitle" Text="管理網站"></asp:Label>
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理網站"></asp:Label>
             </td>
         </tr>
         <tr style="height: 10px">
