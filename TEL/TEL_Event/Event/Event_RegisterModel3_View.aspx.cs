@@ -26,7 +26,7 @@ public partial class Event_Event_RegisterModel3_View : System.Web.UI.Page
 
 
         UC_EventDescription.setViewDefault(eventid);
-        InitFormValues(eventid, empid, registerid);
+        InitFormValues(eventid, registerid);
     }
 
     /// <summary>
@@ -45,21 +45,21 @@ public partial class Event_Event_RegisterModel3_View : System.Web.UI.Page
     }
 
 
-    private void InitFormValues(string eventid, string empid, string registerid)
+    private void InitFormValues(string eventid, string registerid)
     {
-        UserInfo userInfo = new UserInfo(empid);
-        txtEmpid.Text = empid;
-        txtCName.Text = userInfo.FullNameCH;
-        txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
-        txtStation.Text = userInfo.Station;
-        txtHealthGroup.Text = userInfo.HealthGroup;
-
         Event ev = new Event();
         DataTable dt = new DataTable();
         dt = ev.GetRegisterModel3(registerid);
         if (dt.Rows.Count > 0)
         {
+            UserInfo userInfo = new UserInfo(dt.Rows[0]["empid"].ToString());
+            txtEmpid.Text = dt.Rows[0]["empid"].ToString();
+            txtCName.Text = userInfo.FullNameCH;
+            txtEName.Text = userInfo.FullNameEN;
+            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtStation.Text = userInfo.Station;
+            txtHealthGroup.Text = userInfo.HealthGroup;
+
             txtIdentity.Text = dt.Rows[0]["examineeidentity"].ToString();
             txtExamineename.Text = dt.Rows[0]["examineename"].ToString();
             txtExamineeidno.Text = dt.Rows[0]["examineeidno"].ToString();

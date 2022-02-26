@@ -195,7 +195,7 @@
                                 <HeaderStyle Width="150px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="btnRegisterManage" runat="server" Text="管理" CssClass="Button_Gridview"  CommandArgument='<%# Eval("eventnid") %>' OnClick="btnRegisterManage_Click"/>
-                                    <asp:Button ID="btnRegisterExport" runat="server" Text="匯出" CssClass="Button_Gridview" OnClick="btnRegisterExport_Click"/>
+                                    <asp:Button ID="btnRegisterExport" runat="server" Text="匯出" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid") %>' OnClick="btnRegisterExport_Click"/>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>

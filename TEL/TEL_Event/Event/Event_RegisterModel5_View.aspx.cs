@@ -26,7 +26,7 @@ public partial class Event_Event_RegisterModel5_View : System.Web.UI.Page
         string empid = Page.Session["EmpID"].ToString();
 
         UC_EventDescription.setViewDefault(eventid);
-        InitFormValues(empid, registerid);
+        InitFormValues(registerid);
     }
 
     protected void btnGoBackPage_Click(object sender, EventArgs e)
@@ -43,20 +43,20 @@ public partial class Event_Event_RegisterModel5_View : System.Web.UI.Page
     /// 初始表單
     /// </summary>
     /// <param name="empid"></param>
-    private void InitFormValues(string empid, string registerid)
+    private void InitFormValues(string registerid)
     {
-        UserInfo userInfo = new UserInfo(empid);
-        txtEmpid.Text = empid;
-        txtCName.Text = userInfo.FullNameCH;
-        txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
-        txtStation.Text = userInfo.Station;
-
         Event ev = new Event();
         DataTable dt = new DataTable();
         dt = ev.GetRegisterModel5(registerid);
         if (dt.Rows.Count > 0)
         {
+            UserInfo userInfo = new UserInfo(dt.Rows[0]["empid"].ToString());
+            txtEmpid.Text = dt.Rows[0]["empid"].ToString();
+            txtCName.Text = userInfo.FullNameCH;
+            txtEName.Text = userInfo.FullNameEN;
+            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtStation.Text = userInfo.Station;
+
             string path = ConfigurationManager.AppSettings.Get("EventThumbnailPath");
             if (string.IsNullOrEmpty(path))
                 path = "~/App_Data/EventThumbnail";

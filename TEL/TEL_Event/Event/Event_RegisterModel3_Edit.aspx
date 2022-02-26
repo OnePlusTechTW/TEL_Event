@@ -372,7 +372,7 @@
             <td >
                 <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
             </td>
-            <td style="padding-top:15px">
+            <td>
                 <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="99%" CssClass="Button" OnClick="btnDelete_Click"/>
             </td>
             <td>

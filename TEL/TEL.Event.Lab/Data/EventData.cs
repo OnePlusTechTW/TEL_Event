@@ -3596,7 +3596,7 @@ namespace TEL.Event.Lab.Data
                         AND
                             [gender] = @gender
                         AND
-                            avaliabledate = @expectdate ";
+                            CONVERT(VARCHAR, avaliabledate,111) = @expectdate ";
 
 
 
@@ -3612,16 +3612,19 @@ namespace TEL.Event.Lab.Data
                 wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
 
                 wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
-                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
-                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
-                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+                wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+                wrDad.SelectCommand.Parameters.AddWithValue("@expectdate", Convert.ToDateTime(expectdate));
 
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];
             }
 
-            return Convert.ToInt16(result.Rows[0]["limit"]);
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["limit"]);
         }
 
         /// <summary>

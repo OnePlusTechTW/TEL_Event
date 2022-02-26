@@ -29,7 +29,7 @@ public partial class Event_Event_RegisterModel5_Edit : System.Web.UI.Page
         string empid = Page.Session["EmpID"].ToString();
 
         UC_EventDescription.setViewDefault(eventid);
-        InitFormValues(empid, registerid);
+        InitFormValues(registerid);
     }
 
     protected void btnFileUpload1Maintain_Click(object sender, EventArgs e)
@@ -59,14 +59,14 @@ public partial class Event_Event_RegisterModel5_Edit : System.Web.UI.Page
         string eventid = Request.QueryString["eventid"];
         string registerid = Request.QueryString["id"];
 
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = Page.Session["EmpID"].ToString();
 
         List<string> deleteFilePathList = new List<string>();
         Dictionary<string, string> Data = new Dictionary<string, string>();
 
         Data.Add("id", registerid);
         Data.Add("eventid", eventid);
-        Data.Add("empid", empid);
+        Data.Add("empid", txtEmpid.Text);
         Data.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
 
         string FileUpload1ID = string.Empty;
@@ -148,7 +148,7 @@ public partial class Event_Event_RegisterModel5_Edit : System.Web.UI.Page
 
         Data.Add("feedback", txtComment.Text);//原檔名
 
-        string result = ev.UpdateRegisterModel5(Data, empid);
+        string result = ev.UpdateRegisterModel5(Data, modifiedby);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -199,31 +199,41 @@ public partial class Event_Event_RegisterModel5_Edit : System.Web.UI.Page
     protected void btnGoBackPage_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["eventid"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     /// <summary>
     /// 初始表單
     /// </summary>
     /// <param name="empid"></param>
-    private void InitFormValues(string empid, string registerid)
+    private void InitFormValues(string registerid)
     {
-        UserInfo userInfo = new UserInfo(empid);
-        txtEmpid.Text = empid;
-        txtCName.Text = userInfo.FullNameCH;
-        txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
-        txtStation.Text = userInfo.Station;
-
         Event ev = new Event();
         DataTable dt = new DataTable();
         dt = ev.GetRegisterModel5(registerid);
         if (dt.Rows.Count > 0)
         {
+            UserInfo userInfo = new UserInfo(dt.Rows[0]["empid"].ToString());
+            txtEmpid.Text = dt.Rows[0]["empid"].ToString();
+            txtCName.Text = userInfo.FullNameCH;
+            txtEName.Text = userInfo.FullNameEN;
+            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtStation.Text = userInfo.Station;
+
             string path = ConfigurationManager.AppSettings.Get("EventThumbnailPath");
             if (string.IsNullOrEmpty(path))
                 path = "~/App_Data/EventThumbnail";

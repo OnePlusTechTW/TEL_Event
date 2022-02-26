@@ -25,6 +25,11 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         string eventid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
 
+        if (!string.IsNullOrEmpty(Request.QueryString["EmpID"]))
+        {
+            empid = Request.QueryString["EmpID"];
+        }
+
         UC_EventDescription.setViewDefault(eventid);
         InitFormValues(empid);
         InitDDLValues(eventid);
@@ -74,7 +79,7 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
     protected void btnSummit_Click(object sender, EventArgs e)
     {
         string eventid = Request.QueryString["id"];
-        string empid = Page.Session["EmpID"].ToString();
+        string modifiedby = Page.Session["EmpID"].ToString();
         //欲參加的內容 必填
         if (string.IsNullOrEmpty(this.ddlAttendContent.SelectedValue))
         {
@@ -100,12 +105,12 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
         EventsData.Add("id", Guid.NewGuid().ToString());
         EventsData.Add("eventid", eventid);
-        EventsData.Add("empid", empid);
+        EventsData.Add("empid", txtEmpid.Text);
         EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
         EventsData.Add("selectedoption", ddlAttendContent.SelectedValue);
         EventsData.Add("feedback", txtComment.Text);
 
-        string result = ev.AddRegisterModel1(EventsData, empid);
+        string result = ev.AddRegisterModel1(EventsData, modifiedby);
 
         if (string.IsNullOrEmpty(result))
         {
@@ -122,11 +127,21 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
     protected void btnCannel_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["id"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 
     private void SendRegisterSuccessMail()
@@ -170,10 +185,20 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
     protected void btnGoBackPage_Click(object sender, EventArgs e)
     {
         string returnPage = "Default";
+        string eventid = Request.QueryString["id"];
 
         if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
             returnPage = Request.QueryString["page"].ToString();
 
-        Response.Redirect($"{returnPage}.aspx");
+        if (returnPage == "Register")
+        {
+            returnPage = $"{returnPage}.aspx?id={eventid}";
+        }
+        else
+        {
+            returnPage = $"{returnPage}.aspx";
+        }
+
+        Response.Redirect(returnPage);
     }
 }
