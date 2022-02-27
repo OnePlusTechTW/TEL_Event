@@ -157,6 +157,9 @@
     <table>
         <tr>
             <td>
+                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+            </td>
+            <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
             </td>
             <td>
@@ -169,14 +172,14 @@
                 <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
             </td>
             <td>
-                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-            </td>
-            <td>
                 <asp:Label ID="lblHealthGroup" runat="server" Text="健檢組別"></asp:Label>
             </td>
         </tr>
         <tr>
             <td>
+                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
+            </td>
+                <td>
                 <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
@@ -187,9 +190,6 @@
             </td>
             <td>
                 <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
-            </td>
-            <td>
-                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
                 <asp:TextBox ID="txtHealthGroup" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
@@ -259,7 +259,9 @@
         </tr>
         <tr>
             <td class="auto-style1">
-                <asp:DropDownList ID="ddlHosipital" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlHosipital_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="ddlHosipital" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlHosipital_SelectedIndexChanged">
+                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
+                </asp:DropDownList>
             </td>
             <td class="auto-style1">
                 <asp:DropDownList ID="ddlArea" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlArea_SelectedIndexChanged">
@@ -340,7 +342,7 @@
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
             <td colspan="2" style="vertical-align:top;">
                 <asp:RadioButtonList ID="rblAddress" runat="server" CssClass="controlCommon" RepeatColumns="2" RepeatDirection="Horizontal" AutoPostBack="true" OnSelectedIndexChanged="rblAddress_SelectedIndexChanged">
@@ -364,19 +366,16 @@
             </td>
         </tr>
         <tr>
-            <td colspan="6">
-                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+            <td colspan="3">
+                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
+            <td colspan="3"></td>
         </tr>
-        <tr class="FormTRStyle">
-            <td >
-                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
-            </td>
-            <td>
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="99%" CssClass="Button" OnClick="btnDelete_Click"/>
-            </td>
-            <td>
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
+        <tr>
+            <td colspan="6">
+                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" CssClass="Button" OnClick="btnDelete_Click"/>
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
         </tr>
     </table>

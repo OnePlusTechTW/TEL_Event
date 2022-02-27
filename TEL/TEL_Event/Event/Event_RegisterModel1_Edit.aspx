@@ -1,7 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel1_Edit.aspx.cs" Inherits="Event_Event_RegisterModel1_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel1_Edit.aspx.cs" Inherits="Event_Event_RegisterModel1_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
+
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
         function ShowDialogMsg() {
             $(function () {
@@ -36,15 +37,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
                     }
                 });
-            });
+        });
 
         }
 
@@ -59,15 +60,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
                     }
                 });
-            });
+        });
         }
 
         //失敗通知 訊息開窗
@@ -140,11 +141,14 @@
         }
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table>
         <tr>
+            <td>
+                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+            </td>
             <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
             </td>
@@ -154,8 +158,14 @@
             <td>
                 <asp:Label ID="lblEName" runat="server" Text="英文姓名"></asp:Label>
             </td>
+            <td>
+                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
+            </td>
         </tr>
         <tr>
+            <td>
+                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
+            </td>
             <td>
                 <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
@@ -165,30 +175,13 @@
             <td>
                 <asp:TextBox ID="txtEName" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
-        </tr>
-        <tr>
-            <td>
-                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
-            </td>
-            <td>
-                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
             <td>
                 <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
-            <td>
-                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
-            </td>
-            <td>
-            </td>
         </tr>
-        <tr>
-            <td colspan="3">
-                <asp:Label ID="lblAttendContent" runat="server" Text="欲參加的內容" ></asp:Label>
+        <tr class="FormTRStyle">
+            <td colspan="5">
+                <asp:Label ID="lblAttendContent" runat="server" Text="欲參加的內容"></asp:Label>
             </td>
         </tr>
         <tr>
@@ -197,26 +190,24 @@
                     <asp:ListItem Selected="True" Value="">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
+            <td colspan="2"></td>
         </tr>
-        <tr>
-            <td colspan="3">
+        <tr class="FormTRStyle">
+            <td colspan="5">
                 <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr>
-            <td>
-                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
-            </td>
-            <td>
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="99%" CssClass="Button" OnClick="btnDelete_Click"/>
-            </td>
-            <td>
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
+            <td colspan="5">
+                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" CssClass="Button" OnClick="btnDelete_Click" />
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
         </tr>
     </table>
@@ -227,7 +218,7 @@
         </asp:Panel>
     </div>
 
-    
+
     <div id="dialogRegisterSccess" title="Dialog Title">
         <asp:Panel ID="ContentPanel2" runat="server" Style="display: none">
             <asp:Label ID="lblRegisterSccess" runat="server" Text="報名成功"></asp:Label>
@@ -249,7 +240,7 @@
 
     <div id="dialogNoRegisterInfo" title="Dialog Title">
         <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。" ></asp:Label>
+            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。"></asp:Label>
         </asp:Panel>
     </div>
 
@@ -259,6 +250,6 @@
     <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" style="display:none;" />
+    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
 </asp:Content>
 

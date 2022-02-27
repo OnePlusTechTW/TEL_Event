@@ -20,15 +20,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
                     }
                 });
-            });
+        });
         }
     </script>
 </head>
@@ -38,6 +38,9 @@
             <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
             <table>
                 <tr>
+                    <td>
+                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+                    </td>
                     <td>
                         <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
                     </td>
@@ -51,13 +54,13 @@
                         <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-                    </td>
-                    <td>
                         <asp:Label ID="lblHealthGroup" runat="server" Text="健檢組別"></asp:Label>
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        <asp:TextBox ID="txtStation" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
+                    </td>
                     <td>
                         <asp:TextBox ID="txtEmpid" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
                     </td>
@@ -69,9 +72,6 @@
                     </td>
                     <td>
                         <asp:TextBox ID="txtDepartment" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
-                    </td>
-                    <td>
-                        <asp:TextBox ID="txtStation" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
                     </td>
                     <td>
                         <asp:TextBox ID="txtHealthGroup" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
@@ -101,7 +101,7 @@
                 <tr>
                     <td>
                         <asp:TextBox ID="txtIdentity" runat="server" CssClass="QueryField" Enabled="false"></asp:TextBox>
-                        
+
                     </td>
                     <td>
                         <asp:TextBox ID="txtExamineename" runat="server" CssClass="QueryField" Enabled="false"></asp:TextBox>
@@ -194,8 +194,7 @@
                     <td>
                         <asp:Label ID="lblMeal" runat="server" Text="餐點樣式"></asp:Label>
                     </td>
-                     <td colspan="4">
-                    </td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td style="vertical-align: top;">
@@ -205,26 +204,20 @@
                     <td style="vertical-align: top;">
                         <asp:TextBox ID="txtMeal" runat="server" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
-                    <td colspan="4">
-                    </td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr class="FormTRStyle">
                     <td colspan="3">
                         <asp:Label ID="lblOptional" runat="server" Text="自費加選項目"></asp:Label>
                     </td>
-                    <td colspan="2">
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
+                    <td colspan="2"></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
-                    <td colspan="3" >
-                    </td>
+                    <td colspan="3"></td>
                 </tr>
                 <tr class="FormTRStyle">
                     <td>
@@ -236,11 +229,11 @@
                     <td colspan="3"></td>
                 </tr>
                 <tr>
-                    <td style="vertical-align:top;">
+                    <td style="vertical-align: top;">
                         <asp:TextBox ID="txtNeedhotel" runat="server" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
                     <td colspan="2" style="vertical-align: top">
-                        <asp:TextBox ID="txtCheckininfo" runat="server" TextMode="MultiLine" CssClass="QueryField" Width="100%" Height="100%" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtCheckininfo" runat="server" TextMode="MultiLine" CssClass="QueryField" Width="100%" Height="50px" Enabled="false"></asp:TextBox>
                     </td>
                     <td colspan="3"></td>
                 </tr>
@@ -250,9 +243,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">
-                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField" Enabled="false"></asp:TextBox>
+                    <td colspan="3">
+                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
+                    <td colspan="3"></td>
                 </tr>
 
             </table>

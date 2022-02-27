@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel5_Edit.aspx.cs" Inherits="Event_Event_RegisterModel5_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
+
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
         function ShowDialogMsg() {
             $(function () {
@@ -36,15 +37,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
                     }
                 });
-            });
+        });
 
         }
 
@@ -128,23 +129,26 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
                     }
                 });
-            });
+        });
         }
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table>
         <tr>
+            <td>
+                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+            </td>
             <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
             </td>
@@ -154,49 +158,39 @@
             <td>
                 <asp:Label ID="lblEName" runat="server" Text="英文姓名"></asp:Label>
             </td>
+            <td>
+                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
+            </td>
         </tr>
         <tr>
+            <td>
+                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
+            </td>
             <td>
                 <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="txtCName" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
+                <asp:TextBox ID="txtCName" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="txtEName" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
+                <asp:TextBox ID="txtEName" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
+            </td>
+            <td>
+                <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
         </tr>
         <tr class="FormTRStyle">
-            <td>
-                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
-            </td>
-            <td>
-                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
-            </td>
-            <td>
-                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr class="FormTRStyle">
-            <td colspan="3">
+            <td colspan="5">
                 <asp:Label ID="lblFileUpload1" runat="server" Text="上傳附件1"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:HyperLink ID="hlnkFileUpload1" runat="server"  style="color:blue;" Visible="false"/>
+                <asp:HyperLink ID="hlnkFileUpload1" runat="server" Style="color: blue;" Visible="false" />
                 <asp:Button ID="btnFileUpload1Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload1Maintain_Click" />
                 <asp:FileUpload ID="FileUpload1" runat="server" Visible="false" />
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr class="FormTRStyle">
             <td colspan="3">
@@ -205,79 +199,80 @@
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtDescription1" runat="server" CssClass="QueryField" Width="100%"></asp:TextBox>
+                <asp:TextBox ID="txtDescription1" runat="server" CssClass="QueryField" TextMode="MultiLine" Width="100%" Height="60px"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr class="FormTRStyle">
-            <td colspan="3">
-                
+            <td colspan="5">
                 <asp:Label ID="lblFileUpload2" runat="server" Text="上傳附件2"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:HyperLink ID="hlnkFileUpload2" runat="server"  style="color:blue;" Visible="false"/>
-                <asp:Button ID="btnFileUpload2Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload2Maintain_Click"  />
+                <asp:HyperLink ID="hlnkFileUpload2" runat="server" Style="color: blue;" Visible="false" />
+                <asp:Button ID="btnFileUpload2Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload2Maintain_Click" />
                 <asp:FileUpload ID="FileUpload2" runat="server" Visible="false" />
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr class="FormTRStyle">
-            <td colspan="3">
+            <td colspan="5">
                 <asp:Label ID="lblDescription2" runat="server" Text="上傳附件2之說明"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtDescription2" runat="server" CssClass="QueryField" Width="100%"></asp:TextBox>
+                <asp:TextBox ID="txtDescription2" runat="server" CssClass="QueryField" TextMode="MultiLine" Width="100%" Height="60px"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr class="FormTRStyle">
-            <td colspan="3">
-                
+            <td colspan="5">
+
                 <asp:Label ID="lblFileUpload3" runat="server" Text="上傳附件3"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:HyperLink ID="hlnkFileUpload3" runat="server"  style="color:blue;" Visible="false"/>
-                <asp:Button ID="btnFileUpload3Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload3Maintain_Click"  />
+                <asp:HyperLink ID="hlnkFileUpload3" runat="server" Style="color: blue;" Visible="false" />
+                <asp:Button ID="btnFileUpload3Maintain" runat="server" Text="修改" Visible="false" OnClick="btnFileUpload3Maintain_Click" />
                 <asp:FileUpload ID="FileUpload3" runat="server" Visible="false" />
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr class="FormTRStyle">
-            <td colspan="3">
+            <td colspan="5">
                 <asp:Label ID="lblDescription3" runat="server" Text="上傳附件3之說明"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtDescription3" runat="server" CssClass="QueryField" Width="100%"></asp:TextBox>
+                <asp:TextBox ID="txtDescription3" runat="server" CssClass="QueryField" TextMode="MultiLine" Width="100%" Height="60px"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
-        <tr  class="FormTRStyle">
-            <td colspan="3">
+        <tr class="FormTRStyle">
+            <td colspan="5">
                 <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr>
-            <td>
-                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
-            </td>
-            <td>
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="99%" CssClass="Button" OnClick="btnDelete_Click"/>
-            </td>
-            <td>
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
+            <td colspan="5">
+                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" CssClass="Button" OnClick="btnDelete_Click" />
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
         </tr>
     </table>
 
-     <div id="dialogMsg" title="Dialog Title">
+    <div id="dialogMsg" title="Dialog Title">
         <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
             <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
@@ -302,7 +297,7 @@
 
     <div id="dialogNoRegisterInfo" title="Dialog Title">
         <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。" ></asp:Label>
+            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。"></asp:Label>
         </asp:Panel>
     </div>
 
@@ -311,6 +306,6 @@
     <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" style="display:none;" />
+    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
 </asp:Content>
 

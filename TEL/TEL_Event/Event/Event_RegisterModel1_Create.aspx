@@ -3,7 +3,7 @@
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
         function ShowDialogMsg() {
             $(function () {
@@ -38,15 +38,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
                     }
                 });
-            });
+        });
 
         }
 
@@ -73,10 +73,13 @@
         };
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table>
         <tr>
+            <td>
+                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+            </td>
             <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
             </td>
@@ -86,8 +89,14 @@
             <td>
                 <asp:Label ID="lblEName" runat="server" Text="英文姓名"></asp:Label>
             </td>
+            <td>
+                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
+            </td>
         </tr>
         <tr>
+            <td>
+                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
+            </td>
             <td>
                 <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
@@ -97,56 +106,38 @@
             <td>
                 <asp:TextBox ID="txtEName" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
-        </tr>
-        <tr>
-            <td>
-                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
-            </td>
-            <td>
-                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
             <td>
                 <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
-            <td>
-                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
-            </td>
-            <td>
-            </td>
         </tr>
-        <tr>
-            <td colspan="3">
-                <asp:Label ID="lblAttendContent" runat="server" Text="欲參加的內容" ></asp:Label>
+        <tr class="FormTRStyle">
+            <td colspan="5">
+                <asp:Label ID="lblAttendContent" runat="server" Text="欲參加的內容"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
                 <asp:DropDownList ID="ddlAttendContent" runat="server" CssClass="QueryField" Width="100%">
+                <asp:ListItem Selected="True" Value="">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
+            <td colspan="2"></td>
         </tr>
-        <tr>
-            <td colspan="3">
+        <tr class="FormTRStyle">
+            <td colspan="5">
                 <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr>
-            <td style="padding-top:15px">
-                <asp:Button ID="btnSummit" runat="server" Text="送出" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
-            </td>
-            <td style="padding-top:15px">
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
-            </td>
-            <td>
+            <td colspan="5">
+                <asp:Button ID="btnSummit" runat="server" Text="送出" CssClass="Button" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
         </tr>
     </table>
@@ -175,6 +166,6 @@
     <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" style="display:none;" />
+    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
 </asp:Content>
 

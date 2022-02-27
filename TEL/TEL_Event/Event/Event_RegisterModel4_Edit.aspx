@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel4_Edit.aspx.cs" Inherits="Event_Event_RegisterModel4_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
+
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
         $(function () {
             //活動開始日期
@@ -42,15 +43,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
                     }
                 });
-            });
+        });
 
         }
 
@@ -134,23 +135,26 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
                     }
                 });
-            });
+        });
         }
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
-    <table >
+    <table>
         <tr>
+            <td>
+                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+            </td>
             <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
             </td>
@@ -164,13 +168,13 @@
                 <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
             </td>
             <td>
-                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-            </td>
-            <td>
                 <asp:Label ID="lblHealthGroup" runat="server" Text="健檢組別"></asp:Label>
             </td>
         </tr>
         <tr>
+            <td>
+                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
+            </td>
             <td>
                 <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
@@ -182,9 +186,6 @@
             </td>
             <td>
                 <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
-            </td>
-            <td>
-                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
                 <asp:TextBox ID="txtHealthGroup" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
@@ -219,10 +220,10 @@
                 </asp:DropDownList>
             </td>
             <td>
-                <asp:TextBox ID="txtExamineename" runat="server"  CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtExamineename" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="txtExamineename2" runat="server"  CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtExamineename2" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
                 <asp:TextBox ID="txtExamineeidno" runat="server" CssClass="QueryField" MaxLength="10"></asp:TextBox>
@@ -233,7 +234,7 @@
             <td>
                 <asp:TextBox ID="txtExamineemobile" MaxLength="10" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
-            
+
         </tr>
         <tr class="FormTRStyle">
             <td>
@@ -257,7 +258,9 @@
         </tr>
         <tr>
             <td class="auto-style1">
-                <asp:DropDownList ID="ddlHosipital" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlHosipital_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="ddlHosipital" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlHosipital_SelectedIndexChanged">
+                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
+                </asp:DropDownList>
             </td>
             <td class="auto-style1">
                 <asp:DropDownList ID="ddlArea" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlArea_SelectedIndexChanged">
@@ -275,12 +278,12 @@
                 </asp:DropDownList>
             </td>
             <td class="auto-style1">
-                <asp:DropDownList ID="ddlExpectdate" runat="server" CssClass="QueryField" Width="100%"  >
+                <asp:DropDownList ID="ddlExpectdate" runat="server" CssClass="QueryField" Width="100%">
                     <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td class="auto-style1">
-                <asp:DropDownList ID="ddlSeconddate" runat="server" CssClass="QueryField" Width="100%"  >
+                <asp:DropDownList ID="ddlSeconddate" runat="server" CssClass="QueryField" Width="100%">
                     <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
@@ -295,35 +298,29 @@
             <td>
                 <asp:Label ID="lblSecondsolution3" runat="server" Text="健檢次方案2"></asp:Label>
             </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
             <td>
-                <asp:DropDownList ID="ddlSecondsolution1" runat="server" CssClass="QueryField" Width="100%" >
+                <asp:DropDownList ID="ddlSecondsolution1" runat="server" CssClass="QueryField" Width="100%">
                     <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td>
-                <asp:DropDownList ID="ddlSecondsolution2" runat="server" CssClass="QueryField" Width="100%" >
+                <asp:DropDownList ID="ddlSecondsolution2" runat="server" CssClass="QueryField" Width="100%">
                     <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td>
-                <asp:DropDownList ID="ddlSecondsolution3" runat="server" CssClass="QueryField" Width="100%" >
+                <asp:DropDownList ID="ddlSecondsolution3" runat="server" CssClass="QueryField" Width="100%">
                     <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr class="FormTRStyle">
             <td colspan="3">
@@ -338,16 +335,16 @@
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
-            <td colspan="2" style="vertical-align:top;">
+            <td colspan="2" style="vertical-align: top;">
                 <asp:RadioButtonList ID="rblAddress" runat="server" CssClass="controlCommon" RepeatColumns="2" RepeatDirection="Horizontal" AutoPostBack="true" OnSelectedIndexChanged="rblAddress_SelectedIndexChanged">
                 </asp:RadioButtonList>
-                <asp:RadioButton ID="rbtnOrther" runat="server" Text="其它" CssClass="controlCommon" AutoPostBack="true" OnCheckedChanged="rbtnOrther_CheckedChanged"/>
+                <asp:RadioButton ID="rbtnOrther" runat="server" Text="其它" CssClass="controlCommon" AutoPostBack="true" OnCheckedChanged="rbtnOrther_CheckedChanged" />
                 <asp:TextBox ID="txtOrther" runat="server" CssClass="QueryField" Enabled="false"></asp:TextBox>
 
             </td>
-            <td  style="vertical-align:top;">
+            <td style="vertical-align: top;">
                 <asp:DropDownList ID="ddlMeal" runat="server" CssClass="QueryField" Width="100%">
                     <asp:ListItem Value="">- 未指定 -</asp:ListItem>
                     <asp:ListItem Value="西式">西式</asp:ListItem>
@@ -357,27 +354,25 @@
             </td>
         </tr>
         <tr class="FormTRStyle">
-            <td >
+            <td>
                 <asp:Label ID="lblNeedhotel" runat="server" Text="是否預約飯店"></asp:Label>
             </td>
             <td colspan="2">
                 <asp:Label ID="lblCheckininfo" runat="server" Text="住宿人名單(例：野原廣治 35歲)"></asp:Label>
             </td>
-            <td colspan="3">
-            </td>
+            <td colspan="3"></td>
         </tr>
         <tr>
-            <td >
+            <td>
                 <asp:RadioButtonList ID="rblNeedhotel" runat="server" CssClass="controlCommon" AutoPostBack="true" OnSelectedIndexChanged="rblNeedhotel_SelectedIndexChanged">
                     <asp:ListItem Value="是">是</asp:ListItem>
                     <asp:ListItem Value="否" Selected="True">否</asp:ListItem>
                 </asp:RadioButtonList>
             </td>
-            <td colspan="2" style="vertical-align:top">
+            <td colspan="2" style="vertical-align: top">
                 <asp:TextBox ID="txtCheckininfo" runat="server" TextMode="MultiLine" CssClass="QueryField" Width="100%" Height="100%" Enabled="false"></asp:TextBox>
             </td>
-            <td colspan="3">
-            </td>
+            <td colspan="3"></td>
         </tr>
         <tr class="FormTRStyle">
             <td colspan="6">
@@ -385,19 +380,16 @@
             </td>
         </tr>
         <tr>
-            <td colspan="6">
-                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+            <td colspan="3">
+                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
+            <td colspan="3"></td>
         </tr>
-        <tr class="FormTRStyle">
-            <td >
-                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
-            </td>
-            <td >
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" Width="99%" CssClass="Button" OnClick="btnDelete_Click"/>
-            </td>
-            <td>
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
+        <tr>
+            <td colspan="6">
+                <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" CssClass="Button" OnClick="btnDelete_Click" />
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
         </tr>
     </table>
@@ -428,7 +420,7 @@
 
     <div id="dialogNoRegisterInfo" title="Dialog Title">
         <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。" ></asp:Label>
+            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。"></asp:Label>
         </asp:Panel>
     </div>
 
@@ -438,6 +430,6 @@
     <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" style="display:none;" />
+    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
 </asp:Content>
 
