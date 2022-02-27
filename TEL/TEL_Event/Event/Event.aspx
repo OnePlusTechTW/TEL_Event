@@ -7,14 +7,14 @@
     <script>
         $(function () {
 
-            $('#<%= sDate.ClientID%>').prop("readonly", true).datepicker({
+            $('#<%= sDate.ClientID%>').datepicker({
                 dateFormat: 'yy/mm/dd',
                 onClose: function (selectedDate) {
                     $('#<%= eDate.ClientID%>').datepicker("option", "minDate", selectedDate);
                 }
             });
 
-            $('#<%= eDate.ClientID%>').prop("readonly", true).datepicker({
+            $('#<%= eDate.ClientID%>').datepicker({
                 dateFormat: 'yy/mm/dd',
                 onClose: function (selectedDate) {
                     $('#<%= sDate.ClientID%>').datepicker("option", "maxDate", selectedDate);
