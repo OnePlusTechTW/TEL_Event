@@ -205,19 +205,9 @@ namespace TEL.Event.Lab.Data
                             a.surveymodel,
                             a.surveystartdate
                           FROM TEL_Event_Events a
-                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id ";
-
-            if (isManager == 1)
-            {
-                sqlString += @"
-                          INNER JOIN TEL_Event_EventAdmin c ON a.id = c.eventid  ";
-            }
-
-            sqlString += @"
-                          WHERE 
-                               a.id = a.id ";
-
-
+                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id 
+                          LEFT JOIN TEL_Event_EventAdmin c ON a.id = c.eventid 
+                          WHERE a.id = a.id ";
 
             if (isManager == 1)
             {
@@ -226,7 +216,7 @@ namespace TEL.Event.Lab.Data
 
             if (isManager == 2)
             {
-                sqlString += @" AND a.[initby] = @empid ";
+                sqlString += @" AND (a.[initby] = @empid OR c.empid = @empid) ";
             }
 
             if (!string.IsNullOrEmpty(eventid))
