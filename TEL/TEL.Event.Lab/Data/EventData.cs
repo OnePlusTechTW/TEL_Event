@@ -3601,7 +3601,7 @@ namespace TEL.Event.Lab.Data
 
 
 
-        DataTable result = null;
+            DataTable result = null;
 
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -3638,7 +3638,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="gender"></param>
         /// <param name="expectdate"></param>
         /// <returns></returns>
-        internal int QueryRegisterOption4Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
+        internal int QueryRegisterOption3Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -3647,7 +3647,7 @@ namespace TEL.Event.Lab.Data
                         SELECT 
                             COUNT([id]) AS RegisterCount
                         FROM 
-                            [TEL_Event_RegisterModel4]
+                            [TEL_Event_RegisterModel3]
                         WHERE  
                             [eventid] = @eventid
                         AND
@@ -3661,7 +3661,13 @@ namespace TEL.Event.Lab.Data
                         AND
                             CONVERT(VARCHAR, expectdate,111) = @expectdate ";
 
-
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlStr += @"
+                        AND
+                            [id] != @registerid
+                        ";
+            }
 
             DataTable result = null;
 
@@ -3681,13 +3687,15 @@ namespace TEL.Event.Lab.Data
                 wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
                 wrDad.SelectCommand.Parameters.AddWithValue("@expectdate", Convert.ToDateTime(expectdate));
 
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];
             }
 
 
-            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["limit"]);
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["RegisterCount"]);
         }
 
         /// <summary>
@@ -3997,6 +4005,78 @@ namespace TEL.Event.Lab.Data
         #endregion
 
         #region RegisterModel4
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption4Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            COUNT([id]) AS RegisterCount
+                        FROM 
+                            [TEL_Event_RegisterModel4]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            hosipital = @hosipital
+                        AND
+                            area = @area
+                        AND
+                            solution = @solution
+                        AND
+                            [gender] = @gender
+                        AND
+                            CONVERT(VARCHAR, expectdate,111) = @expectdate ";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlStr += @"
+                        AND
+                            [id] != @registerid";
+            }
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+                wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+                wrDad.SelectCommand.Parameters.AddWithValue("@expectdate", Convert.ToDateTime(expectdate));
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["RegisterCount"]);
+        }
+
         /// <summary>
         /// 新增 模板4報名資料
         /// </summary>
@@ -4669,7 +4749,7 @@ namespace TEL.Event.Lab.Data
 
             sqlStr = @"
                         SELECT 
-                            DISTINCT Format([avaliabledate],N'yyyy/MM/dd HH:mm') AS [avaliabledate]
+                            DISTINCT CONVERT(VARCHAR, [avaliabledate],111) AS [avaliabledate]
                         FROM 
                             [TEL_Event_RegisterOption6] 
                         WHERE  id = id";
@@ -4715,6 +4795,107 @@ namespace TEL.Event.Lab.Data
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 取得Option6 地點時間方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption6Limit(string eventid, string area, string date)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [limit]
+                        FROM 
+                            [TEL_Event_RegisterOption6]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            area = @area
+                        AND
+                            CONVERT(VARCHAR, avaliabledate,111) = @date ";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@date", Convert.ToDateTime(date));
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["limit"]);
+        }
+
+        /// <summary>
+        /// 取得地點時間方案報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        internal int GetRegisterOption6Count(string eventid, string area, string date, string registerid)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            COUNT([id]) AS RegisterCount
+                        FROM 
+                            [TEL_Event_RegisterModel6]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            changearea = @area
+                        AND
+                            CONVERT(VARCHAR, changedate,111) = @date ";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlStr += @"
+                        AND
+                            id != @registerid ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@date", Convert.ToDateTime(date));
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["RegisterCount"]);
         }
 
         /// <summary>

@@ -169,9 +169,22 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
             return;
         }
 
+        //依照使用者選擇的健檢醫院、地區、費用&方案、受診者性別、期望受檢日，在TEL_Event_RegisterOption4維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
         string eventid = Request.QueryString["id"];
         string modifiedby = Page.Session["EmpID"].ToString();
+
+        int option1Limit = ev.GetRegisterOption4Limit(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue);
+        int registerCount = ev.GetRegisterOption4Count(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue, string.Empty);
+
+        if (registerCount >= option1Limit)
+        {
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", Guid.NewGuid().ToString());
         Data.Add("eventid", eventid);

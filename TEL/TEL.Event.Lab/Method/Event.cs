@@ -566,10 +566,36 @@ namespace TEL.Event.Lab.Method
             return dt;
         }
 
+        /// <summary>
+        /// 取得健檢方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
         public int GetRegisterOption4Limit(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
         {
             EventData ev = new EventData();
             return ev.QueryRegisterOption4Limit(eventid, hosipital, area, solution, gender, expectdate);
+        }
+
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
+        public int GetRegisterOption3Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption3Count(eventid, hosipital, area, solution, gender, expectdate, registerid);
         }
 
         public string AddRegisterModel3(Dictionary<string, string> data, string modifiedby)
@@ -619,6 +645,22 @@ namespace TEL.Event.Lab.Method
         #endregion
 
         #region RegisterModel4
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        public int GetRegisterOption4Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption4Count(eventid, hosipital, area, solution, gender, expectdate, registerid);
+        }
         /// <summary>
         /// 新增 模板4報名資料
         /// </summary>
@@ -752,6 +794,36 @@ namespace TEL.Event.Lab.Method
             DataTable dt = new DataTable();
             dt = ev.QueryAvaliableDatOption(eventid, area);
             return dt;
+        }
+
+        /// <summary>
+        /// 取得Option6 地點時間方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public int GetRegisterOption6Limit(string eventid, string area, string date)
+        {
+            {
+                EventData ev = new EventData();
+                return ev.QueryRegisterOption6Limit(eventid, area, date);
+            }
+        }
+
+        /// <summary>
+        /// 取得地點時間方案報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public int GetRegisterOption6Count(string eventid, string area, string date, string registerid)
+        {
+            {
+                EventData ev = new EventData();
+                return ev.GetRegisterOption6Count(eventid, area, date, registerid);
+            }
         }
 
         /// <summary>

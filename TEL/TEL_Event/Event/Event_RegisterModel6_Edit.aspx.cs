@@ -61,6 +61,18 @@ public partial class Event_Event_RegisterModel6_Edit : System.Web.UI.Page
         string eventid = Request.QueryString["eventid"];
         string registerid = Request.QueryString["id"];
         string modifiedby = Page.Session["EmpID"].ToString();
+
+        int option1Limit = ev.GetRegisterOption6Limit(eventid, ddlArea.SelectedValue, ddlAvaliabledate.SelectedValue);
+        int registerCount = ev.GetRegisterOption6Count(eventid, ddlArea.SelectedValue, ddlAvaliabledate.SelectedValue, registerid);
+
+        if (registerCount >= option1Limit)
+        {
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", registerid);
         Data.Add("eventid", eventid);
