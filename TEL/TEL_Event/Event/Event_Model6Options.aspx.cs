@@ -169,7 +169,7 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
                 select new ImportModel()
                 {
                     area = dr["地點"].ToString(),
-                    avaliabledate = Convert.ToDateTime(dr["日期時間"].ToString()).ToString("yyyy/MM/dd hh:mm:ss"),
+                    avaliabledate = Convert.ToDateTime(dr["日期時間"].ToString()).ToString("yyyy/MM/dd HH:mm:ss"),
                     limit = dr["人數上限"].ToString()
                 }).ToList();
 

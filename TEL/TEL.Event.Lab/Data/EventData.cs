@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using TEL.Event.Lab.Method;
+using System.Globalization;
 
 namespace TEL.Event.Lab.Data
 {
@@ -270,7 +271,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.enabled = @enabled ";
             }
 
-            sqlString += @" ORDER BY  a.eventstart DESC";
+            sqlString += @" ORDER BY  a.eventstart DESC, a.name";
 
             DataTable result = null;
 
@@ -2190,7 +2191,7 @@ namespace TEL.Event.Lab.Data
                             [id]
                             ,[eventid]
                             ,[area]
-                            ,CONVERT(varchar, [avaliabledate], 111) as avaliabledate
+                            ,Format([avaliabledate],N'yyyy/MM/dd HH:mm') as avaliabledate
                             ,[limit]
                             ,[modifiedby]
                             ,[modifieddate]
@@ -3564,7 +3565,17 @@ namespace TEL.Event.Lab.Data
 
             return result;
         }
-
+        
+        /// <summary>
+        /// 取得健檢方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
         internal int QueryRegisterOption4Limit(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
         {
             string connStr = GetConnectionString();
@@ -3591,6 +3602,68 @@ namespace TEL.Event.Lab.Data
 
 
         DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+                wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+                wrDad.SelectCommand.Parameters.AddWithValue("@expectdate", Convert.ToDateTime(expectdate));
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["limit"]);
+        }
+
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption4Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            COUNT([id]) AS RegisterCount
+                        FROM 
+                            [TEL_Event_RegisterModel4]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            hosipital = @hosipital
+                        AND
+                            area = @area
+                        AND
+                            solution = @solution
+                        AND
+                            [gender] = @gender
+                        AND
+                            CONVERT(VARCHAR, expectdate,111) = @expectdate ";
+
+
+
+            DataTable result = null;
 
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -4596,7 +4669,7 @@ namespace TEL.Event.Lab.Data
 
             sqlStr = @"
                         SELECT 
-                            DISTINCT  CONVERT(VARCHAR, [avaliabledate],111) AS [avaliabledate]
+                            DISTINCT Format([avaliabledate],N'yyyy/MM/dd HH:mm') AS [avaliabledate]
                         FROM 
                             [TEL_Event_RegisterOption6] 
                         WHERE  id = id";
@@ -4608,7 +4681,7 @@ namespace TEL.Event.Lab.Data
                             ";
             }
 
-            if (!string.IsNullOrEmpty(eventid))
+            if (!string.IsNullOrEmpty(area))
             {
                 sqlStr += @" 
                        AND [area] = @area

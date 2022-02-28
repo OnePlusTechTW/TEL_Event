@@ -31,7 +31,7 @@
     <table>
         <tr>
             <td>
-                <asp:Button ID="btnImportChangeArea" runat="server" CssClass="Button" Text="匯入更換地點" Width="120px" OnClick="btnImportChangeArea_Click" />
+                <asp:Button ID="btnImportChangeArea" runat="server" CssClass="Button" Text="匯入地點與日期時間" Width="150px" OnClick="btnImportChangeArea_Click" />
             </td>
             <td style="padding-left: 10px;">
                 <asp:HyperLink ID="hlnkFileAttachment" runat="server" Text="Excel範例" Style="color: blue;" NavigateUrl="~/Sample/Import_ComputerChange.xlsx" />

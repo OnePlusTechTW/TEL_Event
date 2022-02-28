@@ -99,7 +99,7 @@
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理活動"></asp:Label>
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理報名資料"></asp:Label>
             </td>
         </tr>
         <tr style="height: 10px">
@@ -136,7 +136,7 @@
             </td>
         </tr>
     </table>
-    <table cellspacing="0">
+    <table cellspacing="5">
         <tr style="text-align: right">
             <td style="width: 100%; padding-right:20px; padding-bottom:10px;">
                 <asp:Image ID="FIELD_People" runat="server" ImageUrl="~/Master/images/people.png" Height="20px" />

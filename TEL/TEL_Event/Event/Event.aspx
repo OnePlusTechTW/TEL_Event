@@ -32,7 +32,7 @@
                     modal: true,
                     width: "645px",
                     Height: "500px",
-                    position: { my: "center center", at: "center top+100", },
+                    position: { my: "center center", at: "center top+0", },
                     buttons: {
                         Close: function () {
                             $(this).dialog('close');
