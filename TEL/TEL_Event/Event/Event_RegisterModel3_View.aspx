@@ -9,7 +9,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <script>
-        
+
         function ShowDialogMsg() {
             $(function () {
                 $("#dialogMsg").dialog({
@@ -32,7 +32,7 @@
 
         }
 
-        
+
         function ShowNoRegisterInfo() {
             $(function () {
                 $("#dialogNoRegisterInfo").dialog({
@@ -44,15 +44,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
                     }
                 });
-            });
+        });
         }
     </script>
 </head>
@@ -62,6 +62,9 @@
             <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
             <table>
                 <tr>
+                    <td>
+                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+                    </td>
                     <td>
                         <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
                     </td>
@@ -75,13 +78,13 @@
                         <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-                    </td>
-                    <td>
                         <asp:Label ID="lblHealthGroup" runat="server" Text="健檢組別"></asp:Label>
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        <asp:TextBox ID="txtStation" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
+                    </td>
                     <td>
                         <asp:TextBox ID="txtEmpid" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
                     </td>
@@ -93,9 +96,6 @@
                     </td>
                     <td>
                         <asp:TextBox ID="txtDepartment" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
-                    </td>
-                    <td>
-                        <asp:TextBox ID="txtStation" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
                     </td>
                     <td>
                         <asp:TextBox ID="txtHealthGroup" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
@@ -212,8 +212,7 @@
                     <td>
                         <asp:Label ID="lblMeal" runat="server" Text="餐點樣式"></asp:Label>
                     </td>
-                     <td colspan="4">
-                    </td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr>
                     <td style="vertical-align: top;">
@@ -223,22 +222,19 @@
                     <td style="vertical-align: top;">
                         <asp:TextBox ID="txtMeal" runat="server" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
-                    <td colspan="4">
-                    </td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr class="FormTRStyle">
                     <td colspan="3">
                         <asp:Label ID="lblOptional" runat="server" Text="自費加選項目"></asp:Label>
                     </td>
-                    <td colspan="3">
-                    </td>
+                    <td colspan="3"></td>
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtOptional" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
-                    <td colspan="3">
-                    </td>
+                    <td colspan="3"></td>
                 </tr>
                 <tr class="FormTRStyle">
                     <td colspan="6">
@@ -246,11 +242,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">
-                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField" Enabled="false"></asp:TextBox>
+                    <td colspan="3">
+                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
+                    <td colspan="3"></td>
                 </tr>
-                
             </table>
 
             <div id="dialogMsg" title="Dialog Title">
@@ -258,7 +254,7 @@
                     <asp:Label ID="lblMsg" runat="server" Text=""></asp:Label>
                 </asp:Panel>
             </div>
-            
+
 
             <div id="dialogNoRegisterInfo" title="Dialog Title">
                 <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
@@ -270,7 +266,7 @@
             <asp:Label ID="lblLimitReached" runat="server" Text="此方案報名人數已達上限，請重新選擇其他方案" Visible="false"></asp:Label>
             <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
             <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-            <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" style="display:none;" />
+            <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
 
         </div>
     </form>

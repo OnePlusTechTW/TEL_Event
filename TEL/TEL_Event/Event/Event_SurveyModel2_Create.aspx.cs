@@ -17,7 +17,7 @@ public partial class Event_SurveyModel2_Create : System.Web.UI.Page
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             Response.Redirect("/Event/MyEvent.aspx");
 
-        this.Button_Submit.Attributes.Add("onclick", "javascrip:return confirm('問卷送出後即不可修正，您確定要送出嗎？')");
+        UC_EventDescription.setViewDefault(Request.QueryString["id"]);
 
         Load_EmpData();
     }
@@ -28,6 +28,11 @@ public partial class Event_SurveyModel2_Create : System.Web.UI.Page
     }
 
     protected void Button_Submit_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogConfirm();", true);
+    }
+
+    protected void Button_AddConfirm_Click(object sender, EventArgs e)
     {
         if (Check_Input())
             if (Save_Data())
@@ -102,7 +107,8 @@ public partial class Event_SurveyModel2_Create : System.Web.UI.Page
 
         if (!string.IsNullOrEmpty(ErrorMsg))
         {
-            MessageBox.Show(ErrorMsg, "錯誤訊息");
+            lblFiledName.Text = ErrorMsg;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
             flag = false;
         }
 

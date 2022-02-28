@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web;
 using TEL.Event.Lab.Method;
+using System.Globalization;
 
 namespace TEL.Event.Lab.Data
 {
@@ -205,19 +206,9 @@ namespace TEL.Event.Lab.Data
                             a.surveymodel,
                             a.surveystartdate
                           FROM TEL_Event_Events a
-                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id ";
-
-            if (isManager == 1)
-            {
-                sqlString += @"
-                          INNER JOIN TEL_Event_EventAdmin c ON a.id = c.eventid  ";
-            }
-
-            sqlString += @"
-                          WHERE 
-                               a.id = a.id ";
-
-
+                          INNER JOIN TEL_Event_Category b ON a.categoryid=b.id 
+                          LEFT JOIN TEL_Event_EventAdmin c ON a.id = c.eventid 
+                          WHERE a.id = a.id ";
 
             if (isManager == 1)
             {
@@ -226,7 +217,7 @@ namespace TEL.Event.Lab.Data
 
             if (isManager == 2)
             {
-                sqlString += @" AND a.[initby] = @empid ";
+                sqlString += @" AND (a.[initby] = @empid OR c.empid = @empid) ";
             }
 
             if (!string.IsNullOrEmpty(eventid))
@@ -280,7 +271,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.enabled = @enabled ";
             }
 
-            sqlString += @" ORDER BY  a.eventstart DESC";
+            sqlString += @" ORDER BY  a.eventstart DESC, a.name";
 
             DataTable result = null;
 
@@ -1966,12 +1957,6 @@ namespace TEL.Event.Lab.Data
                 return ex.ToString();
 
             }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                return ex.ToString();
-
-            }
 
             conn.Close();
             conn.Dispose();
@@ -2200,7 +2185,7 @@ namespace TEL.Event.Lab.Data
                             [id]
                             ,[eventid]
                             ,[area]
-                            ,CONVERT(varchar, [avaliabledate], 111) as avaliabledate
+                            ,Format([avaliabledate],N'yyyy/MM/dd HH:mm') as avaliabledate
                             ,[limit]
                             ,[modifiedby]
                             ,[modifieddate]
@@ -4606,7 +4591,7 @@ namespace TEL.Event.Lab.Data
 
             sqlStr = @"
                         SELECT 
-                            DISTINCT  CONVERT(VARCHAR, [avaliabledate],111) AS [avaliabledate]
+                            DISTINCT Format([avaliabledate],N'yyyy/MM/dd HH:mm') AS [avaliabledate]
                         FROM 
                             [TEL_Event_RegisterOption6] 
                         WHERE  id = id";
@@ -4618,7 +4603,7 @@ namespace TEL.Event.Lab.Data
                             ";
             }
 
-            if (!string.IsNullOrEmpty(eventid))
+            if (!string.IsNullOrEmpty(area))
             {
                 sqlStr += @" 
                        AND [area] = @area

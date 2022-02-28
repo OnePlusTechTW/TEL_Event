@@ -44,9 +44,9 @@
                 $("#dialogTemplate").dialog({
                     title: "",
                     modal: true,
-                    width: "700px",
+                    width: "1050px",
                     Height: "500px",
-                    position: { my: "center center", at: "center top+175", },
+                    position: { my: "center center", at: "center top+0", },
                     buttons: {
                         Close: function () {
                             $(this).dialog('close');
@@ -154,6 +154,20 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+    <table>
+        <tr>
+            <td>
+                <asp:Image runat="server" ImageUrl="~/Master/images/Link_CreateEvents.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="建立活動"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px">
+            <td></td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td colspan="3">

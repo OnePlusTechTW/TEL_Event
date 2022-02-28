@@ -21,15 +21,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel4").style.display = "block";
                     }
                 });
-            });
+        });
         }
     </script>
 </head>
@@ -40,6 +40,9 @@
             <table>
                 <tr>
                     <td>
+                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+                    </td>
+                    <td>
                         <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
                     </td>
                     <td>
@@ -48,35 +51,26 @@
                     <td>
                         <asp:Label ID="lblEName" runat="server" Text="英文姓名"></asp:Label>
                     </td>
-                </tr>
-                <tr class="FormTRStyle">
-                    <td>
-                        <asp:TextBox ID="txtEmpid" runat="server"  Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
-                    </td>
-                    <td>
-                        <asp:TextBox ID="txtCName" runat="server"  Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
-                    </td>
-                    <td>
-                        <asp:TextBox ID="txtEName" runat="server"  Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr class="FormTRStyle">
                     <td>
                         <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
                     </td>
-                    <td>
-                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-                    </td>
-                    <td></td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtDepartment" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
-                    </td>
-                    <td>
                         <asp:TextBox ID="txtStation" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
                     </td>
-                    <td></td>
+                    <td>
+                        <asp:TextBox ID="txtEmpid" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtCName" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtEName" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="txtDepartment" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                    </td>
                 </tr>
                 <tr class="FormTRStyle">
                     <td>
@@ -85,29 +79,31 @@
                     <td>
                         <asp:Label ID="lblChangeDate" runat="server" Text="日期時間"></asp:Label>
                     </td>
-                    <td></td>
+                    <td colspan="3"></td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtArea" runat="server" CssClass="QueryField" Width="100%"  Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtArea" runat="server" CssClass="QueryField" Width="100%" Enabled="false"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtAvaliabledate" runat="server" CssClass="QueryField" Width="100%"  Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtAvaliabledate" runat="server" CssClass="QueryField" Width="100%" Enabled="false"></asp:TextBox>
                     </td>
-                    <td></td>
+                    <td colspan="3"></td>
                 </tr>
 
                 <tr class="FormTRStyle">
                     <td colspan="3">
                         <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
                     </td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"  Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="false"></asp:TextBox>
                     </td>
+                    <td colspan="2"></td>
                 </tr>
-               
+
             </table>
 
             <div id="dialogNoRegisterInfo" title="Dialog Title">

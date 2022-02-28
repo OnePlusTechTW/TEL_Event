@@ -24,9 +24,9 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         string eventid = Request.QueryString["id"];
         string empid = Page.Session["EmpID"].ToString();
 
-        if (!string.IsNullOrEmpty(Request.QueryString["EmpID"]))
+        if (!string.IsNullOrEmpty(Request.QueryString["empid"]))
         {
-            empid = Request.QueryString["EmpID"];
+            empid = Request.QueryString["empid"];
         }
 
         UC_EventDescription.setViewDefault(eventid);
@@ -147,16 +147,6 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
     private void InitDDLValues(string eventid)
     {
         Event ev = new Event();
-
-        //地點
-        this.ddlArea.Items.Clear();
-
-        ListItem li = new ListItem();
-        li.Text = lblUnselect.Text;
-        li.Value = string.Empty;
-        li.Selected = true;
-        this.ddlArea.Items.Add(li);
-        this.ddlAvaliabledate.Items.Add(li);
 
         DataTable dtArea = new DataTable();
         dtArea = ev.GetAreaOption6(eventid);

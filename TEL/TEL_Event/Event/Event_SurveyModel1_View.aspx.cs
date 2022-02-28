@@ -37,6 +37,8 @@ public partial class Event_Event_SurveyModel1_View : System.Web.UI.Page
 
         if (WMTB.Rows.Count > 0)
         {
+            UC_EventDescription.setViewDefault(WMTB.Rows[0]["eventid"].ToString());
+
             for (int i = 1; i <= 6; i++)
             {
                 CheckBox cb = (CheckBox)this.Page.FindControl("FIELD_Q1_" + i);
@@ -44,61 +46,61 @@ public partial class Event_Event_SurveyModel1_View : System.Web.UI.Page
                 if (WMTB.Rows[0]["q1"].ToString().IndexOf(cb.Text) > -1)
                     cb.Checked = true;
             }
+
+            this.FIELD_Q1Other.Text = WMTB.Rows[0]["q1other"].ToString();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q2_" + i);
+
+                if (WMTB.Rows[0]["q2"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q3_" + i);
+
+                if (WMTB.Rows[0]["q3"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q4_" + i);
+
+                if (WMTB.Rows[0]["q4"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q5_" + i);
+
+                if (WMTB.Rows[0]["q5"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q6_" + i);
+
+                if (WMTB.Rows[0]["q6"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+
+            for (int i = 1; i <= 2; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q7_" + i);
+
+                if (WMTB.Rows[0]["q7"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+
+            this.FIELD_Q7Reason.Text = WMTB.Rows[0]["q7reason"].ToString();
+            this.FIELD_Q8.Text = WMTB.Rows[0]["q8"].ToString();
+            this.FIELD_Q9.Text = WMTB.Rows[0]["q9"].ToString();
+            this.FIELD_Q10.Text = WMTB.Rows[0]["q10"].ToString();
         }
-
-        this.FIELD_Q1Other.Text = WMTB.Rows[0]["q1other"].ToString();
-
-        for (int i = 1; i <= 5; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q2_" + i);
-
-            if (WMTB.Rows[0]["q2"].ToString()==rb.Text)
-                rb.Checked = true;
-        }
-
-        for (int i = 1; i <= 5; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q3_" + i);
-
-            if (WMTB.Rows[0]["q3"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-
-        for (int i = 1; i <= 5; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q4_" + i);
-
-            if (WMTB.Rows[0]["q4"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-
-        for (int i = 1; i <= 5; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q5_" + i);
-
-            if (WMTB.Rows[0]["q5"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-
-        for (int i = 1; i <= 5; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q6_" + i);
-
-            if (WMTB.Rows[0]["q6"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-
-        for (int i = 1; i <= 2; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q7_" + i);
-
-            if (WMTB.Rows[0]["q7"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-
-        this.FIELD_Q7Reason.Text = WMTB.Rows[0]["q7reason"].ToString();
-        this.FIELD_Q8.Text = WMTB.Rows[0]["q8"].ToString();
-        this.FIELD_Q9.Text = WMTB.Rows[0]["q9"].ToString();
-        this.FIELD_Q10.Text = WMTB.Rows[0]["q10"].ToString();
     }
 }

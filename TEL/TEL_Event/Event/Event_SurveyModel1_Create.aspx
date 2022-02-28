@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_SurveyModel1_Create.aspx.cs" Inherits="Event_SurveyModel1_Create" Culture="auto" StylesheetTheme="Event" meta:resourcekey="PageResource1" UICulture="auto" %>
 
+<%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
+
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript"> 
         function fk(isWrite) {
@@ -38,27 +41,28 @@
                             text: "確定",
                             click: function () {
                                <%= Button_AddConfirm.ClientID%>.click();
-                                $(this).dialog("close");
-                            }
-                        },
-                        {
-                            text: "取消",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
+                            $(this).dialog("close");
                         }
+                        },
+                    {
+                        text: "取消",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
                     ],
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel6").style.display = "block";
-                    }
+                    },
+                    width: "350px",
+                    Height: "300px",
                 });
-            });
+        });
 
         };
 
     </script>
-
     <table>
         <tr>
             <td>
@@ -71,7 +75,13 @@
         </tr>
         <tr style="height: 10px"></tr>
     </table>
-    <table>
+    <table style="width: 650px">
+        <tr>
+            <td>
+                <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
+            </td>
+        </tr>
+        <tr style="height: 10px"></tr>
     </table>
     <table>
         <tr>
@@ -112,7 +122,7 @@
         </tr>
     </table>
     <table>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
             </td>
@@ -140,7 +150,7 @@
                 <asp:TextBox ID="FIELD_Q1Other" runat="server" CssClass="FillField" Width="150px"></asp:TextBox>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q2" runat="server" meta:resourcekey="LABEL_Q2Resource1"></asp:Label>
             </td>
@@ -162,7 +172,7 @@
                 <asp:RadioButton ID="FIELD_Q2_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q2"></asp:RadioButton>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q3" runat="server" meta:resourcekey="LABEL_Q3Resource1"></asp:Label>
             </td>
@@ -184,7 +194,7 @@
                 <asp:RadioButton ID="FIELD_Q3_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q3"></asp:RadioButton>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q4" runat="server" meta:resourcekey="LABEL_Q4Resource1"></asp:Label>
             </td>
@@ -206,7 +216,7 @@
                 <asp:RadioButton ID="FIELD_Q4_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q4"></asp:RadioButton>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q5" runat="server" meta:resourcekey="LABEL_Q5Resource1"></asp:Label>
             </td>
@@ -228,7 +238,7 @@
                 <asp:RadioButton ID="FIELD_Q5_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q5"></asp:RadioButton>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q6" runat="server" meta:resourcekey="LABEL_Q6Resource1"></asp:Label>
             </td>
@@ -250,7 +260,7 @@
                 <asp:RadioButton ID="FIELD_Q6_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q6"></asp:RadioButton>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q7" runat="server" meta:resourcekey="LABEL_Q7Resource1"></asp:Label>
             </td>
@@ -273,7 +283,7 @@
                 <asp:TextBox ID="FIELD_Q7Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q8" runat="server" meta:resourcekey="LABEL_Q8Resource1"></asp:Label>
             </td>
@@ -283,7 +293,7 @@
                 <asp:TextBox ID="FIELD_Q8" runat="server" Height="60px" TextMode="MultiLine" Width="360px"></asp:TextBox>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q9" runat="server" meta:resourcekey="LABEL_Q9Resource1"></asp:Label>
             </td>
@@ -293,7 +303,7 @@
                 <asp:TextBox ID="FIELD_Q9" runat="server" Height="60px" TextMode="MultiLine" Width="360px"></asp:TextBox>
             </td>
         </tr>
-        <tr>
+        <tr class="FormTRStyle">
             <td colspan="5">
                 <asp:Label ID="LABEL_Q10" runat="server" meta:resourcekey="LABEL_Q10Resource1"></asp:Label>
             </td>
@@ -317,14 +327,13 @@
         </asp:Panel>
     </div>
 
-     <div id="dialogSubmit" title="Dialog Title">
+    <div id="dialogSubmit" title="Dialog Title">
         <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
-            <%--dialog content--%>
             <asp:Label ID="lblDeleteWarning" runat="server" Text="問卷送出後即不可修正，您確定要送出嗎？"></asp:Label>
         </asp:Panel>
     </div>
 
-    <asp:Button ID="Button_AddConfirm" runat="server" Text="Button" meta:resourcekey="Button_SubmitResource1" CssClass="Button" style="display:none" OnClick="Button_AddConfirm_Click"/>
+    <asp:Button ID="Button_AddConfirm" runat="server" Text="Button" meta:resourcekey="Button_SubmitResource1" CssClass="Button" Style="display: none" OnClick="Button_AddConfirm_Click" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:HiddenField ID="hfmsg" runat="server" Value="確認" />
 

@@ -17,7 +17,6 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
 
         if (!IsPostBack)
             SetDefaultValues();
-        
     }
 
     private void SetDefaultValues()

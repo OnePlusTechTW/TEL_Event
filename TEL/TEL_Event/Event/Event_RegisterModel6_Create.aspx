@@ -38,15 +38,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
                     }
                 });
-            });
+        });
 
         }
 
@@ -75,8 +75,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
-    <table >
+    <table>
         <tr>
+            <td>
+                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+            </td>
             <td>
                 <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
             </td>
@@ -86,8 +89,14 @@
             <td>
                 <asp:Label ID="lblEName" runat="server" Text="英文姓名"></asp:Label>
             </td>
+            <td>
+                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
+            </td>
         </tr>
-        <tr class="FormTRStyle">
+        <tr>
+            <td>
+                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
+            </td>
             <td>
                 <asp:TextBox ID="txtEmpid" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
@@ -97,25 +106,8 @@
             <td>
                 <asp:TextBox ID="txtEName" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
-        </tr>
-        <tr class="FormTRStyle">
             <td>
-                <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
-            </td>
-            <td>
-                <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
-            </td>
-            <td>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
-            </td>
-            <td>
-                <asp:TextBox ID="txtStation" runat="server" ReadOnly="true" CssClass="QueryField"  Width="100%"></asp:TextBox>
-            </td>
-            <td>
+                <asp:TextBox ID="txtDepartment" runat="server" ReadOnly="true" CssClass="QueryField" Width="100%"></asp:TextBox>
             </td>
         </tr>
         <tr class="FormTRStyle">
@@ -125,36 +117,37 @@
             <td>
                 <asp:Label ID="lblChangeDate" runat="server" Text="日期時間"></asp:Label>
             </td>
-            <td></td>
+            <td colspan="3"></td>
         </tr>
         <tr>
             <td>
-                <asp:DropDownList ID="ddlArea" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlArea_SelectedIndexChanged"></asp:DropDownList>
+                <asp:DropDownList ID="ddlArea" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlArea_SelectedIndexChanged">
+                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
+                </asp:DropDownList>
             </td>
             <td>
-                <asp:DropDownList ID="ddlAvaliabledate" runat="server" CssClass="QueryField" Enabled="false" Width="100%" ></asp:DropDownList>
+                <asp:DropDownList ID="ddlAvaliabledate" runat="server" CssClass="QueryField" Enabled="false" Width="100%">
+                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
+                </asp:DropDownList>
             </td>
-            <td></td>
+            <td colspan="3"></td>
         </tr>
-        
         <tr class="FormTRStyle">
-            <td colspan="3">
+            <td colspan="5">
                 <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="135px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField"></asp:TextBox>
             </td>
+            <td colspan="2"></td>
         </tr>
         <tr>
-            <td style="padding-top: 15px">
-                <asp:Button ID="btnSummit" runat="server" Text="送出" CssClass="Button" Width="99%" OnClick="btnSummit_Click" />
+            <td colspan="5">
+                <asp:Button ID="btnSummit" runat="server" Text="送出" CssClass="Button" OnClick="btnSummit_Click" />
+                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
-            <td style="padding-top: 15px">
-                <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" Width="99%" OnClick="btnCannel_Click" />
-            </td>
-            <td></td>
         </tr>
     </table>
 

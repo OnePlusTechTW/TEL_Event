@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_SurveyModel3_View.aspx.cs" Inherits="Event_SurveyModel3_View" StylesheetTheme="Event" %>
 
+<%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -21,7 +23,13 @@
             </tr>
             <tr style="height: 10px"></tr>
         </table>
-        <table>
+        <table style="width: 650px">
+            <tr>
+                <td>
+                    <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
+                </td>
+            </tr>
+            <tr style="height: 10px"></tr>
         </table>
         <table>
             <tr>
@@ -62,7 +70,7 @@
             </tr>
         </table>
         <table>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
                 </td>
@@ -72,7 +80,7 @@
                     <asp:TextBox ID="FIELD_Q1" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q2" runat="server" meta:resourcekey="LABEL_Q2Resource1"></asp:Label>
                 </td>
@@ -95,7 +103,7 @@
                     <asp:TextBox ID="FIELD_Q2Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q3" runat="server" meta:resourcekey="LABEL_Q3Resource1"></asp:Label>
                 </td>
@@ -121,7 +129,7 @@
                     <asp:TextBox ID="FIELD_Q3Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q4" runat="server" meta:resourcekey="LABEL_Q4Resource1"></asp:Label>
                 </td>
@@ -147,7 +155,7 @@
                     <asp:TextBox ID="FIELD_Q4Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q5" runat="server" meta:resourcekey="LABEL_Q5Resource1"></asp:Label>
                 </td>
@@ -173,7 +181,7 @@
                     <asp:TextBox ID="FIELD_Q5Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q6" runat="server" meta:resourcekey="LABEL_Q6Resource1"></asp:Label>
                 </td>
@@ -199,7 +207,7 @@
                     <asp:TextBox ID="FIELD_Q6Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q7" runat="server" meta:resourcekey="LABEL_Q7Resource1"></asp:Label>
                 </td>
@@ -225,7 +233,7 @@
                     <asp:TextBox ID="FIELD_Q7Reason" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q8" runat="server" meta:resourcekey="LABEL_Q8Resource1"></asp:Label>
                 </td>
@@ -235,7 +243,7 @@
                     <asp:TextBox ID="FIELD_Q8" runat="server" Height="60px" TextMode="MultiLine" Width="360px" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q9" runat="server" meta:resourcekey="LABEL_Q9Resource1"></asp:Label>
                 </td>
