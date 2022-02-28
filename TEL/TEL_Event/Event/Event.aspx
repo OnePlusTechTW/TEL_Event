@@ -9,6 +9,8 @@
 
             $('#<%= sDate.ClientID%>').datepicker({
                 dateFormat: 'yy/mm/dd',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= eDate.ClientID%>').datepicker("option", "minDate", selectedDate);
                 }
@@ -16,6 +18,8 @@
 
             $('#<%= eDate.ClientID%>').datepicker({
                 dateFormat: 'yy/mm/dd',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= sDate.ClientID%>').datepicker("option", "maxDate", selectedDate);
                     $('#<%= eDate.ClientID%>').val($(this).val());

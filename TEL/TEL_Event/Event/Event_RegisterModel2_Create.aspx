@@ -8,7 +8,9 @@
         $(function () {
             //活動開始日期
             $('#<%= txtFBDay.ClientID%>').prop("readonly", true).datepicker({
-                dateFormat: 'yy/mm/dd'
+                dateFormat: 'yy/mm/dd',
+                changeMonth: true,
+                changeYear: true
             });
         });
 
