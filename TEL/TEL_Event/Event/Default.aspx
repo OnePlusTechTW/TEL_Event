@@ -80,12 +80,12 @@
             color: #FF6A13 !important;
         }
 
-        .ddlColor20 {
-            background-color: #FAAA8D !important;
+        .Color20 {
+            color: #FAAA8D !important;
         }
 
-        .ddlColor21 {
-            background-color: #A65523 !important;
+        .Color21 {
+            color: #A65523 !important;
         }
     </style>
     <script>
