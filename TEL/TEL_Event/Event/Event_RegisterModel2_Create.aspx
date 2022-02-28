@@ -182,7 +182,7 @@
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="txtPhone" runat="server" CssClass="QueryField" MaxLength="10"></asp:TextBox>
+                <asp:TextBox ID="txtPhone" runat="server" CssClass="QueryField" MaxLength="10" onkeypress="if(event.keyCode < 48 || event.keyCode >57) event.returnValue = false;"></asp:TextBox>
             </td>
             <td>
                 <asp:DropDownList ID="ddlTransportation" runat="server" CssClass="QueryField" Width="100%">
@@ -311,5 +311,6 @@
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
     <asp:Label ID="lblRegisterErrMsg" runat="server" Text="報名資料新增發生錯誤。" Visible="false"></asp:Label>
+    <asp:Label ID="lblIDFormatErr" runat="server" Text="家屬身份證字號格式錯誤。" Visible="false"></asp:Label>
 </asp:Content>
 

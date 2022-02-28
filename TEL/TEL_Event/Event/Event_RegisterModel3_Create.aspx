@@ -160,7 +160,7 @@
                 <asp:TextBox ID="txtExamineebirthday" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="txtExamineemobile" MaxLength="10" runat="server" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtExamineemobile" MaxLength="10" runat="server" CssClass="QueryField" onkeypress="if(event.keyCode < 48 || event.keyCode >57) event.returnValue = false;"></asp:TextBox>
             </td>
             <td></td>
         </tr>
@@ -325,6 +325,7 @@
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
     <asp:Label ID="lblRegisterErrMsg" runat="server" Text="報名資料新增發生錯誤。" Visible="false"></asp:Label>
+    <asp:Label ID="lblIDFormatErr" runat="server" Text="身份證字號格式錯誤。" Visible="false"></asp:Label>
 </asp:Content>
 
 

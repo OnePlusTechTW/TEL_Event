@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -151,6 +152,16 @@ public partial class Event_Event_RegisterModel3_Edit : System.Web.UI.Page
         if (!string.IsNullOrEmpty(sb.ToString()))
         {
             lblMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
+        bool flag = Regex.IsMatch(txtExamineeidno.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
+
+        if (!flag)
+        {
+            lblMsg.Text = lblIDFormatErr.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
 
             return;

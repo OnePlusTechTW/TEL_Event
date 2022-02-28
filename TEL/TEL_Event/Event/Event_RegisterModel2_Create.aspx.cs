@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -43,6 +44,8 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnFAdd_Click(object sender, EventArgs e)
     {
+
+
         StringBuilder sb = new StringBuilder();
         //家屬姓名 必填
         if (string.IsNullOrEmpty(txtFName.Text))
@@ -83,6 +86,16 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
             return;
         }
 
+        bool flag = Regex.IsMatch(txtFID.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
+
+        if (!flag)
+        {
+            lblMsg.Text = lblIDFormatErr.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         DataTable dt = GetGridViewToDatatable();
         //dt.Columns.Add("家屬姓名");
         //dt.Columns.Add("家屬身分證字號");
@@ -91,7 +104,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         //dt.Columns.Add("餐點內容");
         DataRow dr = dt.NewRow();
         dr["name"] = txtFName.Text;
-        dr["idno"] = txtFID.Text;
+        dr["idno"] = txtFID.Text.ToUpper();
         dr["birthday"] = txtFBDay.Text;
         dr["gender"] = ddlGender.SelectedValue;
         dr["meal"] = ddlFMeal.SelectedValue;

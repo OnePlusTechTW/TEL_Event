@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -83,11 +84,21 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
             return;
         }
 
+        bool flag = Regex.IsMatch(txtFID.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
+
+        if (!flag)
+        {
+            lblMsg.Text = lblIDFormatErr.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         DataTable dt = GetGridViewToDatatable();
         
         DataRow dr = dt.NewRow();
         dr["name"] = txtFName.Text;
-        dr["idno"] = txtFID.Text;
+        dr["idno"] = txtFID.Text.ToUpper();
         dr["birthday"] = txtFBDay.Text;
         dr["gender"] = ddlGender.SelectedValue;
         dr["meal"] = ddlFMeal.SelectedValue;
