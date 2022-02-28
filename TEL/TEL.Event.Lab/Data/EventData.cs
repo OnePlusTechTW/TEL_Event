@@ -887,10 +887,12 @@ namespace TEL.Event.Lab.Data
                 string eventID = eventAdminData["eventid"];
 
                 //新增其它活動管理者
-                string[] empids = eventAdminData["empid"].Split(',');
-                foreach (string empidstr in empids)
+                if (!string.IsNullOrEmpty(eventAdminData["empid"]))
                 {
-                    sqlStr = @"
+                    string[] empids = eventAdminData["empid"].Split(',');
+                    foreach (string empidstr in empids)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_EventAdmin]
                                ([eventid]
                                ,[empid]
@@ -903,14 +905,15 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
 
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@eventid", eventID);
-                    command.Parameters.AddWithValue("@empid", empidstr);
-                    command.Parameters.AddWithValue("@modifiedby", empid);
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@eventid", eventID);
+                        command.Parameters.AddWithValue("@empid", empidstr);
+                        command.Parameters.AddWithValue("@modifiedby", empid);
 
-                    command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                    }
                 }
 
                 //新增活動權限 by mailgroup
@@ -1122,10 +1125,13 @@ namespace TEL.Event.Lab.Data
 
                 //再新增
                 string eventID = eventAdminData["eventid"];
-                string[] empids = eventAdminData["empid"].Split(',');
-                foreach (string empidstr in empids)
+
+                if (!string.IsNullOrEmpty(eventAdminData["empid"]))
                 {
-                    sqlStr = @"
+                    string[] empids = eventAdminData["empid"].Split(',');
+                    foreach (string empidstr in empids)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_EventAdmin]
                                ([eventid]
                                ,[empid]
@@ -1138,14 +1144,15 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
 
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@eventid", eventID);
-                    command.Parameters.AddWithValue("@empid", empidstr);
-                    command.Parameters.AddWithValue("@modifiedby", empid);
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@eventid", eventID);
+                        command.Parameters.AddWithValue("@empid", empidstr);
+                        command.Parameters.AddWithValue("@modifiedby", empid);
 
-                    command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                    }
                 }
 
                 //先刪除活動權限 by mailgroup
