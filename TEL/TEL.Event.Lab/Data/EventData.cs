@@ -2418,10 +2418,15 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板1報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
+
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}" ;
             }
 
             return "";
@@ -2463,10 +2468,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板1報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -2477,7 +2486,7 @@ namespace TEL.Event.Lab.Data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel1(string id)
+        internal string DeleteRegisterModel1(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -2499,6 +2508,11 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板1報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
@@ -2670,16 +2684,20 @@ namespace TEL.Event.Lab.Data
                 }
 
                 transaction.Commit();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板2報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (SqlException ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             conn.Close();
@@ -2790,16 +2808,20 @@ namespace TEL.Event.Lab.Data
                 }
 
                 transaction.Commit();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板2報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (SqlException ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             conn.Close();
@@ -2815,7 +2837,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="dataTable"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel2(string id)
+        internal string DeleteRegisterModel2(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -2851,16 +2873,20 @@ namespace TEL.Event.Lab.Data
                 commandDelete.ExecuteNonQuery();
 
                 transaction.Commit();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板2報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (SqlException ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             conn.Close();
@@ -3815,10 +3841,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板3報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -3896,10 +3926,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板3報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -3911,7 +3945,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel3(string id)
+        internal string DeleteRegisterModel3(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -3936,10 +3970,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板3報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4203,10 +4241,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板4報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4290,10 +4332,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板4報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4305,7 +4351,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel4(string id)
+        internal string DeleteRegisterModel4(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -4330,6 +4376,10 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板4報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
@@ -4493,10 +4543,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板5報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4590,10 +4644,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板5報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4605,7 +4663,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel5(string id)
+        internal string DeleteRegisterModel5(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -4630,10 +4688,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板5報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4968,10 +5030,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板1報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -5019,10 +5085,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板6報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -5034,7 +5104,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel6(string id)
+        internal string DeleteRegisterModel6(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -5059,10 +5129,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板6報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";

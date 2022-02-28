@@ -213,6 +213,10 @@ public partial class Event_Event_RegisterModel3_Edit : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblUpdateErrMsg.Text;
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 更新模板3報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
@@ -222,7 +226,7 @@ public partial class Event_Event_RegisterModel3_Edit : System.Web.UI.Page
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         Event ev = new Event();
-        string id = Request.QueryString["id"];
+        string id = Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
 
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
@@ -682,10 +686,17 @@ public partial class Event_Event_RegisterModel3_Edit : System.Web.UI.Page
     public static string DeleteRegisterModel3(string id)
     {
         Event ev = new Event();
-        string result = ev.DeleteRegisterModel3(id);
+        //Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
+        string registerid = id.Split('|')[0];
+        string modifiedby = id.Split('|')[1];
+
+        string result = ev.DeleteRegisterModel3(registerid, modifiedby);
 
         if (!string.IsNullOrEmpty(result))
         {
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 刪除模板3報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
+
             //失敗
             throw new Exception("Failed");
         }

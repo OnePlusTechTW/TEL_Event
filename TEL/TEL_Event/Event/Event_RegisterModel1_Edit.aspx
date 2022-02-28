@@ -137,7 +137,7 @@
 
         //刪除資料events Failure callback
         function Failure(error) {
-            ShowDialogFailed();
+            ShowDialogFailed($('#<%=hfDeleteErrMsg.ClientID%>')[0].value);
         }
     </script>
 </asp:Content>
@@ -227,8 +227,7 @@
     <div id="dialogFailed" title="Dialog Title">
         <asp:Panel ID="ContentPanel3" runat="server" Style="display: none">
             <asp:Label ID="lblFailed" runat="server" Text="失敗。"></asp:Label>
-            <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label><br />
-            <asp:Label ID="lblErrMsg" runat="server" Text="" Visible="false"></asp:Label><br />
+            <asp:Label ID="lblErrMsg" runat="server" Text="" ></asp:Label><br />
         </asp:Panel>
     </div>
 
@@ -251,5 +250,7 @@
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
+    <asp:Label ID="lblUpdateErrMsg" runat="server" Text="報名資料儲存發生錯誤。" Visible="false"></asp:Label>
+    <asp:HiddenField ID="hfDeleteErrMsg" runat="server" Value="報名資料刪除發生錯誤。" />
 </asp:Content>
 

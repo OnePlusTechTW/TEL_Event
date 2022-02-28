@@ -404,11 +404,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel1(string id)
+        public string DeleteRegisterModel1(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel1(id);
+            return ev.DeleteRegisterModel1(id, modifiedby);
         }
 
         /// <summary>
@@ -461,10 +461,10 @@ namespace TEL.Event.Lab.Method
         /// <param name="dataTable"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel2(string id)
+        public string DeleteRegisterModel2(string id, string modifiedby)
         {
             EventData ev = new EventData();
-            return ev.DeleteRegisterModel2(id);
+            return ev.DeleteRegisterModel2(id, modifiedby);
         }
 
         /// <summary>
@@ -623,11 +623,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel3(string id)
+        public string DeleteRegisterModel3(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel3(id);
+            return ev.DeleteRegisterModel3(id, modifiedby);
         }
 
         /// <summary>
@@ -694,11 +694,11 @@ namespace TEL.Event.Lab.Method
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel4(string id)
+        public string DeleteRegisterModel4(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel4(id);
+            return ev.DeleteRegisterModel4(id, modifiedby);
         }
 
         /// <summary>
@@ -747,11 +747,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel5(string id)
+        public string DeleteRegisterModel5(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel5(id);
+            return ev.DeleteRegisterModel5(id, modifiedby);
         }
 
         /// <summary>
@@ -857,11 +857,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel6(string id)
+        public string DeleteRegisterModel6(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel6(id);
+            return ev.DeleteRegisterModel6(id, modifiedby);
         }
 
         /// <summary>

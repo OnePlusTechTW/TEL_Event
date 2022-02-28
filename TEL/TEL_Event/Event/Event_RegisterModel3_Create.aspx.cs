@@ -215,6 +215,11 @@ public partial class Event_Event_RegisterModel3_Create : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblRegisterErrMsg.Text;
+
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 新增模板3報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
