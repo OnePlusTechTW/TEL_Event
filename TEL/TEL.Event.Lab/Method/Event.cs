@@ -368,10 +368,10 @@ namespace TEL.Event.Lab.Method
         #region RegisterModel1
 
         //取得活動選項報名人數
-        public int GetEvnetRegisterOption1RegisterCount(string eventid, string optionid)
+        public int GetEvnetRegisterOption1RegisterCount(string eventid, string optionid, string registerid)
         {
             EventData ev = new EventData();
-            return ev.QueryEvnetRegisterOption1RegisterCount(eventid, optionid);
+            return ev.QueryEvnetRegisterOption1RegisterCount(eventid, optionid, registerid);
         }
 
         /// <summary>

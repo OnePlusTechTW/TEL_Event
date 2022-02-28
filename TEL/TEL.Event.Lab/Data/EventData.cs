@@ -2319,7 +2319,7 @@ namespace TEL.Event.Lab.Data
         #region RegisterModel1
 
         //取得活動選項報名人數
-        public int QueryEvnetRegisterOption1RegisterCount(string eventid, string optionid)
+        public int QueryEvnetRegisterOption1RegisterCount(string eventid, string optionid, string registerid)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
@@ -2334,6 +2334,14 @@ namespace TEL.Event.Lab.Data
                             AND
                                 selectedoption = @optionid";
 
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlString += @"
+                            AND
+                                id != @registerid ";
+            }
+            
+
 
             DataTable result = null;
 
@@ -2347,6 +2355,10 @@ namespace TEL.Event.Lab.Data
                 wrDad.SelectCommand = new SqlCommand(sqlString, connection);
                 wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
                 wrDad.SelectCommand.Parameters.AddWithValue("@optionid", optionid);
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
 
 
                 wrDad.Fill(DS, "T");

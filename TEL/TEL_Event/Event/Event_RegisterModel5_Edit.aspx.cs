@@ -58,8 +58,19 @@ public partial class Event_Event_RegisterModel5_Edit : System.Web.UI.Page
         Event ev = new Event();
         string eventid = Request.QueryString["eventid"];
         string registerid = Request.QueryString["id"];
-
         string modifiedby = Page.Session["EmpID"].ToString();
+
+        EventInfo evinfo = new EventInfo(eventid);
+        int option1Limit = Convert.ToInt16(evinfo.EventLimit);
+        int registerCount = Convert.ToInt16(ev.GetEvnetRegisterCount(eventid, evinfo.EventRegisterModel)) - 1;//扣掉自己
+
+        if (registerCount >= option1Limit)
+        {
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
 
         List<string> deleteFilePathList = new List<string>();
         Dictionary<string, string> Data = new Dictionary<string, string>();
