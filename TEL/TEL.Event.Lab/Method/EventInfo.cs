@@ -23,6 +23,8 @@ namespace TEL.Event.Lab.Method
         public string EventDescription = "";
         public string EventRegisterModel = "";
         public string EventSurveyModel = "";
+        public string EventDuplicated = "";
+
 
         public EventInfo(string eventid)
         {
@@ -42,6 +44,7 @@ namespace TEL.Event.Lab.Method
                 EventDescription = WMTB.Rows[0]["description"].ToString();
                 EventRegisterModel = WMTB.Rows[0]["registermodel"].ToString();
                 EventSurveyModel = WMTB.Rows[0]["surveymodel"].ToString();
+                EventDuplicated = WMTB.Rows[0]["duplicated"].ToString();
             }
         }
     }

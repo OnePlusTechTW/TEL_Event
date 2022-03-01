@@ -68,6 +68,8 @@
     </div>
 
     <asp:Label ID="lblNoEmp" runat="server" Text="查無此員工" Visible="false"></asp:Label>
+    <asp:Label ID="lblNoDuplicated" runat="server" Text="此員工已報名，無法重複報名。" Visible="false"></asp:Label>
+
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
 </asp:Content>
 
