@@ -76,7 +76,7 @@ public partial class Event_Default : System.Web.UI.Page
         //是否重複報名
         if (evInfo.EventDuplicated.ToUpper() == "Y")
         {
-            Response.Redirect($"MyEvent.aspx?id={eventid}");
+            Response.Redirect($"MyEvent.aspx?name={HttpUtility.UrlEncode(evInfo.EventName)}");
         }
         else
         {

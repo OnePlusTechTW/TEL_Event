@@ -14,6 +14,9 @@ public partial class Event_MyEvent : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            if (Request.QueryString["name"] != null || !string.IsNullOrEmpty(Request.QueryString["name"]))
+                this.FIELD_EventName.Text = Request.QueryString["name"];
+
             GeneratedCategoryItem();
             QueryData();
         }
