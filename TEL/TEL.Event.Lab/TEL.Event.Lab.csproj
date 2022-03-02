@@ -72,6 +72,7 @@
     <Compile Include="Method\CheckIDFormat.cs" />
     <Compile Include="Method\ExcelStyle.cs" />
     <Compile Include="Method\ExportExcel.cs" />
+    <Compile Include="Method\LogHelper.cs" />
     <Compile Include="Method\MailGroup.cs" />
     <Compile Include="Method\Register.cs" />
     <Compile Include="Method\SenMail.cs" />

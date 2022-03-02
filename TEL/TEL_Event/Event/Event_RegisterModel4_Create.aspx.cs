@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -169,9 +170,32 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
             return;
         }
 
+        bool flag = Regex.IsMatch(txtExamineeidno.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
+
+        if (!flag)
+        {
+            lblMsg.Text = lblIDFormatErr.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
+        //依照使用者選擇的健檢醫院、地區、費用&方案、受診者性別、期望受檢日，在TEL_Event_RegisterOption4維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
         string eventid = Request.QueryString["id"];
         string modifiedby = Page.Session["EmpID"].ToString();
+
+        int option1Limit = ev.GetRegisterOption4Limit(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue);
+        int registerCount = ev.GetRegisterOption4Count(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue, string.Empty);
+
+        if (registerCount >= option1Limit)
+        {
+
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+            return;
+        }
+
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", Guid.NewGuid().ToString());
         Data.Add("eventid", eventid);
@@ -180,7 +204,7 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
         Data.Add("examineeidentity", ddlIdentity.SelectedValue);
         Data.Add("examineename", txtExamineename.Text);
         Data.Add("examineename2", txtExamineename2.Text);
-        Data.Add("examineeidno", txtExamineeidno.Text);
+        Data.Add("examineeidno", txtExamineeidno.Text.ToUpper());
         Data.Add("examineebirthday", txtExamineebirthday.Text);
         Data.Add("examineemobile", txtExamineemobile.Text);
         Data.Add("hosipital", ddlHosipital.SelectedValue);
@@ -215,6 +239,11 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblRegisterErrMsg.Text;
+
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 新增模板4報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
@@ -243,31 +272,10 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
 
     protected void ddlHosipital_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Event ev = new Event();
-        string eventid = Request.QueryString["id"];
-
-        //地區
-        this.ddlArea.Enabled = true;
-        this.ddlArea.Items.Clear();
-
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
         li.Value = string.Empty;
         li.Selected = true;
-        this.ddlArea.Items.Add(li);
-
-
-        DataTable dt = new DataTable();
-        dt = ev.GetAreaOption(eventid, ddlHosipital.SelectedValue);
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["area"].ToString();
-            li1.Value = rs["area"].ToString();
-
-            this.ddlArea.Items.Add(li1);
-        }
 
         this.ddlSolution.Items.Clear();
         this.ddlSolution.Enabled = false;
@@ -296,35 +304,18 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Clear();
         this.ddlSecondsolution3.Enabled = false;
         this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["id"];
+
+        BindddlArea(eventid, ddlHosipital.SelectedValue);
     }
 
     protected void ddlArea_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Event ev = new Event();
-        string eventid = Request.QueryString["id"];
-
-        //費用&方案
-        this.ddlSolution.Enabled = true;
-        this.ddlSolution.Items.Clear();
-
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
         li.Value = string.Empty;
         li.Selected = true;
-        this.ddlSolution.Items.Add(li);
-
-
-        DataTable dt = new DataTable();
-        dt = ev.GetSolutionOption(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["description"].ToString();
-            li1.Value = rs["description"].ToString();
-
-            this.ddlSolution.Items.Add(li1);
-        }
 
         this.ddlGender.Items.Clear();
         this.ddlGender.Enabled = false;
@@ -349,35 +340,18 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Clear();
         this.ddlSecondsolution3.Enabled = false;
         this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["id"];
+
+        BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
     }
 
     protected void ddlSolution_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Event ev = new Event();
-        string eventid = Request.QueryString["id"];
-
-        //受診者性別
-        this.ddlGender.Enabled = true;
-        this.ddlGender.Items.Clear();
-
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
         li.Value = string.Empty;
         li.Selected = true;
-        this.ddlGender.Items.Add(li);
-
-
-        DataTable dt = new DataTable();
-        dt = ev.GetGenderOption(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["gender"].ToString();
-            li1.Value = rs["gender"].ToString();
-
-            this.ddlGender.Items.Add(li1);
-        }
 
         this.ddlExpectdate.Items.Clear();
         this.ddlExpectdate.Enabled = false;
@@ -398,93 +372,17 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Clear();
         this.ddlSecondsolution3.Enabled = false;
         this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["id"];
+        BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
     }
 
     protected void ddlGender_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Event ev = new Event();
         string eventid = Request.QueryString["id"];
 
         //受診者性別
-        this.ddlExpectdate.Enabled = true;
-        this.ddlSeconddate.Enabled = true;
-        this.ddlSecondsolution1.Enabled = true;
-        this.ddlSecondsolution2.Enabled = true;
-        this.ddlSecondsolution3.Enabled = true;
-
-        this.ddlExpectdate.Items.Clear();
-        this.ddlSeconddate.Items.Clear();
-        this.ddlSecondsolution1.Items.Clear();
-        this.ddlSecondsolution2.Items.Clear();
-        this.ddlSecondsolution3.Items.Clear();
-
-        ListItem li = new ListItem();
-        li.Text = lblUnselect.Text;
-        li.Value = string.Empty;
-        li.Selected = true;
-        this.ddlExpectdate.Items.Add(li);
-        this.ddlSeconddate.Items.Add(li);
-        this.ddlSecondsolution1.Items.Add(li);
-        this.ddlSecondsolution2.Items.Add(li);
-        this.ddlSecondsolution3.Items.Add(li);
-
-
-        DataTable dt = new DataTable();
-        dt = ev.GetExpectdateOption(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["avaliabledate"].ToString();
-            li1.Value = rs["avaliabledate"].ToString();
-
-            this.ddlExpectdate.Items.Add(li1);
-        }
-
-        foreach (DataRow rs in dt.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["avaliabledate"].ToString();
-            li1.Value = rs["avaliabledate"].ToString();
-
-            this.ddlSeconddate.Items.Add(li1);
-        }
-
-        DataTable dtSecondsolution1 = new DataTable();
-        dtSecondsolution1 = ev.GetSecondoption1Option(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
-
-        foreach (DataRow rs in dtSecondsolution1.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["secondoption1"].ToString();
-            li1.Value = rs["secondoption1"].ToString();
-
-            this.ddlSecondsolution1.Items.Add(li1);
-        }
-
-        DataTable dtSecondsolution2 = new DataTable();
-        dtSecondsolution2 = ev.GetSecondoption2Option(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
-
-        foreach (DataRow rs in dtSecondsolution2.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["secondoption2"].ToString();
-            li1.Value = rs["secondoption2"].ToString();
-
-            this.ddlSecondsolution2.Items.Add(li1);
-        }
-
-        DataTable dtSecondsolution3 = new DataTable();
-        dtSecondsolution3 = ev.GetSecondoption3Option(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
-
-        foreach (DataRow rs in dtSecondsolution3.Rows)
-        {
-            ListItem li1 = new ListItem();
-            li1.Text = rs["secondoption3"].ToString();
-            li1.Value = rs["secondoption3"].ToString();
-
-            this.ddlSecondsolution3.Items.Add(li1);
-        }
+        BindOrderHealthGroupDLL(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
 
     }
 
@@ -595,6 +493,210 @@ public partial class Event_Event_RegisterModel4_Create : System.Web.UI.Page
         txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
         txtStation.Text = userInfo.Station;
         txtHealthGroup.Text = userInfo.HealthGroup;
+    }
+
+    private void BindddlArea(string eventid, string hosipital)
+    {
+        this.ddlArea.Enabled = true;
+        Event ev = new Event();
+
+        //地區
+        this.ddlArea.Items.Clear();
+
+        ListItem li = new ListItem();
+        li.Text = lblUnselect.Text;
+        li.Value = string.Empty;
+        li.Selected = true;
+        this.ddlArea.Items.Add(li);
+
+
+        DataTable dt = new DataTable();
+        dt = ev.GetAreaOption(eventid, ddlHosipital.SelectedValue);
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["area"].ToString();
+            li1.Value = rs["area"].ToString();
+
+            this.ddlArea.Items.Add(li1);
+        }
+
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlArea.SelectedIndex = 1;
+
+            BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
+        }
+    }
+    private void BindddlSolution(string eventid, string hosipital, string aea)
+    {
+        this.ddlSolution.Enabled = true;
+        Event ev = new Event();
+
+        this.ddlSolution.Items.Clear();
+
+        ListItem li = new ListItem();
+        li.Text = lblUnselect.Text;
+        li.Value = string.Empty;
+        li.Selected = true;
+        this.ddlSolution.Items.Add(li);
+
+
+        DataTable dt = new DataTable();
+        dt = ev.GetSolutionOption(eventid, hosipital, aea);
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["description"].ToString();
+            li1.Value = rs["description"].ToString();
+
+            this.ddlSolution.Items.Add(li1);
+        }
+
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlSolution.SelectedIndex = 1;
+
+            BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
+        }
+    }
+    private void BindddlGender(string eventid, string hosipital, string aea, string solution)
+    {
+        ddlGender.Enabled = true;
+        Event ev = new Event();
+
+        //受診者性別
+        this.ddlGender.Items.Clear();
+
+        ListItem li = new ListItem();
+        li.Text = lblUnselect.Text;
+        li.Value = string.Empty;
+        li.Selected = true;
+        this.ddlGender.Items.Add(li);
+
+
+        DataTable dt = new DataTable();
+        dt = ev.GetGenderOption(eventid, hosipital, aea, solution);
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["gender"].ToString();
+            li1.Value = rs["gender"].ToString();
+
+            this.ddlGender.Items.Add(li1);
+        }
+
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlGender.SelectedIndex = 1;
+
+            BindOrderHealthGroupDLL(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
+        }
+    }
+    private void BindOrderHealthGroupDLL(string eventid, string hosipital, string aea, string solution, string gender)
+    {
+        this.ddlExpectdate.Enabled = true;
+        this.ddlSeconddate.Enabled = true;
+        this.ddlSecondsolution1.Enabled = true;
+        this.ddlSecondsolution2.Enabled = true;
+        this.ddlSecondsolution3.Enabled = true;
+        Event ev = new Event();
+
+        this.ddlExpectdate.Items.Clear();
+        this.ddlSeconddate.Items.Clear();
+        this.ddlSecondsolution1.Items.Clear();
+        this.ddlSecondsolution2.Items.Clear();
+        this.ddlSecondsolution3.Items.Clear();
+
+        ListItem li = new ListItem();
+        li.Text = lblUnselect.Text;
+        li.Value = string.Empty;
+        li.Selected = true;
+        this.ddlExpectdate.Items.Add(li);
+        this.ddlSeconddate.Items.Add(li);
+        this.ddlSecondsolution1.Items.Add(li);
+        this.ddlSecondsolution2.Items.Add(li);
+        this.ddlSecondsolution3.Items.Add(li);
+        DataTable dt = new DataTable();
+        dt = ev.GetExpectdateOption(eventid, hosipital, aea, solution, gender);
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["avaliabledate"].ToString();
+            li1.Value = rs["avaliabledate"].ToString();
+
+            this.ddlExpectdate.Items.Add(li1);
+        }
+
+        foreach (DataRow rs in dt.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["avaliabledate"].ToString();
+            li1.Value = rs["avaliabledate"].ToString();
+
+            this.ddlSeconddate.Items.Add(li1);
+        }
+
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlExpectdate.SelectedIndex = 1;
+            this.ddlSeconddate.SelectedIndex = 1;
+        }
+
+        DataTable dtSecondsolution1 = new DataTable();
+        dtSecondsolution1 = ev.GetSecondoption1Option(eventid, hosipital, aea, solution, gender);
+
+        foreach (DataRow rs in dtSecondsolution1.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["secondoption1"].ToString();
+            li1.Value = rs["secondoption1"].ToString();
+
+            this.ddlSecondsolution1.Items.Add(li1);
+        }
+
+        if (dtSecondsolution1.Rows.Count == 1)
+        {
+            this.ddlSecondsolution1.SelectedIndex = 1;
+        }
+
+        DataTable dtSecondsolution2 = new DataTable();
+        dtSecondsolution2 = ev.GetSecondoption2Option(eventid, hosipital, aea, solution, gender);
+
+        foreach (DataRow rs in dtSecondsolution2.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["secondoption2"].ToString();
+            li1.Value = rs["secondoption2"].ToString();
+
+            this.ddlSecondsolution2.Items.Add(li1);
+        }
+
+        if (dtSecondsolution2.Rows.Count == 1)
+        {
+            this.ddlSecondsolution2.SelectedIndex = 1;
+        }
+
+        DataTable dtSecondsolution3 = new DataTable();
+        dtSecondsolution3 = ev.GetSecondoption3Option(eventid, hosipital, aea, solution, gender);
+
+        foreach (DataRow rs in dtSecondsolution3.Rows)
+        {
+            ListItem li1 = new ListItem();
+            li1.Text = rs["secondoption3"].ToString();
+            li1.Value = rs["secondoption3"].ToString();
+
+            this.ddlSecondsolution3.Items.Add(li1);
+        }
+
+        if (dtSecondsolution3.Rows.Count == 1)
+        {
+            this.ddlSecondsolution3.SelectedIndex = 1;
+        }
     }
 
     private void SendRegisterSuccessMail()

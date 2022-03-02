@@ -368,10 +368,10 @@ namespace TEL.Event.Lab.Method
         #region RegisterModel1
 
         //取得活動選項報名人數
-        public int GetEvnetRegisterOption1RegisterCount(string eventid, string optionid)
+        public int GetEvnetRegisterOption1RegisterCount(string eventid, string optionid, string registerid)
         {
             EventData ev = new EventData();
-            return ev.QueryEvnetRegisterOption1RegisterCount(eventid, optionid);
+            return ev.QueryEvnetRegisterOption1RegisterCount(eventid, optionid, registerid);
         }
 
         /// <summary>
@@ -404,11 +404,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel1(string id)
+        public string DeleteRegisterModel1(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel1(id);
+            return ev.DeleteRegisterModel1(id, modifiedby);
         }
 
         /// <summary>
@@ -461,10 +461,10 @@ namespace TEL.Event.Lab.Method
         /// <param name="dataTable"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel2(string id)
+        public string DeleteRegisterModel2(string id, string modifiedby)
         {
             EventData ev = new EventData();
-            return ev.DeleteRegisterModel2(id);
+            return ev.DeleteRegisterModel2(id, modifiedby);
         }
 
         /// <summary>
@@ -566,10 +566,36 @@ namespace TEL.Event.Lab.Method
             return dt;
         }
 
+        /// <summary>
+        /// 取得健檢方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
         public int GetRegisterOption4Limit(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
         {
             EventData ev = new EventData();
             return ev.QueryRegisterOption4Limit(eventid, hosipital, area, solution, gender, expectdate);
+        }
+
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
+        public int GetRegisterOption3Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption3Count(eventid, hosipital, area, solution, gender, expectdate, registerid);
         }
 
         public string AddRegisterModel3(Dictionary<string, string> data, string modifiedby)
@@ -597,11 +623,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel3(string id)
+        public string DeleteRegisterModel3(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel3(id);
+            return ev.DeleteRegisterModel3(id, modifiedby);
         }
 
         /// <summary>
@@ -619,6 +645,22 @@ namespace TEL.Event.Lab.Method
         #endregion
 
         #region RegisterModel4
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        public int GetRegisterOption4Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption4Count(eventid, hosipital, area, solution, gender, expectdate, registerid);
+        }
         /// <summary>
         /// 新增 模板4報名資料
         /// </summary>
@@ -652,11 +694,11 @@ namespace TEL.Event.Lab.Method
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel4(string id)
+        public string DeleteRegisterModel4(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel4(id);
+            return ev.DeleteRegisterModel4(id, modifiedby);
         }
 
         /// <summary>
@@ -705,11 +747,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel5(string id)
+        public string DeleteRegisterModel5(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel5(id);
+            return ev.DeleteRegisterModel5(id, modifiedby);
         }
 
         /// <summary>
@@ -755,6 +797,36 @@ namespace TEL.Event.Lab.Method
         }
 
         /// <summary>
+        /// 取得Option6 地點時間方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public int GetRegisterOption6Limit(string eventid, string area, string date)
+        {
+            {
+                EventData ev = new EventData();
+                return ev.QueryRegisterOption6Limit(eventid, area, date);
+            }
+        }
+
+        /// <summary>
+        /// 取得地點時間方案報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public int GetRegisterOption6Count(string eventid, string area, string date, string registerid)
+        {
+            {
+                EventData ev = new EventData();
+                return ev.GetRegisterOption6Count(eventid, area, date, registerid);
+            }
+        }
+
+        /// <summary>
         /// 新增 模板6報名資料
         /// </summary>
         /// <param name="data"></param>
@@ -785,11 +857,11 @@ namespace TEL.Event.Lab.Method
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public string DeleteRegisterModel6(string id)
+        public string DeleteRegisterModel6(string id, string modifiedby)
         {
             EventData ev = new EventData();
 
-            return ev.DeleteRegisterModel6(id);
+            return ev.DeleteRegisterModel6(id, modifiedby);
         }
 
         /// <summary>

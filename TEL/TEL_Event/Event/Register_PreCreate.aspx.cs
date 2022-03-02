@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -36,10 +37,32 @@ public partial class Event_Register_PreCreate : System.Web.UI.Page
         }
 
         string eventid = Request.QueryString["id"];
-
         EventInfo evInfo = new EventInfo(eventid);
+        Event ev = new Event();
+        DataTable dt = new DataTable();
 
-        Response.Redirect($"Event_RegisterModel{evInfo.EventRegisterModel}_Create.aspx?id={eventid}&EmpID={userinfo.EmpID}&page=Register");
+        dt = ev.GetUserEvnetRegister(eventid, evInfo.EventRegisterModel, txtEmpID.Text);
 
+
+        if (dt.Rows.Count == 0)
+        {
+            Response.Redirect($"Event_RegisterModel{evInfo.EventRegisterModel}_Create.aspx?id={eventid}&EmpID={userinfo.EmpID}&page=Register");
+        }
+        else
+        {
+            //是否重複報名
+            if (evInfo.EventDuplicated.ToUpper() == "Y")
+            {
+                Response.Redirect($"Event_RegisterModel{evInfo.EventRegisterModel}_Create.aspx?id={eventid}&EmpID={userinfo.EmpID}&page=Register");
+            }
+            else
+            {
+                lblDialogMsg.Text = lblNoDuplicated.Text;
+
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+                return;
+            }
+        }
     }
 }

@@ -5,14 +5,16 @@
     <script>
         $(function () {
 
-            $('#<%= sDate.ClientID%>').prop("readonly", true).datepicker({
+            $('#<%= sDate.ClientID%>').datepicker({
                 dateFormat: 'yy/mm/dd',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= eDate.ClientID%>').datepicker("option", "minDate", selectedDate);
                 }
             });
 
-            $('#<%= eDate.ClientID%>').prop("readonly", true).datepicker({
+            $('#<%= eDate.ClientID%>').datepicker({
                 dateFormat: 'yy/mm/dd',
                 onClose: function (selectedDate) {
                     $('#<%= sDate.ClientID%>').datepicker("option", "maxDate", selectedDate);
@@ -28,6 +30,8 @@
                 $("#dialogView").dialog({
                     title: $('#<%=hfmsg.ClientID%>')[0].value,
                     modal: true,
+                    changeMonth: true,
+                    changeYear: true,
                     width: "645px",
                     Height: "500px",
                     position: { my: "center center", at: "center top+100", },

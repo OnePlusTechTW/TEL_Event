@@ -164,8 +164,7 @@
     <div id="dialogFailed" title="Dialog Title">
         <asp:Panel ID="ContentPanel3" runat="server" Style="display: none">
             <asp:Label ID="lblFailed" runat="server" Text="失敗。"></asp:Label>
-            <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label><br />
-            <asp:Label ID="lblErrMsg" runat="server" Text="" Visible="false"></asp:Label><br />
+            <asp:Label ID="lblErrMsg" runat="server" Text=""></asp:Label><br />
         </asp:Panel>
     </div>
 
@@ -176,5 +175,6 @@
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
+    <asp:Label ID="lblRegisterErrMsg" runat="server" Text="報名資料新增發生錯誤。" Visible="false"></asp:Label>
 </asp:Content>
 

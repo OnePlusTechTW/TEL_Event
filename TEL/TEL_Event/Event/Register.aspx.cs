@@ -99,7 +99,7 @@ public partial class Event_Register : System.Web.UI.Page
         string eventid = Request.QueryString["id"];
         string registerid = ((Button)sender).CommandArgument.ToString();
 
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + eventid + "|"+ registerid + "');", true);
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + eventid + "|"+ registerid + "|" + Page.Session["EmpID"].ToString() + "');", true);
     }
 
     protected void btnReloadGridView_Click(object sender, EventArgs e)
@@ -175,6 +175,8 @@ public partial class Event_Register : System.Web.UI.Page
         string[] param = id.Split('|');
         string eventid = param[0];
         string registerid = param[1];
+        string modifiedby = param[2];
+
 
         EventInfo evinfo = new EventInfo(eventid);
         Event ev = new Event();
@@ -183,22 +185,22 @@ public partial class Event_Register : System.Web.UI.Page
         switch (evinfo.EventRegisterModel)
         {
             case "1":
-                result = ev.DeleteRegisterModel1(registerid);
+                result = ev.DeleteRegisterModel1(registerid, modifiedby);
                 break;
             case "2":
-                result = ev.DeleteRegisterModel2(registerid);
+                result = ev.DeleteRegisterModel2(registerid, modifiedby);
                 break;
             case "3":
-                result = ev.DeleteRegisterModel3(registerid);
+                result = ev.DeleteRegisterModel3(registerid, modifiedby);
                 break;
             case "4":
-                result = ev.DeleteRegisterModel4(registerid);
+                result = ev.DeleteRegisterModel4(registerid, modifiedby);
                 break;
             case "5":
-                result = ev.DeleteRegisterModel5(registerid);
+                result = ev.DeleteRegisterModel5(registerid, modifiedby);
                 break;
             case "6":
-                result = ev.DeleteRegisterModel6(registerid);
+                result = ev.DeleteRegisterModel6(registerid, modifiedby);
                 break;
             default:
                 break;
@@ -206,6 +208,9 @@ public partial class Event_Register : System.Web.UI.Page
 
         if (!string.IsNullOrEmpty(result))
         {
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 刪除模板{evinfo.EventRegisterModel}報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
+
             //失敗
             throw new Exception("Failed");
         }

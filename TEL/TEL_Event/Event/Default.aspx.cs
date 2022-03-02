@@ -72,10 +72,16 @@ public partial class Event_Default : System.Web.UI.Page
         string id = btnView.CommandArgument.Split(',')[1];
         string registermodel = btnView.CommandArgument.Split(',')[2];//可以自訂義參數
 
-        //Response.Redirect($"Event_RegisterModel{registermodel}_View.aspx?eventid={eventid}&id={id}");
-        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), $"ShowDialogView('Event_RegisterModel{registermodel}_View','" + eventid + "','" + id + "');", true);
-
-        //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRegisterModel1_Create('" + id + "','"+ registermodel + "');", true);
+        EventInfo evInfo = new EventInfo(eventid);
+        //是否重複報名
+        if (evInfo.EventDuplicated.ToUpper() == "Y")
+        {
+            Response.Redirect($"MyEvent.aspx?name={HttpUtility.UrlEncode(evInfo.EventName)}");
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), $"ShowDialogView('Event_RegisterModel{registermodel}_View','" + eventid + "','" + id + "');", true);
+        }
     }
 
 
@@ -129,6 +135,7 @@ public partial class Event_Default : System.Web.UI.Page
             Table tableContent = new Table();
             tableContent.CssClass = "tableContent";
 
+            #region 活動圖
             //活動圖
             TableRow trImg = new TableRow();
             TableCell tdImg = new TableCell();
@@ -156,7 +163,9 @@ public partial class Event_Default : System.Web.UI.Page
             tdImg.Controls.Add(img);
             trImg.Cells.Add(tdImg);
             tableContent.Rows.Add(trImg);
+            #endregion
 
+            #region 活動資訊
             //活動資訊的tr td
             TableRow trInfo = new TableRow();
             TableCell tdInfo = new TableCell();
@@ -168,6 +177,7 @@ public partial class Event_Default : System.Web.UI.Page
             tableInfoContent.CellPadding = 0;
             tableInfoContent.CssClass = "tableInfoContent";
 
+            #region 第一列 活動名稱
             //Content table 第一列 EventName
             TableRow trEventName = new TableRow();
             TableCell tdEventName = new TableCell();
@@ -186,7 +196,9 @@ public partial class Event_Default : System.Web.UI.Page
 
             trEventName.Cells.Add(tdEventName);
             tableInfoContent.Rows.Add(trEventName);
+            #endregion
 
+            #region 第二列 活動日期起迄
             //Content table 第二列 EventDate
             TableRow trEventDate = new TableRow();
             TableCell tdEventDate = new TableCell();
@@ -205,17 +217,12 @@ public partial class Event_Default : System.Web.UI.Page
 
             trEventDate.Cells.Add(tdEventDate);
             tableInfoContent.Rows.Add(trEventDate);
+            #endregion
 
+            #region 第三列 活動人數限制
             //Content table 第三列 EventLimit
             TableRow trEventLimit = new TableRow();
             TableCell tdEventLimit = new TableCell();
-
-            //Label lblEventLimit = new Label();
-            //lblEventLimit.Text = "◆";
-            //lblEventLimit.CssClass = "tableInfoContentFontSize-Icon-large ";
-            //lblEventLimit.ID = "lblEventLimit" + dtEvent.Rows[i]["eventnid"];
-
-            //tdEventLimit.Controls.Add(lblEventLimit);//在此欄加入按鈕
 
             Image imgEventLimit = new Image();
             imgEventLimit.ImageUrl = "~/Master/images/Grey_Fill_Employee_G.png";
@@ -235,7 +242,9 @@ public partial class Event_Default : System.Web.UI.Page
 
             trEventLimit.Cells.Add(tdEventLimit);
             tableInfoContent.Rows.Add(trEventLimit);
+            #endregion
 
+            #region 第四列 活動類別
             //Content table 第四列 EventCategory
             TableRow trEventCategory = new TableRow();
             TableCell tdEventCategory = new TableCell();
@@ -254,15 +263,23 @@ public partial class Event_Default : System.Web.UI.Page
 
             trEventCategory.Cells.Add(tdEventCategory);
             tableInfoContent.Rows.Add(trEventCategory);
+            #endregion
 
+            #region 按鈕
             //Content table 第五列 Button
             TableRow trButton = new TableRow();
             TableCell tdButton = new TableCell();
             tdButton.HorizontalAlign = HorizontalAlign.Right;
             //馬上報名、檢視報名 按鈕
-            Button btnEvent = new Button();
-            btnEvent.ID = "btnEvent" + dtEvent.Rows[i]["eventnid"];
-            btnEvent.CssClass = "Button";
+            Button btnRegister = new Button();
+            Button btnView = new Button();
+
+            btnRegister.ID = "btnRegister" + dtEvent.Rows[i]["eventnid"];
+            btnRegister.CssClass = "Button";
+
+            btnView.ID = "btnView" + dtEvent.Rows[i]["eventnid"];
+            btnView.CssClass = "Button";
+
             //尚未開放報名 Lable
             Label lblEvent = new Label();
             lblEvent.CssClass = "tableInfoContentFontSize-medium";
@@ -286,24 +303,46 @@ public partial class Event_Default : System.Web.UI.Page
                 if (dt.Rows.Count == 0)
                 {
                     //使用者尚未報名，也沒有報名表id，即未報名
-                    btnEvent.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
-                    btnEvent.Text = lblSignup.Text;
-                    btnEvent.Click += new EventHandler(Register_Click); //添加相應事件
+                    btnRegister.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
+                    btnRegister.Text = lblSignup.Text;
+                    btnRegister.Click += new EventHandler(Register_Click); //添加相應事件
+
+                    tdButton.Controls.Add(btnRegister);//在此欄加入按鈕
                 }
                 else
                 {
                     //使用者已報名，有報名表id，即已報名，顯示檢視報名
-                    btnEvent.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dt.Rows[0]["id"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
-                    btnEvent.Text = lblView.Text;
-                    btnEvent.Click += new EventHandler(View_Click); //添加相應事件
-                }
-                tdButton.Controls.Add(btnEvent);//在此欄加入按鈕
-            }
+                    EventInfo evInfo = new EventInfo(dtEvent.Rows[i]["eventnid"].ToString());
+                    //是否重複報名
+                    if (evInfo.EventDuplicated.ToUpper() == "Y")
+                    {
+                        btnRegister.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
+                        btnRegister.Text = lblSignup.Text;
+                        btnRegister.Click += new EventHandler(Register_Click); //添加相應事件
+                        btnRegister.Style.Add("margin-right", "5px");
 
+                        btnView.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dt.Rows[0]["id"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
+                        btnView.Text = lblView.Text;
+                        btnView.Click += new EventHandler(View_Click); //添加相應事件
+
+                        //加入按鈕
+                        tdButton.Controls.Add(btnRegister);
+                        tdButton.Controls.Add(btnView);
+                    }
+                    else
+                    {
+                        btnView.CommandArgument = dtEvent.Rows[i]["eventnid"].ToString() + "," + dt.Rows[0]["id"].ToString() + "," + dtEvent.Rows[i]["registermodel"].ToString();//自訂義參數
+                        btnView.Text = lblView.Text;
+                        btnView.Click += new EventHandler(View_Click); //添加相應事件
+
+                        tdButton.Controls.Add(btnView);//在此欄加入按鈕
+                    }
+                }
+            }
 
             trButton.Cells.Add(tdButton);
             tableInfoContent.Rows.Add(trButton);
-
+            #endregion
 
 
             //把Content table 加到活動資訊 row
@@ -312,6 +351,8 @@ public partial class Event_Default : System.Web.UI.Page
 
             //把活動資訊 row 加入 table
             tableContent.Rows.Add(trInfo);
+            #endregion
+
 
 
             cell.Controls.Add(tableContent);

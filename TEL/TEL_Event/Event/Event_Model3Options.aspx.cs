@@ -238,7 +238,7 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
                     secondoption1 = dr["次方案1"].ToString(),
                     secondoption2 = dr["次方案2"].ToString(),
                     secondoption3 = dr["次方案3"].ToString(),
-                    avaliabledate = Convert.ToDateTime(dr["日期"].ToString()).ToString("yyyy/MM/dd hh:mm:ss"),
+                    avaliabledate = Convert.ToDateTime(dr["日期"].ToString()).ToString("yyyy/MM/dd 00:00:00"),
                     limit = dr["人數上限"].ToString()
                 }).ToList();
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -141,11 +142,19 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             sb.AppendLine("<br />");
         }
 
-        
-
         if (!string.IsNullOrEmpty(sb.ToString()))
         {
             lblMsg.Text = sb.ToString();
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
+        bool flag = Regex.IsMatch(txtExamineeidno.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
+
+        if (!flag)
+        {
+            lblMsg.Text = lblIDFormatErr.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
 
             return;
@@ -156,6 +165,17 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         string modifiedby = Page.Session["EmpID"].ToString();
         string registerid = Request.QueryString["id"];
 
+        int option1Limit = ev.GetRegisterOption4Limit(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue);
+        int registerCount = ev.GetRegisterOption4Count(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue, ddlExpectdate.SelectedValue, registerid);
+
+        if (registerCount >= option1Limit)
+        {
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", registerid);
         Data.Add("eventid", eventid);
@@ -164,7 +184,7 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         Data.Add("examineeidentity", ddlIdentity.SelectedValue);
         Data.Add("examineename", txtExamineename.Text);
         Data.Add("examineename2", txtExamineename2.Text);
-        Data.Add("examineeidno", txtExamineeidno.Text);
+        Data.Add("examineeidno", txtExamineeidno.Text.ToUpper());
         Data.Add("examineebirthday", txtExamineebirthday.Text);
         Data.Add("examineemobile", txtExamineemobile.Text);
         Data.Add("hosipital", ddlHosipital.SelectedValue);
@@ -199,6 +219,10 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblUpdateErrMsg.Text;
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 更新模板4報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
@@ -208,7 +232,7 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         Event ev = new Event();
-        string id = Request.QueryString["id"];
+        string id = Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
 
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
@@ -260,11 +284,6 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
     protected void ddlHosipital_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string eventid = Request.QueryString["eventid"];
-
-        this.ddlArea.Enabled = true;
-        BindddlArea(eventid, ddlHosipital.SelectedValue);
-
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
         li.Value = string.Empty;
@@ -297,16 +316,14 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Clear();
         this.ddlSecondsolution3.Enabled = false;
         this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["eventid"];
+
+        BindddlArea(eventid, ddlHosipital.SelectedValue);
     }
 
     protected void ddlArea_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string eventid = Request.QueryString["eventid"];
-        this.ddlSolution.Enabled = true;
-
-        BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
-
-
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
         li.Value = string.Empty;
@@ -335,15 +352,14 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Clear();
         this.ddlSecondsolution3.Enabled = false;
         this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["eventid"];
+
+        BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
     }
 
     protected void ddlSolution_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string eventid = Request.QueryString["eventid"];
-        ddlGender.Enabled = true;
-        BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
-
-
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
         li.Value = string.Empty;
@@ -368,6 +384,9 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Clear();
         this.ddlSecondsolution3.Enabled = false;
         this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["eventid"];
+        BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
     }
 
     protected void ddlGender_SelectedIndexChanged(object sender, EventArgs e)
@@ -375,12 +394,6 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         string eventid = Request.QueryString["eventid"];
 
         //受診者性別
-        this.ddlExpectdate.Enabled = true;
-        this.ddlSeconddate.Enabled = true;
-        this.ddlSecondsolution1.Enabled = true;
-        this.ddlSecondsolution2.Enabled = true;
-        this.ddlSecondsolution3.Enabled = true;
-
         BindOrderHealthGroupDLL(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
 
     }
@@ -533,6 +546,7 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
     private void BindddlArea(string eventid, string hosipital)
     {
+        this.ddlArea.Enabled = true;
         Event ev = new Event();
 
         //地區
@@ -556,10 +570,17 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
             this.ddlArea.Items.Add(li1);
         }
-    }
 
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlArea.SelectedIndex = 1;
+
+            BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
+        }
+    }
     private void BindddlSolution(string eventid, string hosipital, string aea)
     {
+        this.ddlSolution.Enabled = true;
         Event ev = new Event();
 
         this.ddlSolution.Items.Clear();
@@ -582,9 +603,17 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
             this.ddlSolution.Items.Add(li1);
         }
+
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlSolution.SelectedIndex = 1;
+
+            BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
+        }
     }
     private void BindddlGender(string eventid, string hosipital, string aea, string solution)
     {
+        ddlGender.Enabled = true;
         Event ev = new Event();
 
         //受診者性別
@@ -608,9 +637,21 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
             this.ddlGender.Items.Add(li1);
         }
+
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlGender.SelectedIndex = 1;
+
+            BindOrderHealthGroupDLL(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
+        }
     }
     private void BindOrderHealthGroupDLL(string eventid, string hosipital, string aea, string solution, string gender)
     {
+        this.ddlExpectdate.Enabled = true;
+        this.ddlSeconddate.Enabled = true;
+        this.ddlSecondsolution1.Enabled = true;
+        this.ddlSecondsolution2.Enabled = true;
+        this.ddlSecondsolution3.Enabled = true;
         Event ev = new Event();
 
         this.ddlExpectdate.Items.Clear();
@@ -649,6 +690,12 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             this.ddlSeconddate.Items.Add(li1);
         }
 
+        if (dt.Rows.Count == 1)
+        {
+            this.ddlExpectdate.SelectedIndex = 1;
+            this.ddlSeconddate.SelectedIndex = 1;
+        }
+
         DataTable dtSecondsolution1 = new DataTable();
         dtSecondsolution1 = ev.GetSecondoption1Option(eventid, hosipital, aea, solution, gender);
 
@@ -659,6 +706,11 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             li1.Value = rs["secondoption1"].ToString();
 
             this.ddlSecondsolution1.Items.Add(li1);
+        }
+
+        if (dtSecondsolution1.Rows.Count == 1)
+        {
+            this.ddlSecondsolution1.SelectedIndex = 1;
         }
 
         DataTable dtSecondsolution2 = new DataTable();
@@ -673,6 +725,11 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             this.ddlSecondsolution2.Items.Add(li1);
         }
 
+        if (dtSecondsolution2.Rows.Count == 1)
+        {
+            this.ddlSecondsolution2.SelectedIndex = 1;
+        }
+
         DataTable dtSecondsolution3 = new DataTable();
         dtSecondsolution3 = ev.GetSecondoption3Option(eventid, hosipital, aea, solution, gender);
 
@@ -683,6 +740,11 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             li1.Value = rs["secondoption3"].ToString();
 
             this.ddlSecondsolution3.Items.Add(li1);
+        }
+
+        if (dtSecondsolution3.Rows.Count == 1)
+        {
+            this.ddlSecondsolution3.SelectedIndex = 1;
         }
     }
 
@@ -695,10 +757,17 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
     public static string DeleteRegisterModel(string id)
     {
         Event ev = new Event();
-        string result = ev.DeleteRegisterModel4(id);
+        //Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
+        string registerid = id.Split('|')[0];
+        string modifiedby = id.Split('|')[1];
+
+        string result = ev.DeleteRegisterModel4(registerid, modifiedby);
 
         if (!string.IsNullOrEmpty(result))
         {
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 刪除模板4報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
+
             //失敗
             throw new Exception("Failed");
         }

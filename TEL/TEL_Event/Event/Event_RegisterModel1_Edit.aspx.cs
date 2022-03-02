@@ -39,7 +39,7 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
     {
         string eventid = Request.QueryString["eventid"];
         string modifiedby = Page.Session["EmpID"].ToString();
-        string id = Request.QueryString["id"].ToString();
+        string registerid = Request.QueryString["id"].ToString();
 
         //欲參加的內容 必填
         if (string.IsNullOrEmpty(this.ddlAttendContent.SelectedValue))
@@ -53,7 +53,7 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
         //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
         int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
-        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue);
+        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue, registerid);
 
         if (registerCount >= option1Limit)
         {
@@ -64,7 +64,7 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
         }
 
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
-        EventsData.Add("id", id);
+        EventsData.Add("id", registerid);
         EventsData.Add("eventid", eventid);
         EventsData.Add("empid", txtEmpid.Text);
         EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
@@ -82,6 +82,11 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblUpdateErrMsg.Text;
+
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 更新模板1報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
@@ -130,7 +135,7 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         Event ev = new Event();
-        string id = Request.QueryString["id"];
+        string id = Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
 
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
@@ -237,10 +242,17 @@ public partial class Event_Event_RegisterModel1_Edit : System.Web.UI.Page
     public static string DeleteRegisterModel1(string id)
     {
         Event ev = new Event();
-        string result = ev.DeleteRegisterModel1(id);
+        //Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
+        string registerid = id.Split('|')[0];
+        string modifiedby = id.Split('|')[1];
+
+        string result = ev.DeleteRegisterModel1(registerid, modifiedby);
 
         if (!string.IsNullOrEmpty(result))
         {
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 刪除模板1報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
+
             //失敗
             throw new Exception("Failed");
         }

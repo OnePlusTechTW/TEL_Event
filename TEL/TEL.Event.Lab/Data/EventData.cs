@@ -887,10 +887,12 @@ namespace TEL.Event.Lab.Data
                 string eventID = eventAdminData["eventid"];
 
                 //新增其它活動管理者
-                string[] empids = eventAdminData["empid"].Split(',');
-                foreach (string empidstr in empids)
+                if (!string.IsNullOrEmpty(eventAdminData["empid"]))
                 {
-                    sqlStr = @"
+                    string[] empids = eventAdminData["empid"].Split(',');
+                    foreach (string empidstr in empids)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_EventAdmin]
                                ([eventid]
                                ,[empid]
@@ -903,14 +905,15 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
 
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@eventid", eventID);
-                    command.Parameters.AddWithValue("@empid", empidstr);
-                    command.Parameters.AddWithValue("@modifiedby", empid);
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@eventid", eventID);
+                        command.Parameters.AddWithValue("@empid", empidstr);
+                        command.Parameters.AddWithValue("@modifiedby", empid);
 
-                    command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                    }
                 }
 
                 //新增活動權限 by mailgroup
@@ -1122,10 +1125,13 @@ namespace TEL.Event.Lab.Data
 
                 //再新增
                 string eventID = eventAdminData["eventid"];
-                string[] empids = eventAdminData["empid"].Split(',');
-                foreach (string empidstr in empids)
+
+                if (!string.IsNullOrEmpty(eventAdminData["empid"]))
                 {
-                    sqlStr = @"
+                    string[] empids = eventAdminData["empid"].Split(',');
+                    foreach (string empidstr in empids)
+                    {
+                        sqlStr = @"
                         INSERT INTO [TEL_Event_EventAdmin]
                                ([eventid]
                                ,[empid]
@@ -1138,14 +1144,15 @@ namespace TEL.Event.Lab.Data
                                ,GETDATE())
                     ";
 
-                    SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
+                        SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
 
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@eventid", eventID);
-                    command.Parameters.AddWithValue("@empid", empidstr);
-                    command.Parameters.AddWithValue("@modifiedby", empid);
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@eventid", eventID);
+                        command.Parameters.AddWithValue("@empid", empidstr);
+                        command.Parameters.AddWithValue("@modifiedby", empid);
 
-                    command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                    }
                 }
 
                 //先刪除活動權限 by mailgroup
@@ -2313,7 +2320,7 @@ namespace TEL.Event.Lab.Data
         #region RegisterModel1
 
         //取得活動選項報名人數
-        public int QueryEvnetRegisterOption1RegisterCount(string eventid, string optionid)
+        public int QueryEvnetRegisterOption1RegisterCount(string eventid, string optionid, string registerid)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
@@ -2328,6 +2335,14 @@ namespace TEL.Event.Lab.Data
                             AND
                                 selectedoption = @optionid";
 
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlString += @"
+                            AND
+                                id != @registerid ";
+            }
+            
+
 
             DataTable result = null;
 
@@ -2341,6 +2356,10 @@ namespace TEL.Event.Lab.Data
                 wrDad.SelectCommand = new SqlCommand(sqlString, connection);
                 wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
                 wrDad.SelectCommand.Parameters.AddWithValue("@optionid", optionid);
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
 
 
                 wrDad.Fill(DS, "T");
@@ -2400,10 +2419,15 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板1報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
+
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}" ;
             }
 
             return "";
@@ -2445,10 +2469,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板1報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -2459,7 +2487,7 @@ namespace TEL.Event.Lab.Data
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel1(string id)
+        internal string DeleteRegisterModel1(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -2481,6 +2509,11 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板1報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
@@ -2652,16 +2685,20 @@ namespace TEL.Event.Lab.Data
                 }
 
                 transaction.Commit();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板2報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (SqlException ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             conn.Close();
@@ -2772,16 +2809,20 @@ namespace TEL.Event.Lab.Data
                 }
 
                 transaction.Commit();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板2報名資料", eventsData["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (SqlException ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             conn.Close();
@@ -2797,7 +2838,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="dataTable"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel2(string id)
+        internal string DeleteRegisterModel2(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -2833,16 +2874,20 @@ namespace TEL.Event.Lab.Data
                 commandDelete.ExecuteNonQuery();
 
                 transaction.Commit();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板2報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (SqlException ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             conn.Close();
@@ -3559,7 +3604,17 @@ namespace TEL.Event.Lab.Data
 
             return result;
         }
-
+        
+        /// <summary>
+        /// 取得健檢方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
         internal int QueryRegisterOption4Limit(string eventid, string hosipital, string area, string solution, string gender, string expectdate)
         {
             string connStr = GetConnectionString();
@@ -3585,7 +3640,7 @@ namespace TEL.Event.Lab.Data
 
 
 
-        DataTable result = null;
+            DataTable result = null;
 
             using (SqlConnection connection = new SqlConnection(connStr))
             {
@@ -3610,6 +3665,76 @@ namespace TEL.Event.Lab.Data
 
 
             return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["limit"]);
+        }
+
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption3Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            COUNT([id]) AS RegisterCount
+                        FROM 
+                            [TEL_Event_RegisterModel3]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            hosipital = @hosipital
+                        AND
+                            area = @area
+                        AND
+                            solution = @solution
+                        AND
+                            [gender] = @gender
+                        AND
+                            CONVERT(VARCHAR, expectdate,111) = @expectdate ";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlStr += @"
+                        AND
+                            [id] != @registerid
+                        ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+                wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+                wrDad.SelectCommand.Parameters.AddWithValue("@expectdate", Convert.ToDateTime(expectdate));
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["RegisterCount"]);
         }
 
         /// <summary>
@@ -3717,10 +3842,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板3報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -3798,10 +3927,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板3報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -3813,7 +3946,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel3(string id)
+        internal string DeleteRegisterModel3(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -3838,10 +3971,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板3報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -3919,6 +4056,78 @@ namespace TEL.Event.Lab.Data
         #endregion
 
         #region RegisterModel4
+        /// <summary>
+        /// 取得健檢方案已報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="hosipital"></param>
+        /// <param name="area"></param>
+        /// <param name="solution"></param>
+        /// <param name="gender"></param>
+        /// <param name="expectdate"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption4Count(string eventid, string hosipital, string area, string solution, string gender, string expectdate, string registerid)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            COUNT([id]) AS RegisterCount
+                        FROM 
+                            [TEL_Event_RegisterModel4]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            hosipital = @hosipital
+                        AND
+                            area = @area
+                        AND
+                            solution = @solution
+                        AND
+                            [gender] = @gender
+                        AND
+                            CONVERT(VARCHAR, expectdate,111) = @expectdate ";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlStr += @"
+                        AND
+                            [id] != @registerid";
+            }
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@hosipital", hosipital);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@solution", solution);
+                wrDad.SelectCommand.Parameters.AddWithValue("@gender", gender);
+                wrDad.SelectCommand.Parameters.AddWithValue("@expectdate", Convert.ToDateTime(expectdate));
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["RegisterCount"]);
+        }
+
         /// <summary>
         /// 新增 模板4報名資料
         /// </summary>
@@ -4033,10 +4242,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板4報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4120,10 +4333,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板4報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4135,7 +4352,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel4(string id)
+        internal string DeleteRegisterModel4(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -4160,6 +4377,10 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板4報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
@@ -4323,10 +4544,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板5報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4420,10 +4645,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板5報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4435,7 +4664,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel5(string id)
+        internal string DeleteRegisterModel5(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -4460,10 +4689,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板5報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4591,7 +4824,7 @@ namespace TEL.Event.Lab.Data
 
             sqlStr = @"
                         SELECT 
-                            DISTINCT Format([avaliabledate],N'yyyy/MM/dd HH:mm') AS [avaliabledate]
+                            DISTINCT CONVERT(VARCHAR, [avaliabledate],111) AS [avaliabledate]
                         FROM 
                             [TEL_Event_RegisterOption6] 
                         WHERE  id = id";
@@ -4637,6 +4870,107 @@ namespace TEL.Event.Lab.Data
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 取得Option6 地點時間方案人數上限
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        internal int QueryRegisterOption6Limit(string eventid, string area, string date)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [limit]
+                        FROM 
+                            [TEL_Event_RegisterOption6]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            area = @area
+                        AND
+                            CONVERT(VARCHAR, avaliabledate,111) = @date ";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@date", Convert.ToDateTime(date));
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["limit"]);
+        }
+
+        /// <summary>
+        /// 取得地點時間方案報名人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="area"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        internal int GetRegisterOption6Count(string eventid, string area, string date, string registerid)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            COUNT([id]) AS RegisterCount
+                        FROM 
+                            [TEL_Event_RegisterModel6]
+                        WHERE  
+                            [eventid] = @eventid
+                        AND
+                            changearea = @area
+                        AND
+                            CONVERT(VARCHAR, changedate,111) = @date ";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlStr += @"
+                        AND
+                            id != @registerid ";
+            }
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@area", area);
+                wrDad.SelectCommand.Parameters.AddWithValue("@date", Convert.ToDateTime(date));
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result.Rows.Count == 0 ? 0 : Convert.ToInt16(result.Rows[0]["RegisterCount"]);
         }
 
         /// <summary>
@@ -4697,10 +5031,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("新增模板1報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4748,10 +5086,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("更新模板6報名資料", data["id"], sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -4763,7 +5105,7 @@ namespace TEL.Event.Lab.Data
         /// <param name="data"></param>
         /// <param name="modifiedby"></param>
         /// <returns></returns>
-        internal string DeleteRegisterModel6(string id)
+        internal string DeleteRegisterModel6(string id, string modifiedby)
         {
             string connStr = GetConnectionString();
             string sqlStr = "";
@@ -4788,10 +5130,14 @@ namespace TEL.Event.Lab.Data
                 command.ExecuteNonQuery();
                 conn.Close();
                 conn.Dispose();
+
+                //Add log
+                SqlLog sl = new SqlLog();
+                sl.AddLog("刪除模板6報名資料", id, sl.GetCommendText(command), modifiedby);
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";

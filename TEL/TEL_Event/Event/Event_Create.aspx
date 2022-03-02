@@ -8,6 +8,8 @@
             //活動開始日期
             $('#<%= tbEventSDate.ClientID%>').prop("readonly", true).datepicker({
                 dateFormat: 'yy/mm/dd',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= tbEventEDate.ClientID%>').datepicker("option", "minDate", selectedDate);
                 }
@@ -15,6 +17,8 @@
             //活動結束日期
             $('#<%= tbEventEDate.ClientID%>').prop("readonly", true).datepicker({
                 dateFormat: 'yy/mm/dd',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= tbEventSDate.ClientID%>').datepicker("option", "maxDate", selectedDate);
                     $('#<%= tbEventEDate.ClientID%>').val($(this).val());
@@ -24,6 +28,8 @@
             $('#<%= tbSignupSDate.ClientID%>').prop("readonly", true).datetimepicker({
                 dateFormat: 'yy/mm/dd',
                 timeFormat: 'HH:mm',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= tbSignupEDate.ClientID%>').datepicker("option", "minDate", selectedDate);
                 }
@@ -32,6 +38,8 @@
             $('#<%= tbSignupEDate.ClientID%>').prop("readonly", true).datetimepicker({
                 dateFormat: 'yy/mm/dd',
                 timeFormat: 'HH:mm',
+                changeMonth: true,
+                changeYear: true,
                 onClose: function (selectedDate) {
                     $('#<%= tbSignupSDate.ClientID%>').datepicker("option", "maxDate", selectedDate);
                     $('#<%= tbSignupEDate.ClientID%>').val($(this).val());

@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using System.Web.UI;
@@ -83,11 +84,21 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
             return;
         }
 
+        bool flag = Regex.IsMatch(txtFID.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
+
+        if (!flag)
+        {
+            lblMsg.Text = lblIDFormatErr.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         DataTable dt = GetGridViewToDatatable();
         
         DataRow dr = dt.NewRow();
         dr["name"] = txtFName.Text;
-        dr["idno"] = txtFID.Text;
+        dr["idno"] = txtFID.Text.ToUpper();
         dr["birthday"] = txtFBDay.Text;
         dr["gender"] = ddlGender.SelectedValue;
         dr["meal"] = ddlFMeal.SelectedValue;
@@ -166,7 +177,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
         //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
         int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
-        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue);
+        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue, registerid);
 
         if (registerCount >= option1Limit)
         {
@@ -196,6 +207,11 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblUpdateErrMsg.Text;
+
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 更新模板2報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
@@ -204,7 +220,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         Event ev = new Event();
-        string id = Request.QueryString["id"];
+        string id = Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
 
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogDelete('" + id + "');", true);
     }
@@ -481,10 +497,17 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
     public static string DeleteRegisterModel2(string id)
     {
         Event ev = new Event();
-        string result = ev.DeleteRegisterModel2(id);
+        //Request.QueryString["id"] + "|" + Page.Session["EmpID"].ToString();
+        string registerid = id.Split('|')[0];
+        string modifiedby = id.Split('|')[1];
+
+        string result = ev.DeleteRegisterModel2(registerid, modifiedby);
 
         if (!string.IsNullOrEmpty(result))
         {
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 刪除模板2報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
+
             //失敗
             throw new Exception("Failed");
         }

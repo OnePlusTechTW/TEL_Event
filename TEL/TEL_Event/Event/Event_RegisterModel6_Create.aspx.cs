@@ -62,6 +62,18 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         Event ev = new Event();
         string eventid = Request.QueryString["id"];
         string modifiedby = lblEmpid.Text;
+
+        int option1Limit = ev.GetRegisterOption6Limit(eventid, ddlArea.SelectedValue, ddlAvaliabledate.SelectedValue);
+        int registerCount = ev.GetRegisterOption6Count(eventid, ddlArea.SelectedValue, ddlAvaliabledate.SelectedValue, string.Empty);
+
+        if (registerCount >= option1Limit)
+        {
+            lblMsg.Text = lblLimitReached.Text;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
         Dictionary<string, string> Data = new Dictionary<string, string>();
         Data.Add("id", Guid.NewGuid().ToString());
         Data.Add("eventid", eventid);
@@ -81,6 +93,11 @@ public partial class Event_Event_RegisterModel6_Create : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblRegisterErrMsg.Text;
+
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 新增模板5報名資料發生錯誤。 {Environment.NewLine}" + result;
+            LogHelper.WriteLog(errMsg);
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }

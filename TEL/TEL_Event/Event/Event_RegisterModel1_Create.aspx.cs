@@ -91,7 +91,7 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
         int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
-        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue);
+        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue, string.Empty);
 
         if (registerCount >= option1Limit)
         {
@@ -118,6 +118,12 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         }
         else
         {
+            lblErrMsg.Text = lblRegisterErrMsg.Text;
+
+
+            string errMsg = $@"發生錯誤:{Environment.NewLine} 新增模板1報名資料發生錯誤。 {Environment.NewLine}"+ result;
+            LogHelper.WriteLog(errMsg);
+
             //失敗
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
         }
