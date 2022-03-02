@@ -34,70 +34,75 @@ public partial class Event_SurveyModel3_View : System.Web.UI.Page
 
         DataTable WMTB = sv.GetSurveyData(this.Request.QueryString["id"], "3");
 
-        this.FIELD_Q1.Text = WMTB.Rows[0]["q1"].ToString();
-
-        for (int i = 1; i <= 2; i++)
+        if (WMTB.Rows.Count > 0)
         {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q2_" + i);
+            UC_EventDescription.setViewDefault(WMTB.Rows[0]["eventid"].ToString());
 
-            if (WMTB.Rows[0]["q2"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-        this.FIELD_Q2Reason.Text = WMTB.Rows[0]["q2reason"].ToString();
+            this.FIELD_Q1.Text = WMTB.Rows[0]["q1"].ToString();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q3_" + i);
+            for (int i = 1; i <= 2; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q2_" + i);
 
-            if (WMTB.Rows[0]["q3"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-        this.FIELD_Q3Reason.Text = WMTB.Rows[0]["q3reason"].ToString();
+                if (WMTB.Rows[0]["q2"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+            this.FIELD_Q2Reason.Text = WMTB.Rows[0]["q2reason"].ToString();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q4_" + i);
+            for (int i = 1; i <= 3; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q3_" + i);
 
-            if (WMTB.Rows[0]["q4"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-        this.FIELD_Q4Reason.Text = WMTB.Rows[0]["q4reason"].ToString();
+                if (WMTB.Rows[0]["q3"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+            this.FIELD_Q3Reason.Text = WMTB.Rows[0]["q3reason"].ToString();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q5_" + i);
+            for (int i = 1; i <= 3; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q4_" + i);
 
-            if (WMTB.Rows[0]["q5"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-        this.FIELD_Q5Reason.Text = WMTB.Rows[0]["q5reason"].ToString();
+                if (WMTB.Rows[0]["q4"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+            this.FIELD_Q4Reason.Text = WMTB.Rows[0]["q4reason"].ToString();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q6_" + i);
+            for (int i = 1; i <= 3; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q5_" + i);
 
-            if (WMTB.Rows[0]["q6"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-        this.FIELD_Q6Reason.Text = WMTB.Rows[0]["q6reason"].ToString();
+                if (WMTB.Rows[0]["q5"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+            this.FIELD_Q5Reason.Text = WMTB.Rows[0]["q5reason"].ToString();
 
-        for (int i = 1; i <= 3; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q7_" + i);
+            for (int i = 1; i <= 3; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q6_" + i);
 
-            if (WMTB.Rows[0]["q7"].ToString() == rb.Text)
-                rb.Checked = true;
-        }
-        this.FIELD_Q7Reason.Text = WMTB.Rows[0]["q7reason"].ToString();
+                if (WMTB.Rows[0]["q6"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+            this.FIELD_Q6Reason.Text = WMTB.Rows[0]["q6reason"].ToString();
 
-        this.FIELD_Q8.Text = WMTB.Rows[0]["q8"].ToString();
+            for (int i = 1; i <= 3; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q7_" + i);
 
-        for (int i = 1; i <= 2; i++)
-        {
-            RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q9_" + i);
+                if (WMTB.Rows[0]["q7"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
+            this.FIELD_Q7Reason.Text = WMTB.Rows[0]["q7reason"].ToString();
 
-            if (WMTB.Rows[0]["q9"].ToString() == rb.Text)
-                rb.Checked = true;
+            this.FIELD_Q8.Text = WMTB.Rows[0]["q8"].ToString();
+
+            for (int i = 1; i <= 2; i++)
+            {
+                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q9_" + i);
+
+                if (WMTB.Rows[0]["q9"].ToString() == rb.Text)
+                    rb.Checked = true;
+            }
         }
     }
 }

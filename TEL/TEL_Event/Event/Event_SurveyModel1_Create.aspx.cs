@@ -17,6 +17,8 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             Response.Redirect("/Event/MyEvent.aspx");
 
+        UC_EventDescription.setViewDefault(Request.QueryString["id"]);
+
         Load_EmpData();
     }
 

@@ -1964,12 +1964,6 @@ namespace TEL.Event.Lab.Data
                 return ex.ToString();
 
             }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-                return ex.ToString();
-
-            }
 
             conn.Close();
             conn.Dispose();

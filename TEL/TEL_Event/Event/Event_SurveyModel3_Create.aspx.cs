@@ -20,8 +20,8 @@ public partial class Event_SurveyModel3_Create : System.Web.UI.Page
         if (!IsPostBack)
             GeneratedHosipitalItem();
 
+        UC_EventDescription.setViewDefault(Request.QueryString["id"]);
         Load_EmpData();
-        this.Button_Submit.Attributes.Add("onclick", "javascrip:return confirm('問卷送出後即不可修正，您確定要送出嗎？')");  
     }
 
     protected void Page_PreRender(object sender, EventArgs e)
@@ -63,6 +63,11 @@ public partial class Event_SurveyModel3_Create : System.Web.UI.Page
     }
 
     protected void Button_Submit_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogConfirm();", true);
+    }
+
+    protected void Button_AddConfirm_Click(object sender, EventArgs e)
     {
         if (Check_Input())
             if (Save_Data())
@@ -114,105 +119,106 @@ public partial class Event_SurveyModel3_Create : System.Web.UI.Page
         if (string.IsNullOrEmpty(this.FIELD_Q1.SelectedValue))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1").ToString();
         }
 
         if (!this.FIELD_Q2_1.Checked && !this.FIELD_Q2_2.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q2").ToString();
         }
         else if (this.FIELD_Q2_1.Checked && string.IsNullOrEmpty(this.FIELD_Q2Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q2Reason").ToString();
         }
 
         if (!this.FIELD_Q3_1.Checked && !this.FIELD_Q3_2.Checked && !this.FIELD_Q3_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q3").ToString();
         }
         else if (this.FIELD_Q3_3.Checked && string.IsNullOrEmpty(this.FIELD_Q3Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q3Reason").ToString();
         }
 
         if (!this.FIELD_Q4_1.Checked && !this.FIELD_Q4_2.Checked && !this.FIELD_Q4_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q4").ToString();
         }
         else if (this.FIELD_Q4_3.Checked && string.IsNullOrEmpty(this.FIELD_Q4Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q4Reason").ToString();
         }
 
         if (!this.FIELD_Q5_1.Checked && !this.FIELD_Q5_2.Checked && !this.FIELD_Q5_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q5").ToString();
         }
         else if (this.FIELD_Q5_3.Checked && string.IsNullOrEmpty(this.FIELD_Q5Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q5Reason").ToString();
         }
 
         if (!this.FIELD_Q6_1.Checked && !this.FIELD_Q6_2.Checked && !this.FIELD_Q6_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q6").ToString();
         }
         else if (this.FIELD_Q6_3.Checked && string.IsNullOrEmpty(this.FIELD_Q6Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q6Reason").ToString();
         }
 
         if (!this.FIELD_Q7_1.Checked && !this.FIELD_Q7_2.Checked && !this.FIELD_Q7_3.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q7").ToString();
         }
         else if (this.FIELD_Q7_3.Checked && string.IsNullOrEmpty(this.FIELD_Q7Reason.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q7Reason").ToString();
         }
 
         if (string.IsNullOrEmpty(this.FIELD_Q8.Text.Trim()))
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q8").ToString();
         }
 
         if (!this.FIELD_Q9_1.Checked && !this.FIELD_Q9_2.Checked)
         {
             if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
+                ErrorMsg += "<BR>";
             ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q9").ToString();
         }
 
         if (!string.IsNullOrEmpty(ErrorMsg))
         {
-            MessageBox.Show(ErrorMsg, "錯誤訊息");
+            lblFiledName.Text = ErrorMsg;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogRequired();", true);
             flag = false;
         }
 

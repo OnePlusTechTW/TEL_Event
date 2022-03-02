@@ -278,7 +278,6 @@
                         </asp:RadioButtonList>
                         <asp:RadioButton ID="rbtnOrther" runat="server" Text="其它" CssClass="controlCommon" AutoPostBack="true" OnCheckedChanged="rbtnOrther_CheckedChanged" />
                         <asp:TextBox ID="txtOrther" runat="server" CssClass="QueryField"></asp:TextBox>
-
                     </td>
                     <td style="vertical-align: top;">
                         <asp:DropDownList ID="ddlMeal" runat="server" CssClass="QueryField" Width="100%">

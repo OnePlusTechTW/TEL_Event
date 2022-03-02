@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_SurveyModel4_View.aspx.cs" Inherits="Event_SurveyModel4_View" StylesheetTheme="Event" %>
+<%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
 <!DOCTYPE html>
 
@@ -21,7 +22,13 @@
             </tr>
             <tr style="height: 10px"></tr>
         </table>
-        <table>
+        <table style="width: 650px">
+            <tr>
+                <td>
+                    <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
+                </td>
+            </tr>
+            <tr style="height: 10px"></tr>
         </table>
         <table>
             <tr>
@@ -62,7 +69,7 @@
             </tr>
         </table>
         <table>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
                 </td>
@@ -84,7 +91,7 @@
                     <asp:RadioButton ID="FIELD_Q1_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q1" Enabled="false"></asp:RadioButton>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q2" runat="server" meta:resourcekey="LABEL_Q2Resource1"></asp:Label>
                 </td>
@@ -106,7 +113,7 @@
                     <asp:RadioButton ID="FIELD_Q2_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false"></asp:RadioButton>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q3" runat="server" meta:resourcekey="LABEL_Q3Resource1"></asp:Label>
                 </td>
@@ -128,7 +135,7 @@
                     <asp:RadioButton ID="FIELD_Q3_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false"></asp:RadioButton>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q4" runat="server" meta:resourcekey="LABEL_Q4Resource1"></asp:Label>
                 </td>
@@ -150,7 +157,7 @@
                     <asp:RadioButton ID="FIELD_Q4_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false"></asp:RadioButton>
                 </td>
             </tr>
-            <tr>
+            <tr class="FormTRStyle">
                 <td colspan="5">
                     <asp:Label ID="LABEL_Q5" runat="server" meta:resourcekey="LABEL_Q5Resource1"></asp:Label>
                 </td>
