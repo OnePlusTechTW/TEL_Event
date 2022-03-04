@@ -38,33 +38,35 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
                 List<ImportModel> list = new List<ImportModel>();
                 list = ExcelToList();
 
-                //寫入DB
-                Event ev = new Event();
-                string eventid = string.Empty;
-                eventid = Request.QueryString["id"];
-                string result = ev.AddComputerChange(eventid, list, Page.Session["EmpID"].ToString());
-
-                StringBuilder sb = new StringBuilder();
-                if (string.IsNullOrEmpty(result))
+                if (list.Count > 0)
                 {
-                    //成功
-                    tbImportMsg.Text = lblImportSuccess.Text;
-                    SetDefaultGridView();
+                    //寫入DB
+                    Event ev = new Event();
+                    string eventid = string.Empty;
+                    eventid = Request.QueryString["id"];
+                    string result = ev.AddComputerChange(eventid, list, Page.Session["EmpID"].ToString());
+
+                    StringBuilder sb = new StringBuilder();
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        //成功
+                        tbImportMsg.Text = lblImportSuccess.Text;
+                        SetDefaultGridView();
+                    }
+                    else
+                    {
+                        //失敗
+                        sb.Append(lblImportFailed.Text);
+                        sb.AppendLine();
+                        sb.AppendLine();
+                        sb.Append(lblImportFailedMsg.Text);
+                        sb.AppendLine();
+                        sb.Append(result);
+
+
+                        tbImportMsg.Text = sb.ToString();
+                    }
                 }
-                else
-                {
-                    //失敗
-                    sb.Append(lblImportFailed.Text);
-                    sb.AppendLine();
-                    sb.AppendLine();
-                    sb.Append(lblImportFailedMsg.Text);
-                    sb.AppendLine();
-                    sb.Append(result);
-
-
-                    tbImportMsg.Text = sb.ToString();
-                }
-
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
             }
         }
@@ -144,7 +146,10 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
                 dt.Columns.Add(new DataColumn(obj.ToString()));
             columns.Add(i);
         }
-        //資料  
+
+        //資料 
+        List<int> duplicateList = new List<int>();
+
         for (int i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
         {
             ImportModel group = new ImportModel();
@@ -160,11 +165,39 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
             }
             if (hasValue)
             {
+                DataRow[] rows = dt.Select($@"地點='{dr["地點"].ToString()}' AND 日期時間='{dr["日期時間"].ToString()}' ");
+
+                if (rows.Count() > 0)
+                    duplicateList.Add(i + 1);
+
                 dt.Rows.Add(dr);
             }
         }
 
         List<ImportModel> list = new List<ImportModel>();
+
+        if (duplicateList.Count > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string rowsList = string.Empty;
+            foreach (int row in duplicateList)
+            {
+                rowsList += row.ToString() + ",";
+            }
+
+            //失敗
+            sb.Append(lblImportFailed.Text);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(string.Format(lblDuplicate.Text, rowsList.Substring(0, rowsList.Length - 1)));
+            sb.AppendLine();
+
+            tbImportMsg.Text = sb.ToString();
+
+            return list;
+        }
+
         list = (from DataRow dr in dt.Rows
                 select new ImportModel()
                 {

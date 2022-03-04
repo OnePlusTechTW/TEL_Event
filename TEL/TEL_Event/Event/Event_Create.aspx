@@ -409,6 +409,8 @@
     <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="false"></asp:Label>
     <asp:Label ID="lblCantDelete" runat="server" Text="已有報名資料，無法刪除。" Visible="false"></asp:Label>
     <asp:Label ID="lblUnselect" runat="server" Text="- 未指定 -" Visible="false"></asp:Label>
+    <asp:Label ID="lblRegisterDateErr" runat="server" Text="報名開始日期時間不可以晚於、等於報名結束日期時間" Visible="false"></asp:Label>
+
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:Button ID="btnGoBackEventPage" runat="server" Text="" OnClick="btnGoBackEventPage_Click" Style="display: none;" />
