@@ -239,7 +239,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
         DateTime registerSDate = Convert.ToDateTime(tbSignupSDate.Text);
         DateTime registerEDate = Convert.ToDateTime(tbSignupEDate.Text);
 
-        if (registerSDate.CompareTo(registerEDate) == 0)
+        if (registerSDate.CompareTo(registerEDate) == 0 || registerSDate.CompareTo(registerEDate) > 0)
         {
             lblMsg.Text = lblRegisterDateErr.Text;
 

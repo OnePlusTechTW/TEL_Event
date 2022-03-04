@@ -247,8 +247,8 @@ public partial class Event_Event_Edit : System.Web.UI.Page
         #region 報名開始日期時間不可以晚於等於報名結束日期時間檢查
         DateTime registerSDate = Convert.ToDateTime(tbSignupSDate.Text);
         DateTime registerEDate = Convert.ToDateTime(tbSignupEDate.Text);
-
-        if (registerSDate.CompareTo(registerEDate) == 0)
+        var a = registerSDate.CompareTo(registerEDate);
+        if (registerSDate.CompareTo(registerEDate) == 0 || registerSDate.CompareTo(registerEDate) > 0)
         {
             lblMsg.Text = lblRegisterDateErr.Text;
 
