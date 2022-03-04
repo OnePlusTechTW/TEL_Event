@@ -235,6 +235,21 @@ public partial class Event_Event_Create : System.Web.UI.Page
         }
         #endregion
 
+        #region 報名開始日期時間不可以晚於等於報名結束日期時間檢查
+        DateTime registerSDate = Convert.ToDateTime(tbSignupSDate.Text);
+        DateTime registerEDate = Convert.ToDateTime(tbSignupEDate.Text);
+
+        if (registerSDate.CompareTo(registerEDate) == 0)
+        {
+            lblMsg.Text = lblRegisterDateErr.Text;
+
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+
+        #endregion
+
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
         Dictionary<string, string> EventAdminData = new Dictionary<string, string>();
 

@@ -86,5 +86,7 @@
     <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
+    <asp:Label ID="lblDuplicate" runat="server" Text="資料列 {0} 為重複資料。" Visible="false"></asp:Label>
+
 </asp:Content>
 
