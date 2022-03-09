@@ -96,6 +96,29 @@
             });
 
         };
+
+        //通用錯誤訊息 通知開窗
+        function ShowDialogMsg(msg) {
+            $('#<%= lblDialogMsg.ClientID %>').text(msg);
+
+            $(function () {
+                $("#dialogMsg").dialog({
+                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel8").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
         //刪除資料events
         function onDelete(id) {
             PageMethods.DeleteRegisterOption5(id, Success, Failure);
@@ -116,10 +139,24 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+     <table>
+        <tr>
+            <td>
+                <asp:Image ID="lblPageImage" runat="server" ImageUrl="~/Master/images/Link_CreateEvents.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="建立活動"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px">
+            <td></td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td>
-                <asp:Button ID="btnImportHealthSolutions" runat="server" CssClass="Button" Text="匯入健檢方案" OnClick="btnImportHealthSolutions_Click" Width="120px"  />
+                <asp:Button ID="btnImportHealthSolutions" runat="server" CssClass="Button" Text="匯入健檢方案" OnClick="btnImportHealthSolutions_Click" Width="120px" />
             </td>
             <td style="padding-left: 10px;">
                 <asp:HyperLink ID="hlnkFileAttachment" runat="server" Text="Excel範例" Style="color: blue;" NavigateUrl="~/Sample/Import_HealthSolutions.xlsx" />
@@ -139,10 +176,10 @@
                         <asp:BoundField HeaderText="地區" DataField="area">
                             <HeaderStyle Width="150px"></HeaderStyle>
                         </asp:BoundField>
-                        <asp:BoundField HeaderText="性別" DataField="gender">
+                        <asp:BoundField HeaderText="費用方案" DataField="description">
                             <HeaderStyle Width="250px"></HeaderStyle>
                         </asp:BoundField>
-                        <asp:BoundField HeaderText="費用&方案" DataField="description">
+                        <asp:BoundField HeaderText="性別" DataField="gender">
                             <HeaderStyle Width="250px"></HeaderStyle>
                         </asp:BoundField>
                         <asp:BoundField HeaderText="次方案1" DataField="secondoption1">
@@ -167,12 +204,12 @@
             </td>
         </tr>
     </table>
-    <table style="margin-top:35px">
+    <table style="margin-top: 35px">
         <tr>
             <td>
                 <asp:Label ID="lblSendArea" runat="server" Text="健檢包寄送地點"></asp:Label>
             </td>
-            
+
             <td></td>
         </tr>
         <tr>
@@ -180,7 +217,7 @@
                 <asp:TextBox ID="txtSendArea" runat="server" Width="200px" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
-                <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="Button" OnClick="btnAdd_Click"/>
+                <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="Button" OnClick="btnAdd_Click" />
             </td>
         </tr>
     </table>
@@ -189,7 +226,7 @@
             <td>
                 <asp:GridView ID="gridRegisterOption5" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                     EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                    PageSize="20" OnPageIndexChanging="gridRegisterOption5_PageIndexChanging" OnRowDataBound="gridRegisterOption5_RowDataBound" >
+                    PageSize="20" OnPageIndexChanging="gridRegisterOption5_PageIndexChanging" OnRowDataBound="gridRegisterOption5_RowDataBound">
                     <Columns>
                         <asp:BoundField HeaderText="健檢包寄送地點" DataField="description">
                             <HeaderStyle Width="120px"></HeaderStyle>
@@ -227,7 +264,7 @@
                 <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" CssClass="Button" />
             </div>
             <div style="margin-top: 5px;">
-                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
+                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" placeholder="匯入資訊..." ReadOnly="true"></asp:TextBox>
             </div>
         </asp:Panel>
     </div>
@@ -252,12 +289,22 @@
         </asp:Panel>
     </div>
 
+    <%--dialog Msg--%>
+    <div id="dialogMsg" title="Dialog Title">
+        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none">
+            <asp:Label ID="lblDialogMsg" runat="server" Text=""></asp:Label>
+        </asp:Panel>
+    </div>
+
+    <asp:Label ID="lblDuplicate" runat="server" Text="資料列 {0} 為重複資料。" Visible="false"></asp:Label>
+    <asp:Label ID="lblLoseData" runat="server" Text="資料列 {0} 的必填欄位必須輸入。" Visible="false"></asp:Label>
+    <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
-    <asp:Button ID="btnReloadGridView" runat="server" Text="Button" OnClick="btnReloadGridView_Click" style="display:none;"/>
+    <asp:Button ID="btnReloadGridView" runat="server" Text="Button" OnClick="btnReloadGridView_Click" Style="display: none;" />
 </asp:Content>
 

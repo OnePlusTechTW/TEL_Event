@@ -102,10 +102,10 @@
                         PageSize="20" OnPageIndexChanging="gridEvent_PageIndexChanging" OnRowDataBound="gridEvent_RowDataBound" >
                         <Columns>
                             <asp:BoundField HeaderText="活動名稱" DataField="eventname">
-                                <HeaderStyle Width="200px" ></HeaderStyle>
+                                <HeaderStyle Width="300px" ></HeaderStyle>
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動分類" DataField="categoryname">
-                                <HeaderStyle Width="95px"></HeaderStyle>
+                                <HeaderStyle Width="120px"></HeaderStyle>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField HeaderText="活動開始日期" DataField="eventstart">
@@ -118,7 +118,7 @@
                             </asp:BoundField>
                             
                             <asp:TemplateField HeaderText="活動資訊">
-                                <HeaderStyle Width="100px"></HeaderStyle>
+                                <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:Button ID="btnView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid")%>' OnClick="btnView_Click" />
                                 </ItemTemplate>

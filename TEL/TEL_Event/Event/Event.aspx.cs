@@ -13,11 +13,16 @@ public partial class Event_Event : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //登入檢查
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        int isManager = gm.IsManager(Page.Session["EmpID"].ToString());
+        hfIsManager.Value = isManager.ToString(); ;
+
+        if (isManager == 0)
+            Response.Redirect("Denied.aspx");//若為一般使用者則導到Denied頁面
+
         if (!IsPostBack)
         {
-            TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
-            int isManager = gm.IsManager(Page.Session["EmpID"].ToString());
-            hfIsManager.Value = isManager.ToString(); ;
             GeneratedCategoryItem();
             SetEventsGrid();
         }
@@ -25,11 +30,9 @@ public partial class Event_Event : System.Web.UI.Page
 
     protected void Page_PreRender(object sender, EventArgs e)
     {
-        //登入檢查
         int isManager = Convert.ToInt16(hfIsManager.Value);
-        if (isManager == 0)
-            Response.Redirect("Denied.aspx");//若為一般使用者則導到Denied頁面
-        else if (isManager < 2)
+        
+        if (isManager < 2)
         {
             tbAddEvent.Visible = false;
         }

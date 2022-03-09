@@ -1,7 +1,11 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  View [dbo].[TEL_Event_UserFullName]    Script Date: 2022/1/19 下午 01:49:09 ******/
+/****** Object:  View [dbo].[TEL_Event_UserFullName]    Script Date: 2022/3/9 下午 11:10:28 ******/
+DROP VIEW [dbo].[TEL_Event_UserFullName]
+GO
+
+/****** Object:  View [dbo].[TEL_Event_UserFullName]    Script Date: 2022/3/9 下午 11:10:28 ******/
 SET ANSI_NULLS ON
 GO
 

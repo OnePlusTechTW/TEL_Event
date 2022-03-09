@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Model6Options.aspx.cs" Inherits="Event_Event_Model6Options" StylesheetTheme="Event" Culture="auto" UICulture="auto"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Model6Options.aspx.cs" Inherits="Event_Event_Model6Options" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
@@ -28,6 +28,20 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table>
+        <tr>
+            <td>
+                <asp:Image ID="lblPageImage" runat="server" ImageUrl="~/Master/images/Link_CreateEvents.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="建立活動"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px">
+            <td></td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td>
@@ -87,6 +101,7 @@
     <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
     <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
     <asp:Label ID="lblDuplicate" runat="server" Text="資料列 {0} 為重複資料。" Visible="false"></asp:Label>
+    <asp:Label ID="lblLoseData" runat="server" Text="資料列 {0} 的必填欄位必須輸入。" Visible="false"></asp:Label>
 
 </asp:Content>
 

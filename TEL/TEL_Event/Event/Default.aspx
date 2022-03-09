@@ -189,7 +189,7 @@
     <div id="dialogView" title="Dialog Title">
         
     </div>
-    <asp:Label ID="lblLimit" runat="server" Text="無限制" Visible="false"></asp:Label>
+    <asp:Label ID="lblLimit" runat="server" Text="Unlimited" Visible="false"></asp:Label>
     <asp:Label ID="lblSignup" runat="server" Text="馬上報名" Visible="false"></asp:Label>
     <asp:Label ID="lblView" runat="server" Text="檢視報名" Visible="false"></asp:Label>
     <asp:Label ID="lblNYStart" runat="server" Text="尚未開放報名" Visible="false"></asp:Label>

@@ -29,16 +29,14 @@
     <table>
         <tr>
             <td>
-                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon2.png" Height="40px"></asp:Image>
+                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon3.png" Height="40px"></asp:Image>
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理活動"></asp:Label>
+                <asp:Label ID="LABEL_PageName" runat="server" CssClass="PageTitle" Text="馬上報名"></asp:Label>
             </td>
         </tr>
-        <tr style="height: 10px">
-            <td></td>
-        </tr>
+        <tr style="height: 10px"></tr>
     </table>
     <table>
         <tr style="height: 15px">

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Services;
 using TEL.Event.Lab.Method;
 using System.Data;
 using System.Drawing;
@@ -14,6 +15,13 @@ public partial class Event_Survey : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //登入檢查
+        //若為一般使用者則導到Denied頁面
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        if (gm.IsManager(Page.Session["EmpID"].ToString()) == 0)
+            Response.Redirect("Denied.aspx");
+
+        //需有活動ID檢查
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             Response.Redirect("/Event/Event.aspx");
 
@@ -24,41 +32,9 @@ public partial class Event_Survey : System.Web.UI.Page
         }
     }
 
-    protected void Page_PreRender(object sender, EventArgs e)
-    {
-        //登入檢查
-        //若為一般使用者則導到Denied頁面
-        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
-        if (gm.IsDenied(Page.Session["EmpID"].ToString(), Request.QueryString["id"]) < 1)
-            Response.Redirect("/Event/Denied.aspx");
-    }
-
     protected void Button_Query_Click(object sender, EventArgs e)
     {
         QueryData();
-    }
-
-    protected void Button_Delete_Click(object sender, EventArgs e)
-    {
-        //刪除問卷資料
-        //si[0]=Survey ID
-        //si[1]=Survey Model
-        string[] si = ((Button)sender).CommandArgument.ToString().Split('_');
-        string errormsg = "";
-
-        Survey sv = new Survey();
-        errormsg = sv.DeleteSurveyData(Request.QueryString["id"], si[0], si[1], Session["EmpID"].ToString());
-
-        if (!string.IsNullOrEmpty(errormsg))
-        {
-            MessageBox.Show(errormsg);
-        }
-        else
-        {
-            //重新Load Data & Query Data
-            LoadDate();
-            QueryData();
-        }
     }
 
     protected void Button_ExportExcel_Click(object sender, EventArgs e)
@@ -75,6 +51,32 @@ public partial class Event_Survey : System.Web.UI.Page
             ep.ExportSurveyModel3(Request.QueryString["id"]);
         else if (ev.EventSurveyModel == "4")
             ep.ExportSurveyModel4(Request.QueryString["id"]);
+    }
+
+    protected void Button_SurveyView_Click(object sender, EventArgs e)
+    {
+        //si[0]=Survey ID
+        //si[1]=Survey Model
+        string[] si = ((Button)sender).CommandArgument.ToString().Split('_');
+
+        switch (si[1])
+        {
+            case "1":
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel1_View.aspx?id=" + si[0] + "',750,1000);", true);
+                break;
+            case "2":
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel2_View.aspx?id=" + si[0] + "',750,1000);", true);
+                break;
+            case "3":
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel3_View.aspx?id=" + si[0] + "',750,1000);", true);
+                break;
+            case "4":
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel4_View.aspx?id=" + si[0] + "',750,1000);", true);
+                break;
+            default:
+                Response.Redirect("/Event/MyEvent.aspx");
+                break;
+        }
     }
 
     protected void FIELD_Result_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -129,5 +131,35 @@ public partial class Event_Survey : System.Web.UI.Page
 
         this.FIELD_Result.DataSource = dt;
         this.FIELD_Result.DataBind();
+    }
+
+    [WebMethod]
+    public static string DeleteSurveyData(string id)
+    {
+        //刪除問卷資料
+        //si[0]=Survey ID
+        //si[1]=Survey Model
+        string[] si = id.Split('_');
+        string errormsg = "";
+        HttpContext.Current.Response.Write(HttpContext.Current.Request.QueryString["id"] + "--eventid<BR>");
+        HttpContext.Current.Response.Write(si[0] + "--surveyid<BR>");
+        HttpContext.Current.Response.Write(si[1] + "--model<BR>");
+        HttpContext.Current.Response.Write(HttpContext.Current.Session["EmpID"].ToString() + "--empid<BR>");
+        Survey sv = new Survey();
+        errormsg = sv.DeleteSurveyData(HttpContext.Current.Request.QueryString["id"], si[0], si[1], HttpContext.Current.Session["EmpID"].ToString());
+
+        if (!string.IsNullOrEmpty(errormsg))
+        {
+            //失敗
+            throw new Exception(errormsg);
+        }
+
+        return "Success";
+    }
+
+    protected void btnReloadSurveyData_Click(object sender, EventArgs e)
+    {
+        LoadDate();
+        QueryData();
     }
 }

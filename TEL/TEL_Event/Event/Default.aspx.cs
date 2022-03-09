@@ -134,6 +134,7 @@ public partial class Event_Default : System.Web.UI.Page
 
             Table tableContent = new Table();
             tableContent.CssClass = "tableContent";
+            tableContent.Width = Unit.Pixel(320);
 
             #region 活動圖
             //活動圖
@@ -166,6 +167,7 @@ public partial class Event_Default : System.Web.UI.Page
             #endregion
 
             #region 活動資訊
+
             //活動資訊的tr td
             TableRow trInfo = new TableRow();
             TableCell tdInfo = new TableCell();
@@ -344,7 +346,6 @@ public partial class Event_Default : System.Web.UI.Page
             tableInfoContent.Rows.Add(trButton);
             #endregion
 
-
             //把Content table 加到活動資訊 row
             tdInfo.Controls.Add(tableInfoContent);
             trInfo.Cells.Add(tdInfo);
@@ -352,8 +353,6 @@ public partial class Event_Default : System.Web.UI.Page
             //把活動資訊 row 加入 table
             tableContent.Rows.Add(trInfo);
             #endregion
-
-
 
             cell.Controls.Add(tableContent);
             row.Cells.Add(cell);

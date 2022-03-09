@@ -78,6 +78,64 @@ public partial class Event_Event_Edit : System.Web.UI.Page
         }
     }
 
+    protected void btnUploadThumbnail_Click(object sender, EventArgs e)
+    {
+        hfUploadType.Value = "Thumbnail";
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+    }
+
+    protected void btnUploadPicture_Click(object sender, EventArgs e)
+    {
+        hfUploadType.Value = "Picture";
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+    }
+
+    protected void btnImport_Click(object sender, EventArgs e)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        #region 圖片副檔名檢查
+        //縮圖
+        if (this.FileUploadThumbnail.HasFile)
+        {
+            string fileExtension = System.IO.Path.GetExtension(this.FileUploadThumbnail.FileName).ToLower();
+            bool fileExtensionIsValid = IsExtensionValid(fileExtension);
+
+            if (!fileExtensionIsValid)
+            {
+                sb.Append(hfUploadType.Value == "Thumbnail" ? lblThumbnail1.Text : lblPicture1.Text);
+                sb.Append(lblExtension.Text);
+            }
+            else
+            {
+                if (hfUploadType.Value == "Thumbnail")
+                {
+                    lblThumbnailName.Text = this.FileUploadThumbnail.FileName;
+                    Session["ThumbnailFileBytes"] = this.FileUploadThumbnail.FileBytes;
+                }
+
+                if (hfUploadType.Value == "Picture")
+                {
+                    lblPictureName.Text = this.FileUploadThumbnail.FileName;
+                    Session["ThumbnailPictureFileBytes"] = this.FileUploadThumbnail.FileBytes;
+                }
+            }
+        }
+
+        if (!string.IsNullOrEmpty(sb.ToString()))
+        {
+            lblMsg.Text = sb.ToString();
+
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
+
+
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+            return;
+        }
+        #endregion
+    }
+
     protected void btnNextStep_Click(object sender, EventArgs e)
     {
         StringBuilder sb = new StringBuilder();
@@ -140,46 +198,6 @@ public partial class Event_Event_Edit : System.Web.UI.Page
 
         if (!string.IsNullOrEmpty(sb.ToString()))
         {
-            lblMsg.Text = sb.ToString();
-
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
-
-            return;
-        }
-        #endregion
-
-        #region 圖片副檔名檢查
-        //縮圖
-        if (this.FileUploadThumbnail.HasFile)
-        {
-            string fileExtension = System.IO.Path.GetExtension(this.FileUploadThumbnail.FileName).ToLower();
-            bool fileExtensionIsValid = IsExtensionValid(fileExtension);
-
-            if (!fileExtensionIsValid)
-            {
-                sb.Append(lblThumbnail1.Text);
-            }
-        }
-
-        //大圖
-        if (this.FileUploadPicture.HasFile)
-        {
-            string fileExtension = System.IO.Path.GetExtension(this.FileUploadPicture.FileName).ToLower();
-            bool fileExtensionIsValid = IsExtensionValid(fileExtension);
-
-            if (!fileExtensionIsValid)
-            {
-                if (!string.IsNullOrEmpty(sb.ToString()))
-                    sb.Append("、");
-
-                sb.Append(lblPicture1.Text);
-            }
-        }
-
-        if (!string.IsNullOrEmpty(sb.ToString()))
-        {
-            sb.Append(lblExtension.Text);
-
             lblMsg.Text = sb.ToString();
 
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
@@ -299,41 +317,48 @@ public partial class Event_Event_Edit : System.Web.UI.Page
         //縮圖
         string ThumbnailFileID = string.Empty;
         string ThumbnailFileName = string.Empty;
-        if (this.FileUploadThumbnail.HasFile)
+        if (Session["ThumbnailFileBytes"] != null)
         {
-            string fileExtension = System.IO.Path.GetExtension(this.FileUploadThumbnail.FileName).ToLower();
+            ThumbnailFileName = lblThumbnailName.Text;
+            string fileExtension = System.IO.Path.GetExtension(ThumbnailFileName).ToLower();
 
             string path = ConfigurationManager.AppSettings.Get("EventThumbnailPath");
             if (string.IsNullOrEmpty(path))
                 path = "~/Event/EventThumbnail";
 
             ThumbnailFileID = $"{ Guid.NewGuid().ToString() }{ fileExtension }";
-            ThumbnailFileName = this.FileUploadThumbnail.PostedFile.FileName;
 
-
-            // Save the uploaded file to the server.
             path = Path.Combine(Server.MapPath(".." + path.Substring(1)), ThumbnailFileID);
-            this.FileUploadThumbnail.PostedFile.SaveAs(path);
+
+            byte[] bytes = (byte[])Session["ThumbnailFileBytes"];
+            File.WriteAllBytes(path, bytes);
 
         }
+
         EventsData.Add("image1", ThumbnailFileID);//活動縮圖
         EventsData.Add("image1_name", ThumbnailFileName);//活動縮圖
+
         //大圖
         string PictureFileID = string.Empty;
         string PictureFileName = string.Empty;
-        if (this.FileUploadPicture.HasFile)
+        if (Session["ThumbnailPictureFileBytes"] != null)
         {
-            string fileExtension = System.IO.Path.GetExtension(this.FileUploadPicture.FileName).ToLower();
+            PictureFileName = lblPictureName.Text;
+            string fileExtension = System.IO.Path.GetExtension(PictureFileName).ToLower();
+
             string path = ConfigurationManager.AppSettings.Get("EventThumbnailPath");
             if (string.IsNullOrEmpty(path))
                 path = "~/Event/EventThumbnail";
 
             PictureFileID = $"{ Guid.NewGuid().ToString() }{ fileExtension }";
-            PictureFileName = this.FileUploadPicture.PostedFile.FileName;
-            // Save the uploaded file to the server.
+
             path = Path.Combine(Server.MapPath(".." + path.Substring(1)), PictureFileID);
-            this.FileUploadPicture.PostedFile.SaveAs(path);
+
+            byte[] bytes = (byte[])Session["ThumbnailPictureFileBytes"];
+            File.WriteAllBytes(path, bytes);
+
         }
+
         EventsData.Add("image2", PictureFileID);//活動縮圖
         EventsData.Add("image2_name", PictureFileName);//活動縮圖
 
@@ -383,20 +408,6 @@ public partial class Event_Event_Edit : System.Web.UI.Page
     protected void btnCancel_Click(object sender, EventArgs e)
     {
         Response.Redirect("Event.aspx");
-    }
-
-    protected void btnThumbnail_Click(object sender, EventArgs e)
-    {
-        lblThumbnailName.Visible = false;
-        btnThumbnail.Visible = false;
-        FileUploadThumbnail.Visible = true;
-    }
-
-    protected void btnPicture_Click(object sender, EventArgs e)
-    {
-        lblPictureName.Visible = false;
-        btnPicture.Visible = false;
-        FileUploadPicture.Visible = true;
     }
 
     protected void btnDelete_Click(object sender, EventArgs e)
@@ -547,19 +558,12 @@ public partial class Event_Event_Edit : System.Web.UI.Page
             //FileUploadThumbnail.
             if (!string.IsNullOrEmpty(dt.Rows[0]["image1"].ToString()))
             {
-                lblThumbnailName.Visible = true;
                 lblThumbnailName.Text = dt.Rows[0]["image1_name"].ToString();
-                btnThumbnail.Visible = true;
-                FileUploadThumbnail.Visible = false;
             }
 
             if (!string.IsNullOrEmpty(dt.Rows[0]["image2"].ToString()))
             {
-                lblPictureName.Visible = true;
                 lblPictureName.Text = dt.Rows[0]["image2_name"].ToString();
-
-                btnPicture.Visible = true;
-                FileUploadPicture.Visible = false;
             }
 
             DataTable dtEventAdmin = ev.GetEventAdmin(id);

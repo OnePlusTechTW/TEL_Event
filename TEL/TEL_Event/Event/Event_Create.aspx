@@ -113,6 +113,30 @@
 
         };
 
+        //上傳副件開窗
+        function ShowDialogFileUpload(event, id) {
+            $(function () {
+                var dialog = $("#dialogFileUpload").dialog({
+                    title: "",
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel7").style.display = "block";
+                    },
+                    width: "450px",
+                    Height: "500px",
+                    position: { my: "center center", at: "center top+175", }
+                });
+                dialog.parent().appendTo(jQuery("form:first"));
+            });
+
+        };
+
         //是否刪除 訊息開窗
         function ShowDialogDelete(id) {
             $(function () {
@@ -345,26 +369,24 @@
         </tr>
         <tr>
             <td colspan="3">
-                <asp:Label ID="lblThumbnail" runat="server" Text="活動縮圖（限上傳jpg、jpeg、png、gif，尺寸為 360x240）"></asp:Label>
+                <asp:Label ID="lblThumbnail" runat="server" Text="活動縮圖（限上傳jpg、jpeg、png、gif，尺寸為 320x180）"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:Label ID="lblThumbnailName" runat="server" Text="" Visible="false"></asp:Label>
-                <asp:Button ID="btnThumbnail" runat="server" Text="修改" Visible="false" OnClick="btnThumbnail_Click" />
-                <asp:FileUpload ID="FileUploadThumbnail" runat="server" accept=".jpg,.jpeg,.png,.gif" CssClass="controlCommon" />
+                <asp:Label ID="lblThumbnailName" runat="server" ></asp:Label>
+                <asp:Button ID="btnUploadThumbnail" runat="server" Text="上傳檔案" CssClass="Button" OnClick="btnUploadThumbnail_Click" />
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:Label ID="lblPicture" runat="server" Text="活動大圖（限上傳jpg、jpeg、png、gif，尺寸為 600x400）"></asp:Label>
+                <asp:Label ID="lblPicture" runat="server" Text="活動大圖（限上傳jpg、jpeg、png、gif，尺寸為 640x360）"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="3">
-                <asp:Label ID="lblPictureName" runat="server" Text="" Visible="false"></asp:Label>
-                <asp:Button ID="btnPicture" runat="server" Text="修改" Visible="false" OnClick="btnPicture_Click" />
-                <asp:FileUpload ID="FileUploadPicture" runat="server" accept=".jpg,.jpeg,.png,.gif" CssClass="controlCommon" />
+                <asp:Label ID="lblPictureName" runat="server"  ></asp:Label>
+                <asp:Button ID="btnUploadPicture" runat="server" Text="上傳檔案" CssClass="Button" OnClick="btnUploadPicture_Click"  />
             </td>
         </tr>
         <tr>
@@ -402,6 +424,17 @@
         </asp:Panel>
     </div>
 
+    <div id="dialogFileUpload" title="Dialog Title">
+        <asp:Panel ID="ContentPanel7" runat="server" Style="display: none" >
+            <div>
+                <asp:FileUpload ID="FileUploadThumbnail" runat="server" accept=".jpg,.jpeg,.png,.gif" CssClass="controlCommon" />
+            </div>
+            <div style="margin-top: 20px;">
+                <asp:Button ID="btnImport" runat="server" Text="確定" CssClass="Button" OnClick="btnImport_Click" />
+            </div>
+        </asp:Panel>
+    </div>
+
     <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
     <asp:Label ID="lblThumbnail1" runat="server" Text="活動縮圖" Visible="false"></asp:Label>
     <asp:Label ID="lblPicture1" runat="server" Text="活動大圖" Visible="false"></asp:Label>
@@ -413,6 +446,7 @@
 
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
+    <asp:HiddenField ID="hfUploadType" runat="server" />
     <asp:Button ID="btnGoBackEventPage" runat="server" Text="" OnClick="btnGoBackEventPage_Click" Style="display: none;" />
 </asp:Content>
 

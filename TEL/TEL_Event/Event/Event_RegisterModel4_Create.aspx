@@ -6,11 +6,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
         $(function () {
-            //活動開始日期
+            //受診者出生年月日
             $('#<%= txtExamineebirthday.ClientID%>').prop("readonly", true).datepicker({
                 dateFormat: 'yy/mm/dd',
                 changeMonth: true,
-                changeYear: true
+                changeYear: true,
+                showMonthAfterYear: true,
+                yearRange: 'c-80:c'
             });
         });
         function ShowDialogMsg() {
@@ -46,15 +48,15 @@
                     buttons: {
                         Close: function () {
                             <%= btnGoBackPage.ClientID%>.click();
-                            $(this).dialog('close');
-                        }
-                    },
+                        $(this).dialog('close');
+                    }
+                },
                     open: function (event, ui) {
                         //打開dialog時，顯示panel
                         document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
                     }
                 });
-            });
+        });
 
         }
 
@@ -82,6 +84,18 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table>
+        <tr>
+            <td>
+                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon3.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="LABEL_PageName" runat="server" CssClass="PageTitle" Text="馬上報名"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px"></tr>
+    </table>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
@@ -150,9 +164,9 @@
                 <tr>
                     <td>
                         <asp:DropDownList ID="ddlIdentity" runat="server" CssClass="QueryField" Width="100%">
-                            <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
-                            <asp:ListItem>社員</asp:ListItem>
-                            <asp:ListItem>家屬</asp:ListItem>
+                             <asp:ListItem Value="">- 未指定 -</asp:ListItem>
+                            <asp:ListItem Value="社員">社員</asp:ListItem>
+                            <asp:ListItem Value="家屬">家屬</asp:ListItem>
                         </asp:DropDownList>
                     </td>
                     <td>
@@ -349,6 +363,7 @@
             </div>
 
             <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
+            <asp:Label ID="lblFormatError" runat="server" Text="欄位 {0} 格式錯誤。" Visible="false"></asp:Label>
             <asp:Label ID="lblUnselect" runat="server" Text="- 未指定 -" Visible="false"></asp:Label>
             <asp:Label ID="lblLimitReached" runat="server" Text="此方案報名人數已達上限，請重新選擇其他方案" Visible="false"></asp:Label>
             <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>

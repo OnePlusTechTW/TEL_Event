@@ -74,6 +74,18 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table>
+        <tr>
+            <td>
+                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon3.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="LABEL_PageName" runat="server" CssClass="PageTitle" Text="馬上報名"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px"></tr>
+    </table>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table>
         <tr>
@@ -122,12 +134,12 @@
         <tr>
             <td>
                 <asp:DropDownList ID="ddlArea" runat="server" CssClass="QueryField" Width="100%" AutoPostBack="true" OnSelectedIndexChanged="ddlArea_SelectedIndexChanged">
-                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
+                    <asp:ListItem Selected="True" Value="">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td>
                 <asp:DropDownList ID="ddlAvaliabledate" runat="server" CssClass="QueryField" Enabled="false" Width="100%">
-                    <asp:ListItem Selected="True">- 未指定 -</asp:ListItem>
+                    <asp:ListItem Selected="True" Value="">- 未指定 -</asp:ListItem>
                 </asp:DropDownList>
             </td>
             <td colspan="3"></td>

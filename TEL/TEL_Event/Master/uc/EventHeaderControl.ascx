@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="EventHeaderControl.ascx.cs" Inherits="Master_uc_EventHeaderControl"%>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="EventHeaderControl.ascx.cs" Inherits="Master_uc_EventHeaderControl" %>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <style type="text/css">
@@ -32,8 +32,8 @@
                         <asp:Menu ID="FIELD_MenuBar" runat="server" ForeColor="black" Font-Bold="true"
                             Orientation="Horizontal" StaticEnableDefaultPopOutImage="False" CssClass="MenuBarStyle">
                             <DynamicHoverStyle ForeColor="#FF8000" BackColor="Black" />
-                            <DynamicMenuItemStyle Width="120px" Height="30px" Font-Names="Microsoft JhengHei, Georgia" Font-Size="16px"  />
-                            <DynamicMenuStyle VerticalPadding="5px" BackColor="#ECECEC" Width="120px" CssClass="MenuBackGround" BorderColor="white" BorderStyle="Solid" BorderWidth="1px" />
+                            <DynamicMenuItemStyle Width="160px" Height="30px" Font-Names="Microsoft JhengHei, Georgia" Font-Size="16px"  />
+                            <DynamicMenuStyle VerticalPadding="5px" BackColor="#ECECEC" Width="160px" CssClass="MenuBackGround" BorderColor="white" BorderStyle="Solid" BorderWidth="1px" />
                             <Items>
                                 <asp:MenuItem ImageUrl="~/Master/images/MENU.png" Text="" Value="" meta:resourcekey="MenuItemResource4">
                                     <asp:MenuItem Text="首頁" Value="首頁" ImageUrl="~/Master/images/Link_Home.png" NavigateUrl="/Event/Default.aspx" meta:resourcekey="Link_Home"></asp:MenuItem>

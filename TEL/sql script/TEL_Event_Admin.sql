@@ -1,7 +1,18 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  Table [dbo].[TEL_Event_Admin]    Script Date: 2022/1/19 下午 01:41:05 ******/
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Admin', @level2type=N'COLUMN',@level2name=N'modifiedby'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Admin', @level2type=N'COLUMN',@level2name=N'empid'
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_Admin]    Script Date: 2022/3/9 下午 11:05:43 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEL_Event_Admin]') AND type in (N'U'))
+DROP TABLE [dbo].[TEL_Event_Admin]
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_Admin]    Script Date: 2022/3/9 下午 11:05:43 ******/
 SET ANSI_NULLS ON
 GO
 

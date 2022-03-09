@@ -17,6 +17,9 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
         if (!IsPostBack)
         {
             SetDefaultGridView();
+
+            this.lblPageImage.ImageUrl = "~/Master/images/icon2.png";
+            this.lblPageName.Text = "編輯活動";
         }
     }
 
@@ -48,24 +51,35 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
             string eventid = string.Empty;
             eventid = Request.QueryString["id"];
             Event ev = new Event();
-            if (!string.IsNullOrEmpty(eventid))
-            {
-                string result = ev.AddRegisterOption1(eventid, content, limit, Page.Session["EmpID"].ToString());
 
-                if (string.IsNullOrEmpty(result))
+            DataTable dt = ev.GetRegisterOption1(eventid, content);
+
+            if (dt.Rows.Count > 0)
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('欲參加的內容 已存在');", true);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(eventid))
                 {
-                    SetDefaultGridView();
-                }
-                else
-                {
-                    //新增失敗
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    string result = ev.AddRegisterOption1(eventid, content, limit, Page.Session["EmpID"].ToString());
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        SetDefaultGridView();
+                        this.txtContent.Text = "";
+                        this.txtLimit.Text = "";
+                    }
+                    else
+                    {
+                        //新增失敗
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    }
                 }
             }
         }
     }
     
-
     protected void btnReloadGridView_Click(object sender, EventArgs e)
     {
         SetDefaultGridView();
@@ -93,18 +107,30 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
             string eventid = string.Empty;
             eventid = Request.QueryString["id"];
             Event ev = new Event();
-            if (!string.IsNullOrEmpty(eventid))
-            {
-                string result = ev.AddTransportation(eventid, transportation, Page.Session["EmpID"].ToString());
 
-                if (string.IsNullOrEmpty(result))
+            DataTable dt = ev.GetTransportation1(eventid, transportation);
+
+            if (dt.Rows.Count > 0)
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('交通車 已存在');", true);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(eventid))
                 {
-                    SetDefaultGridView();
-                }
-                else
-                {
-                    //新增失敗
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    string result = ev.AddTransportation(eventid, transportation, Page.Session["EmpID"].ToString());
+
+                    if (string.IsNullOrEmpty(result))
+
+                    {
+                        SetDefaultGridView();
+                        this.txtTransportation.Text = "";
+                    }
+                    else
+                    {
+                        //新增失敗
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    }
                 }
             }
         }
@@ -131,18 +157,29 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
             string eventid = string.Empty;
             eventid = Request.QueryString["id"];
             Event ev = new Event();
-            if (!string.IsNullOrEmpty(eventid))
-            {
-                string result = ev.AddMeal(eventid, meal, Page.Session["EmpID"].ToString());
 
-                if (string.IsNullOrEmpty(result))
+            DataTable dt = ev.GetMeal1(eventid, meal);
+
+            if (dt.Rows.Count > 0)
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('餐點內容 已存在');", true);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(eventid))
                 {
-                    SetDefaultGridView();
-                }
-                else
-                {
-                    //新增失敗
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    string result = ev.AddMeal(eventid, meal, Page.Session["EmpID"].ToString());
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        SetDefaultGridView();
+                        this.txtMeal.Text = "";
+                    }
+                    else
+                    {
+                        //新增失敗
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    }
                 }
             }
         }

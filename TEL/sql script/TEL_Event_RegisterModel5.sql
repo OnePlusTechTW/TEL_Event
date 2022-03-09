@@ -1,7 +1,60 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  Table [dbo].[TEL_Event_RegisterModel5]    Script Date: 2022/1/19 下午 01:44:00 ******/
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'modifieddate'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'modifiedby'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'feedback'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'description3'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment3_name'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment3'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'description2'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment2_name'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment2'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'description1'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment1_name'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment1'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'registerdate'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'empid'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'eventid'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'id'
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_RegisterModel5]    Script Date: 2022/3/9 下午 11:08:31 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEL_Event_RegisterModel5]') AND type in (N'U'))
+DROP TABLE [dbo].[TEL_Event_RegisterModel5]
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_RegisterModel5]    Script Date: 2022/3/9 下午 11:08:31 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -14,10 +67,13 @@ CREATE TABLE [dbo].[TEL_Event_RegisterModel5](
 	[empid] [nvarchar](64) NOT NULL,
 	[registerdate] [datetime] NOT NULL,
 	[attachment1] [nvarchar](256) NOT NULL,
+	[attachment1_name] [nvarchar](256) NOT NULL,
 	[description1] [nvarchar](512) NULL,
 	[attachment2] [nvarchar](256) NULL,
+	[attachment2_name] [nvarchar](256) NULL,
 	[description2] [nvarchar](512) NULL,
 	[attachment3] [nvarchar](256) NULL,
+	[attachment3_name] [nvarchar](256) NULL,
 	[description3] [nvarchar](512) NULL,
 	[feedback] [nvarchar](max) NULL,
 	[modifiedby] [nvarchar](64) NOT NULL,
@@ -44,16 +100,25 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件1' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment1'
 GO
 
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件1檔名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment1_name'
+GO
+
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件1之說明' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'description1'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件2' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment2'
 GO
 
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件2檔名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment2_name'
+GO
+
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件2之說明' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'description2'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件3' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment3'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件3檔名' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'attachment3_name'
 GO
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'上傳附件3之說明' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterModel5', @level2type=N'COLUMN',@level2name=N'description3'

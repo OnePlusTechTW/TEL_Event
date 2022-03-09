@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,14 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
     {
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             Response.Redirect("Default.aspx");
+
+        bool mealEnable = false;
+        if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings.Get("RegisterModel4MealEnable")))
+        {
+            mealEnable = Convert.ToBoolean(ConfigurationManager.AppSettings.Get("RegisterModel4MealEnable"));
+        }
+        lblMeal.Visible = mealEnable;
+        ddlMeal.Visible = mealEnable;
 
         if (!IsPostBack)
             SetDefaultValues();
@@ -37,6 +46,8 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
     protected void btnSummit_Click(object sender, EventArgs e)
     {
         StringBuilder sb = new StringBuilder();
+        CheckFormat cf = new CheckFormat();
+        
         //受診者身份別 必填
         if (string.IsNullOrEmpty(ddlIdentity.SelectedValue))
         {
@@ -51,11 +62,20 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             sb.AppendLine("<br />");
         }
 
-        //受診者身分證字號 必填
+        //受診者居留證字號 必填
         if (string.IsNullOrEmpty(txtExamineeidno.Text))
         {
             sb.AppendLine(string.Format(lblRequired.Text, lblExamineeidno.Text));
             sb.AppendLine("<br />");
+        }
+        else
+        {
+            //受診者居留證字號 格式
+            if (!cf.CheckIdnoNew(txtExamineeidno.Text))
+            {
+                sb.AppendLine(string.Format(lblFormatError.Text, lblExamineeidno.Text));
+                sb.AppendLine("<br />");
+            }
         }
 
         //受診者出生年月日 必填
@@ -70,6 +90,15 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         {
             sb.AppendLine(string.Format(lblRequired.Text, lblExamineemobile.Text));
             sb.AppendLine("<br />");
+        }
+        else
+        {
+            //受診者手機 格式檢查
+            if (!cf.CheckMobile(txtExamineemobile.Text))
+            {
+                sb.AppendLine(string.Format(lblFormatError.Text, lblExamineemobile.Text));
+                sb.AppendLine("<br />");
+            }
         }
 
         //健檢醫院 必填
@@ -114,6 +143,16 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
             sb.AppendLine("<br />");
         }
 
+        //期望受檢日不可與備用受檢日相同
+        if (!string.IsNullOrEmpty(ddlExpectdate.SelectedValue) && !string.IsNullOrEmpty(ddlSeconddate.SelectedValue))
+        {
+            if (ddlExpectdate.SelectedValue == ddlSeconddate.SelectedValue)
+            {
+                sb.AppendLine("期望受檢日不可與備用受檢日相同");
+                sb.AppendLine("<br />");
+            }
+        }
+
         //健檢次方案1 必填
         if (string.IsNullOrEmpty(ddlSecondsolution1.SelectedValue))
         {
@@ -145,16 +184,6 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         if (!string.IsNullOrEmpty(sb.ToString()))
         {
             lblMsg.Text = sb.ToString();
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
-
-            return;
-        }
-
-        bool flag = Regex.IsMatch(txtExamineeidno.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
-
-        if (!flag)
-        {
-            lblMsg.Text = lblIDFormatErr.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
 
             return;
@@ -289,6 +318,10 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         li.Value = string.Empty;
         li.Selected = true;
 
+        this.ddlArea.Items.Clear();
+        this.ddlArea.Enabled = false;
+        this.ddlArea.Items.Add(li);
+
         this.ddlSolution.Items.Clear();
         this.ddlSolution.Enabled = false;
         this.ddlSolution.Items.Add(li);
@@ -319,10 +352,52 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
         string eventid = Request.QueryString["eventid"];
 
-        BindddlArea(eventid, ddlHosipital.SelectedValue);
+        if (!string.IsNullOrEmpty(ddlHosipital.SelectedValue))
+            BindddlArea(eventid, ddlHosipital.SelectedValue);
     }
 
     protected void ddlArea_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ListItem li = new ListItem();
+        li.Text = lblUnselect.Text;
+        li.Value = string.Empty;
+        li.Selected = true;
+
+        this.ddlSolution.Items.Clear();
+        this.ddlSolution.Enabled = false;
+        this.ddlSolution.Items.Add(li);
+
+        this.ddlGender.Items.Clear();
+        this.ddlGender.Enabled = false;
+        this.ddlGender.Items.Add(li);
+
+        this.ddlExpectdate.Items.Clear();
+        this.ddlExpectdate.Enabled = false;
+        this.ddlExpectdate.Items.Add(li);
+
+        this.ddlSeconddate.Items.Clear();
+        this.ddlSeconddate.Enabled = false;
+        this.ddlSeconddate.Items.Add(li);
+
+        this.ddlSecondsolution1.Items.Clear();
+        this.ddlSecondsolution1.Enabled = false;
+        this.ddlSecondsolution1.Items.Add(li);
+
+        this.ddlSecondsolution2.Items.Clear();
+        this.ddlSecondsolution2.Enabled = false;
+        this.ddlSecondsolution2.Items.Add(li);
+
+        this.ddlSecondsolution3.Items.Clear();
+        this.ddlSecondsolution3.Enabled = false;
+        this.ddlSecondsolution3.Items.Add(li);
+
+        string eventid = Request.QueryString["eventid"];
+
+        if (!string.IsNullOrEmpty(ddlArea.SelectedValue))
+            BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
+    }
+
+    protected void ddlSolution_SelectedIndexChanged(object sender, EventArgs e)
     {
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
@@ -355,10 +430,11 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
 
         string eventid = Request.QueryString["eventid"];
 
-        BindddlSolution(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue);
+        if (!string.IsNullOrEmpty(ddlSolution.SelectedValue))
+            BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
     }
 
-    protected void ddlSolution_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlGender_SelectedIndexChanged(object sender, EventArgs e)
     {
         ListItem li = new ListItem();
         li.Text = lblUnselect.Text;
@@ -386,16 +462,9 @@ public partial class Event_Event_RegisterModel4_Edit : System.Web.UI.Page
         this.ddlSecondsolution3.Items.Add(li);
 
         string eventid = Request.QueryString["eventid"];
-        BindddlGender(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue);
-    }
 
-    protected void ddlGender_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        string eventid = Request.QueryString["eventid"];
-
-        //受診者性別
-        BindOrderHealthGroupDLL(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
-
+        if (!string.IsNullOrEmpty(ddlGender.SelectedValue))
+            BindOrderHealthGroupDLL(eventid, ddlHosipital.SelectedValue, ddlArea.SelectedValue, ddlSolution.SelectedValue, ddlGender.SelectedValue);
     }
 
     protected void rblAddress_SelectedIndexChanged(object sender, EventArgs e)

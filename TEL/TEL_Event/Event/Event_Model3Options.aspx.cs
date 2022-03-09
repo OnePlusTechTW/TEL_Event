@@ -21,6 +21,9 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
         if (!IsPostBack)
         {
             SetDefaultGridView();
+
+            this.lblPageImage.ImageUrl = "~/Master/images/icon2.png";
+            this.lblPageName.Text = "編輯活動";
         }
     }
 
@@ -36,40 +39,42 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
         {
             if (FileUpload1.HasFile)
             {
-
                 List<ImportModel> list = new List<ImportModel>();
                 list = ExcelToList();
 
-                //寫入DB
-                Event ev = new Event();
-                string eventid = string.Empty;
-                eventid = Request.QueryString["id"];
-                string result = ev.AddUserHealthSolutions(eventid, list, Page.Session["EmpID"].ToString());
-
-                StringBuilder sb = new StringBuilder();
-                if (string.IsNullOrEmpty(result))
+                if (list.Count > 0)
                 {
-                    //成功
-                    tbImportMsg.Text = lblImportSuccess.Text;
-                    SetDefaultGridView();
-                }
-                else
-                {
-                    //失敗
-                    sb.Append(lblImportFailed.Text);
-                    sb.AppendLine();
-                    sb.AppendLine();
-                    sb.Append(lblImportFailedMsg.Text);
-                    sb.AppendLine();
-                    sb.Append(result);
+                    //寫入DB
+                    Event ev = new Event();
+                    string eventid = string.Empty;
+                    eventid = Request.QueryString["id"];
+                    string result = ev.AddUserHealthSolutions(eventid, list, Page.Session["EmpID"].ToString());
+
+                    StringBuilder sb = new StringBuilder();
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        //成功
+                        tbImportMsg.Text = lblImportSuccess.Text;
+                        SetDefaultGridView();
+                    }
+                    else
+                    {
+                        //失敗
+                        sb.Append(lblImportFailed.Text);
+                        sb.AppendLine();
+                        sb.AppendLine();
+                        sb.Append(lblImportFailedMsg.Text);
+                        sb.AppendLine();
+                        sb.Append(result);
 
 
-                    tbImportMsg.Text = sb.ToString();
+                        tbImportMsg.Text = sb.ToString();
+                    }
                 }
 
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
             }
-
         }
         catch (Exception ex)
         {
@@ -98,18 +103,29 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
             string eventid = string.Empty;
             eventid = Request.QueryString["id"];
             Event ev = new Event();
-            if (!string.IsNullOrEmpty(eventid))
-            {
-                string result = ev.AddSendArea(eventid, sendArea, Page.Session["EmpID"].ToString());
 
-                if (string.IsNullOrEmpty(result))
+            DataTable dt = ev.GetSendArea1(eventid, sendArea);
+
+            if (dt.Rows.Count > 0)
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('健檢包寄送地點 已存在');", true);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(eventid))
                 {
-                    SetDefaultGridView();
-                }
-                else
-                {
-                    //新增失敗
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    string result = ev.AddSendArea(eventid, sendArea, Page.Session["EmpID"].ToString());
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        SetDefaultGridView();
+                        this.txtSendArea.Text = "";
+                    }
+                    else
+                    {
+                        //新增失敗
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    }
                 }
             }
         }
@@ -207,33 +223,128 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
                 dt.Columns.Add(new DataColumn(obj.ToString()));
             columns.Add(i);
         }
+
         //資料  
+        List<int> duplicateList = new List<int>();
+        List<int> losedataList = new List<int>();
+        List<string> WrongformatList = new List<string>();
+
         for (int i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
         {
             ImportModel group = new ImportModel();
             DataRow dr = dt.NewRow();
-            bool hasValue = false;
+            bool hasValue = true;
+
             foreach (int j in columns)
             {
                 dr[j] = GetValueType(sheet.GetRow(i).GetCell(j));
-                if (dr[j] != null && dr[j].ToString() != string.Empty)
+                if (dr[j] == null || dr[j].ToString() == string.Empty)
                 {
-                    hasValue = true;
+                    hasValue = false;
                 }
             }
+
             if (hasValue)
             {
+                DataRow[] rows = dt.Select($@"醫院='{dr["醫院"].ToString()}' AND 地區='{dr["地區"].ToString()}' 
+                                          AND 費用方案='{dr["費用方案"].ToString()}' AND 性別='{dr["性別"].ToString()}' 
+                                          AND 次方案1='{dr["次方案1"].ToString()}' AND 次方案2='{dr["次方案2"].ToString()}' 
+                                          AND 次方案3='{dr["次方案3"].ToString()}' AND 日期='{dr["日期"].ToString()}' ");
+
+                if (rows.Count() > 0)
+                    duplicateList.Add(i + 1);
+                else
+                {
+                    DateTime importdate;
+                    int importlimit;
+
+                    if(!DateTime.TryParse(dr["日期"].ToString(),out importdate))
+                        WrongformatList.Add("資料列 " + (i+1).ToString() + " 的日期格式有誤");
+
+                    if (!int.TryParse(dr["人數上限"].ToString(), out importlimit))
+                        WrongformatList.Add("資料列 " + (i + 1).ToString() + " 的人數上限格式有誤");
+                }
+
                 dt.Rows.Add(dr);
+            }
+            else
+            {
+                losedataList.Add(i + 1);
             }
         }
 
         List<ImportModel> list = new List<ImportModel>();
+                
+        if (losedataList.Count > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string rowsList = string.Empty;
+            foreach (int row in losedataList)
+            {
+                rowsList += row.ToString() + ",";
+            }
+
+            //失敗
+            sb.Append(lblImportFailed.Text);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(string.Format(lblLoseData.Text, rowsList.Substring(0, rowsList.Length - 1)));
+            sb.AppendLine();
+
+            tbImportMsg.Text = sb.ToString();
+
+            return list;
+        }
+        else if (WrongformatList.Count > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string rowsList = string.Empty;
+            foreach (string row in WrongformatList)
+            {
+                rowsList += row.ToString() + "\n";
+            }
+
+            //失敗
+            sb.Append(lblImportFailed.Text);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(rowsList);
+            sb.AppendLine();
+
+            tbImportMsg.Text = sb.ToString();
+
+            return list;
+        }
+        else if (duplicateList.Count > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string rowsList = string.Empty;
+            foreach (int row in duplicateList)
+            {
+                rowsList += row.ToString() + ",";
+            }
+
+            //失敗
+            sb.Append(lblImportFailed.Text);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(string.Format(lblDuplicate.Text, rowsList.Substring(0, rowsList.Length - 1)));
+            sb.AppendLine();
+
+            tbImportMsg.Text = sb.ToString();
+
+            return list;
+        }
+
         list = (from DataRow dr in dt.Rows
                 select new ImportModel()
                 {
                     hosipital = dr["醫院"].ToString(),
                     area = dr["地區"].ToString(),
-                    description = dr["費用&方案"].ToString(),
+                    description = dr["費用方案"].ToString(),
                     gender = dr["性別"].ToString(),
                     secondoption1 = dr["次方案1"].ToString(),
                     secondoption2 = dr["次方案2"].ToString(),
@@ -241,7 +352,6 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
                     avaliabledate = Convert.ToDateTime(dr["日期"].ToString()).ToString("yyyy/MM/dd 00:00:00"),
                     limit = dr["人數上限"].ToString()
                 }).ToList();
-
 
         return list;
     }

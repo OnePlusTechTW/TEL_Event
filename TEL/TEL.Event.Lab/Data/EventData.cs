@@ -33,20 +33,21 @@ namespace TEL.Event.Lab.Data
                           a.surveystartdate,a.surveymodel,b.id AS registerid, d.id AS surveyid, 
 						  CAST(a.id AS varchar(40))+'_'+a.registermodel+'_'+CAST(b.id AS varchar(40)) AS registerinfo,
                           CAST(a.id AS varchar(40))+'_'+a.surveymodel+'_'+ISNULL(CAST(d.id AS varchar(40)),'') AS surveyinfo,
-						  CASE WHEN a.eventstart>getdate() THEN '尚未開始' WHEN a.eventend<getdate() THEN '已結束' ELSE '進行中' END AS status
+						  CASE WHEN a.eventstart>getdate() THEN '尚未開始' WHEN dateadd(d,1,a.eventend) <getdate() THEN '已結束' ELSE '進行中' END AS status, 
+                          REPLACE(CONVERT(VARCHAR, b.registerdate,120),'-','/') as registerdate 
                           FROM TEL_Event_Events a
                           INNER JOIN 
-                          (SELECT id,eventid,empid FROM TEL_Event_RegisterModel1
+                          (SELECT id,eventid,empid,registerdate FROM TEL_Event_RegisterModel1
                            UNION
-                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel2
+                           SELECT id,eventid,empid,registerdate FROM TEL_Event_RegisterModel2
                            UNION
-                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel3
+                           SELECT id,eventid,empid,registerdate FROM TEL_Event_RegisterModel3
                            UNION
-                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel4
+                           SELECT id,eventid,empid,registerdate FROM TEL_Event_RegisterModel4
                            UNION
-                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel5
+                           SELECT id,eventid,empid,registerdate FROM TEL_Event_RegisterModel5
                            UNION
-                           SELECT id,eventid,empid FROM TEL_Event_RegisterModel6) b ON a.id=b.eventid
+                           SELECT id,eventid,empid,registerdate FROM TEL_Event_RegisterModel6) b ON a.id=b.eventid
                           INNER JOIN TEL_Event_Category c ON a.categoryid=c.id
                           LEFT JOIN 
                           (SELECT id,eventid,empid FROM TEL_Event_SurveyModel1
@@ -176,7 +177,7 @@ namespace TEL.Event.Lab.Data
         }
 
         //取得活動資訊
-        public DataTable QueryEventInfo(string eventid = "", string eventname = "", string eventcateid = "", string eventSdate = "", string eventEdate="", string status = "", string enabled = "", int isManager = 0, string empid = "")
+        public DataTable QueryEventInfo(string eventid = "", string eventname = "", string eventcateid = "", string eventSdate = "", string eventEdate = "", string status = "", string enabled = "", int isManager = 0, string empid = "")
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
@@ -396,7 +397,7 @@ namespace TEL.Event.Lab.Data
             return "";
         }
 
-        
+
 
         /// <summary>
         /// 查詢已報名活動資訊
@@ -474,7 +475,7 @@ namespace TEL.Event.Lab.Data
 
             return result;
         }
-        
+
         //取得活動報名人數
         public String QueryEvnetRegisterCount(string eventid, string registermodel)
         {
@@ -527,7 +528,7 @@ namespace TEL.Event.Lab.Data
             return result.Rows[0]["count"].ToString();
         }
 
-        
+
 
         /// <summary>
         /// 取得活動報名 by empid
@@ -693,9 +694,10 @@ namespace TEL.Event.Lab.Data
 							a.id IN (SELECT eventid FROM [TEL_Event_Permission_Empid]
 									WHERE [empid] = @empid
 									UNION
-									SELECT eventid FROM [TEL_Event_Permission_MailGroup]
-									WHERE [mailgroupName] in (@mailgroup))
-						)
+									SELECT eventid FROM [TEL_Event_Permission_MailGroup] a
+                                    INNER JOIN MailGroup b on a.mailgroupName=b.Name
+								    WHERE b.[empid] = @empid )
+						) 
                         ";
 
             if (!string.IsNullOrEmpty(eventname))
@@ -708,7 +710,7 @@ namespace TEL.Event.Lab.Data
                 sqlString += @" AND a.categoryid = @eventcateid ";
             }
 
-            sqlString += @" ORDER BY  a.eventstart";
+            sqlString += @" ORDER BY  a.registerstart";
 
             DataTable result = null;
 
@@ -723,21 +725,11 @@ namespace TEL.Event.Lab.Data
 
                 wrDad.SelectCommand.Parameters.AddWithValue("@empid", empid);
 
-                StringBuilder sb = new StringBuilder();
-                foreach (DataRow dr in dtUserMailGroupd.Rows)
-                {
-                    sb.Append(dr["Name"].ToString() + ",");
-                }
-
-                wrDad.SelectCommand.Parameters.AddWithValue("@mailgroup", sb.ToString().TrimEnd(','));
-
                 if (!string.IsNullOrEmpty(eventname))
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventname", eventname);
 
                 if (!string.IsNullOrEmpty(eventcateid))
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventcateid", eventcateid);
-
-                
 
                 wrDad.Fill(DS, "T");
                 result = DS.Tables["T"];
@@ -855,7 +847,7 @@ namespace TEL.Event.Lab.Data
                 else
                     commandEvents.Parameters.AddWithValue("@image2", eventsData["image2"]);
 
-                
+
                 if (string.IsNullOrEmpty(eventsData["image2_name"]))
                     commandEvents.Parameters.AddWithValue("@image2_name", System.DBNull.Value);
                 else
@@ -945,6 +937,7 @@ namespace TEL.Event.Lab.Data
                         commandPermissionMailGroup.ExecuteNonQuery();
                     }
                 }
+
                 //新增活動權限 by mailgroupother
                 if (!string.IsNullOrEmpty(eventsData["mailgroupother"]))
                 {
@@ -977,11 +970,6 @@ namespace TEL.Event.Lab.Data
                 transaction.Commit();
             }
             catch (SqlException ex)
-            {
-                transaction.Rollback();
-                return ex.ToString();
-            }
-            catch (Exception ex)
             {
                 transaction.Rollback();
                 return ex.ToString();
@@ -1449,6 +1437,69 @@ namespace TEL.Event.Lab.Data
         }
 
         /// <summary>
+        /// 查詢報名表選項（欲參加內容是否存在）
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterOption1(string eventid, string name)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[description]
+                            ,[limit]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [TEL_Event_RegisterOption1] 
+                        WHERE [id]=[id] ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @"AND  [eventid] = @eventid ";
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                sqlStr += @"AND [description]=@description ";
+            }
+
+            sqlStr += @"ORDER BY [description]";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@description", name);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 查詢報名表選項（欲參加內容）限制人數
         /// </summary>
         /// <param name="id"></param>
@@ -1576,8 +1627,6 @@ namespace TEL.Event.Lab.Data
 
         }
 
-
-
         /// <summary>
         /// 查詢報名表選項（交通車）
         /// </summary>
@@ -1622,6 +1671,68 @@ namespace TEL.Event.Lab.Data
                 if (!string.IsNullOrEmpty(eventid))
                 {
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 查詢報名表選項（交通車是否存在）
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="transportation"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterOption2(string eventid, string transportation)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[description]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [TEL_Event_RegisterOption2] 
+                        WHERE [id]=[id] ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @"AND [eventid] = @eventid ";
+            }
+
+            if (!string.IsNullOrEmpty(transportation))
+            {
+                sqlStr += @"AND [description] = @description ";
+            }
+
+            sqlStr += @"ORDER BY [description]";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                if (!string.IsNullOrEmpty(transportation))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@description", transportation);
                 }
 
                 wrDad.Fill(DS, "T");
@@ -1766,6 +1877,68 @@ namespace TEL.Event.Lab.Data
                 if (!string.IsNullOrEmpty(eventid))
                 {
                     wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得餐點內容列表 (餐點內容是否已存在)
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="meal"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterOption3(string eventid, string meal)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[description]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [TEL_Event_RegisterOption3] 
+                        WHERE [id]=[id] ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @"AND [eventid] = @eventid ";
+            }
+
+            if (!string.IsNullOrEmpty(meal))
+            {
+                sqlStr += @"AND [description] = @description ";
+            }
+
+            sqlStr += @"ORDER BY [description]";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                if (!string.IsNullOrEmpty(meal))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@description", meal);
                 }
 
                 wrDad.Fill(DS, "T");
@@ -2118,6 +2291,68 @@ namespace TEL.Event.Lab.Data
         }
 
         /// <summary>
+        /// 查詢健檢包寄送地點 (健檢包寄送地點是否已存在)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="sendArea"></param>
+        /// <returns></returns>
+        internal DataTable QueryRegisterOption5(string eventid, string sendArea)
+        {
+            string connStr = GetConnectionString();
+            string sqlStr = "";
+
+            sqlStr = @"
+                        SELECT 
+                            [id]
+                            ,[eventid]
+                            ,[description]
+                            ,[modifiedby]
+                            ,[modifieddate]
+                        FROM 
+                            [TEL_Event_RegisterOption5] 
+                        WHERE [id]=[id] ";
+
+            if (!string.IsNullOrEmpty(eventid))
+            {
+                sqlStr += @"AND [eventid] = @eventid ";
+            }
+
+            if (!string.IsNullOrEmpty(sendArea))
+            {
+                sqlStr += @"AND [description] = @description ";
+            }
+
+            sqlStr += @"ORDER BY [description] ";
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlStr, connection);
+
+                if (!string.IsNullOrEmpty(eventid))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                }
+
+                if (!string.IsNullOrEmpty(sendArea))
+                {
+                    wrDad.SelectCommand.Parameters.AddWithValue("@description", sendArea);
+                }
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 查詢健檢方案
         /// </summary>
         /// <param name="name"></param>
@@ -2341,7 +2576,7 @@ namespace TEL.Event.Lab.Data
                             AND
                                 id != @registerid ";
             }
-            
+
 
 
             DataTable result = null;
@@ -2427,7 +2662,7 @@ namespace TEL.Event.Lab.Data
             }
             catch (Exception ex)
             {
-                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}" ;
+                return $"ErrorMsg：{ex.Message}{Environment.NewLine}ErrorStackTrace：{ex.StackTrace}";
             }
 
             return "";
@@ -2579,6 +2814,121 @@ namespace TEL.Event.Lab.Data
         #endregion
 
         #region RegisterModel2
+
+        /// <summary>
+        /// 取得 欲參加的內容 在RegisterModel2 已報名的人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="optionid"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        public int QueryOption1RegisterCountByRegisterModel2(string eventid, string optionid, string registerid)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            sqlString = @"
+                            SELECT 
+                                COUNT(selectedoption) AS count 
+                            FROM 
+                                TEL_Event_RegisterModel2
+                            WHERE 
+                                eventid = @eventid
+                            AND
+                                selectedoption = @optionid";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlString += @"
+                            AND
+                                id != @registerid ";
+            }
+
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@optionid", optionid);
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return Convert.ToInt16(result.Rows[0]["count"].ToString());
+        }
+
+        /// <summary>
+        /// 取得 欲參加的內容 在 RegisterModel2family 已報名的人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="optionid"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        public int QueryOption1RegisterCountByRegisterModel2family(string eventid, string optionid, string registerid)
+        {
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
+
+            sqlString = @"
+                            SELECT 
+                                COUNT(selectedoption) AS count 
+                            FROM 
+                                TEL_Event_RegisterModel2 a
+                            LEFT JOIN 
+                                TEL_Event_RegisterModel2family b on a.id = b.registerid
+                            WHERE 
+                                a.eventid = @eventid
+                            AND
+                                a.selectedoption = @optionid";
+
+            if (!string.IsNullOrEmpty(registerid))
+            {
+                sqlString += @"
+                            AND
+                                a.id != @registerid ";
+            }
+
+
+
+            DataTable result = null;
+
+            using (SqlConnection connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+
+                SqlDataAdapter wrDad = new SqlDataAdapter();
+                DataSet DS = new DataSet();
+
+                wrDad.SelectCommand = new SqlCommand(sqlString, connection);
+                wrDad.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                wrDad.SelectCommand.Parameters.AddWithValue("@optionid", optionid);
+
+                if (!string.IsNullOrEmpty(registerid))
+                    wrDad.SelectCommand.Parameters.AddWithValue("@registerid", registerid);
+
+
+
+                wrDad.Fill(DS, "T");
+                result = DS.Tables["T"];
+            }
+
+            return Convert.ToInt16(result.Rows[0]["count"].ToString());
+        }
+
         /// <summary>
         /// 新增 模板2報名資料
         /// </summary>
@@ -2860,7 +3210,7 @@ namespace TEL.Event.Lab.Data
                 SqlCommand command = new SqlCommand(sqlStr, conn, transaction);
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@id", id);
-                
+
                 command.ExecuteNonQuery();
 
                 sqlStr = @"
@@ -3604,7 +3954,7 @@ namespace TEL.Event.Lab.Data
 
             return result;
         }
-        
+
         /// <summary>
         /// 取得健檢方案人數上限
         /// </summary>
@@ -3813,7 +4163,7 @@ namespace TEL.Event.Lab.Data
 
                 command.Parameters.Clear();
 
-                
+
                 command.Parameters.AddWithValue("@id", data["id"]);
                 command.Parameters.AddWithValue("@eventid", data["eventid"]);
                 command.Parameters.AddWithValue("@empid", data["empid"]);
@@ -4602,7 +4952,7 @@ namespace TEL.Event.Lab.Data
                             ,[attachment3_name] = @attachment3_name
                             ,[description3] = @description3";
                 }
-                
+
 
                 sqlStr += @"     
                         WHERE 
@@ -4637,8 +4987,8 @@ namespace TEL.Event.Lab.Data
                     command.Parameters.AddWithValue("@attachment3_name", data["attachment3_name"]);
                     command.Parameters.AddWithValue("@description3", data["description3"]);
                 }
-                
-                
+
+
                 command.Parameters.AddWithValue("@feedback", data["feedback"]);
                 command.Parameters.AddWithValue("@modifiedby", modifiedby);
 
@@ -4788,7 +5138,7 @@ namespace TEL.Event.Lab.Data
                         WHERE  [eventid] = @eventid
                             ";
             }
-            
+
             DataTable result = null;
 
             using (SqlConnection connection = new SqlConnection(connStr))

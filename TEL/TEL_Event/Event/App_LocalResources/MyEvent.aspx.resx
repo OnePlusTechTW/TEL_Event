@@ -153,6 +153,9 @@
   <data name="FIELD_Result_Regend.HeaderText" xml:space="preserve">
     <value>報名結束日期時間</value>
   </data>
+  <data name="FIELD_Result_RegisterDate.HeaderText" xml:space="preserve">
+    <value>報名日期時間</value>
+  </data>
   <data name="FIELD_Result_Regstart.HeaderText" xml:space="preserve">
     <value>報名開始日期時間</value>
   </data>

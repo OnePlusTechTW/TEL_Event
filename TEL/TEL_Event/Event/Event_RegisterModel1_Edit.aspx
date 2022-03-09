@@ -143,6 +143,20 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+    <table>
+        <tr>
+            <td>
+                <asp:Image runat="server" ImageUrl="~/Master/images/icon2.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="編輯報名"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px">
+            <td></td>
+        </tr>
+    </table>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table>
         <tr>

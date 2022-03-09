@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="UC_EventDescription.ascx.cs" Inherits="Event_UserControl_UC_EventDescription" %>
 
-<table style="width: 600px; border-spacing: 0px">
+<table style="width: 800px; border-spacing: 0px">
     <tr>
         <td runat="server" id="category" style="text-align: center; width: 150px">
             <asp:Label ID="lblCategoryName" runat="server" Text="" Font-Size="18px" Font-Bold="true" ForeColor="Black"></asp:Label>

@@ -12,14 +12,14 @@ public partial class Event_SurveyModel3_View : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Load_EmpData();
-        Load_SurveyData();
+        if (!IsPostBack)
+            Load_SurveyData();
     }
 
     //Load員工相關資料
-    protected void Load_EmpData()
+    protected void Load_EmpData(string empid)
     {
-        UserInfo ui = new UserInfo(Page.Session["EmpID"].ToString());
+        UserInfo ui = new UserInfo(empid);
         this.FIELD_Empid.Text = ui.EmpID;
         this.FIELD_EmpNameCH.Text = ui.FullNameCH;
         this.FIELD_EmpNameEN.Text = ui.FullNameEN;
@@ -33,10 +33,11 @@ public partial class Event_SurveyModel3_View : System.Web.UI.Page
         Survey sv = new Survey();
 
         DataTable WMTB = sv.GetSurveyData(this.Request.QueryString["id"], "3");
-
+        
         if (WMTB.Rows.Count > 0)
         {
             UC_EventDescription.setViewDefault(WMTB.Rows[0]["eventid"].ToString());
+            Load_EmpData(WMTB.Rows[0]["empid"].ToString());
 
             this.FIELD_Q1.Text = WMTB.Rows[0]["q1"].ToString();
 

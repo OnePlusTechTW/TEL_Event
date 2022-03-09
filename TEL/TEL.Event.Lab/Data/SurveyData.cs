@@ -255,11 +255,11 @@ namespace TEL.Event.Lab.Data
         //刪除問卷填寫資料
         public String DeleteSurveyData(string eventid, string surveyid, string surveymodel, string empid)
         {
-            try
-            {
-                string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
-                string sqlString = "";
+            string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
+            string sqlString = "";
 
+            try
+            {           
                 // 刪除問卷資料 
                 if (surveymodel == "1")
                 {

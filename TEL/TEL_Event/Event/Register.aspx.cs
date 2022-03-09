@@ -13,6 +13,13 @@ public partial class Event_Register : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //登入檢查
+        //若為一般使用者則導到Denied頁面
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        if (gm.IsDenied(Page.Session["EmpID"].ToString(), Request.QueryString["id"]) < 1)
+            Response.Redirect("Denied.aspx");
+
+        //需有活動ID檢查
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
             Response.Redirect("Event.aspx");
 
@@ -21,15 +28,6 @@ public partial class Event_Register : System.Web.UI.Page
             LoadDate();
             BindRegisterGrid();
         }
-    }
-
-    protected void Page_PreRender(object sender, EventArgs e)
-    {
-        //登入檢查
-        //若為一般使用者則導到Denied頁面
-        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
-        if (gm.IsDenied(Page.Session["EmpID"].ToString(), Request.QueryString["id"]) < 1)
-            Response.Redirect("Denied.aspx");
     }
 
     protected void btnQuery_Click(object sender, EventArgs e)
@@ -67,7 +65,6 @@ public partial class Event_Register : System.Web.UI.Page
 
     protected void btnEdit_Click(object sender, EventArgs e)
     {
-        //Event_RegisterModel6_Edit.aspx? eventid = 7A77F81C - 2DB4 - 423A - B513 - 63897E3C0FA7 & id = E8FEC8DE - AEB7 - 49AE - A1F1 - D8FDDEE6AD56 & page = Register
         string registerid = ((Button)sender).CommandArgument.ToString();
         string eventid = Request.QueryString["id"];
         EventInfo ev = new EventInfo(eventid);
@@ -119,13 +116,6 @@ public partial class Event_Register : System.Web.UI.Page
                     e.Row.BackColor = Color.FromArgb(225, 225, 225);
                 else
                     e.Row.BackColor = Color.FromArgb(245, 245, 245);
-            }
-
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                //由於是連結按鈕所以宣告一個連結按鈕，根據實際情況變動
-                //Button bt = (Button)e.Row.FindControl("Button_Delete");
-                //bt.Attributes.Add("onclick", "javascrip:return confirm('您確定要刪除此筆資料?')");
             }
         }
     }

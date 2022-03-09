@@ -35,6 +35,20 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <table>
+                <tr>
+                    <td>
+                        <asp:Image runat="server" ImageUrl="~/Master/images/icon3.png" Height="40px"></asp:Image>
+                    </td>
+                    <td style="width: 5px"></td>
+                    <td style="border-bottom: 1.5px solid #19b1e5;">
+                        <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="檢視報名"></asp:Label>
+                    </td>
+                </tr>
+                <tr style="height: 10px">
+                    <td></td>
+                </tr>
+            </table>
             <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
             <table>
                 <tr>
@@ -83,10 +97,9 @@
                     <td>
                         <asp:Label ID="lblGender" runat="server" Text="性別"></asp:Label>
                     </td>
-                    <td>
+                    <td colspan="2">
                         <asp:Label ID="lblEmail" runat="server" Text="Email"></asp:Label>
                     </td>
-                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -99,10 +112,9 @@
                     <td>
                         <asp:TextBox ID="txtGender" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
                     </td>
-                    <td>
-                        <asp:TextBox ID="txtEmail" runat="server" Enabled="false" CssClass="QueryField"></asp:TextBox>
+                    <td colspan="2">
+                        <asp:TextBox ID="txtEmail" runat="server" Enabled="false" CssClass="QueryField" Width="316px"></asp:TextBox>
                     </td>
-                    <td></td>
                     <td></td>
                 </tr>
                 <tr class="FormTRStyle">

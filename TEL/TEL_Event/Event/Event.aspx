@@ -141,7 +141,7 @@
                 <td>
                     <asp:GridView ID="gridEvents" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                        PageSize="20" OnPageIndexChanging="gridEvent_PageIndexChanging" OnRowDataBound="gridEvent_RowDataBound" >
+                        PageSize="10" OnPageIndexChanging="gridEvent_PageIndexChanging" OnRowDataBound="gridEvent_RowDataBound" >
                         <Columns>
                             <asp:BoundField HeaderText="活動名稱" DataField="eventname">
                                 <HeaderStyle Width="200px" ></HeaderStyle>

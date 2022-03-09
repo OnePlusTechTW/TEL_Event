@@ -44,36 +44,49 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnFAdd_Click(object sender, EventArgs e)
     {
-
-
         StringBuilder sb = new StringBuilder();
+        CheckFormat cf = new CheckFormat();
+
         //家屬姓名 必填
         if (string.IsNullOrEmpty(txtFName.Text))
         {
             sb.AppendLine(string.Format(lblRequired.Text, lblFName.Text));
             sb.AppendLine("<br />");
         }
+
         //家屬身分證字號 必填
         if (string.IsNullOrEmpty(txtFID.Text))
-        { 
+        {
             sb.AppendLine(string.Format(lblRequired.Text, lblFID.Text));
             sb.AppendLine("<br />");
         }
+        else
+        {
+            //家屬身分證字號 格式
+            if (!cf.CheckIdnoNew(txtFID.Text))
+            {
+                sb.AppendLine(string.Format(lblFormatError.Text, lblFID.Text));
+                sb.AppendLine("<br />");
+            }
+        }
+
         //家屬生日年月日 必填
         if (string.IsNullOrEmpty(txtFBDay.Text))
         {
             sb.AppendLine(string.Format(lblRequired.Text, lblFBDay.Text));
             sb.AppendLine("<br />");
         }
-        //	家屬姓別 必填
+
+        //	家屬性別 必填
         if (string.IsNullOrEmpty(ddlGender.SelectedValue))
-        { 
+        {
             sb.AppendLine(string.Format(lblRequired.Text, lblFGender.Text));
             sb.AppendLine("<br />");
         }
+
         //餐點內容 必填
         if (string.IsNullOrEmpty(ddlFMeal.SelectedValue))
-        { 
+        {
             sb.AppendLine(string.Format(lblRequired.Text, lblFMeal.Text));
             sb.AppendLine("<br />");
         }
@@ -81,16 +94,6 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         if (!string.IsNullOrEmpty(sb.ToString()))
         {
             lblMsg.Text = sb.ToString();
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
-
-            return;
-        }
-
-        bool flag = Regex.IsMatch(txtFID.Text, @"^[A-Za-z]{1}[1-2]{1}[0-9]{8}$");//先判定是否符合一個大寫字母+1或2開頭的1個數字+8個數字
-
-        if (!flag)
-        {
-            lblMsg.Text = lblIDFormatErr.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
 
             return;
@@ -113,6 +116,12 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
 
         this.gridRegisterModel2family.DataSource = dt;
         this.gridRegisterModel2family.DataBind();
+
+        this.txtFName.Text = "";
+        this.txtFID.Text = "";
+        this.txtFBDay.Text="";
+        this.ddlGender.SelectedValue = "";
+        this.ddlFMeal.SelectedValue = "";
     }
 
     protected void Button_Delete_Click(object sender, EventArgs e)
@@ -140,6 +149,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
     {
         string eventid = Request.QueryString["id"];
         string modifiedby = Page.Session["EmpID"].ToString();
+        CheckFormat cf = new CheckFormat();
 
         StringBuilder sb = new StringBuilder();
 
@@ -155,6 +165,15 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
         {
             sb.AppendLine(string.Format(lblRequired.Text, lblPhone.Text));
             sb.AppendLine("<br />");
+        }
+        else
+        {
+            //手機 格式檢查
+            if (!cf.CheckMobile(txtPhone.Text))
+            {
+                sb.AppendLine(string.Format(lblFormatError.Text, lblPhone.Text));
+                sb.AppendLine("<br />");
+            }
         }
 
         //交通車 必填
@@ -181,10 +200,13 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
 
         //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
+        DataTable dtGridView = GetGridViewToDatatable();
         int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
-        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue, string.Empty);
 
-        if (registerCount >= option1Limit)
+        //registerCount = 已報名員工 + 已報名家屬 + 此報名表欲報名家屬 + 此報名表欲報名員工
+        int registerCount = ev.GetOption1RegisterCountByRegisterModel2(eventid, ddlAttendContent.SelectedValue, string.Empty) + ev.GetOption1RegisterCountByRegisterModel2family(eventid, ddlAttendContent.SelectedValue, string.Empty) + dtGridView.Rows.Count + 1;
+
+        if (registerCount > option1Limit)
         {
             lblMsg.Text = lblLimitReached.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
@@ -272,7 +294,7 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
 
         Response.Redirect(returnPage);
     }
-    
+
 
     protected void gridRegisterModel2family_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
@@ -455,5 +477,5 @@ public partial class Event_Event_RegisterModel2_Create : System.Web.UI.Page
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
         }
     }
-    
+
 }

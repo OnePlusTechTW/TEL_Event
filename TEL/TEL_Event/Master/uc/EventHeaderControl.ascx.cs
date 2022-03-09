@@ -32,7 +32,7 @@ public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
     {
         try
         {
-            Session["EmpID"] = "123456";
+            //Session["EmpID"] = "223456";
 
             // 取得使用者的身分
             TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();

@@ -20,6 +20,9 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
         if (!IsPostBack)
         {
             SetDefaultGridView();
+
+            this.lblPageImage.ImageUrl = "~/Master/images/icon2.png";
+            this.lblPageName.Text = "編輯活動";
         }
     }
 
@@ -72,7 +75,7 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            
         }
     }
 
@@ -149,34 +152,95 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
 
         //資料 
         List<int> duplicateList = new List<int>();
+        List<int> losedataList = new List<int>();
+        List<string> WrongformatList = new List<string>();
 
         for (int i = sheet.FirstRowNum + 1; i <= sheet.LastRowNum; i++)
         {
             ImportModel group = new ImportModel();
             DataRow dr = dt.NewRow();
-            bool hasValue = false;
+            bool hasValue = true;
+
             foreach (int j in columns)
             {
                 dr[j] = GetValueType(sheet.GetRow(i).GetCell(j));
-                if (dr[j] != null && dr[j].ToString() != string.Empty)
+                if (dr[j] == null || dr[j].ToString() == string.Empty)
                 {
-                    hasValue = true;
+                    hasValue = false;
                 }
             }
+
             if (hasValue)
             {
                 DataRow[] rows = dt.Select($@"地點='{dr["地點"].ToString()}' AND 日期時間='{dr["日期時間"].ToString()}' ");
 
                 if (rows.Count() > 0)
                     duplicateList.Add(i + 1);
+                else
+                {
+                    DateTime importdate;
+                    int importlimit;
+
+                    if (!DateTime.TryParse(dr["日期時間"].ToString(), out importdate))
+                        WrongformatList.Add("資料列 " + (i + 1).ToString() + " 的日期時間格式有誤");
+
+                    if (!int.TryParse(dr["人數上限"].ToString(), out importlimit))
+                        WrongformatList.Add("資料列 " + (i + 1).ToString() + " 的人數上限格式有誤");
+                }
 
                 dt.Rows.Add(dr);
+            }
+            else
+            {
+                losedataList.Add(i + 1);
             }
         }
 
         List<ImportModel> list = new List<ImportModel>();
 
-        if (duplicateList.Count > 0)
+        if (losedataList.Count > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string rowsList = string.Empty;
+            foreach (int row in losedataList)
+            {
+                rowsList += row.ToString() + ",";
+            }
+
+            //失敗
+            sb.Append(lblImportFailed.Text);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(string.Format(lblLoseData.Text, rowsList.Substring(0, rowsList.Length - 1)));
+            sb.AppendLine();
+
+            tbImportMsg.Text = sb.ToString();
+
+            return list;
+        }
+        else if (WrongformatList.Count > 0)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            string rowsList = string.Empty;
+            foreach (string row in WrongformatList)
+            {
+                rowsList += row.ToString() + "\n";
+            }
+
+            //失敗
+            sb.Append(lblImportFailed.Text);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(rowsList);
+            sb.AppendLine();
+
+            tbImportMsg.Text = sb.ToString();
+
+            return list;
+        }
+        else if (duplicateList.Count > 0)
         {
             StringBuilder sb = new StringBuilder();
 

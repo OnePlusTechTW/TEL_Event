@@ -1,14 +1,17 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel2_Edit.aspx.cs" Inherits="Event_Event_RegisterModel2_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_RegisterModel2_Edit.aspx.cs" Inherits="Event_Event_RegisterModel2_Edit" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
+
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script>
         $(function () {
-            //活動開始日期
+            //家屬生日年月日
             $('#<%= txtFBDay.ClientID%>').prop("readonly", true).datepicker({
                 dateFormat: 'yy/mm/dd',
                 changeMonth: true,
-                changeYear: true
+                changeYear: true,
+                showMonthAfterYear: true,
+                yearRange: 'c-80:c'
             });
         });
 
@@ -149,8 +152,22 @@
         }
     </script>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+    <table>
+        <tr>
+            <td>
+                <asp:Image runat="server" ImageUrl="~/Master/images/icon2.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="編輯報名"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px">
+            <td></td>
+        </tr>
+    </table>
     <uc1:UC_EventDescription runat="server" ID="UC_EventDescription" />
     <table>
         <tr>
@@ -199,13 +216,10 @@
             <td>
                 <asp:Label ID="lblGender" runat="server" Text="性別"></asp:Label>
             </td>
-            <td>
+            <td colspan="2">
                 <asp:Label ID="lblEmail" runat="server" Text="Email"></asp:Label>
             </td>
-            <td>
-            </td>
-            <td>
-            </td>
+            <td></td>
         </tr>
         <tr>
             <td>
@@ -217,13 +231,10 @@
             <td>
                 <asp:TextBox ID="txtGender" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
             </td>
-            <td>
-                <asp:TextBox ID="txtEmail" runat="server" ReadOnly="true" CssClass="QueryField"></asp:TextBox>
+            <td colspan="2">
+                <asp:TextBox ID="txtEmail" runat="server" ReadOnly="true" CssClass="QueryField" Width="316px"></asp:TextBox>
             </td>
-            <td>
-            </td>
-            <td>
-            </td>
+            <td></td>
         </tr>
         <tr class="FormTRStyle">
             <td colspan="6">
@@ -238,7 +249,7 @@
             </td>
             <td colspan="3"></td>
         </tr>
-         <tr class="FormTRStyle">
+        <tr class="FormTRStyle">
             <td>
                 <asp:Label ID="lblPhone" runat="server" Text="手機"></asp:Label>
             </td>
@@ -248,12 +259,9 @@
             <td>
                 <asp:Label ID="lblMeal" runat="server" Text="餐點內容"></asp:Label>
             </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
             <td>
@@ -269,12 +277,9 @@
                     <asp:ListItem Selected="True" Value="" Text="- 未指定 -"></asp:ListItem>
                 </asp:DropDownList>
             </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr class="FormTRStyle">
             <td>
@@ -284,16 +289,15 @@
                 <asp:Label ID="lblFID" runat="server" Text="家屬身分證字號"></asp:Label>
             </td>
             <td>
-                <asp:Label ID="lblFBDay" runat="server" Text="家屬生日年月日" ></asp:Label>
+                <asp:Label ID="lblFBDay" runat="server" Text="家屬生日年月日"></asp:Label>
             </td>
             <td>
-                <asp:Label ID="lblFGender" runat="server" Text="家屬姓別"></asp:Label>
+                <asp:Label ID="lblFGender" runat="server" Text="家屬性別"></asp:Label>
             </td>
             <td>
                 <asp:Label ID="lblFMeal" runat="server" Text="餐點內容"></asp:Label>
             </td>
-            <td>
-            </td>
+            <td></td>
         </tr>
         <tr>
             <td>
@@ -303,7 +307,7 @@
                 <asp:TextBox ID="txtFID" MaxLength="10" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="txtFBDay" runat="server" CssClass="QueryField" ></asp:TextBox>
+                <asp:TextBox ID="txtFBDay" runat="server" CssClass="QueryField"></asp:TextBox>
             </td>
             <td>
                 <asp:DropDownList ID="ddlGender" runat="server" CssClass="QueryField" Width="100%">
@@ -318,20 +322,30 @@
                 </asp:DropDownList>
             </td>
             <td>
-                <asp:Button ID="btnFAdd" runat="server" Text="新增" OnClick="btnFAdd_Click" CssClass="Button" width="80px"/>
+                <asp:Button ID="btnFAdd" runat="server" Text="新增" OnClick="btnFAdd_Click" CssClass="Button" Width="80px" />
             </td>
         </tr>
-        <tr >
-            <td colspan="5" >
+        <tr>
+            <td colspan="5">
                 <asp:GridView ID="gridRegisterModel2family" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True" Width="100%"
                     EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                    PageSize="20" OnPageIndexChanging="gridRegisterModel2family_PageIndexChanging" OnRowDataBound="gridRegisterModel2family_RowDataBound" >
+                    PageSize="20" OnPageIndexChanging="gridRegisterModel2family_PageIndexChanging" OnRowDataBound="gridRegisterModel2family_RowDataBound">
                     <Columns>
-                        <asp:BoundField DataField="name" HeaderText="家屬姓名" />
-                        <asp:BoundField DataField="idno" HeaderText="家屬身分證字號" />
-                        <asp:BoundField DataField="birthday" HeaderText="家屬生日年月日" />
-                        <asp:BoundField DataField="gender" HeaderText="家屬性別" />
-                        <asp:BoundField DataField="meal" HeaderText="餐點內容" />
+                        <asp:BoundField DataField="name" HeaderText="家屬姓名">
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="idno" HeaderText="家屬身分證字號">
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="birthday" HeaderText="家屬生日年月日">
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="gender" HeaderText="家屬性別">
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="meal" HeaderText="餐點內容">
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
                         <asp:TemplateField HeaderText="">
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
@@ -360,7 +374,7 @@
         <tr>
             <td colspan="6">
                 <asp:Button ID="btnSummit" runat="server" Text="儲存" CssClass="Button" OnClick="btnSummit_Click" />
-                <asp:Button ID="btnDelete" runat="server" Text="刪除" CssClass="Button" OnClick="btnDelete_Click"/>
+                <asp:Button ID="btnDelete" runat="server" Text="刪除" CssClass="Button" OnClick="btnDelete_Click" />
                 <asp:Button ID="btnCannel" runat="server" Text="取消" CssClass="Button" OnClick="btnCannel_Click" />
             </td>
         </tr>
@@ -390,17 +404,18 @@
 
     <div id="dialogNoRegisterInfo" title="Dialog Title">
         <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。" ></asp:Label>
+            <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。"></asp:Label>
         </asp:Panel>
     </div>
 
     <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
+    <asp:Label ID="lblFormatError" runat="server" Text="欄位 {0} 格式錯誤。" Visible="false"></asp:Label>
     <asp:Label ID="lblUnselect" runat="server" Text="- 未指定 -" Visible="false"></asp:Label>
     <asp:Label ID="lblLimitReached" runat="server" Text="此方案報名人數已達上限，請重新選擇其他方案" Visible="false"></asp:Label>
     <asp:Label ID="lblSendMailFailed" runat="server" Text="但報名成功通知mail寄送失敗。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" style="display:none;" />
+    <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
     <asp:Label ID="lblUpdateErrMsg" runat="server" Text="報名資料儲存發生錯誤。" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfDeleteErrMsg" runat="server" Value="報名資料刪除發生錯誤。" />
     <asp:Label ID="lblIDFormatErr" runat="server" Text="家屬身份證字號格式錯誤。" Visible="false"></asp:Label>

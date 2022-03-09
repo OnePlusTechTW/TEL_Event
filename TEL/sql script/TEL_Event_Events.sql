@@ -1,7 +1,72 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  Table [dbo].[TEL_Event_Events]    Script Date: 2022/1/19 下午 01:42:11 ******/
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'modifiedby'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'surveystartdate'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'surveymodel'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'registermodel'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'duplicated'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'enabled'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'image2'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'image1'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'description'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'mailgroupother'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'mailgroup'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'member'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'registerend'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'registerstart'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'limit'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'eventend'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'eventstart'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'categoryid'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'name'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_Events', @level2type=N'COLUMN',@level2name=N'id'
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_Events]    Script Date: 2022/3/9 下午 11:06:20 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEL_Event_Events]') AND type in (N'U'))
+DROP TABLE [dbo].[TEL_Event_Events]
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_Events]    Script Date: 2022/3/9 下午 11:06:20 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -22,12 +87,16 @@ CREATE TABLE [dbo].[TEL_Event_Events](
 	[mailgroupother] [nvarchar](256) NULL,
 	[description] [nvarchar](max) NOT NULL,
 	[image1] [nvarchar](64) NULL,
+	[image1_name] [nvarchar](64) NULL,
 	[image2] [nvarchar](64) NULL,
+	[image2_name] [nvarchar](64) NULL,
 	[enabled] [varchar](1) NULL,
 	[duplicated] [varchar](1) NULL,
 	[registermodel] [varchar](1) NOT NULL,
 	[surveymodel] [varchar](1) NULL,
 	[surveystartdate] [datetime] NULL,
+	[initby] [nvarchar](64) NOT NULL,
+	[initdate] [datetime] NOT NULL,
 	[modifiedby] [nvarchar](64) NOT NULL,
 	[modifieddate] [datetime] NOT NULL,
  CONSTRAINT [PK_TEL_Event_Events] PRIMARY KEY CLUSTERED 

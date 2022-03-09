@@ -17,6 +17,12 @@ public partial class Event_Event_Model1Options : System.Web.UI.Page
         if (!IsPostBack)
         {
             SetDefaultGridView();
+
+            if(Request.UrlReferrer.ToString().IndexOf("Edit")>=0)
+            {
+                this.lblPageImage.ImageUrl = "~/Master/images/icon2.png";
+                this.lblPageName.Text = "編輯活動";
+            }
         }
     }
 
@@ -81,18 +87,30 @@ public partial class Event_Event_Model1Options : System.Web.UI.Page
             string eventid = string.Empty;
             eventid = Request.QueryString["id"];
             Event ev = new Event();
-            if (!string.IsNullOrEmpty(eventid))
-            {
-                string result = ev.AddRegisterOption1(eventid, content, limit, Page.Session["EmpID"].ToString());
 
-                if (string.IsNullOrEmpty(result))
+            DataTable dt = ev.GetRegisterOption1(eventid, content);
+
+            if (dt.Rows.Count > 0)
+            {
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('欲參加的內容 已存在');", true);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(eventid))
                 {
-                    SetDefaultGridView();
-                }
-                else
-                {
-                    //新增失敗
-                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    string result = ev.AddRegisterOption1(eventid, content, limit, Page.Session["EmpID"].ToString());
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        SetDefaultGridView();
+                        this.txtContent.Text = "";
+                        this.txtLimit.Text = "";
+                    }
+                    else
+                    {
+                        //新增失敗
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFailed();", true);
+                    }
                 }
             }
         }

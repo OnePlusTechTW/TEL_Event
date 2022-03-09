@@ -69,7 +69,7 @@
     <Compile Include="Data\SystemData.cs" />
     <Compile Include="Data\SystemSetupData.cs" />
     <Compile Include="Data\UserData.cs" />
-    <Compile Include="Method\CheckIDFormat.cs" />
+    <Compile Include="Method\CheckFormat.cs" />
     <Compile Include="Method\ExcelStyle.cs" />
     <Compile Include="Method\ExportExcel.cs" />
     <Compile Include="Method\LogHelper.cs" />

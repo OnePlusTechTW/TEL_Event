@@ -167,7 +167,7 @@
                             <HeaderStyle Width="150px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
-                        <asp:BoundField HeaderText="報名日期" DataField="registerdate">
+                        <asp:BoundField HeaderText="報名日期時間" DataField="registerdate">
                             <HeaderStyle Width="150px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
@@ -218,7 +218,7 @@
         </asp:Panel>
     </div>
 
-    <asp:Label ID="lblLimit" runat="server" Text="無限制" Visible="false"></asp:Label>
+    <asp:Label ID="lblLimit" runat="server" Text="Unlimited" Visible="false"></asp:Label>
     <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
     <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
     <asp:HiddenField ID="hfDeleteErrMsg" runat="server" Value="報名資料刪除發生錯誤。" />

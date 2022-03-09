@@ -1,7 +1,27 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  Table [dbo].[TEL_Event_RegisterOption5]    Script Date: 2022/1/19 下午 01:45:36 ******/
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterOption5', @level2type=N'COLUMN',@level2name=N'modifieddate'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterOption5', @level2type=N'COLUMN',@level2name=N'modifiedby'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterOption5', @level2type=N'COLUMN',@level2name=N'description'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterOption5', @level2type=N'COLUMN',@level2name=N'eventid'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_RegisterOption5', @level2type=N'COLUMN',@level2name=N'id'
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_RegisterOption5]    Script Date: 2022/3/9 下午 11:09:15 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEL_Event_RegisterOption5]') AND type in (N'U'))
+DROP TABLE [dbo].[TEL_Event_RegisterOption5]
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_RegisterOption5]    Script Date: 2022/3/9 下午 11:09:15 ******/
 SET ANSI_NULLS ON
 GO
 

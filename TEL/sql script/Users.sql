@@ -1,7 +1,12 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  Table [dbo].[Users]    Script Date: 2022/1/19 下午 01:48:45 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 2022/3/9 下午 11:10:14 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Users]') AND type in (N'U'))
+DROP TABLE [dbo].[Users]
+GO
+
+/****** Object:  Table [dbo].[Users]    Script Date: 2022/3/9 下午 11:10:14 ******/
 SET ANSI_NULLS ON
 GO
 

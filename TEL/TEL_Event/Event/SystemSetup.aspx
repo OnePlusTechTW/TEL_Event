@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="SystemSetup.aspx.cs" StylesheetTheme="Event" Inherits="Event_SystemSetup" Culture="auto" UICulture="auto" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="SystemSetup.aspx.cs" StylesheetTheme="Event" Inherits="Event_SystemSetup" Culture="auto" UICulture="auto" meta:resourcekey="PageResource1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
@@ -103,11 +103,11 @@
             var preMenu;
 
             if (preMenuID != "") {
-                preMenu= $("#" + preMenuID);
+                preMenu = $("#" + preMenuID);
             }
 
             if (ispostback == true) {
-                if (preMenuID !="") {
+                if (preMenuID != "") {
                     //preMenu.style.background = "rgba(0, 0, 0, 0)";
                     preMenu[0].style.color = "#8031A7";
 
@@ -347,7 +347,7 @@
                     break; "BeUsedeMailGroup"
                 case 'BeUsedeMailGroup':
                     ShowDialogMsg($('#<%=lblBeUsedMailGroup.ClientID%>')[0].textContent);
-                    break; 
+                    break;
                 default:
             }
         }
@@ -355,7 +355,7 @@
         //刪除資料events Failure callback
         function Failure(error) {
             ShowDialogFailed();
-        } 
+        }
 
 
         /*  以下為 dialog events  */
@@ -435,7 +435,7 @@
         function ShowDialogFileUpload(event, id) {
             $(function () {
                 var dialog = $("#dialogFileUpload").dialog({
-                    title:"",
+                    title: "",
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -477,9 +477,9 @@
 
         };
 
-        
 
-        
+
+
 
 
 
@@ -514,23 +514,23 @@
                                 case 'SuccessCategory':
                                     <%= btnReloadCategoryGrid.ClientID%>.click();
 
-                                    break;
-                                case 'SuccessManager':
+                        break;
+                        case 'SuccessManager':
                                     <%= btnReloadManagerGrid.ClientID%>.click();
-                                    break;
-                                case 'SuccessMailGroup':
+                        break;
+                        case 'SuccessMailGroup':
                                     <%= btnReloadMailGroupGrid.ClientID%>.click();
-                                    break;
-                                default:
+                        break;
+                        default:
                             }
 
                             $(this).dialog('close');
-                        }
+                }
                     },
-                    open: function (event, ui) {
-                        //打開dialog時，顯示panel
-                        document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
-                    }
+                open: function (event, ui) {
+                    //打開dialog時，顯示panel
+                    document.getElementById("ContentPlaceHolder1_ContentPanel2").style.display = "block";
+                }
                 });
             });
 
@@ -586,11 +586,11 @@
             });
 
         };
-        
+
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True"></asp:ScriptManager>
     <table>
         <tr>
             <td>
@@ -598,38 +598,38 @@
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理網站"></asp:Label>
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="管理網站" meta:resourcekey="lblPageNameResource1"></asp:Label>
             </td>
         </tr>
         <tr style="height: 10px">
             <td></td>
         </tr>
     </table>
-    <div style="text-align: center; display:inherit; padding-bottom:5px;">
+    <div style="text-align: center; display: inherit; padding-bottom: 5px;">
         <div id="category" style="float: left; padding: 0px 15px; border-right: 2px solid lightgray;" onclick="Menu('category')">
-            <asp:Label ID="lblCategory" runat="server" CssClass="NormalBoldNoColor" Text="活動分類"></asp:Label>
+            <asp:Label ID="lblCategory" runat="server" CssClass="NormalBoldNoColor" Text="活動分類" meta:resourcekey="lblCategoryResource1"></asp:Label>
         </div>
         <div id="eventManager" style="float: left; padding: 0px 15px; border-right: 2px solid lightgray;" onclick="Menu('eventManager')">
-            <asp:Label ID="lblEventManager" runat="server" CssClass="NormalBoldNoColor" Text="常態活動管理者"></asp:Label>
+            <asp:Label ID="lblEventManager" runat="server" CssClass="NormalBoldNoColor" Text="常態活動管理者" meta:resourcekey="lblEventManagerResource1"></asp:Label>
         </div>
         <div id="mailGroup" style="float: left; padding: 0px 15px; border-right: 2px solid lightgray;" onclick="Menu('mailGroup')">
-            <asp:Label ID="lblMenuMailGroup" runat="server" CssClass="NormalBoldNoColor" Text="郵件群組"></asp:Label>
+            <asp:Label ID="lblMenuMailGroup" runat="server" CssClass="NormalBoldNoColor" Text="郵件群組" meta:resourcekey="lblMenuMailGroupResource1"></asp:Label>
         </div>
         <div id="checkup" style="float: left; padding: 0px 15px;" onclick="Menu('checkup')">
-            <asp:Label ID="lblCheckup1" runat="server" CssClass="NormalBoldNoColor" Text="員工健檢報名組別"></asp:Label>
+            <asp:Label ID="lblCheckup1" runat="server" CssClass="NormalBoldNoColor" Text="員工健檢報名組別" meta:resourcekey="lblCheckup1Resource1"></asp:Label>
         </div>
     </div>
     <div id="categoryContent" style="display: none;">
         <table>
             <tr>
                 <td>
-                    <asp:Label ID="lblCategoryName" runat="server" Text="分類名稱"></asp:Label>
+                    <asp:Label ID="lblCategoryName" runat="server" Text="分類名稱" meta:resourcekey="lblCategoryNameResource1"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="lblCategoryColor" runat="server" Text="分類顏色"></asp:Label>
+                    <asp:Label ID="lblCategoryColor" runat="server" Text="分類顏色" meta:resourcekey="lblCategoryColorResource1"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="lblIsEnableCategory" runat="server" Text="是否啟用"></asp:Label>
+                    <asp:Label ID="lblIsEnableCategory" runat="server" Text="是否啟用" meta:resourcekey="lblIsEnableCategoryResource1"></asp:Label>
                 </td>
                 <td></td>
             </tr>
@@ -638,8 +638,8 @@
                     <asp:TextBox ID="tbCategoryName" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:DropDownList ID="ddlCategoryColor" runat="server" Width="100px" CssClass="QueryField" onchange="ddlCategoryColorOnChange(this);">
-                        <asp:ListItem Selected="True" Text="- 未指定 -" Value="" ></asp:ListItem>
+                    <asp:DropDownList ID="ddlCategoryColor" runat="server" Width="120px" CssClass="QueryField" onchange="ddlCategoryColorOnChange(this);">
+                        <asp:ListItem Selected="True" Text="- 未指定 -" Value="" meta:resourcekey="ListItemResource1"></asp:ListItem>
 
                         <asp:ListItem Text="" Value="#00A9E0" style="background-color: #00A9E0"></asp:ListItem>
                         <asp:ListItem Text="" Value="#71C5E8" style="background-color: #71C5E8"></asp:ListItem>
@@ -673,32 +673,30 @@
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlIsEnableCategory" runat="server" Width="100px" CssClass="QueryField">
-                        <asp:ListItem Text="是" Value="1" Selected="True"></asp:ListItem>
-                        <asp:ListItem Text="否" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="是" Value="1" Selected="True" meta:resourcekey="ListItemResource23"></asp:ListItem>
+                        <asp:ListItem Text="否" Value="0" meta:resourcekey="ListItemResource24"></asp:ListItem>
                     </asp:DropDownList></td>
                 <td>
-                    <asp:Button ID="Button_AddCategory" runat="server" Text="新增分類" CssClass="Button" OnClick="Button_AddCategory_Click" /></td>
+                    <asp:Button ID="Button_AddCategory" runat="server" Text="新增分類" CssClass="Button" OnClick="Button_AddCategory_Click" meta:resourcekey="Button_AddCategoryResource1" /></td>
             </tr>
         </table>
-        <table style="padding-top:10px" cellspacing="0">
+        <table style="padding-top: 10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridEventCategory" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
                         PageSize="20" OnRowDataBound="gridEventCategory_RowDataBound" OnPageIndexChanging="gridEventCategory_PageIndexChanging">
                         <Columns>
-                            <asp:TemplateField HeaderText="分類名稱">
+                            <asp:TemplateField HeaderText="分類名稱" meta:resourcekey="TemplateFieldResource1">
                                 <HeaderStyle Width="250px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:TextBox ID="txtCategoryName" runat="server" Width="250px"  CssClass="QueryField"></asp:TextBox>
+                                    <asp:TextBox ID="txtCategoryName" runat="server" Width="250px" CssClass="QueryField" meta:resourcekey="txtCategoryNameResource1"></asp:TextBox>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="分類顏色">
-                                <HeaderStyle Width="100px"></HeaderStyle>
+                            <asp:TemplateField HeaderText="分類顏色" meta:resourcekey="TemplateFieldResource2">
+                                <HeaderStyle Width="130px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:DropDownList ID="gridDdlCategoryColor" runat="server" Width="100px" CssClass="QueryField" AutoPostBack="true" OnSelectedIndexChanged="gridDdlCategoryColor_SelectedIndexChanged">
-                                        <asp:ListItem Selected="True" Text="" Value="" style="display: none;"></asp:ListItem>
-
+                                    <asp:DropDownList ID="gridDdlCategoryColor" runat="server" Width="130px" CssClass="QueryField" AutoPostBack="True" OnSelectedIndexChanged="gridDdlCategoryColor_SelectedIndexChanged">
                                         <asp:ListItem Text="" Value="#00A9E0" style="background-color: #00A9E0"></asp:ListItem>
                                         <asp:ListItem Text="" Value="#71C5E8" style="background-color: #71C5E8"></asp:ListItem>
                                         <asp:ListItem Text="" Value="#00629B" style="background-color: #00629B"></asp:ListItem>
@@ -731,28 +729,28 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="是否啟用">
+                            <asp:TemplateField HeaderText="是否啟用" meta:resourcekey="TemplateFieldResource3">
                                 <HeaderStyle Width="100px"></HeaderStyle>
                                 <ItemTemplate>
                                     <asp:DropDownList ID="gridDdlIsEnableCategory" runat="server" Width="100px" CssClass="QueryField">
-                                        <asp:ListItem Text="是" Value="1" Selected="True"></asp:ListItem>
-                                        <asp:ListItem Text="否" Value="0"></asp:ListItem>
+                                        <asp:ListItem Text="是" Value="1" Selected="True" meta:resourcekey="ListItemResource47"></asp:ListItem>
+                                        <asp:ListItem Text="否" Value="0" meta:resourcekey="ListItemResource48"></asp:ListItem>
                                     </asp:DropDownList></td>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="">
+                            <asp:TemplateField HeaderText="" meta:resourcekey="TemplateFieldResource4">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_SaveCategory" runat="server" Text="儲存" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' OnClick="Button_SaveCategory_Click" />
+                                    <asp:Button ID="Button_SaveCategory" runat="server" Text="儲存" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' OnClick="Button_SaveCategory_Click" meta:resourcekey="Button_SaveCategoryResource1" />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="">
+                            <asp:TemplateField HeaderText="" meta:resourcekey="TemplateFieldResource5">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_DeleteCategory" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' 
-                                        OnClientClick='<%# "ShowDialogDelete(\"Category\",\""+ Eval("id")  + "\");return false;" %>' />
+                                    <asp:Button ID="Button_DeleteCategory" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>'
+                                        OnClientClick='<%# "ShowDialogDelete(\"Category\",\""+ Eval("id")  + "\");return false;" %>' meta:resourcekey="Button_DeleteCategoryResource1" />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -768,7 +766,7 @@
         <table>
             <tr>
                 <td>
-                    <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
+                    <asp:Label ID="lblEmpid" runat="server" Text="工號" meta:resourcekey="lblEmpidResource1"></asp:Label>
                 </td>
                 <td></td>
             </tr>
@@ -777,28 +775,28 @@
                     <asp:TextBox ID="tbEmpid" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:Button ID="btnAddManager" runat="server" Text="新增管理者" CssClass="Button" OnClick="btnAddManager_Click" />
+                    <asp:Button ID="btnAddManager" runat="server" Text="新增管理者" CssClass="Button" OnClick="btnAddManager_Click" meta:resourcekey="btnAddManagerResource1" />
                 </td>
             </tr>
         </table>
-        <table style="padding-top:10px" cellspacing="0">
+        <table style="padding-top: 10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridEventManager" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
                         PageSize="20" OnRowDataBound="gridEventManager_RowDataBound" OnPageIndexChanging="gridEventManager_PageIndexChanging">
                         <Columns>
-                            <asp:BoundField HeaderText="工號" DataField="empid">
-                                <HeaderStyle Width="100px"></HeaderStyle>
+                            <asp:BoundField HeaderText="工號" DataField="empid" meta:resourcekey="BoundFieldResource1">
+                                <HeaderStyle Width="130px"></HeaderStyle>
                             </asp:BoundField>
-                            <asp:BoundField HeaderText="姓名" DataField="name">
+                            <asp:BoundField HeaderText="姓名" DataField="name" meta:resourcekey="BoundFieldResource2">
                                 <HeaderStyle Width="200px"></HeaderStyle>
                             </asp:BoundField>
-                            <asp:TemplateField HeaderText="">
+                            <asp:TemplateField HeaderText="" meta:resourcekey="TemplateFieldResource6">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("empid") %>' 
-                                        OnClientClick='<%# "ShowDialogDelete(\"Manager\",\""+ Eval("empid") + "\");return false;" %>' />
+                                    <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("empid") %>'
+                                        OnClientClick='<%# "ShowDialogDelete(\"Manager\",\""+ Eval("empid") + "\");return false;" %>' meta:resourcekey="Button_DeleteManagerResource1" />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -814,10 +812,10 @@
         <table>
             <tr>
                 <td>
-                    <asp:Label ID="lblMailGroup" runat="server" Text="郵件群組"></asp:Label>
+                    <asp:Label ID="lblMailGroup" runat="server" Text="郵件群組" meta:resourcekey="lblMailGroupResource1"></asp:Label>
                 </td>
                 <td>
-                    <asp:Label ID="lblIsEnableMailGroup" runat="server" Text="是否啟用"></asp:Label>
+                    <asp:Label ID="lblIsEnableMailGroup" runat="server" Text="是否啟用" meta:resourcekey="lblIsEnableMailGroupResource1"></asp:Label>
                 </td>
                 <td></td>
             </tr>
@@ -827,29 +825,29 @@
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlIsEnableMailGroup" runat="server" Width="100px" CssClass="QueryField">
-                        <asp:ListItem Text="是" Value="1" Selected="True"></asp:ListItem>
-                        <asp:ListItem Text="否" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="是" Value="1" Selected="True" meta:resourcekey="ListItemResource49"></asp:ListItem>
+                        <asp:ListItem Text="否" Value="0" meta:resourcekey="ListItemResource50"></asp:ListItem>
                     </asp:DropDownList></td>
                 <td>
-                    <asp:Button ID="btnAddMailGroup" runat="server" Text="新增郵件群組" CssClass="Button" Width="120px" OnClick="Button_AddMailGroup_Click" /></td>
+                    <asp:Button ID="btnAddMailGroup" runat="server" Text="新增郵件群組" CssClass="Button" Width="120px" OnClick="Button_AddMailGroup_Click" meta:resourcekey="btnAddMailGroupResource1" /></td>
             </tr>
         </table>
-        <table style="padding-top:10px" cellspacing="0">
+        <table style="padding-top: 10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridMailGroup" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
                         PageSize="20" OnRowDataBound="gridMailGroup_RowDataBound" OnPageIndexChanging="gridMailGroup_PageIndexChanging">
                         <Columns>
-                            <asp:BoundField HeaderText="郵件群組" DataField="name">
+                            <asp:BoundField HeaderText="郵件群組" DataField="name" meta:resourcekey="BoundFieldResource3">
                                 <HeaderStyle Width="250px"></HeaderStyle>
                             </asp:BoundField>
-                            <asp:TemplateField HeaderText="是否啟用">
+                            <asp:TemplateField HeaderText="是否啟用" meta:resourcekey="TemplateFieldResource7">
                                 <HeaderStyle Width="100px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:DropDownList ID="gridDdlIsEnableMailGroup" runat="server" Width="100px" CssClass="QueryField">
-                                        <asp:ListItem Text="是" Value="1" Selected="True"></asp:ListItem>
-                                        <asp:ListItem Text="否" Value="0"></asp:ListItem>
+                                    <asp:DropDownList ID="gridDdlIsEnableMailGroup" runat="server" Width="100px" CssClass="QueryField" meta:resourcekey="gridDdlIsEnableMailGroupResource1">
+                                        <asp:ListItem Text="是" Value="1" Selected="True" meta:resourcekey="ListItemResource51"></asp:ListItem>
+                                        <asp:ListItem Text="否" Value="0" meta:resourcekey="ListItemResource52"></asp:ListItem>
                                     </asp:DropDownList></td>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
@@ -857,16 +855,15 @@
                             <asp:TemplateField HeaderText="">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_SaveMailGroup" runat="server" Text="儲存" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' OnClick="Button_SaveMailGroup_Click" />
+                                    <asp:Button ID="Button_SaveMailGroup" runat="server" Text="儲存" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' OnClick="Button_SaveMailGroup_Click" meta:resourcekey="Button_SaveMailGroupResource1" />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="Button_DeleteMailGroup" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>' 
-                                         OnClientClick='<%# "ShowDialogDelete(\"MailGroup\",\""+ Eval("id")+ "\",\""+ Eval("name") + "\");return false;" %>'
-                                        />
+                                    <asp:Button ID="Button_DeleteMailGroup" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>'
+                                        OnClientClick='<%# "ShowDialogDelete(\"MailGroup\",\""+ Eval("id")+ "\",\""+ Eval("name") + "\");return false;" %>' meta:resourcekey="Button_DeleteMailGroupResource1" />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -882,27 +879,27 @@
         <table>
             <tr>
                 <td>
-                    <asp:Button ID="btnImportHealthGroup" runat="server"  CssClass="Button" Text="匯入組別" OnClick="btnImportHealthGroup_Click" />
+                    <asp:Button ID="btnImportHealthGroup" runat="server" CssClass="Button" Text="匯入組別" OnClick="btnImportHealthGroup_Click" meta:resourcekey="btnImportHealthGroupResource1" />
                 </td>
-                <td style="padding-left:10px;">
-                    <asp:HyperLink ID="hlnkFileAttachment" runat="server"  Text="匯入格式範例" style="color:blue;" NavigateUrl="~/Sample/Import_HealthGroup.xlsx" />
+                <td style="padding-left: 10px;">
+                    <asp:HyperLink ID="hlnkFileAttachment" runat="server" Text="匯入格式範例" Style="color: blue;" NavigateUrl="~/Sample/Import_HealthGroup.xlsx" meta:resourcekey="hlnkFileAttachmentResource1" />
                 </td>
             </tr>
         </table>
-        <table style="padding-top:10px" cellspacing="0">
+        <table style="padding-top: 10px" cellspacing="0">
             <tr>
                 <td>
                     <asp:GridView ID="gridHealthGroup" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
                         PageSize="20" OnRowDataBound="gridHealthGroup_RowDataBound" OnPageIndexChanging="gridHealthGroup_PageIndexChanging">
                         <Columns>
-                            <asp:BoundField HeaderText="工號" DataField="empid">
-                                <HeaderStyle Width="100px"></HeaderStyle>
+                            <asp:BoundField HeaderText="工號" DataField="empid" meta:resourcekey="BoundFieldResource4">
+                                <HeaderStyle Width="130px"></HeaderStyle>
                             </asp:BoundField>
-                             <asp:BoundField HeaderText="姓名" DataField="name">
+                            <asp:BoundField HeaderText="姓名" DataField="name" meta:resourcekey="BoundFieldResource5">
                                 <HeaderStyle Width="200px"></HeaderStyle>
                             </asp:BoundField>
-                             <asp:BoundField HeaderText="健檢報名組別" DataField="groupname">
+                            <asp:BoundField HeaderText="健檢報名組別" DataField="groupname" meta:resourcekey="BoundFieldResource6">
                                 <HeaderStyle Width="250px"></HeaderStyle>
                             </asp:BoundField>
                         </Columns>
@@ -919,46 +916,46 @@
 
     <%--dialog 必填--%>
     <div id="dialogRequired" title="Dialog Title">
-        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <asp:Label ID="lblRequiredMsg" runat="server" Text=""></asp:Label>
+        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none" meta:resourcekey="ContentPanel1Resource1">
+            <asp:Label ID="lblRequiredMsg" runat="server" meta:resourcekey="lblRequiredMsgResource1"></asp:Label>
         </asp:Panel>
     </div>
-    
+
     <%--dialog 失敗--%>
 
     <div id="dialogFailed" title="Dialog Title">
-        <asp:Panel ID="ContentPanel3" runat="server" Style="display: none">
-            <asp:Label ID="lblFailed" runat="server" Text="失敗。"></asp:Label>
-            <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label><br />
-            <asp:Label ID="lblErrMsg" runat="server" Text="" Visible="false"></asp:Label><br />
+        <asp:Panel ID="ContentPanel3" runat="server" Style="display: none" meta:resourcekey="ContentPanel3Resource1">
+            <asp:Label ID="lblFailed" runat="server" Text="失敗。" meta:resourcekey="lblFailedResource1"></asp:Label>
+            <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="False" meta:resourcekey="lblErrMsgTxtResource1"></asp:Label><br />
+            <asp:Label ID="lblErrMsg" runat="server" Visible="False" meta:resourcekey="lblErrMsgResource1"></asp:Label><br />
         </asp:Panel>
     </div>
 
     <%--dialog Msg--%>
     <div id="dialogMsg" title="Dialog Title">
-        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none">
-            <asp:Label ID="lblDialogMsg" runat="server" Text=""></asp:Label>
+        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none" meta:resourcekey="ContentPanel8Resource1">
+            <asp:Label ID="lblDialogMsg" runat="server" meta:resourcekey="lblDialogMsgResource1"></asp:Label>
         </asp:Panel>
     </div>
 
     <%--dialog 是否刪除--%>
     <div id="dialogDelete" title="Dialog Title">
-        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
-            <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？"></asp:Label>
+        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none" meta:resourcekey="ContentPanel6Resource1">
+            <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？" meta:resourcekey="lblDeleteWarningResource1"></asp:Label>
         </asp:Panel>
     </div>
 
     <%--dialog 匯入mailgroup--%>
     <div id="dialogFileUpload" title="Dialog Title">
-        <asp:Panel ID="ContentPanel7" runat="server" Style="display: none">
+        <asp:Panel ID="ContentPanel7" runat="server" Style="display: none" meta:resourcekey="ContentPanel7Resource1">
             <div>
-                <asp:FileUpload ID="FileUpload1" CssClass="FileUpload" runat="server" />
+                <asp:FileUpload ID="FileUpload1" CssClass="FileUpload" runat="server" meta:resourcekey="FileUpload1Resource1" />
             </div>
             <div style="margin-top: 20px;">
-                <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" CssClass="Button"/>
+                <asp:Button ID="btnImport" runat="server" Text="匯入" OnClick="btnImport_Click" CssClass="Button" meta:resourcekey="btnImportResource1" />
             </div>
             <div style="margin-top: 5px;">
-                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px"  placeholder="匯入資訊..." ReadOnly="true" ></asp:TextBox>
+                <asp:TextBox ID="tbImportMsg" runat="server" TextMode="MultiLine" Height="250px" Width="412px" placeholder="匯入資訊..." ReadOnly="True" meta:resourcekey="tbImportMsgResource1"></asp:TextBox>
             </div>
         </asp:Panel>
     </div>
@@ -968,41 +965,41 @@
 
 
     <div id="dialogEmpidErr" title="Dialog Title">
-        <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-            <asp:Label ID="Label2" runat="server" Text="無效工號，請重新輸入。"></asp:Label>
+        <asp:Panel ID="ContentPanel4" runat="server" Style="display: none" meta:resourcekey="ContentPanel4Resource1">
+            <asp:Label ID="Label2" runat="server" Text="無效工號，請重新輸入。" meta:resourcekey="Label2Resource1"></asp:Label>
         </asp:Panel>
     </div>
     <%--dialog content--%>
     <div id="dialogExist" title="Dialog Title">
-        <asp:Panel ID="ContentPanel5" runat="server" Style="display: none">
-            <asp:Label ID="lblExistFiled" runat="server" Text=""></asp:Label>
-            <asp:Label ID="lblExist" runat="server" Text="已存在。"></asp:Label>
+        <asp:Panel ID="ContentPanel5" runat="server" Style="display: none" meta:resourcekey="ContentPanel5Resource1">
+            <asp:Label ID="lblExistFiled" runat="server" meta:resourcekey="lblExistFiledResource1"></asp:Label>
+            <asp:Label ID="lblExist" runat="server" Text="已存在。" meta:resourcekey="lblExistResource1"></asp:Label>
         </asp:Panel>
     </div>
     <%--dialog content--%>
     <div id="dialogSuccess" title="Dialog Title">
-        <asp:Panel ID="ContentPanel2" runat="server" Style="display: none">
-            <asp:Label ID="lblSuccess" runat="server" Text="成功。"></asp:Label>
+        <asp:Panel ID="ContentPanel2" runat="server" Style="display: none" meta:resourcekey="ContentPanel2Resource1">
+            <asp:Label ID="lblSuccess" runat="server" Text="成功。" meta:resourcekey="lblSuccessResource1"></asp:Label>
         </asp:Panel>
     </div>
 
 
-    <asp:Button ID="btnReloadCategoryGrid" runat="server" Text="Button" OnClick="btnReloadCategoryGrid_Click" style="display:none;" />
-    <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" style="display:none;" />
-    <asp:Button ID="btnReloadMailGroupGrid" runat="server" Text="Button" OnClick="btnReloadMailGroupGrid_Click" style="display:none;" />
-    <asp:Label ID="lblEventCategory" runat="server" Text="活動分類" Visible="false"></asp:Label>
-    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
-    <asp:Label ID="lblDuplicate" runat="server" Text="以下員工報名健檢組別重複：" Visible="false"></asp:Label>
-    <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="false"></asp:Label>
-    <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="false"></asp:Label>
-    <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="false"></asp:Label>
-    <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label>
-    <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="false"></asp:Label>
-    <asp:Label ID="lblInvalidEmpid2" runat="server" Text="無效工號。" Visible="false"></asp:Label>
+    <asp:Button ID="btnReloadCategoryGrid" runat="server" Text="Button" OnClick="btnReloadCategoryGrid_Click" Style="display: none;" meta:resourcekey="btnReloadCategoryGridResource1" />
+    <asp:Button ID="btnReloadManagerGrid" runat="server" Text="Button" OnClick="btnReloadManagerGrid_Click" Style="display: none;" meta:resourcekey="btnReloadManagerGridResource1" />
+    <asp:Button ID="btnReloadMailGroupGrid" runat="server" Text="Button" OnClick="btnReloadMailGroupGrid_Click" Style="display: none;" meta:resourcekey="btnReloadMailGroupGridResource1" />
+    <asp:Label ID="lblEventCategory" runat="server" Text="活動分類" Visible="False" meta:resourcekey="lblEventCategoryResource1"></asp:Label>
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="False" meta:resourcekey="lblRequiredResource1"></asp:Label>
+    <asp:Label ID="lblDuplicate" runat="server" Text="以下員工報名健檢組別重複：" Visible="False" meta:resourcekey="lblDuplicateResource1"></asp:Label>
+    <asp:Label ID="lblReimport" runat="server" Text="請重新匯入。" Visible="False" meta:resourcekey="lblReimportResource1"></asp:Label>
+    <asp:Label ID="lblImportSuccess" runat="server" Text="匯入成功。" Visible="False" meta:resourcekey="lblImportSuccessResource1"></asp:Label>
+    <asp:Label ID="lblImportFailed" runat="server" Text="匯入失敗，請重新匯入。" Visible="False" meta:resourcekey="lblImportFailedResource1"></asp:Label>
+    <asp:Label ID="lblImportFailedMsg" runat="server" Text="錯誤訊息：" Visible="False" meta:resourcekey="lblImportFailedMsgResource1"></asp:Label>
+    <asp:Label ID="lblInvalidEmpid" runat="server" Text="無效工號，請重新輸入。" Visible="False" meta:resourcekey="lblInvalidEmpidResource1"></asp:Label>
+    <asp:Label ID="lblInvalidEmpid2" runat="server" Text="無效工號。" Visible="False" meta:resourcekey="lblInvalidEmpid2Resource1"></asp:Label>
 
-    <asp:Label ID="lblInvalidMailGroup" runat="server" Text="無效郵件群組，請重新輸入。" style="display:none;"></asp:Label>
-    <asp:Label ID="lblBeUsedCategory" runat="server" Text="此活動分類已被使用，不可刪除。" style="display:none;"></asp:Label>
-    <asp:Label ID="lblBeUsedMailGroup" runat="server" Text="此活郵件群組已被使用，不可刪除。" style="display:none;"></asp:Label>
+    <asp:Label ID="lblInvalidMailGroup" runat="server" Text="無效郵件群組，請重新輸入。" Style="display: none;" meta:resourcekey="lblInvalidMailGroupResource1"></asp:Label>
+    <asp:Label ID="lblBeUsedCategory" runat="server" Text="此活動分類已被使用，不可刪除。" Style="display: none;" meta:resourcekey="lblBeUsedCategoryResource1"></asp:Label>
+    <asp:Label ID="lblBeUsedMailGroup" runat="server" Text="此活郵件群組已被使用，不可刪除。" Style="display: none;" meta:resourcekey="lblBeUsedMailGroupResource1"></asp:Label>
 
 
 
@@ -1013,7 +1010,7 @@
     <asp:HiddenField ID="hfEventCategory" runat="server" Value="活動分類" />
     <asp:HiddenField ID="hfEventAdmin" runat="server" Value="常態活動管理者" />
     <asp:HiddenField ID="hfMailGroup" runat="server" Value="郵件群組" />
-    <asp:HiddenField ID="hfPreMenu" runat="server" Value="" />
+    <asp:HiddenField ID="hfPreMenu" runat="server" />
 </asp:Content>
 
 

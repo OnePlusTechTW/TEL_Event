@@ -135,6 +135,7 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
         string eventid = Request.QueryString["eventid"];
         string modifiedby = Page.Session["EmpID"].ToString();
         string registerid = Request.QueryString["id"].ToString();
+        CheckFormat cf = new CheckFormat();
 
         StringBuilder sb = new StringBuilder();
 
@@ -150,6 +151,15 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
         {
             sb.AppendLine(string.Format(lblRequired.Text, lblPhone.Text));
             sb.AppendLine("<br />");
+        }
+        else
+        {
+            //手機 格式檢查
+            if (!cf.CheckMobile(txtPhone.Text))
+            {
+                sb.AppendLine(string.Format(lblFormatError.Text, lblPhone.Text));
+                sb.AppendLine("<br />");
+            }
         }
 
         //交通車 必填
@@ -176,10 +186,13 @@ public partial class Event_Event_RegisterModel2_Edit : System.Web.UI.Page
 
         //在TEL_Event_RegisterOption1維護的人數上限來檢查，是否報名人數已達上限，如果已達上限，則顯示(此方案報名人數已達上限，請重新選擇其他方案)
         Event ev = new Event();
-        int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
-        int registerCount = ev.GetEvnetRegisterOption1RegisterCount(eventid, ddlAttendContent.SelectedValue, registerid);
+        DataTable dtGridView = GetGridViewToDatatable();
 
-        if (registerCount >= option1Limit)
+        int option1Limit = ev.GetRegisterOption1Limit(eventid, ddlAttendContent.SelectedValue);
+        //registerCount = 已報名員工 + 已報名家屬 + 此報名表欲報名家屬 + 此報名表欲報名員工
+        int registerCount = ev.GetOption1RegisterCountByRegisterModel2(eventid, ddlAttendContent.SelectedValue, registerid) + ev.GetOption1RegisterCountByRegisterModel2family(eventid, ddlAttendContent.SelectedValue, registerid) + dtGridView.Rows.Count + 1;
+
+        if (registerCount > option1Limit)
         {
             lblMsg.Text = lblLimitReached.Text;
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);

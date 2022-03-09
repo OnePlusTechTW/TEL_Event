@@ -41,16 +41,30 @@ public partial class Event_Event_RegisterModel5_Create : System.Web.UI.Page
         string eventid = Request.QueryString["id"];
         string modifiedby = Page.Session["EmpID"].ToString();
 
-        EventInfo evinfo = new EventInfo(eventid);
-        int option1Limit = Convert.ToInt16(evinfo.EventLimit);
-        int registerCount = Convert.ToInt16(ev.GetEvnetRegisterCount(eventid, evinfo.EventRegisterModel));
-
-        if (registerCount >= option1Limit)
+        //上傳附件1 必填
+        if (!FileUpload1.HasFile)
         {
-            lblMsg.Text = lblLimitReached.Text;
+            lblMsg.Text = string.Format(lblRequired.Text, txtFileUpload1.Text);
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
 
             return;
+        }
+
+        //人數上限檢查
+        EventInfo evinfo = new EventInfo(eventid);
+
+        if (evinfo.EventLimit != "")
+        {
+            int option1Limit = Convert.ToInt16(evinfo.EventLimit);
+            int registerCount = Convert.ToInt16(ev.GetEvnetRegisterCount(eventid, evinfo.EventRegisterModel));
+
+            if (registerCount >= option1Limit)
+            {
+                lblMsg.Text = lblLimitReached.Text;
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg();", true);
+
+                return;
+            }
         }
 
         Dictionary<string, string> Data = new Dictionary<string, string>();

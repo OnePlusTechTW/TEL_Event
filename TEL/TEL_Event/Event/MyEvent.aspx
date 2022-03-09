@@ -1,5 +1,28 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="MyEvent.aspx.cs" StylesheetTheme="Event" Inherits="Event_MyEvent" Culture="auto" meta:resourcekey="PageResource1" UICulture="auto" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <script type="text/javascript">
+        function ShowDialogLoadPage(url,width,height) {
+            $(function () {
 
+                $("#dialogLoadPage").dialog({
+                    title: "",
+                    modal: true,
+                    width: "1050px",
+                    Height: "550px",
+                    position: { my: "center center", at: "center top+0", },
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    }
+                });
+
+                $("#dialogLoadPage").load(url);
+
+            });
+        }
+    </script>
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <table>
         <tr>
@@ -53,37 +76,41 @@
                     OnRowDataBound="FIELD_Result_RowDataBound" OnPageIndexChanging="FIELD_Result_PageIndexChanging" PageSize="20">
                     <Columns>
                         <asp:BoundField HeaderText="活動名稱" meta:resourcekey="FIELD_Result_Name" DataField="eventname">
-                            <HeaderStyle Width="250px"></HeaderStyle>
+                            <HeaderStyle Width="300px"></HeaderStyle>
                         </asp:BoundField>
                         <asp:BoundField HeaderText="活動分類" meta:resourcekey="FIELD_Result_Category" DataField="categoryname">
                             <HeaderStyle Width="100px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:BoundField HeaderText="報名開始日期時間" meta:resourcekey="FIELD_Result_Regstart" DataField="registerstart">
-                            <HeaderStyle Width="150px"></HeaderStyle>
+                            <HeaderStyle Width="130px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:BoundField HeaderText="報名結束日期時間" meta:resourcekey="FIELD_Result_Regend" DataField="registerend">
-                            <HeaderStyle Width="150px"></HeaderStyle>
+                            <HeaderStyle Width="130px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:BoundField HeaderText="活動開始日期" meta:resourcekey="FIELD_Result_Eventstart" DataField="eventstart">
-                            <HeaderStyle Width="100px"></HeaderStyle>
+                            <HeaderStyle Width="90px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:BoundField HeaderText="活動結束日期" meta:resourcekey="FIELD_Result_Eventend" DataField="eventend">
-                            <HeaderStyle Width="100px"></HeaderStyle>
+                            <HeaderStyle Width="90px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:BoundField HeaderText="活動狀態" meta:resourcekey="FIELD_Result_Status" DataField="status">
-                            <HeaderStyle Width="100px"></HeaderStyle>
+                            <HeaderStyle Width="90px"></HeaderStyle>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:BoundField>
+                        <asp:BoundField HeaderText="報名日期時間" meta:resourcekey="FIELD_Result_RegisterDate" DataField="registerdate">
+                            <HeaderStyle Width="130px"></HeaderStyle>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>
                         <asp:TemplateField HeaderText="報名資料" meta:resourcekey="FIELD_Result_Event">
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
                                 <asp:Button ID="Button_RegisterEdit" runat="server" Text="編輯" CssClass="Button_Gridview" CommandArgument='<%# Eval("registerinfo") %>' OnClick="Button_RegisterEdit_Click" />
-                                <asp:Button ID="Button_RegisterView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("registerinfo") %>' />
+                                <asp:Button ID="Button_RegisterView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("registerinfo") %>' OnClick="Button_RegisterView_Click" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -91,7 +118,7 @@
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
                                 <asp:Button ID="Button_SurveyCreate" runat="server" Text="填寫" CssClass="Button_Gridview" CommandArgument='<%# Eval("surveyinfo") %>' OnClick="Button_SurveyCreate_Click" />
-                                <asp:Button ID="Button_SurveyView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("surveyinfo") %>' />
+                                <asp:Button ID="Button_SurveyView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("surveyinfo") %>' OnClick="Button_SurveyView_Click" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -103,5 +130,7 @@
             </td>
         </tr>
     </table>
+
+    <div id="dialogLoadPage" title="Dialog Title"></div>
 </asp:Content>
 

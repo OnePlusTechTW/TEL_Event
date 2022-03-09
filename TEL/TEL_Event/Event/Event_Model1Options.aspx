@@ -72,6 +72,29 @@
             });
 
         };
+
+        //通用錯誤訊息 通知開窗
+        function ShowDialogMsg(msg) {
+            $('#<%= lblDialogMsg.ClientID %>').text(msg);
+
+            $(function () {
+                $("#dialogMsg").dialog({
+                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    modal: true,
+                    buttons: {
+                        Close: function () {
+                            $(this).dialog('close');
+                        }
+                    },
+                    open: function (event, ui) {
+                        //打開dialog時，顯示panel
+                        document.getElementById("ContentPlaceHolder1_ContentPanel8").style.display = "block";
+                    }
+                });
+            });
+
+        };
+
         //刪除資料events
         function onDelete(id) {
             PageMethods.DeleteRegisterOption1(id, Success, Failure);
@@ -92,6 +115,20 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+    <table>
+        <tr>
+            <td>
+                <asp:Image ID="lblPageImage" runat="server" ImageUrl="~/Master/images/Link_CreateEvents.png" Height="40px"></asp:Image>
+            </td>
+            <td style="width: 5px"></td>
+            <td style="border-bottom: 1.5px solid #19b1e5;">
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="建立活動"></asp:Label>
+            </td>
+        </tr>
+        <tr style="height: 10px">
+            <td></td>
+        </tr>
+    </table>
     <table>
         <tr>
             <td>
@@ -167,6 +204,13 @@
     <div id="dialogDelete" title="Dialog Title">
         <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
             <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？"></asp:Label>
+        </asp:Panel>
+    </div>
+
+    <%--dialog Msg--%>
+    <div id="dialogMsg" title="Dialog Title">
+        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none">
+            <asp:Label ID="lblDialogMsg" runat="server" Text=""></asp:Label>
         </asp:Panel>
     </div>
 

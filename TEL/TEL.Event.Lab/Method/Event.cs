@@ -88,10 +88,6 @@ namespace TEL.Event.Lab.Method
             return ev.QueryEventAdmin(eventid);
         }
 
-        
-
-
-
         /// <summary>
         /// 新增報名表選項（欲參加的內容）
         /// </summary>
@@ -128,6 +124,18 @@ namespace TEL.Event.Lab.Method
             DataTable dt = new DataTable();
             dt = ev.QueryRegisterOption1(eventid);
             return dt;
+        }
+
+        /// <summary>
+        /// 查詢報名表選項（欲參加的內容是否已存在）
+        /// </summary>
+        /// /// <param name="eventid"></param>
+        /// /// <param name="name"></param>
+        /// <returns></returns>
+        public DataTable GetRegisterOption1(string eventid, string name)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption1(eventid,name);
         }
 
         /// <summary>
@@ -179,7 +187,19 @@ namespace TEL.Event.Lab.Method
             dt = ev.QueryRegisterOption2(eventid);
             return dt;
         }
-        
+
+        /// <summary>
+        /// 查詢報名表選項（交通車是否已存在）
+        /// </summary>
+        /// /// <param name="eventid"></param>
+        /// /// <param name="transportation"></param>
+        /// <returns></returns>
+        public DataTable GetTransportation1(string eventid, string transportation)
+        {
+            EventData ev = new EventData();
+            return ev.QueryRegisterOption2(eventid, transportation);
+        }
+
         /// <summary>
         /// 新增報名表選項（餐點內容列表）
         /// </summary>
@@ -205,9 +225,9 @@ namespace TEL.Event.Lab.Method
 
             return ev.DeleteRegisterOption3(id);
         }
-        
+
         /// <summary>
-        /// 取得餐點內容列表
+        /// 查詢餐點內容列表
         /// </summary>
         /// <param name="eventid"></param>
         /// <returns></returns>
@@ -216,6 +236,20 @@ namespace TEL.Event.Lab.Method
             EventData ev = new EventData();
             DataTable dt = new DataTable();
             dt = ev.QueryRegisterOption3(eventid);
+            return dt;
+        }
+
+        /// <summary>
+        /// 查詢餐點內容列表 (餐點內容是否已存在)
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="meal"></param>
+        /// <returns></returns>
+        public DataTable GetMeal1(string eventid, string meal)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterOption3(eventid, meal);
             return dt;
         }
 
@@ -285,7 +319,21 @@ namespace TEL.Event.Lab.Method
             dt = ev.QueryRegisterOption5(eventid);
             return dt;
         }
-        
+
+        /// <summary>
+        /// 查詢健檢包寄送地點 (健檢包寄送地點是否已存在)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public DataTable GetSendArea1(string eventid,string sendArea)
+        {
+            EventData ev = new EventData();
+            DataTable dt = new DataTable();
+            dt = ev.QueryRegisterOption5(eventid, sendArea);
+            return dt;
+        }
+
         /// <summary>
         /// 查詢健檢方案
         /// </summary>
@@ -426,6 +474,33 @@ namespace TEL.Event.Lab.Method
         #endregion
 
         #region RegisterModel2
+
+        /// <summary>
+        /// 取得 欲參加的內容 在RegisterModel2 已報名的人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="optionid"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        public int GetOption1RegisterCountByRegisterModel2(string eventid, string optionid, string registerid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryOption1RegisterCountByRegisterModel2(eventid, optionid, registerid);
+        }
+
+        /// <summary>
+        /// 取得 欲參加的內容 在 RegisterModel2family 已報名的人數
+        /// </summary>
+        /// <param name="eventid"></param>
+        /// <param name="optionid"></param>
+        /// <param name="registerid"></param>
+        /// <returns></returns>
+        public int GetOption1RegisterCountByRegisterModel2family(string eventid, string optionid, string registerid)
+        {
+            EventData ev = new EventData();
+            return ev.QueryOption1RegisterCountByRegisterModel2family(eventid, optionid, registerid);
+        }
+
         /// <summary>
         /// 新增 模板2報名資料
         /// </summary>
@@ -877,7 +952,6 @@ namespace TEL.Event.Lab.Method
             return dt;
         }
         #endregion
-
     }
 
     public class ImportModel

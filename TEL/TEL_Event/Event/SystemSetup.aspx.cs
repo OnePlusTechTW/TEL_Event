@@ -18,6 +18,12 @@ public partial class Event_SystemSetup : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //登入檢查
+        //若不為系統管理者則導到Denied頁面
+        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
+        if (gm.IsManager(Page.Session["EmpID"].ToString()) != 3)
+
+            Response.Redirect("Denied.aspx");
         if (!IsPostBack)
         {
             GetDefaultData();
@@ -26,15 +32,6 @@ public partial class Event_SystemSetup : System.Web.UI.Page
         //postback後，會將前端 ddlCategoryColor 顏色還原，故在postback時，再設定一次ddlCategoryColor 顏色
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ddlCategoryColorOnChange();", true);
         ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "Menu(null, true);", true);
-    }
-
-    protected void Page_PreRender(object sender, EventArgs e)
-    {
-        //登入檢查
-        //若不為系統管理者則導到Denied頁面
-        TEL.Event.Lab.Method.SystemInfo gm = new TEL.Event.Lab.Method.SystemInfo();
-        if (gm.IsManager(Page.Session["EmpID"].ToString()) != 3)
-            Response.Redirect("Denied.aspx");
     }
 
     private void GetDefaultData()

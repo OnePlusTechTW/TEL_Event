@@ -1,7 +1,45 @@
 USE [TEL_Event]
 GO
 
-/****** Object:  Table [dbo].[TEL_Event_SurveyModel4]    Script Date: 2022/1/19 下午 01:48:35 ******/
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'modifieddate'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'modifiedby'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'q5'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'q4'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'q3'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'q2'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'q1'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'fillindate'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'empid'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'eventid'
+GO
+
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'TEL_Event_SurveyModel4', @level2type=N'COLUMN',@level2name=N'id'
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_SurveyModel4]    Script Date: 2022/3/9 下午 11:10:02 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TEL_Event_SurveyModel4]') AND type in (N'U'))
+DROP TABLE [dbo].[TEL_Event_SurveyModel4]
+GO
+
+/****** Object:  Table [dbo].[TEL_Event_SurveyModel4]    Script Date: 2022/3/9 下午 11:10:02 ******/
 SET ANSI_NULLS ON
 GO
 
