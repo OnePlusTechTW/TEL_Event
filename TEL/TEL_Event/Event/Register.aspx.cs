@@ -58,7 +58,7 @@ public partial class Event_Register : System.Web.UI.Page
         else if (evinfo.EventRegisterModel == "4")
             ep.ExportRegisterModel4(eventid, this.txtEmpName.Text.Trim());
         else if (evinfo.EventRegisterModel == "5")
-            ep.ExportRegisterModel5(eventid, this.txtEmpName.Text.Trim());
+            ep.ExportRegisterModel5(eventid, this.txtEmpName.Text.Trim(), "Register");
         else if (evinfo.EventRegisterModel == "6")
             ep.ExportRegisterModel6(eventid, this.txtEmpName.Text.Trim());
     }

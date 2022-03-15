@@ -19,3 +19,4 @@ E:\一加科技\客製開發\TEL\TEL.Event.Lab\bin\Debug\NPOI.OOXML.xml
 E:\一加科技\客製開發\TEL\TEL.Event.Lab\bin\Debug\NPOI.OpenXml4Net.pdb
 E:\一加科技\客製開發\TEL\TEL.Event.Lab\bin\Debug\NPOI.OpenXmlFormats.pdb
 E:\一加科技\客製開發\TEL\TEL.Event.Lab\obj\Debug\TEL.Event.Lab.csproj.CopyComplete
+E:\一加科技\客製開發\TEL\TEL.Event.Lab\obj\Debug\TEL.Event.Lab.csproj.AssemblyReference.cache

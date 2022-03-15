@@ -1156,7 +1156,7 @@ namespace TEL.Event.Lab.Method
             context.Response.Close();
         }
 
-        public void ExportRegisterModel5(string eventid, string empName)
+        public void ExportRegisterModel5(string eventid, string empName, string page)
         {
             var context = HttpContext.Current;
             context.Response.Clear();
@@ -1189,7 +1189,7 @@ namespace TEL.Event.Lab.Method
             sheet.GetRow(0).CreateCell(8).SetCellValue("上傳附件2之說明");
             sheet.GetRow(0).CreateCell(9).SetCellValue("上傳附件3");
             sheet.GetRow(0).CreateCell(10).SetCellValue("上傳附件3之說明");
-            
+
 
             sheet.GetRow(0).CreateCell(11).SetCellValue("意見/問題回饋");
             sheet.GetRow(0).CreateCell(12).SetCellValue("報名日期時間");
@@ -1218,7 +1218,7 @@ namespace TEL.Event.Lab.Method
             sheet.SetColumnWidth(8, (int)((20 + 0.71) * 256));
             sheet.SetColumnWidth(9, (int)((30 + 0.71) * 256));
             sheet.SetColumnWidth(10, (int)((20 + 0.71) * 256));
-            
+
 
             sheet.SetColumnWidth(11, (int)((35 + 0.71) * 256));
             sheet.SetColumnWidth(12, (int)((25 + 0.71) * 256));//報名日期時間
@@ -1243,22 +1243,22 @@ namespace TEL.Event.Lab.Method
                 sheet.GetRow(rowIndex).CreateCell(3).SetCellValue($"{userInfo.FirstNameEN} {userInfo.LastNameEN}");
                 sheet.GetRow(rowIndex).CreateCell(4).SetCellValue(userInfo.Station);
 
-                
+
 
                 XSSFHyperlink linkAttachment1 = new XSSFHyperlink(HyperlinkType.Url);
-                linkAttachment1.Address = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/EventThumbnail/{dr["attachment1"].ToString()}");
+                linkAttachment1.Address = HttpContext.Current.Request.Url.AbsoluteUri.Replace($"/Event/{page}.aspx", $"/Event/EventThumbnail/{dr["attachment1"].ToString()}");
                 sheet.GetRow(rowIndex).CreateCell(5).Hyperlink = linkAttachment1;
                 sheet.GetRow(rowIndex).CreateCell(5).SetCellValue(dr["attachment1_name"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(6).SetCellValue(dr["description1"].ToString());
 
                 XSSFHyperlink linkAttachment2 = new XSSFHyperlink(HyperlinkType.Url);
-                linkAttachment2.Address = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/EventThumbnail/{dr["attachment2"].ToString()}");
+                linkAttachment2.Address = HttpContext.Current.Request.Url.AbsoluteUri.Replace($"/Event/{page}.aspx", $"/Event/EventThumbnail/{dr["attachment2"].ToString()}");
                 sheet.GetRow(rowIndex).CreateCell(7).Hyperlink = linkAttachment2;
                 sheet.GetRow(rowIndex).CreateCell(7).SetCellValue(dr["attachment2_name"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(8).SetCellValue(dr["description2"].ToString());
 
                 XSSFHyperlink linkAttachment3 = new XSSFHyperlink(HyperlinkType.Url);
-                linkAttachment3.Address = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/EventThumbnail/{dr["attachment3"].ToString()}");
+                linkAttachment3.Address = HttpContext.Current.Request.Url.AbsoluteUri.Replace($"/Event/{page}.aspx", $"/Event/EventThumbnail/{dr["attachment3"].ToString()}");
                 sheet.GetRow(rowIndex).CreateCell(9).Hyperlink = linkAttachment3;
                 sheet.GetRow(rowIndex).CreateCell(9).SetCellValue(dr["attachment3_name"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(10).SetCellValue(dr["description3"].ToString());
@@ -1272,7 +1272,7 @@ namespace TEL.Event.Lab.Method
 
                 //建立儲存格樣式
                 ExcelStyle es2 = new ExcelStyle();
-                
+
                 XSSFCellStyle css2 = es.DataStyle(workbook);
 
                 //設定Data Style

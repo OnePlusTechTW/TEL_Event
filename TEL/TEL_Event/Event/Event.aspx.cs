@@ -93,7 +93,7 @@ public partial class Event_Event : System.Web.UI.Page
         else if (evinfo.EventRegisterModel == "4")
             ep.ExportRegisterModel4(eventid, string.Empty);
         else if (evinfo.EventRegisterModel == "5")
-            ep.ExportRegisterModel5(eventid, string.Empty);
+            ep.ExportRegisterModel5(eventid, string.Empty, "Event");
         else if (evinfo.EventRegisterModel == "6")
             ep.ExportRegisterModel6(eventid, string.Empty);
 
