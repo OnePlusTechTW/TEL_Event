@@ -117,56 +117,95 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FIELD_Q1_1Resource1.Text" xml:space="preserve">
+    <value>Announcements</value>
+  </data>
+  <data name="FIELD_Q1_2Resource1.Text" xml:space="preserve">
+    <value>Letter Promotion</value>
+  </data>
+  <data name="FIELD_Q1_3Resource1.Text" xml:space="preserve">
+    <value>Posters</value>
+  </data>
+  <data name="FIELD_Q1_4Resource1.Text" xml:space="preserve">
+    <value>Colleague Sharing</value>
+  </data>
+  <data name="FIELD_Q1_5Resource1.Text" xml:space="preserve">
+    <value>Screen Lock</value>
+  </data>
+  <data name="FIELD_Q1_6Resource1.Text" xml:space="preserve">
+    <value>Other (Self-Filled)</value>
+  </data>
+  <data name="FIELD_Q2_1Resource1.Text" xml:space="preserve">
+    <value>Very Satisfied</value>
+  </data>
+  <data name="FIELD_Q2_2Resource1.Text" xml:space="preserve">
+    <value>Satisfied</value>
+  </data>
+  <data name="FIELD_Q2_3Resource1.Text" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="FIELD_Q2_4Resource1.Text" xml:space="preserve">
+    <value>Unsatisfied</value>
+  </data>
+  <data name="FIELD_Q2_5Resource1.Text" xml:space="preserve">
+    <value>Very Unsatisfied</value>
+  </data>
+  <data name="FIELD_Q7_1Resource1.Text" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="FIELD_Q7_2Resource1.Text" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
-    <value>工號</value>
+    <value>Employee number</value>
   </data>
   <data name="LABEL_EmpNameCHResource1.Text" xml:space="preserve">
-    <value>中文姓名</value>
+    <value>Chinese Name</value>
   </data>
   <data name="LABEL_EmpNameENResource1.Text" xml:space="preserve">
-    <value>英文姓名</value>
+    <value>English Name</value>
   </data>
   <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
     <value>檢視問卷</value>
   </data>
   <data name="LABEL_Q10Resource1.Text" xml:space="preserve">
-    <value>是否有推薦公司舉辦的課程?</value>
+    <value>Do you recommend any of the courses?</value>
   </data>
   <data name="LABEL_Q1Resource1.Text" xml:space="preserve">
-    <value>您如何得知此講座課程? (可複選)</value>
+    <value>How did you find out about this seminar program? (optional)</value>
   </data>
   <data name="LABEL_Q2Resource1.Text" xml:space="preserve">
-    <value>講師的教學方式</value>
+    <value>The instructor's teaching style</value>
   </data>
   <data name="LABEL_Q3Resource1.Text" xml:space="preserve">
-    <value>課程教材的內容</value>
+    <value>The content of the course materials</value>
   </data>
   <data name="LABEL_Q4Resource1.Text" xml:space="preserve">
-    <value>對於場地的規劃與安排</value>
+    <value>Planning and arrangement of the venue</value>
   </data>
   <data name="LABEL_Q5Resource1.Text" xml:space="preserve">
-    <value>對於時間的規劃與安排</value>
+    <value>Planning and arrangement of time</value>
   </data>
   <data name="LABEL_Q6Resource1.Text" xml:space="preserve">
-    <value>整體而言，對本次活動滿意程度</value>
+    <value>Overall, how satisfied you were with the event?</value>
   </data>
   <data name="LABEL_Q7ReasonResource1.Text" xml:space="preserve">
-    <value>不願意的原因為何?請說明</value>
+    <value>What are the reasons for not wanting to participate? Please explain.</value>
   </data>
   <data name="LABEL_Q7Resource1.Text" xml:space="preserve">
-    <value>未來若再次邀請該講師授課，您的參與意願為</value>
+    <value>If the lecturer is invited this instructor again in the future, how would you like to participate?</value>
   </data>
   <data name="LABEL_Q8Resource1.Text" xml:space="preserve">
-    <value>參與此活動對您的幫助</value>
+    <value>How did participating in this event help you?</value>
   </data>
   <data name="LABEL_Q9Resource1.Text" xml:space="preserve">
-    <value>建議與想法</value>
+    <value>Suggestions and ideas</value>
   </data>
   <data name="LABEL_StationResource1.Text" xml:space="preserve">
-    <value>勤務地</value>
+    <value>Location</value>
   </data>
   <data name="LABEL_UnitNameResource1.Text" xml:space="preserve">
-    <value>部門</value>
+    <value>Department</value>
   </data>
   <data name="PageResource1.Title" xml:space="preserve">
     <value>檢視問卷</value>

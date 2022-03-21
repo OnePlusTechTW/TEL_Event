@@ -144,6 +144,45 @@
   <data name="ErrorMsg_MustFill_Q6" xml:space="preserve">
     <value>欄位 整體而言，對本次活動滿意程度 為必填欄位</value>
   </data>
+  <data name="FIELD_Q1_1Resource1.Text" xml:space="preserve">
+    <value>公告</value>
+  </data>
+  <data name="FIELD_Q1_2Resource1.Text" xml:space="preserve">
+    <value>信件宣傳</value>
+  </data>
+  <data name="FIELD_Q1_3Resource1.Text" xml:space="preserve">
+    <value>海報</value>
+  </data>
+  <data name="FIELD_Q1_4Resource1.Text" xml:space="preserve">
+    <value>同事分享</value>
+  </data>
+  <data name="FIELD_Q1_5Resource1.Text" xml:space="preserve">
+    <value>螢幕鎖定畫面</value>
+  </data>
+  <data name="FIELD_Q1_6Resource1.Text" xml:space="preserve">
+    <value>其他(自填)</value>
+  </data>
+  <data name="FIELD_Q2_1Resource1.Text" xml:space="preserve">
+    <value>非常滿意</value>
+  </data>
+  <data name="FIELD_Q2_2Resource1.Text" xml:space="preserve">
+    <value>滿意</value>
+  </data>
+  <data name="FIELD_Q2_3Resource1.Text" xml:space="preserve">
+    <value>普通</value>
+  </data>
+  <data name="FIELD_Q2_4Resource1.Text" xml:space="preserve">
+    <value>不滿意</value>
+  </data>
+  <data name="FIELD_Q2_5Resource1.Text" xml:space="preserve">
+    <value>非常不滿意</value>
+  </data>
+  <data name="hfmsgResource1.Value" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="hfWarningResource1.Value" xml:space="preserve">
+    <value>警告</value>
+  </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
     <value>工號</value>
   </data>
@@ -178,13 +217,16 @@
     <value>建議與想法</value>
   </data>
   <data name="LABEL_Q8Resource1.Text" xml:space="preserve">
-    <value>是否有推薦公司舉辦的活動?</value>
+    <value>是否有想建議公司舉辦的活動?</value>
   </data>
   <data name="LABEL_StationResource1.Text" xml:space="preserve">
     <value>勤務地</value>
   </data>
   <data name="LABEL_UnitNameResource1.Text" xml:space="preserve">
     <value>部門</value>
+  </data>
+  <data name="lblDeleteWarningResource1.Text" xml:space="preserve">
+    <value>問卷送出後即不可修正，您確定要送出嗎？</value>
   </data>
   <data name="PageResource1.Title" xml:space="preserve">
     <value>填寫問卷</value>

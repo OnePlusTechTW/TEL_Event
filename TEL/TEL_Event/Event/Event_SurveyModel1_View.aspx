@@ -52,13 +52,13 @@
             </tr>
             <tr>
                 <td>
-                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
                     <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
@@ -75,20 +75,20 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 120px">
-                    <asp:CheckBox ID="FIELD_Q1_1" runat="server" Text="公告" Value="公告" CssClass="Normal" Enabled="false"></asp:CheckBox>
+                <td style="width: 160px">
+                    <asp:CheckBox ID="FIELD_Q1_1" runat="server" Text="公告" Value="公告" CssClass="Normal" Enabled="false" meta:resourcekey="FIELD_Q1_1Resource1"></asp:CheckBox>
                 </td>
-                <td style="width: 120px">
-                    <asp:CheckBox ID="FIELD_Q1_2" runat="server" Text="信件宣傳" Value="信件宣傳" CssClass="Normal" Enabled="false"></asp:CheckBox>
+                <td style="width: 160px">
+                    <asp:CheckBox ID="FIELD_Q1_2" runat="server" Text="信件宣傳" Value="信件宣傳" CssClass="Normal" Enabled="false" meta:resourcekey="FIELD_Q1_2Resource1"></asp:CheckBox>
                 </td>
-                <td style="width: 120px">
-                    <asp:CheckBox ID="FIELD_Q1_3" runat="server" Text="海報" Value="海報" CssClass="Normal" Enabled="false"></asp:CheckBox>
+                <td style="width: 160px">
+                    <asp:CheckBox ID="FIELD_Q1_3" runat="server" Text="海報" Value="海報" CssClass="Normal" Enabled="false" meta:resourcekey="FIELD_Q1_3Resource1"></asp:CheckBox>
                 </td>
-                <td style="width: 120px">
-                    <asp:CheckBox ID="FIELD_Q1_4" runat="server" Text="同事分享" Value="同事分享" CssClass="Normal" Enabled="false"></asp:CheckBox>
+                <td style="width: 160px">
+                    <asp:CheckBox ID="FIELD_Q1_4" runat="server" Text="同事分享" Value="同事分享" CssClass="Normal" Enabled="false" meta:resourcekey="FIELD_Q1_4Resource1"></asp:CheckBox>
                 </td>
-                <td style="width: 120px">
-                    <asp:CheckBox ID="FIELD_Q1_5" runat="server" Text="螢幕鎖定畫面" Value="螢幕鎖定畫面" CssClass="Normal" Enabled="false"></asp:CheckBox>
+                <td style="width: 160px">
+                    <asp:CheckBox ID="FIELD_Q1_5" runat="server" Text="螢幕鎖定畫面" Value="螢幕鎖定畫面" CssClass="Normal" Enabled="false" meta:resourcekey="FIELD_Q1_5Resource1"></asp:CheckBox>
                 </td>
             </tr>
             <tr>
@@ -104,19 +104,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q2_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q2_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false" meta:resourcekey="FIELD_Q2_1Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q2_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q2_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false" meta:resourcekey="FIELD_Q2_2Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q2_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q2_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false" meta:resourcekey="FIELD_Q2_3Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q2_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q2_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false" meta:resourcekey="FIELD_Q2_4Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q2_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q2_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false" meta:resourcekey="FIELD_Q2_5Resource1"></asp:RadioButton>
                 </td>
             </tr>
             <tr class="FormTRStyle">
@@ -126,19 +126,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q3_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q3_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false" meta:resourcekey="FIELD_Q2_1Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q3_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q3_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false" meta:resourcekey="FIELD_Q2_2Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q3_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q3_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false" meta:resourcekey="FIELD_Q2_3Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q3_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q3_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false" meta:resourcekey="FIELD_Q2_4Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q3_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q3_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q3" Enabled="false" meta:resourcekey="FIELD_Q2_5Resource1"></asp:RadioButton>
                 </td>
             </tr>
             <tr class="FormTRStyle">
@@ -148,19 +148,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q4_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q4_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false" meta:resourcekey="FIELD_Q2_1Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q4_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q4_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false" meta:resourcekey="FIELD_Q2_2Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q4_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q4_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false" meta:resourcekey="FIELD_Q2_3Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q4_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q4_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false" meta:resourcekey="FIELD_Q2_4Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q4_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q4_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q4" Enabled="false" meta:resourcekey="FIELD_Q2_5Resource1"></asp:RadioButton>
                 </td>
             </tr>
             <tr class="FormTRStyle">
@@ -170,19 +170,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q5_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q5_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false" meta:resourcekey="FIELD_Q2_1Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q5_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q5_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false" meta:resourcekey="FIELD_Q2_2Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q5_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q5_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false" meta:resourcekey="FIELD_Q2_3Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q5_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q5_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false" meta:resourcekey="FIELD_Q2_4Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q5_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q5_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q5" Enabled="false" meta:resourcekey="FIELD_Q2_5Resource1"></asp:RadioButton>
                 </td>
             </tr>
             <tr class="FormTRStyle">
@@ -192,19 +192,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q6_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q6_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false" meta:resourcekey="FIELD_Q2_1Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q6_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q6_2" runat="server" Text="滿意" Value="滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false" meta:resourcekey="FIELD_Q2_2Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q6_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q6_3" runat="server" Text="普通" Value="普通" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false" meta:resourcekey="FIELD_Q2_3Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q6_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q6_4" runat="server" Text="不滿意" Value="不滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false" meta:resourcekey="FIELD_Q2_4Resource1"></asp:RadioButton>
                 </td>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q6_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q6_5" runat="server" Text="非常不滿意" Value="非常不滿意" CssClass="Normal" GroupName="FIELD_Q6" Enabled="false" meta:resourcekey="FIELD_Q2_5Resource1"></asp:RadioButton>
                 </td>
             </tr>
             <tr class="FormTRStyle">
@@ -214,10 +214,10 @@
             </tr>
             <tr>
                 <td>
-                    <asp:RadioButton ID="FIELD_Q7_1" runat="server" Text="願意" Value="願意" CssClass="Normal" GroupName="FIELD_Q7" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q7_1" runat="server" Text="願意" Value="願意" CssClass="Normal" GroupName="FIELD_Q7" Enabled="false" meta:resourcekey="FIELD_Q7_1Resource1"></asp:RadioButton>
                 </td>
                 <td colspan="4">
-                    <asp:RadioButton ID="FIELD_Q7_2" runat="server" Text="不願意" Value="不願意" CssClass="Normal" GroupName="FIELD_Q7" Enabled="false"></asp:RadioButton>
+                    <asp:RadioButton ID="FIELD_Q7_2" runat="server" Text="不願意" Value="不願意" CssClass="Normal" GroupName="FIELD_Q7" Enabled="false" meta:resourcekey="FIELD_Q7_2Resource1"></asp:RadioButton>
                 </td>
             </tr>
             <tr>

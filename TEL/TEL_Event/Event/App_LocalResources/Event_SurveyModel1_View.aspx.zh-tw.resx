@@ -117,6 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FIELD_Q1_1Resource1.Text" xml:space="preserve">
+    <value>公告</value>
+  </data>
+  <data name="FIELD_Q1_2Resource1.Text" xml:space="preserve">
+    <value>信件宣傳</value>
+  </data>
+  <data name="FIELD_Q1_3Resource1.Text" xml:space="preserve">
+    <value>海報</value>
+  </data>
+  <data name="FIELD_Q1_4Resource1.Text" xml:space="preserve">
+    <value>同事分享</value>
+  </data>
+  <data name="FIELD_Q1_5Resource1.Text" xml:space="preserve">
+    <value>螢幕鎖定畫面</value>
+  </data>
+  <data name="FIELD_Q1_6Resource1.Text" xml:space="preserve">
+    <value>其他(自填)</value>
+  </data>
+  <data name="FIELD_Q2_1Resource1.Text" xml:space="preserve">
+    <value>非常滿意</value>
+  </data>
+  <data name="FIELD_Q2_2Resource1.Text" xml:space="preserve">
+    <value>滿意</value>
+  </data>
+  <data name="FIELD_Q2_3Resource1.Text" xml:space="preserve">
+    <value>普通</value>
+  </data>
+  <data name="FIELD_Q2_4Resource1.Text" xml:space="preserve">
+    <value>不滿意</value>
+  </data>
+  <data name="FIELD_Q2_5Resource1.Text" xml:space="preserve">
+    <value>非常不滿意</value>
+  </data>
+  <data name="FIELD_Q7_1Resource1.Text" xml:space="preserve">
+    <value>願意</value>
+  </data>
+  <data name="FIELD_Q7_2Resource1.Text" xml:space="preserve">
+    <value>不願意</value>
+  </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
     <value>工號</value>
   </data>
@@ -130,7 +169,7 @@
     <value>檢視問卷</value>
   </data>
   <data name="LABEL_Q10Resource1.Text" xml:space="preserve">
-    <value>是否有推薦公司舉辦的課程?</value>
+    <value>是否有想建議公司舉辦的課程?</value>
   </data>
   <data name="LABEL_Q1Resource1.Text" xml:space="preserve">
     <value>您如何得知此講座課程? (可複選)</value>

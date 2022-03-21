@@ -196,7 +196,7 @@
     <value>分類名</value>
   </data>
   <data name="lblCategoryResource1.Text" xml:space="preserve">
-    <value>活動分類</value>
+    <value>イベント分類</value>
   </data>
   <data name="lblCheckup1Resource1.Text" xml:space="preserve">
     <value>社員の人間ドック登録グループ</value>
@@ -214,7 +214,7 @@
     <value>錯誤訊息：</value>
   </data>
   <data name="lblEventCategoryResource1.Text" xml:space="preserve">
-    <value>活動分類</value>
+    <value>イベント分類</value>
   </data>
   <data name="lblEventManagerResource1.Text" xml:space="preserve">
     <value>常態イベント管理者</value>

@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_CancelResource1.Text" xml:space="preserve">
-    <value>取消</value>
+    <value>キャンセル</value>
   </data>
   <data name="Button_SubmitResource1.Text" xml:space="preserve">
-    <value>送出</value>
+    <value>完成</value>
   </data>
   <data name="ErrorMsg_MustFill_Q1" xml:space="preserve">
-    <value>欄位 您如何得知此講座課程 為必填欄位</value>
+    <value>欄位 您如何得知此活動 為必填欄位</value>
   </data>
   <data name="ErrorMsg_MustFill_Q1Other" xml:space="preserve">
     <value>欄位 其他(自填) 為必填欄位</value>
   </data>
   <data name="ErrorMsg_MustFill_Q2" xml:space="preserve">
-    <value>欄位 講師的教學方式 為必填欄位</value>
+    <value>欄位 對於活動的流程之安排 為必填欄位</value>
   </data>
   <data name="ErrorMsg_MustFill_Q3" xml:space="preserve">
-    <value>欄位 課程教材的內容 為必填欄位</value>
+    <value>欄位 對於活動的內容之安排 為必填欄位</value>
   </data>
   <data name="ErrorMsg_MustFill_Q4" xml:space="preserve">
     <value>欄位 對於場地的規劃與安排 為必填欄位</value>
@@ -144,53 +144,38 @@
   <data name="ErrorMsg_MustFill_Q6" xml:space="preserve">
     <value>欄位 整體而言，對本次活動滿意程度 為必填欄位</value>
   </data>
-  <data name="ErrorMsg_MustFill_Q7" xml:space="preserve">
-    <value>欄位 未來若再次邀請該講師授課，您的參與意願為 為必填欄位</value>
-  </data>
-  <data name="ErrorMsg_MustFill_Q7Reason" xml:space="preserve">
-    <value>欄位 不願意的原因為何?請說明 為必填欄位</value>
-  </data>
-  <data name="ErrorMsg_MustFill_Q8" xml:space="preserve">
-    <value>欄位 參與此活動對您的幫助 為必填欄位</value>
-  </data>
   <data name="FIELD_Q1_1Resource1.Text" xml:space="preserve">
-    <value>公告</value>
+    <value>お知らせ</value>
   </data>
   <data name="FIELD_Q1_2Resource1.Text" xml:space="preserve">
-    <value>信件宣傳</value>
+    <value>メール</value>
   </data>
   <data name="FIELD_Q1_3Resource1.Text" xml:space="preserve">
-    <value>海報</value>
+    <value>ポスター</value>
   </data>
   <data name="FIELD_Q1_4Resource1.Text" xml:space="preserve">
-    <value>同事分享</value>
+    <value>同僚</value>
   </data>
   <data name="FIELD_Q1_5Resource1.Text" xml:space="preserve">
-    <value>螢幕鎖定畫面</value>
+    <value>パソコンのローク画面</value>
   </data>
   <data name="FIELD_Q1_6Resource1.Text" xml:space="preserve">
-    <value>其他(自填)</value>
+    <value>その他</value>
   </data>
   <data name="FIELD_Q2_1Resource1.Text" xml:space="preserve">
-    <value>非常滿意</value>
+    <value>満足</value>
   </data>
   <data name="FIELD_Q2_2Resource1.Text" xml:space="preserve">
-    <value>滿意</value>
+    <value>やや満足</value>
   </data>
   <data name="FIELD_Q2_3Resource1.Text" xml:space="preserve">
     <value>普通</value>
   </data>
   <data name="FIELD_Q2_4Resource1.Text" xml:space="preserve">
-    <value>不滿意</value>
+    <value>やや不満</value>
   </data>
   <data name="FIELD_Q2_5Resource1.Text" xml:space="preserve">
-    <value>非常不滿意</value>
-  </data>
-  <data name="FIELD_Q7_1Resource1.Text" xml:space="preserve">
-    <value>願意</value>
-  </data>
-  <data name="FIELD_Q7_2Resource1.Text" xml:space="preserve">
-    <value>不願意</value>
+    <value>不満</value>
   </data>
   <data name="hfmsgResource1.Value" xml:space="preserve">
     <value>確認</value>
@@ -199,49 +184,40 @@
     <value>警告</value>
   </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
-    <value>工號</value>
+    <value>社員番号</value>
   </data>
   <data name="LABEL_EmpNameCHResource1.Text" xml:space="preserve">
-    <value>中文姓名</value>
+    <value>名前(漢字)</value>
   </data>
   <data name="LABEL_EmpNameENResource1.Text" xml:space="preserve">
-    <value>英文姓名</value>
+    <value>名前(ローマ字)</value>
   </data>
   <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
     <value>填寫問卷</value>
   </data>
-  <data name="LABEL_Q10Resource1.Text" xml:space="preserve">
-    <value>是否有想建議公司舉辦的課程?</value>
-  </data>
   <data name="LABEL_Q1Resource1.Text" xml:space="preserve">
-    <value>您如何得知此講座課程? (可複選)</value>
+    <value>活動情報の知り方</value>
   </data>
   <data name="LABEL_Q2Resource1.Text" xml:space="preserve">
-    <value>講師的教學方式</value>
+    <value>活動日程の手配について</value>
   </data>
   <data name="LABEL_Q3Resource1.Text" xml:space="preserve">
-    <value>課程教材的內容</value>
+    <value>活動内容の手配について</value>
   </data>
   <data name="LABEL_Q4Resource1.Text" xml:space="preserve">
-    <value>對於場地的規劃與安排</value>
+    <value>場所の手配について</value>
   </data>
   <data name="LABEL_Q5Resource1.Text" xml:space="preserve">
-    <value>對於時間的規劃與安排</value>
+    <value>時間の手配について</value>
   </data>
   <data name="LABEL_Q6Resource1.Text" xml:space="preserve">
-    <value>整體而言，對本次活動滿意程度</value>
-  </data>
-  <data name="LABEL_Q7ReasonResource1.Text" xml:space="preserve">
-    <value>不願意的原因為何?請說明</value>
+    <value>総合的に今回の活動について</value>
   </data>
   <data name="LABEL_Q7Resource1.Text" xml:space="preserve">
-    <value>未來若再次邀請該講師授課，您的參與意願為</value>
+    <value>ご意見・ご要望</value>
   </data>
   <data name="LABEL_Q8Resource1.Text" xml:space="preserve">
-    <value>參與此活動對您的幫助</value>
-  </data>
-  <data name="LABEL_Q9Resource1.Text" xml:space="preserve">
-    <value>建議與想法</value>
+    <value>おすすめの活動はありますか？</value>
   </data>
   <data name="LABEL_StationResource1.Text" xml:space="preserve">
     <value>勤務地</value>

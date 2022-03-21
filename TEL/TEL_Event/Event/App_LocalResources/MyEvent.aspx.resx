@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_QueryResource1.Text" xml:space="preserve">
-    <value>查詢</value>
+    <value>Enquiry</value>
   </data>
   <data name="FIELD_EventStatusitem_1.Text" xml:space="preserve">
     <value>尚未開始</value>
@@ -130,57 +130,57 @@
     <value>已結束</value>
   </data>
   <data name="FIELD_EventStatusitem_all.Text" xml:space="preserve">
-    <value>- 全部 -</value>
+    <value>- All -</value>
   </data>
   <data name="FIELD_ResultResource1.EmptyDataText" xml:space="preserve">
     <value>無符合資料</value>
   </data>
   <data name="FIELD_Result_Category.HeaderText" xml:space="preserve">
-    <value>活動分類</value>
+    <value>Events Categories</value>
   </data>
   <data name="FIELD_Result_Event.HeaderText" xml:space="preserve">
-    <value>報名資料</value>
+    <value>Registration Information</value>
   </data>
   <data name="FIELD_Result_Eventend.HeaderText" xml:space="preserve">
-    <value>活動結束日期</value>
+    <value>Events End Date</value>
   </data>
   <data name="FIELD_Result_Eventstart.HeaderText" xml:space="preserve">
-    <value>活動開始日期</value>
+    <value>Events Start Date</value>
   </data>
   <data name="FIELD_Result_Name.HeaderText" xml:space="preserve">
-    <value>活動名稱</value>
+    <value>Events Name</value>
   </data>
   <data name="FIELD_Result_Regend.HeaderText" xml:space="preserve">
-    <value>報名結束日期時間</value>
+    <value>Registration End Date and Time</value>
   </data>
   <data name="FIELD_Result_RegisterDate.HeaderText" xml:space="preserve">
-    <value>報名日期時間</value>
+    <value>Registration Date and Time</value>
   </data>
   <data name="FIELD_Result_Regstart.HeaderText" xml:space="preserve">
-    <value>報名開始日期時間</value>
+    <value>Registration Start Date and Dime</value>
   </data>
   <data name="FIELD_Result_Status.HeaderText" xml:space="preserve">
-    <value>活動狀態</value>
+    <value>Events Status</value>
   </data>
   <data name="FIELD_Result_Survey.HeaderText" xml:space="preserve">
-    <value>問卷資料</value>
+    <value>Questionnaire Data</value>
   </data>
   <data name="item_all" xml:space="preserve">
-    <value>- 全部 -</value>
+    <value>- All -</value>
   </data>
   <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
-    <value>我的活動</value>
+    <value>My Events</value>
   </data>
   <data name="PageResource1.Title" xml:space="preserve">
-    <value>我的活動</value>
+    <value>My Events</value>
   </data>
   <data name="QUERY_EventCategoryResource1.Text" xml:space="preserve">
-    <value>活動分類</value>
+    <value>Events Categories</value>
   </data>
   <data name="QUERY_EventNameResource1.Text" xml:space="preserve">
-    <value>活動名稱</value>
+    <value>Events Name</value>
   </data>
   <data name="QUERY_EventStatusResource1.Text" xml:space="preserve">
-    <value>活動狀態</value>
+    <value>Events Status</value>
   </data>
 </root>
