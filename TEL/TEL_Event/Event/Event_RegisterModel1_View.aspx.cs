@@ -29,7 +29,22 @@ public partial class Event_Event_RegisterModel1_View : System.Web.UI.Page
         InitFormValues(id);
     }
 
-    
+    /// <summary>
+    /// 回到原始頁面
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnGoBackPage_Click(object sender, EventArgs e)
+    {
+        string returnPage = "Default";
+
+        if (Request.QueryString["page"] != null && !string.IsNullOrEmpty(Request.QueryString["page"]))
+            returnPage = Request.QueryString["page"].ToString();
+
+        Response.Redirect($"{returnPage}.aspx");
+    }
+
+
 
     /// <summary>
     /// 初始表單
@@ -48,7 +63,7 @@ public partial class Event_Event_RegisterModel1_View : System.Web.UI.Page
             txtEmpid.Text = dt.Rows[0]["empid"].ToString();
             txtCName.Text = userInfo.FullNameCH;
             txtEName.Text = userInfo.FullNameEN;
-            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtDepartment.Text = userInfo.UnitName;
             txtStation.Text = userInfo.Station;
 
             txtAttendContent.Text = dt.Rows[0]["selectedoption"].ToString();
@@ -56,7 +71,7 @@ public partial class Event_Event_RegisterModel1_View : System.Web.UI.Page
         }
         else
         {
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowNoRegisterInfo();", true);
         }
     }
 }

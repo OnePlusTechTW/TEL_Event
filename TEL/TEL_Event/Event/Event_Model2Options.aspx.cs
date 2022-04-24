@@ -187,7 +187,12 @@ public partial class Event_Event_Model2Options : System.Web.UI.Page
 
     protected void btnfinish_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Event.aspx");
+        if (gridRegisterOption1.Rows.Count == 0 || gridRegisterOption2.Rows.Count == 0 || gridRegisterOption3.Rows.Count == 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblOptionsNoAdd.Text + "');", true);
+        }
+        else
+            Response.Redirect("Event.aspx");
     }
 
     protected void gridRegisterOption1_RowDataBound(object sender, GridViewRowEventArgs e)

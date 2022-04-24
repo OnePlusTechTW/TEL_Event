@@ -124,7 +124,12 @@ public partial class Event_Event_Model1Options : System.Web.UI.Page
 
     protected void btnfinish_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Event.aspx");
+        if (gridModel1Options.Rows.Count == 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblOptionsNoAdd.Text + "');", true);
+        }
+        else           
+            Response.Redirect("Event.aspx");
     }
 
     /// <summary>

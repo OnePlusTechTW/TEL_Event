@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Link_CreateEvents.Text" xml:space="preserve">
-    <value>イベント追加</value>
+    <value>&amp;nbsp&amp;nbspイベント追加</value>
   </data>
   <data name="Link_Home.Text" xml:space="preserve">
-    <value>ホーム</value>
+    <value>&amp;nbsp&amp;nbspホーム</value>
   </data>
   <data name="Link_ManageEvents.Text" xml:space="preserve">
-    <value>イベント管理</value>
+    <value>&amp;nbsp&amp;nbspイベント管理</value>
   </data>
   <data name="Link_ManageSite.Text" xml:space="preserve">
-    <value>Webサイト管理</value>
+    <value>&amp;nbsp&amp;nbspWebサイト管理</value>
   </data>
   <data name="Link_MyEvent.Text" xml:space="preserve">
-    <value>私のイベント</value>
+    <value>&amp;nbsp&amp;nbsp私のイベント</value>
   </data>
   <data name="Link_PastEvent.Text" xml:space="preserve">
-    <value>イベント記録</value>
+    <value>&amp;nbsp&amp;nbspイベント記録</value>
   </data>
 </root>

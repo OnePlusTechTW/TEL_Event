@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_CancelResource1.Text" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="Button_SubmitResource1.Text" xml:space="preserve">
-    <value>送出</value>
+    <value>Complete</value>
   </data>
   <data name="ErrorMsg_MustFill_Q1" xml:space="preserve">
     <value>欄位 對於問卷的填寫 為必填欄位</value>
@@ -136,13 +136,13 @@
     <value>欄位 整體而言，對本次活動滿意程度 為必填欄位</value>
   </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
-    <value>工號</value>
+    <value>Emplyee Number</value>
   </data>
   <data name="LABEL_EmpNameCHResource1.Text" xml:space="preserve">
-    <value>中文姓名</value>
+    <value>Chinese Name</value>
   </data>
   <data name="LABEL_EmpNameENResource1.Text" xml:space="preserve">
-    <value>英文姓名</value>
+    <value>English Name</value>
   </data>
   <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
     <value>填寫問卷</value>
@@ -151,22 +151,22 @@
     <value>對於問卷的填寫</value>
   </data>
   <data name="LABEL_Q2Resource1.Text" xml:space="preserve">
-    <value>對於替換的過程</value>
+    <value>Arrangement of the process of the event</value>
   </data>
   <data name="LABEL_Q3Resource1.Text" xml:space="preserve">
-    <value>對於時間的規劃</value>
+    <value>Planning and arrangement of time</value>
   </data>
   <data name="LABEL_Q4Resource1.Text" xml:space="preserve">
-    <value>整體而言，對本次活動滿意程度</value>
+    <value>Overall, how satisfied you were with the event?</value>
   </data>
   <data name="LABEL_Q5Resource1.Text" xml:space="preserve">
     <value>建議與想法</value>
   </data>
   <data name="LABEL_StationResource1.Text" xml:space="preserve">
-    <value>勤務地</value>
+    <value>Location</value>
   </data>
   <data name="LABEL_UnitNameResource1.Text" xml:space="preserve">
-    <value>部門</value>
+    <value>Department</value>
   </data>
   <data name="PageResource1.Title" xml:space="preserve">
     <value>填寫問卷</value>

@@ -306,4 +306,10 @@
   <data name="TemplateFieldResource7.HeaderText" xml:space="preserve">
     <value>是否啟用</value>
   </data>
+  <data name="lblMsgTextResource1.Text" xml:space="preserve">
+    <value>訊息</value>
+  </data>
+  <data name="lblWarningTextResource1.Text" xml:space="preserve">
+    <value>警告</value>
+  </data>
 </root>

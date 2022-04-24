@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Link_CreateEvents.Text" xml:space="preserve">
-    <value>建立活動</value>
+    <value>&amp;nbsp&amp;nbsp建立活動</value>
   </data>
   <data name="Link_Home.Text" xml:space="preserve">
-    <value>首頁</value>
+    <value>&amp;nbsp&amp;nbsp首頁</value>
   </data>
   <data name="Link_ManageEvents.Text" xml:space="preserve">
-    <value>管理活動</value>
+    <value>&amp;nbsp&amp;nbsp管理活動</value>
   </data>
   <data name="Link_ManageSite.Text" xml:space="preserve">
-    <value>管理網站</value>
+    <value>&amp;nbsp&amp;nbsp管理網站</value>
   </data>
   <data name="Link_MyEvent.Text" xml:space="preserve">
-    <value>我的活動</value>
+    <value>&amp;nbsp&amp;nbsp我的活動</value>
   </data>
   <data name="Link_PastEvent.Text" xml:space="preserve">
-    <value>過去活動</value>
+    <value>&amp;nbsp&amp;nbsp過去活動</value>
   </data>
 </root>

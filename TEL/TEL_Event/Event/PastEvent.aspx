@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="PastEvent.aspx.cs" Inherits="Event_PastEvent" StylesheetTheme="Event" Culture="auto" UICulture="auto"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="PastEvent.aspx.cs" Inherits="Event_PastEvent" StylesheetTheme="Event" Culture="auto" UICulture="auto" meta:resourcekey="PageResource1"%>
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
@@ -28,11 +28,11 @@
         function ShowDialogView(id) {
             $(function () {
                 $("#dialogView").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     changeMonth: true,
                     changeYear: true,
-                    width: "645px",
+                    width: "1200px",
                     Height: "500px",
                     position: { my: "center center", at: "center top+100", },
                     buttons: {
@@ -52,11 +52,11 @@
     <table>
         <tr>
             <td>
-                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon6.png" Height="40px"></asp:Image>
+                <asp:Image runat="server" ImageUrl="~/Master/images/Page_icon6.png" Height="40px" meta:resourcekey="ImageResource1"></asp:Image>
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="LABEL1" runat="server" CssClass="PageTitle" Text="過去活動"></asp:Label>
+                <asp:Label ID="LABEL1" runat="server" CssClass="PageTitle" Text="過去活動" meta:resourcekey="LABEL1Resource1"></asp:Label>
             </td>
         </tr>
         <tr style="height: 10px">
@@ -66,31 +66,31 @@
     <table>
         <tr>
             <td>
-                <asp:Label ID="lblEventName" runat="server" Text="活動名稱"></asp:Label>
+                <asp:Label ID="lblEventName" runat="server" Text="活動名稱" meta:resourcekey="lblEventNameResource1"></asp:Label>
             </td>
-            <td >
-                <asp:Label ID="lblEventCategory" runat="server" Text="活動分類"></asp:Label>
+            <td >&nbsp;
+                <asp:Label ID="lblEventCategory" runat="server" Text="活動分類" meta:resourcekey="lblEventCategoryResource1"></asp:Label>
             </td>
-            <td >
-                <asp:Label ID="lblDateInterval" runat="server" Text="活動開始日期區間"></asp:Label>
+            <td >&nbsp;
+                <asp:Label ID="lblDateInterval" runat="server" Text="活動開始日期區間" meta:resourcekey="lblDateIntervalResource1"></asp:Label>
             </td>
             <td></td>
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="tbEventName" runat="server" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="tbEventName" runat="server" CssClass="QueryField" meta:resourcekey="tbEventNameResource1"></asp:TextBox>
             </td>
-            <td >
-                <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField">
+            <td >&nbsp;
+                <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField" meta:resourcekey="ddlEventCategoryResource1">
                 </asp:DropDownList>
             </td>
-            <td >
-                <asp:TextBox ID="sDate" runat="server" Width="160px"  CssClass="QueryField"></asp:TextBox>
+            <td >&nbsp;
+                <asp:TextBox ID="sDate" runat="server" Width="160px"  CssClass="QueryField" meta:resourcekey="sDateResource1"></asp:TextBox>
                 ~
-                <asp:TextBox ID="eDate" runat="server" Width="160px"  CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="eDate" runat="server" Width="160px"  CssClass="QueryField" meta:resourcekey="eDateResource1"></asp:TextBox>
             </td>
-            <td>
-                <asp:Button ID="btnSearch" runat="server" Text="查詢" OnClick="btnSearch_Click" CssClass="Button"  />
+            <td>&nbsp;
+                <asp:Button ID="btnSearch" runat="server" Text="查詢" OnClick="btnSearch_Click" CssClass="Button" meta:resourcekey="btnSearchResource1"  />
             </td>
         </tr>
     </table>
@@ -99,28 +99,28 @@
                 <td>
                     <asp:GridView ID="gridEvents" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                         EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                        PageSize="20" OnPageIndexChanging="gridEvent_PageIndexChanging" OnRowDataBound="gridEvent_RowDataBound" >
+                        PageSize="20" OnPageIndexChanging="gridEvent_PageIndexChanging" OnRowDataBound="gridEvent_RowDataBound" meta:resourcekey="gridEventsResource1" >
                         <Columns>
-                            <asp:BoundField HeaderText="活動名稱" DataField="eventname">
+                            <asp:BoundField HeaderText="活動名稱" DataField="eventname" meta:resourcekey="BoundFieldResource1">
                                 <HeaderStyle Width="300px" ></HeaderStyle>
                             </asp:BoundField>
-                            <asp:BoundField HeaderText="活動分類" DataField="categoryname">
+                            <asp:BoundField HeaderText="活動分類" DataField="categoryname" meta:resourcekey="BoundFieldResource2">
                                 <HeaderStyle Width="120px"></HeaderStyle>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
-                            <asp:BoundField HeaderText="活動開始日期" DataField="eventstart">
+                            <asp:BoundField HeaderText="活動開始日期" DataField="eventstart" meta:resourcekey="BoundFieldResource3">
                                 <HeaderStyle Width="105px"></HeaderStyle>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
-                            <asp:BoundField HeaderText="活動結束日期" DataField="eventend">
+                            <asp:BoundField HeaderText="活動結束日期" DataField="eventend" meta:resourcekey="BoundFieldResource4">
                                 <HeaderStyle  Width="105px"></HeaderStyle>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             
-                            <asp:TemplateField HeaderText="活動資訊">
+                            <asp:TemplateField HeaderText="活動資訊" meta:resourcekey="TemplateFieldResource1">
                                 <HeaderStyle Width="80px"></HeaderStyle>
                                 <ItemTemplate>
-                                    <asp:Button ID="btnView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid")%>' OnClick="btnView_Click" />
+                                    <asp:Button ID="btnView" runat="server" Text="檢視" CssClass="Button_Gridview" CommandArgument='<%# Eval("eventnid") %>' OnClick="btnView_Click" meta:resourcekey="btnViewResource1" />
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -135,7 +135,8 @@
         
     </div>
 
-    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
-    <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
+    <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none" meta:resourcekey="item_allResource1"></asp:Label>
+
+    <asp:Label ID="lblMsgText" runat="server" Text="訊息" meta:resourcekey="lblMsgTextResource1" Style="display: none;"></asp:Label>
 </asp:Content>
 

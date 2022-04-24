@@ -65,7 +65,7 @@ public partial class Event_Event_RegisterModel4_View : System.Web.UI.Page
             txtEmpid.Text = dt.Rows[0]["empid"].ToString();
             txtCName.Text = userInfo.FullNameCH;
             txtEName.Text = userInfo.FullNameEN;
-            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtDepartment.Text = userInfo.UnitName;
             txtStation.Text = userInfo.Station;
             txtHealthGroup.Text = userInfo.HealthGroup;
 
@@ -80,7 +80,7 @@ public partial class Event_Event_RegisterModel4_View : System.Web.UI.Page
             txtArea.Text = dt.Rows[0]["area"].ToString();
             txtSolution.Text = dt.Rows[0]["solution"].ToString();
             txtGender.Text = dt.Rows[0]["gender"].ToString();
-            txtExpectdate.Text = Convert.ToDateTime(dt.Rows[0]["expectdate"].ToString()).ToString("yyyy/MM/mm");
+            txtExpectdate.Text = Convert.ToDateTime(dt.Rows[0]["expectdate"].ToString()).ToString("yyyy/MM/dd");
             txtSeconddate.Text = Convert.ToDateTime(dt.Rows[0]["seconddate"].ToString()).ToString("yyyy/MM/dd");
             txtSecondsolution1.Text = dt.Rows[0]["secondsolution1"].ToString();
             txtSecondsolution2.Text = dt.Rows[0]["secondsolution2"].ToString();

@@ -78,7 +78,8 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-
+            tbImportMsg.Text = ex.Message;
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogFileUpload();", true);
         }
     }
 
@@ -133,7 +134,12 @@ public partial class Event_Event_Model3Options : System.Web.UI.Page
 
     protected void btnfinish_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Event.aspx");
+        if (gridRegisterOption4.Rows.Count == 0 || gridRegisterOption5.Rows.Count == 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblOptionsNoAdd.Text + "');", true);
+        }
+        else
+            Response.Redirect("Event.aspx");
     }
 
     protected void gridRegisterOption4_RowDataBound(object sender, GridViewRowEventArgs e)

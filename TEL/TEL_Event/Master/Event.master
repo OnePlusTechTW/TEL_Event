@@ -15,7 +15,7 @@
     <script src="../Scripts/jquery-ui.min.js"></script>
     <script src="../Scripts/jQuery-Timepicker/jquery-ui-timepicker-addon.min.js"></script>
     <link href="../Scripts/jQuery-Timepicker/jquery-ui-timepicker-addon.min.css" rel="stylesheet" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible"content="IE=11" />
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -27,11 +27,12 @@
         <div>
             <table>
                 <tr>
-                    <td style="width: 60px"></td>
+                    <td style="width: 20px"></td>
                     <td>
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
                     </td>
+                    <td style="width: 20px"></td>
                 </tr>
             </table>
         </div>

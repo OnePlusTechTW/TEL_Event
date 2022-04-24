@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Model2Options.aspx.cs" Inherits="Event_Event_Model2Options"  StylesheetTheme="Event" Culture="auto" UICulture="auto"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Event_Model2Options.aspx.cs" Inherits="Event_Event_Model2Options"  StylesheetTheme="Event" Culture="auto" UICulture="auto" meta:resourcekey="PageResource1"%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <script>
         function ShowDialogRequired() {
             $(function () {
                 $("#dialogRequired").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -25,7 +25,7 @@
         function ShowDialogFailed(ErrMsg) {
             $(function () {
                 $("#dialogFailed").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -47,7 +47,7 @@
         function ShowDialogDelete(event, id) {
             $(function () {
                 $("#dialogDelete").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     buttons: [
                         {
@@ -79,7 +79,7 @@
 
             $(function () {
                 $("#dialogMsg").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -115,7 +115,7 @@
         function Success(result) {
             //ShowDialogSuccessReload(result);
             //刪除成功 reload gridview
-            <%= btnReloadGridView.ClientID%>.click();
+            $('#<%=btnReloadGridView.ClientID%>')[0].click();
         }
 
         //刪除資料events Failure callback
@@ -125,15 +125,15 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True"></asp:ScriptManager>
      <table>
         <tr>
             <td>
-                <asp:Image ID="lblPageImage" runat="server" ImageUrl="~/Master/images/Link_CreateEvents.png" Height="40px"></asp:Image>
+                <asp:Image ID="lblPageImage" runat="server" ImageUrl="~/Master/images/Link_CreateEvents.png" Height="40px" meta:resourcekey="lblPageImageResource1"></asp:Image>
             </td>
             <td style="width: 5px"></td>
             <td style="border-bottom: 1.5px solid #19b1e5;">
-                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="建立活動"></asp:Label>
+                <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="建立活動" meta:resourcekey="lblPageNameResource1"></asp:Label>
             </td>
         </tr>
         <tr style="height: 10px">
@@ -143,22 +143,22 @@
     <table>
         <tr>
             <td>
-                <asp:Label ID="lblContent" runat="server" Text="欲參加的內容"></asp:Label>
+                <asp:Label ID="lblContent" runat="server" Text="欲參加的內容" meta:resourcekey="lblContentResource1"></asp:Label>
             </td>
             <td>
-                <asp:Label ID="lblLimit" runat="server" Text="人數上限"></asp:Label>
+                <asp:Label ID="lblLimit" runat="server" Text="人數上限" meta:resourcekey="lblLimitResource1"></asp:Label>
             </td>
             <td></td>
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="txtContent" runat="server" Width="250px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtContent" runat="server" Width="250px" CssClass="QueryField" meta:resourcekey="txtContentResource1"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="txtLimit" runat="server" Width="150px" CssClass="QueryField" onkeypress="if(event.keyCode < 48 || event.keyCode >57) event.returnValue = false;"></asp:TextBox>
+                <asp:TextBox ID="txtLimit" runat="server" Width="150px" CssClass="QueryField" onkeypress="if(event.keyCode < 48 || event.keyCode >57) event.returnValue = false;" meta:resourcekey="txtLimitResource1"></asp:TextBox>
             </td>
             <td>
-                <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="Button" OnClick="btnAdd_Click" />
+                <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="Button" OnClick="btnAdd_Click" meta:resourcekey="btnAddResource1" />
             </td>
         </tr>
     </table>
@@ -167,19 +167,19 @@
             <td>
                 <asp:GridView ID="gridRegisterOption1" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                     EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                    PageSize="20" OnPageIndexChanging="gridRegisterOption1_PageIndexChanging" OnRowDataBound="gridRegisterOption1_RowDataBound" >
+                    PageSize="20" OnPageIndexChanging="gridRegisterOption1_PageIndexChanging" OnRowDataBound="gridRegisterOption1_RowDataBound" meta:resourcekey="gridRegisterOption1Resource1" >
                     <Columns>
-                        <asp:BoundField HeaderText="欲參加的內容" DataField="description">
+                        <asp:BoundField HeaderText="欲參加的內容" DataField="description" meta:resourcekey="BoundFieldResource1">
                             <HeaderStyle Width="200px"></HeaderStyle>
                         </asp:BoundField>
-                        <asp:BoundField HeaderText="人數上限" DataField="limit">
+                        <asp:BoundField HeaderText="人數上限" DataField="limit" meta:resourcekey="BoundFieldResource2">
                             <HeaderStyle Width="100px"></HeaderStyle>
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="">
+                        <asp:TemplateField HeaderText="" meta:resourcekey="TemplateFieldResource1">
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
                                 <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>'
-                                    OnClientClick='<%# "ShowDialogDelete(\"Option1\",\""+ Eval("id") + "\");return false;" %>' />
+                                    OnClientClick='<%# "ShowDialogDelete(\"Option1\",\""+ Eval("id") + "\");return false;" %>' meta:resourcekey="Button_DeleteManagerResource1" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -193,17 +193,17 @@
     <table style="margin-top:35px">
         <tr>
             <td>
-                <asp:Label ID="lblTransportation" runat="server" Text="交通車"></asp:Label>
+                <asp:Label ID="lblTransportation" runat="server" Text="交通車" meta:resourcekey="lblTransportationResource1"></asp:Label>
             </td>
             
             <td></td>
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="txtTransportation" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtTransportation" runat="server" Width="150px" CssClass="QueryField" meta:resourcekey="txtTransportationResource1"></asp:TextBox>
             </td>
             <td>
-                <asp:Button ID="btnAddTransportation" runat="server" Text="新增" CssClass="Button" OnClick="btnAddTransportation_Click"/>
+                <asp:Button ID="btnAddTransportation" runat="server" Text="新增" CssClass="Button" OnClick="btnAddTransportation_Click" meta:resourcekey="btnAddTransportationResource1"/>
             </td>
         </tr>
     </table>
@@ -212,16 +212,16 @@
             <td>
                 <asp:GridView ID="gridRegisterOption2" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                     EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                    PageSize="20" OnPageIndexChanging="gridRegisterOption2_PageIndexChanging" OnRowDataBound="gridRegisterOption2_RowDataBound" >
+                    PageSize="20" OnPageIndexChanging="gridRegisterOption2_PageIndexChanging" OnRowDataBound="gridRegisterOption2_RowDataBound" meta:resourcekey="gridRegisterOption2Resource1" >
                     <Columns>
-                        <asp:BoundField HeaderText="交通車" DataField="description">
+                        <asp:BoundField HeaderText="交通車" DataField="description" meta:resourcekey="BoundFieldResource3">
                             <HeaderStyle Width="100px"></HeaderStyle>
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="">
+                        <asp:TemplateField HeaderText="" meta:resourcekey="TemplateFieldResource2">
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
                                 <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>'
-                                    OnClientClick='<%# "ShowDialogDelete(\"Option2\",\""+ Eval("id") + "\");return false;" %>' />
+                                    OnClientClick='<%# "ShowDialogDelete(\"Option2\",\""+ Eval("id") + "\");return false;" %>' meta:resourcekey="Button_DeleteManagerResource2" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -235,17 +235,17 @@
     <table style="margin-top:35px">
         <tr>
             <td>
-                <asp:Label ID="lblMeal" runat="server" Text="餐點內容"></asp:Label>
+                <asp:Label ID="lblMeal" runat="server" Text="餐點內容" meta:resourcekey="lblMealResource1"></asp:Label>
             </td>
             
             <td></td>
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="txtMeal" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="txtMeal" runat="server" Width="150px" CssClass="QueryField" meta:resourcekey="txtMealResource1"></asp:TextBox>
             </td>
             <td>
-                <asp:Button ID="btnAddMeal" runat="server" Text="新增" CssClass="Button" OnClick="btnAddMeal_Click"/>
+                <asp:Button ID="btnAddMeal" runat="server" Text="新增" CssClass="Button" OnClick="btnAddMeal_Click" meta:resourcekey="btnAddMealResource1"/>
             </td>
         </tr>
     </table>
@@ -254,16 +254,16 @@
             <td>
                 <asp:GridView ID="gridRegisterOption3" runat="server" AllowSorting="True" ShowHeaderWhenEmpty="True" AllowPaging="True"
                     EmptyDataText="無符合資料" AutoGenerateColumns="False" BorderColor="White"
-                    PageSize="20" OnPageIndexChanging="gridRegisterOption3_PageIndexChanging" OnRowDataBound="gridRegisterOption3_RowDataBound" >
+                    PageSize="20" OnPageIndexChanging="gridRegisterOption3_PageIndexChanging" OnRowDataBound="gridRegisterOption3_RowDataBound" meta:resourcekey="gridRegisterOption3Resource1" >
                     <Columns>
-                        <asp:BoundField HeaderText="餐點內容" DataField="description">
+                        <asp:BoundField HeaderText="餐點內容" DataField="description" meta:resourcekey="BoundFieldResource4">
                             <HeaderStyle Width="100px"></HeaderStyle>
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="">
+                        <asp:TemplateField HeaderText="" meta:resourcekey="TemplateFieldResource3">
                             <HeaderStyle Width="80px"></HeaderStyle>
                             <ItemTemplate>
                                 <asp:Button ID="Button_DeleteManager" runat="server" Text="刪除" CssClass="Button_Gridview" CommandArgument='<%# Eval("id") %>'
-                                    OnClientClick='<%# "ShowDialogDelete(\"Option3\",\""+ Eval("id") + "\");return false;" %>' />
+                                    OnClientClick='<%# "ShowDialogDelete(\"Option3\",\""+ Eval("id") + "\");return false;" %>' meta:resourcekey="Button_DeleteManagerResource3" />
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -277,42 +277,45 @@
     <table style="padding-top: 35px">
         <tr>
             <td>
-                <asp:Button ID="btnfinish" runat="server" Text="完成" OnClick="btnfinish_Click" CssClass="Button" />
+                <asp:Button ID="btnfinish" runat="server" Text="完成" OnClick="btnfinish_Click" CssClass="Button" meta:resourcekey="btnfinishResource1" />
             </td>
         </tr>
     </table>
 
     <div id="dialogRequired" title="Dialog Title">
-        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none">
-            <asp:Label ID="lblRequiredMsg" runat="server" Text=""></asp:Label>
+        <asp:Panel ID="ContentPanel1" runat="server" Style="display: none" meta:resourcekey="ContentPanel1Resource1">
+            <asp:Label ID="lblRequiredMsg" runat="server" meta:resourcekey="lblRequiredMsgResource1"></asp:Label>
         </asp:Panel>
     </div>
 
     <div id="dialogFailed" title="Dialog Title">
-        <asp:Panel ID="ContentPanel3" runat="server" Style="display: none">
-            <asp:Label ID="lblFailed" runat="server" Text="失敗。"></asp:Label>
-            <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="false"></asp:Label><br />
-            <asp:Label ID="lblErrMsg" runat="server" Text="" Visible="false"></asp:Label><br />
+        <asp:Panel ID="ContentPanel3" runat="server" Style="display: none" meta:resourcekey="ContentPanel3Resource1">
+            <asp:Label ID="lblFailed" runat="server" Text="失敗。" meta:resourcekey="lblFailedResource1"></asp:Label>
+            <asp:Label ID="lblErrMsgTxt" runat="server" Text="錯誤訊息：" Visible="False" meta:resourcekey="lblErrMsgTxtResource1"></asp:Label><br />
+            <asp:Label ID="lblErrMsg" runat="server" Visible="False" meta:resourcekey="lblErrMsgResource1"></asp:Label><br />
         </asp:Panel>
     </div>
 
     <div id="dialogDelete" title="Dialog Title">
-        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none">
-            <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？"></asp:Label>
+        <asp:Panel ID="ContentPanel6" runat="server" Style="display: none" meta:resourcekey="ContentPanel6Resource1">
+            <asp:Label ID="lblDeleteWarning" runat="server" Text="確定刪除該筆資料？" meta:resourcekey="lblDeleteWarningResource1"></asp:Label>
         </asp:Panel>
     </div>
 
     <%--dialog Msg--%>
     <div id="dialogMsg" title="Dialog Title">
-        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none">
-            <asp:Label ID="lblDialogMsg" runat="server" Text=""></asp:Label>
+        <asp:Panel ID="ContentPanel8" runat="server" Style="display: none" meta:resourcekey="ContentPanel8Resource1">
+            <asp:Label ID="lblDialogMsg" runat="server" meta:resourcekey="lblDialogMsgResource1"></asp:Label>
         </asp:Panel>
     </div>
 
-    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="false"></asp:Label>
-    <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
-    <asp:Button ID="btnReloadGridView" runat="server" Text="Button" OnClick="btnReloadGridView_Click" style="display:none;"/>
+    <asp:Label ID="lblRequired" runat="server" Text="欄位 {0} 為必填欄位。" Visible="False" meta:resourcekey="lblRequiredResource1"></asp:Label>
+   
+    <asp:Button ID="btnReloadGridView" runat="server" Text="" OnClick="btnReloadGridView_Click" style="display:none;" meta:resourcekey="btnReloadGridViewResource1"/>
 
+    <asp:Label ID="lblMsgText" runat="server" Text="訊息" meta:resourcekey="lblMsgTextResource1" Style="display: none;"></asp:Label>
+    <asp:Label ID="lblWarningText" runat="server" Text="警告" meta:resourcekey="lblWarningTextResource1" Style="display: none;"></asp:Label>
+
+    <asp:Label ID="lblOptionsNoAdd" runat="server" Text="請確認自訂選項是否新增。" Style="display: none;" meta:resourcekey="lblOptionsNoAddResource1"></asp:Label>
 </asp:Content>
 

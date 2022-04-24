@@ -58,11 +58,11 @@ namespace TEL.Event.Lab.Method
         }
 
         //儲存模板4問卷資料(滿意度(電腦替換))
-        public String SaveSurveyDataMModel4(string eventid, string empid, string q1, string q2, string q3, string q4, string q5)
+        public String SaveSurveyDataMModel4(string eventid, string empid, string q2, string q3, string q4, string q5)
         {
             SurveyData sd = new SurveyData();
 
-            return sd.SaveEventDataMModel4(eventid, empid, q1, q2, q3, q4, q5);
+            return sd.SaveEventDataMModel4(eventid, empid, q2, q3, q4, q5);
         }
 
         //Load問卷資料

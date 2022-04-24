@@ -23,7 +23,7 @@ public partial class Event_Survey : System.Web.UI.Page
 
         //需有活動ID檢查
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
-            Response.Redirect("/Event/Event.aspx");
+            Response.Redirect("Event.aspx");
 
         if (!IsPostBack)
         {
@@ -62,19 +62,19 @@ public partial class Event_Survey : System.Web.UI.Page
         switch (si[1])
         {
             case "1":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel1_View.aspx?id=" + si[0] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel1_View.aspx?id=" + si[0] + "',750,1000);", true);
                 break;
             case "2":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel2_View.aspx?id=" + si[0] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel2_View.aspx?id=" + si[0] + "',750,1000);", true);
                 break;
             case "3":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel3_View.aspx?id=" + si[0] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel3_View.aspx?id=" + si[0] + "',750,1000);", true);
                 break;
             case "4":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel4_View.aspx?id=" + si[0] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel4_View.aspx?id=" + si[0] + "',750,1000);", true);
                 break;
             default:
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
                 break;
         }
     }
@@ -117,7 +117,7 @@ public partial class Event_Survey : System.Web.UI.Page
         Survey sv = new Survey();
 
         this.FIELD_Category.ForeColor = ColorTranslator.FromHtml(ev.EventCategoryColor);
-        this.FIELD_Category.Text = "．" + ev.EventCategory;
+        this.FIELD_Category.Text = ev.EventCategory;
         this.FIELD_EventName.Text = ev.EventName;
         this.FIELD_Count.Text = sv.GetSurveyFillinCount(eventid, ev.EventRegisterModel, ev.EventSurveyModel);
     }

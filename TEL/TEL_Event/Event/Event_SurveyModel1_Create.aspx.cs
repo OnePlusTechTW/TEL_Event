@@ -15,7 +15,7 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
-            Response.Redirect("/Event/MyEvent.aspx");
+            Response.Redirect("MyEvent.aspx");
 
         UC_EventDescription.setViewDefault(Request.QueryString["id"]);
 
@@ -32,7 +32,7 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
 
     protected void Button_Cancel_Click(object sender, EventArgs e)
     {
-        Response.Redirect("/Event/MyEvent.aspx");
+        Response.Redirect("MyEvent.aspx");
     }
 
     protected void Button_Submit_Click(object sender, EventArgs e)
@@ -44,7 +44,7 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
     {
         if (Check_Input())
             if (Save_Data())
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
     }
 
     //Load員工相關資料
@@ -54,7 +54,7 @@ public partial class Event_SurveyModel1_Create : System.Web.UI.Page
         this.FIELD_Empid.Text = ui.EmpID;
         this.FIELD_EmpNameCH.Text = ui.FullNameCH;
         this.FIELD_EmpNameEN.Text = ui.FullNameEN;
-        this.FIELD_UnitName.Text = ui.UnitCode + " - " + ui.UnitName;
+        this.FIELD_UnitName.Text = ui.UnitName;
         this.FIELD_Station.Text = ui.Station;
     }
 

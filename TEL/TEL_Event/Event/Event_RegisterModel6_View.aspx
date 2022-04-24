@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_RegisterModel6_View.aspx.cs" Inherits="Event_Event_RegisterModel6_View" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_RegisterModel6_View.aspx.cs" Inherits="Event_Event_RegisterModel6_View" culture="auto" meta:resourcekey="PageResource2" uiculture="auto" %>
 
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
@@ -13,14 +13,14 @@
         function ShowNoRegisterInfo() {
             $(function () {
                 $("#dialogNoRegisterInfo").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     width: "700px",
                     Height: "500px",
                     position: { my: "center center", at: "center top+175", },
                     buttons: {
                         Close: function () {
-                            <%= btnGoBackPage.ClientID%>.click();
+                            $('#<%=btnGoBackPage.ClientID%>')[0].click();
                         $(this).dialog('close');
                     }
                 },
@@ -39,11 +39,11 @@
             <table>
                 <tr>
                     <td>
-                        <asp:Image runat="server" ImageUrl="~/Master/images/icon3.png" Height="40px"></asp:Image>
+                        <asp:Image runat="server" ImageUrl="~/Master/images/icon3.png" Height="40px" meta:resourcekey="ImageResource1"></asp:Image>
                     </td>
                     <td style="width: 5px"></td>
                     <td style="border-bottom: 1.5px solid #19b1e5;">
-                        <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="檢視報名"></asp:Label>
+                        <asp:Label ID="lblPageName" runat="server" CssClass="PageTitle" Text="檢視報名" meta:resourcekey="lblPageNameResource1"></asp:Label>
                     </td>
                 </tr>
                 <tr style="height: 10px">
@@ -54,66 +54,66 @@
             <table>
                 <tr>
                     <td>
-                        <asp:Label ID="lblStation" runat="server" Text="勤務地"></asp:Label>
+                        <asp:Label ID="lblStation" runat="server" Text="勤務地" meta:resourcekey="lblStationResource1"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblEmpid" runat="server" Text="工號"></asp:Label>
+                        <asp:Label ID="lblEmpid" runat="server" Text="工號" meta:resourcekey="lblEmpidResource1"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblCName" runat="server" Text="中文姓名"></asp:Label>
+                        <asp:Label ID="lblCName" runat="server" Text="中文姓名" meta:resourcekey="lblCNameResource1"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblEName" runat="server" Text="英文姓名"></asp:Label>
+                        <asp:Label ID="lblEName" runat="server" Text="英文姓名" meta:resourcekey="lblENameResource1"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblDepartment" runat="server" Text="部門"></asp:Label>
+                        <asp:Label ID="lblDepartment" runat="server" Text="部門" meta:resourcekey="lblDepartmentResource1"></asp:Label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtStation" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                        <asp:TextBox ID="txtStation" runat="server" CssClass="FillField" Enabled="false" meta:resourcekey="txtStationResource1"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtEmpid" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                        <asp:TextBox ID="txtEmpid" runat="server" CssClass="FillField" Enabled="false" meta:resourcekey="txtEmpidResource1"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtCName" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                        <asp:TextBox ID="txtCName" runat="server" CssClass="FillField" Enabled="false" meta:resourcekey="txtCNameResource1"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtEName" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                        <asp:TextBox ID="txtEName" runat="server" CssClass="FillField" Enabled="false" meta:resourcekey="txtENameResource1"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtDepartment" runat="server" Enabled="false" CssClass="QueryField" Width="100%"></asp:TextBox>
+                        <asp:TextBox ID="txtDepartment" runat="server" CssClass="FillField" Enabled="false" meta:resourcekey="txtDepartmentResource1"></asp:TextBox>
                     </td>
                 </tr>
                 <tr class="FormTRStyle">
                     <td>
-                        <asp:Label ID="lblChangeArea" runat="server" Text="地點"></asp:Label>
+                        <asp:Label ID="lblChangeArea" runat="server" Text="地點" meta:resourcekey="lblChangeAreaResource1"></asp:Label>
                     </td>
                     <td>
-                        <asp:Label ID="lblChangeDate" runat="server" Text="日期時間"></asp:Label>
+                        <asp:Label ID="lblChangeDate" runat="server" Text="日期時間" meta:resourcekey="lblChangeDateResource1"></asp:Label>
                     </td>
                     <td colspan="3"></td>
                 </tr>
                 <tr>
                     <td>
-                        <asp:TextBox ID="txtArea" runat="server" CssClass="QueryField" Width="100%" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtArea" runat="server" CssClass="QueryField" Width="100%" Enabled="False" meta:resourcekey="txtAreaResource1"></asp:TextBox>
                     </td>
                     <td>
-                        <asp:TextBox ID="txtAvaliabledate" runat="server" CssClass="QueryField" Width="100%" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtAvaliabledate" runat="server" CssClass="QueryField" Width="100%" Enabled="False" meta:resourcekey="txtAvaliabledateResource1"></asp:TextBox>
                     </td>
                     <td colspan="3"></td>
                 </tr>
 
                 <tr class="FormTRStyle">
                     <td colspan="3">
-                        <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋"></asp:Label>
+                        <asp:Label ID="lblComment" runat="server" Text="意見/問題回饋" meta:resourcekey="lblCommentResource1"></asp:Label>
                     </td>
                     <td colspan="2"></td>
                 </tr>
                 <tr>
                     <td colspan="3">
-                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtComment" runat="server" TextMode="MultiLine" Width="100%" Height="100px" CssClass="QueryField" Enabled="False" meta:resourcekey="txtCommentResource1"></asp:TextBox>
                     </td>
                     <td colspan="2"></td>
                 </tr>
@@ -121,14 +121,14 @@
             </table>
 
             <div id="dialogNoRegisterInfo" title="Dialog Title">
-                <asp:Panel ID="ContentPanel4" runat="server" Style="display: none">
-                    <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。"></asp:Label>
+                <asp:Panel ID="ContentPanel4" runat="server" Style="display: none" meta:resourcekey="ContentPanel4Resource1">
+                    <asp:Label ID="lblNoRegisterInfo" runat="server" Text="查無報名資料。" meta:resourcekey="lblNoRegisterInfoResource1"></asp:Label>
                 </asp:Panel>
             </div>
 
-            <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
-            <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-            <asp:Button ID="btnGoBackPage" runat="server" Text="Button" OnClick="btnGoBackPage_Click" Style="display: none;" />
+            <asp:Button ID="btnGoBackPage" runat="server" Text="" OnClick="btnGoBackPage_Click" Style="display: none;" meta:resourcekey="btnGoBackPageResource1" />
+
+            <asp:Label ID="lblMsgText" runat="server" Text="訊息" meta:resourcekey="lblMsgTextResource1" Style="display: none;"></asp:Label>
         </div>
     </form>
 </body>

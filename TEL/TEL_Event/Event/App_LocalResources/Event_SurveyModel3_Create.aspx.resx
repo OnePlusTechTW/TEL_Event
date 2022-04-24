@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_CancelResource1.Text" xml:space="preserve">
-    <value>取消</value>
+    <value>Cancel</value>
   </data>
   <data name="Button_SubmitResource1.Text" xml:space="preserve">
-    <value>送出</value>
+    <value>Complete</value>
   </data>
   <data name="ErrorMsg_MustFill_Q1" xml:space="preserve">
     <value>欄位 請問您本次選擇的健檢中心是 為必填欄位</value>
@@ -169,73 +169,75 @@
     <value>欄位 請問是否需要安排社內駐廠醫師提供健檢報告解說 為必填欄位</value>
   </data>
   <data name="FIELD_Q1item_none" xml:space="preserve">
-    <value>- 未指定 -</value>
+    <value>- None -</value>
   </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
-    <value>工號</value>
+    <value>Emplyee Number</value>
   </data>
   <data name="LABEL_EmpNameCHResource1.Text" xml:space="preserve">
-    <value>中文姓名</value>
+    <value>Chinese Name</value>
   </data>
   <data name="LABEL_EmpNameENResource1.Text" xml:space="preserve">
-    <value>英文姓名</value>
+    <value>English Name</value>
   </data>
   <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
     <value>填寫問卷</value>
   </data>
-  <data name="LABEL_Q10Resource1.Text" xml:space="preserve">
-    <value>是否有推薦公司舉辦的課程?</value>
-  </data>
   <data name="LABEL_Q1Resource1.Text" xml:space="preserve">
-    <value>請問您本次選擇的健檢中心是?</value>
+    <value>Which health check-up center you chose this time?</value>
   </data>
   <data name="LABEL_Q2ReasonResource1.Text" xml:space="preserve">
-    <value>填答是，請說明原因</value>
+    <value>If yes, please explain why</value>
   </data>
   <data name="LABEL_Q2Resource1.Text" xml:space="preserve">
-    <value>是否有強迫推銷自費項目的行為？ (例:表示拒絕後仍繼續詢問或繼續推銷)</value>
+    <value>Are you forced to buy self-pay items?
+Example: They continued to ask or sell after refusing</value>
   </data>
   <data name="LABEL_Q3ReasonResource1.Text" xml:space="preserve">
-    <value>填答不滿意，請說明原因</value>
+    <value>If you are not satisfied, please explain why</value>
   </data>
   <data name="LABEL_Q3Resource1.Text" xml:space="preserve">
-    <value>醫護人員態度與解說 (說明：具良好且專業的知識及技術、專業衛教及諮詢...等)</value>
+    <value>Attitude and explanations of medical staff
+Description: Good and professional knowledge and skills. Professional health education and counseling... etc.</value>
   </data>
   <data name="LABEL_Q4ReasonResource1.Text" xml:space="preserve">
-    <value>填答不滿意，請說明原因</value>
+    <value>If you are not satisfied, please explain why</value>
   </data>
   <data name="LABEL_Q4Resource1.Text" xml:space="preserve">
-    <value>健檢流程順暢度 (說明：等待時間、健檢動線...等)</value>
+    <value>Smoothness of health checkup process
+(Description: Waiting time. Health checkup line... etc.)</value>
   </data>
   <data name="LABEL_Q5ReasonResource1.Text" xml:space="preserve">
-    <value>填答不滿意，請說明原因</value>
+    <value>If you are not satisfied, please explain why</value>
   </data>
   <data name="LABEL_Q5Resource1.Text" xml:space="preserve">
-    <value>整體環境滿意度 (說明：更衣環境、受檢空間隱密性、休息等待區...等)</value>
+    <value>Overall Environment Satisfaction
+(Description: Dressing environment. Privacy of the screening space. Rest and waiting area... etc.)</value>
   </data>
   <data name="LABEL_Q6ReasonResource1.Text" xml:space="preserve">
-    <value>填答不滿意，請說明原因</value>
+    <value>If you are not satisfied, please explain why</value>
   </data>
   <data name="LABEL_Q6Resource1.Text" xml:space="preserve">
-    <value>餐點滿意度 (說明：食材衛生保存得當、食材充足)</value>
+    <value>Meal Satisfaction
+(Description: Meal hygiene is well preserved.)</value>
   </data>
   <data name="LABEL_Q7ReasonResource1.Text" xml:space="preserve">
-    <value>填答不滿意，請說明原因</value>
+    <value>If you are not satisfied, please explain why</value>
   </data>
   <data name="LABEL_Q7Resource1.Text" xml:space="preserve">
-    <value>健檢中心整體滿意度</value>
+    <value>Overall Satisfaction of Health Checkup Center</value>
   </data>
   <data name="LABEL_Q8Resource1.Text" xml:space="preserve">
-    <value>關於公司提供的年度健檢安排，您是否有其他的建議?</value>
+    <value>Do you have any other suggestions regarding the annual health checkups provided by the company?</value>
   </data>
   <data name="LABEL_Q9Resource1.Text" xml:space="preserve">
-    <value>請問是否需要安排社內駐廠醫師提供健檢報告解說？</value>
+    <value>Do you need to arrange for a doctor to provide an explanation of the health report?</value>
   </data>
   <data name="LABEL_StationResource1.Text" xml:space="preserve">
-    <value>勤務地</value>
+    <value>Location</value>
   </data>
   <data name="LABEL_UnitNameResource1.Text" xml:space="preserve">
-    <value>部門</value>
+    <value>Department</value>
   </data>
   <data name="PageResource1.Title" xml:space="preserve">
     <value>填寫問卷</value>

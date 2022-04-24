@@ -97,8 +97,8 @@
                 $("#dialogLoadPage").dialog({
                     title: "",
                     modal: true,
-                    width: "900px",
-                    Height: "550px",
+                    width: "1100px",
+                    Height: "650px",
                     position: { my: "center center", at: "center top+0", },
                     buttons: {
                         Close: function () {
@@ -129,11 +129,11 @@
     </table>
     <table>
         <tr>
-            <td id="TD_Category" runat="server" style="text-align: center; width: 120px">
-                <asp:Label ID="FIELD_Category" runat="server" CssClass="ShowCategory"></asp:Label>
+            <td runat="server" id="category" style="max-width: 350px; padding-right: 13px; word-break: break-word;">
+                <asp:Label ID="FIELD_Category" runat="server" Font-Size="25px" Font-Bold="True" meta:resourcekey="lblCategoryNameResource1"></asp:Label>
             </td>
-            <td>
-                <asp:Label ID="FIELD_EventName" runat="server" CssClass="ShowCategory"></asp:Label>
+            <td style="border-left: 1px solid black; padding-left: 15px; min-width: 600px; max-width: 800px;">
+                <asp:Label ID="FIELD_EventName" runat="server" Text="" Font-Size="25px" Font-Bold="True" ForeColor="Black" meta:resourcekey="lblEventNameResource1"></asp:Label>
             </td>
         </tr>
     </table>
@@ -153,7 +153,7 @@
                 <asp:TextBox ID="FIELD_EmpName" runat="server" Width="120px" CssClass="QueryField"></asp:TextBox></td>
             <td>
             <td>
-                <asp:Button ID="Button_Query" runat="server" Text="Button" meta:resourcekey="Button_QueryResource1" OnClick="Button_Query_Click" CssClass="Button" />
+                &nbsp;<asp:Button ID="Button_Query" runat="server" Text="Button" meta:resourcekey="Button_QueryResource1" OnClick="Button_Query_Click" CssClass="Button" />
             </td>
         </tr>
     </table>

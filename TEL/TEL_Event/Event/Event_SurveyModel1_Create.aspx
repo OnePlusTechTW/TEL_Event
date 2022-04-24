@@ -104,19 +104,19 @@
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
             </td>
             <td>
-                <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
+                <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
             </td>
 
         </tr>

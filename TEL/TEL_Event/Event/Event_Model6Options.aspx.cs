@@ -81,7 +81,12 @@ public partial class Event_Event_Model6Options : System.Web.UI.Page
 
     protected void btnfinish_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Event.aspx");
+        if (gridRegisterOption6.Rows.Count == 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogMsg('" + lblOptionsNoAdd.Text + "');", true);
+        }
+        else
+            Response.Redirect("Event.aspx");
     }
 
     protected void gridRegisterOption6_PageIndexChanging(object sender, GridViewPageEventArgs e)

@@ -334,7 +334,7 @@ namespace TEL.Event.Lab.Method
                 sheet.GetRow(rowIndex).CreateCell(14).SetCellValue(dr["q6"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(15).SetCellValue(dr["q6reason"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(16).SetCellValue(dr["q7"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(17).SetCellValue(dr["q7reason "].ToString());
+                sheet.GetRow(rowIndex).CreateCell(17).SetCellValue(dr["q7reason"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(18).SetCellValue(dr["q8"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(19).SetCellValue(dr["q9"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(20).SetCellValue(dr["fillindate"].ToString());
@@ -391,12 +391,11 @@ namespace TEL.Event.Lab.Method
             sheet.GetRow(0).CreateCell(2).SetCellValue("中文姓名");
             sheet.GetRow(0).CreateCell(3).SetCellValue("英文姓名");
             sheet.GetRow(0).CreateCell(4).SetCellValue("勤務地");
-            sheet.GetRow(0).CreateCell(5).SetCellValue("對於問卷的填寫");
-            sheet.GetRow(0).CreateCell(6).SetCellValue("對於替換的過程");
-            sheet.GetRow(0).CreateCell(7).SetCellValue("對於時間的規劃");
-            sheet.GetRow(0).CreateCell(8).SetCellValue("整體而言，對本次活動滿意程度");
-            sheet.GetRow(0).CreateCell(9).SetCellValue("建議與想法");
-            sheet.GetRow(0).CreateCell(10).SetCellValue("填寫日期時間");
+            sheet.GetRow(0).CreateCell(5).SetCellValue("對於替換的過程");
+            sheet.GetRow(0).CreateCell(6).SetCellValue("對於時間的規劃");
+            sheet.GetRow(0).CreateCell(7).SetCellValue("整體而言，對本次活動滿意程度");
+            sheet.GetRow(0).CreateCell(8).SetCellValue("建議與想法");
+            sheet.GetRow(0).CreateCell(9).SetCellValue("填寫日期時間");
 
             //設定Header Style
             for (int i = 0; i < sheet.GetRow(0).Cells.Count; i++)
@@ -412,10 +411,9 @@ namespace TEL.Event.Lab.Method
             sheet.SetColumnWidth(4, (int)((15 + 0.71) * 256));
             sheet.SetColumnWidth(5, (int)((20 + 0.71) * 256));
             sheet.SetColumnWidth(6, (int)((20 + 0.71) * 256));
-            sheet.SetColumnWidth(7, (int)((20 + 0.71) * 256));
-            sheet.SetColumnWidth(8, (int)((35 + 0.71) * 256));
-            sheet.SetColumnWidth(9, (int)((30 + 0.71) * 256));
-            sheet.SetColumnWidth(10, (int)((15 + 0.71) * 256));
+            sheet.SetColumnWidth(7, (int)((40 + 0.71) * 256));
+            sheet.SetColumnWidth(8, (int)((30 + 0.71) * 256));
+            sheet.SetColumnWidth(9, (int)((20 + 0.71) * 256));
 
             //填入資料
             SurveyData sv = new SurveyData();
@@ -430,12 +428,11 @@ namespace TEL.Event.Lab.Method
                 sheet.GetRow(rowIndex).CreateCell(2).SetCellValue(dr["empfullnamech"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(3).SetCellValue(dr["empfullnameen"].ToString());
                 sheet.GetRow(rowIndex).CreateCell(4).SetCellValue(dr["Station"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(5).SetCellValue(dr["q1"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(6).SetCellValue(dr["q2"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(7).SetCellValue(dr["q3"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(8).SetCellValue(dr["q4"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(9).SetCellValue(dr["q5"].ToString());
-                sheet.GetRow(rowIndex).CreateCell(10).SetCellValue(dr["fillindate"].ToString());
+                sheet.GetRow(rowIndex).CreateCell(5).SetCellValue(dr["q2"].ToString());
+                sheet.GetRow(rowIndex).CreateCell(6).SetCellValue(dr["q3"].ToString());
+                sheet.GetRow(rowIndex).CreateCell(7).SetCellValue(dr["q4"].ToString());
+                sheet.GetRow(rowIndex).CreateCell(8).SetCellValue(dr["q5"].ToString());
+                sheet.GetRow(rowIndex).CreateCell(9).SetCellValue(dr["fillindate"].ToString());
 
                 //建立儲存格樣式
                 ExcelStyle es2 = new ExcelStyle();

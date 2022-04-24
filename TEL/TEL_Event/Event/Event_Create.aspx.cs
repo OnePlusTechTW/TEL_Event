@@ -37,7 +37,12 @@ public partial class Event_Event_Create : System.Web.UI.Page
         if (!string.IsNullOrEmpty(ddlSignupTemplate.SelectedValue))
         {
             imgTemplate.ImageUrl = "~/Sample/Img/Register_Model" + ddlSignupTemplate.SelectedValue + ".jpg";
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate();", true);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate('" + lblSignupTemplatePreview.Text + "');", true);
+
+            if (ddlSignupTemplate.SelectedValue == "5")
+            {
+                btnNextStep.Text = lblComplete.Text;
+            }
         }
     }
 
@@ -46,7 +51,7 @@ public partial class Event_Event_Create : System.Web.UI.Page
         if (!string.IsNullOrEmpty(ddlQuestionnaireTemplate.SelectedValue))
         {
             imgTemplate.ImageUrl = "~/Sample/Img/Survey_Model" + ddlQuestionnaireTemplate.SelectedValue + ".jpg";
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate();", true);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate('" + lblQuestionnaireTemplatePreview.Text + "');", true);
         }
     }
 

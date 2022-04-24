@@ -24,7 +24,7 @@ public partial class Event_Event_SurveyModel1_View : System.Web.UI.Page
         this.FIELD_Empid.Text = ui.EmpID;
         this.FIELD_EmpNameCH.Text = ui.FullNameCH;
         this.FIELD_EmpNameEN.Text = ui.FullNameEN;
-        this.FIELD_UnitName.Text = ui.UnitCode+" - "+ui.UnitName;
+        this.FIELD_UnitName.Text = ui.UnitName;
         this.FIELD_Station.Text = ui.Station;
     }
 

@@ -226,7 +226,7 @@ namespace TEL.Event.Lab.Data
             string sqlString = "";
 
             sqlString = @"SELECT a.empid, b.UnitName,b.LastNameCH+b.FirstNameCH AS empfullnamech,b.FirstNameEN+' '+b.LastNameEN AS empfullnameen,b.Station,
-                          a.q1,a.q2,a.q3,a.q4,a.q5,
+                          a.q2,a.q3,a.q4,a.q5,
                           CONVERT(VARCHAR, a.fillindate,111) AS fillindate 
                           FROM TEL_Event_SurveyModel4 a
                           INNER JOIN Users b ON a.empid=b.empid
@@ -259,7 +259,7 @@ namespace TEL.Event.Lab.Data
             string sqlString = "";
 
             try
-            {           
+            {
                 // 刪除問卷資料 
                 if (surveymodel == "1")
                 {
@@ -304,53 +304,73 @@ namespace TEL.Event.Lab.Data
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
+            string sqlString1 = "";
 
             try
             {
-                sqlString = @"INSERT INTO TEL_Event_SurveyModel1 (id,eventid,empid,fillindate,q1,q1other,q2,q3,q4,q5,q6,q7,q7reason,q8,q9,q10,modifiedby,modifieddate)
-                              VALUES (newid(),@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,@P14,@P15,@P16,@P17)";
+                sqlString1 = @"SELECT * FROM TEL_Event_SurveyModel1 WHERE eventid=@eventid AND empid=@empid";
 
-                SqlConnection sqlConn = new SqlConnection(connStr);
-                sqlConn.Open();
-                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
-                sqlcommand.Parameters.Clear();
-                sqlcommand.Parameters.AddWithValue("@P01", eventid);
-                sqlcommand.Parameters.AddWithValue("@P02", empid);
-                sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
-                sqlcommand.Parameters.AddWithValue("@P04", q1);
-                if (!string.IsNullOrEmpty(q1other))
-                    sqlcommand.Parameters.AddWithValue("@P05", q1other);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P05", System.DBNull.Value);
-                sqlcommand.Parameters.AddWithValue("@P06", q2);
-                sqlcommand.Parameters.AddWithValue("@P07", q3);
-                sqlcommand.Parameters.AddWithValue("@P08", q4);
-                sqlcommand.Parameters.AddWithValue("@P09", q5);
-                sqlcommand.Parameters.AddWithValue("@P10", q6);
-                sqlcommand.Parameters.AddWithValue("@P11", q7);
-                if (!string.IsNullOrEmpty(q7reason))
-                    sqlcommand.Parameters.AddWithValue("@P12", q7reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P12", System.DBNull.Value);
-                sqlcommand.Parameters.AddWithValue("@P13", q8);
-                if (!string.IsNullOrEmpty(q9))
-                    sqlcommand.Parameters.AddWithValue("@P14", q9);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P14", System.DBNull.Value);
-                if (!string.IsNullOrEmpty(q10))
-                    sqlcommand.Parameters.AddWithValue("@P15", q10);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P15", System.DBNull.Value);
-                sqlcommand.Parameters.AddWithValue("@P16", empid);
-                sqlcommand.Parameters.AddWithValue("@P17", System.DateTime.Now);
+                using (SqlConnection connection1 = new SqlConnection(connStr))
+                {
+                    connection1.Open();
 
-                sqlcommand.ExecuteNonQuery();
-                sqlConn.Close();
-                sqlConn.Dispose();
+                    SqlDataAdapter wrDad1 = new SqlDataAdapter();
+                    DataSet DS1 = new DataSet();
 
-                //Add log
-                SqlLog sl = new SqlLog();
-                sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                    wrDad1.SelectCommand = new SqlCommand(sqlString1, connection1);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                    wrDad1.Fill(DS1, "T");
+
+                    if (DS1.Tables[0].Rows.Count == 0)
+                    {
+                        sqlString = @"INSERT INTO TEL_Event_SurveyModel1 (id,eventid,empid,fillindate,q1,q1other,q2,q3,q4,q5,q6,q7,q7reason,q8,q9,q10,modifiedby,modifieddate)
+                                      VALUES (newid(),@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,@P14,@P15,@P16,@P17)";
+
+                        SqlConnection sqlConn = new SqlConnection(connStr);
+                        sqlConn.Open();
+                        SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                        sqlcommand.Parameters.Clear();
+                        sqlcommand.Parameters.AddWithValue("@P01", eventid);
+                        sqlcommand.Parameters.AddWithValue("@P02", empid);
+                        sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
+                        sqlcommand.Parameters.AddWithValue("@P04", q1);
+                        if (!string.IsNullOrEmpty(q1other))
+                            sqlcommand.Parameters.AddWithValue("@P05", q1other);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P05", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P06", q2);
+                        sqlcommand.Parameters.AddWithValue("@P07", q3);
+                        sqlcommand.Parameters.AddWithValue("@P08", q4);
+                        sqlcommand.Parameters.AddWithValue("@P09", q5);
+                        sqlcommand.Parameters.AddWithValue("@P10", q6);
+                        sqlcommand.Parameters.AddWithValue("@P11", q7);
+                        if (!string.IsNullOrEmpty(q7reason))
+                            sqlcommand.Parameters.AddWithValue("@P12", q7reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P12", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P13", q8);
+                        if (!string.IsNullOrEmpty(q9))
+                            sqlcommand.Parameters.AddWithValue("@P14", q9);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P14", System.DBNull.Value);
+                        if (!string.IsNullOrEmpty(q10))
+                            sqlcommand.Parameters.AddWithValue("@P15", q10);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P15", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P16", empid);
+                        sqlcommand.Parameters.AddWithValue("@P17", System.DateTime.Now);
+
+                        sqlcommand.ExecuteNonQuery();
+                        sqlConn.Close();
+                        sqlConn.Dispose();
+
+                        //Add log
+                        SqlLog sl = new SqlLog();
+                        sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -365,47 +385,67 @@ namespace TEL.Event.Lab.Data
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
+            string sqlString1 = "";
 
             try
             {
-                sqlString = @"INSERT INTO TEL_Event_SurveyModel2 (id,eventid,empid,fillindate,q1,q1other,q2,q3,q4,q5,q6,q7,q8,modifiedby,modifieddate)
+                sqlString1 = @"SELECT * FROM TEL_Event_SurveyModel2 WHERE eventid=@eventid AND empid=@empid";
+
+                using (SqlConnection connection1 = new SqlConnection(connStr))
+                {
+                    connection1.Open();
+
+                    SqlDataAdapter wrDad1 = new SqlDataAdapter();
+                    DataSet DS1 = new DataSet();
+
+                    wrDad1.SelectCommand = new SqlCommand(sqlString1, connection1);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                    wrDad1.Fill(DS1, "T");
+
+                    if (DS1.Tables[0].Rows.Count == 0)
+                    {
+                        sqlString = @"INSERT INTO TEL_Event_SurveyModel2 (id,eventid,empid,fillindate,q1,q1other,q2,q3,q4,q5,q6,q7,q8,modifiedby,modifieddate)
                               VALUES (newid(),@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,@P14)";
 
-                SqlConnection sqlConn = new SqlConnection(connStr);
-                sqlConn.Open();
-                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
-                sqlcommand.Parameters.Clear();
-                sqlcommand.Parameters.AddWithValue("@P01", eventid);
-                sqlcommand.Parameters.AddWithValue("@P02", empid);
-                sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
-                sqlcommand.Parameters.AddWithValue("@P04", q1);
-                if (!string.IsNullOrEmpty(q1other))
-                    sqlcommand.Parameters.AddWithValue("@P05", q1other);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P05", System.DBNull.Value);
-                sqlcommand.Parameters.AddWithValue("@P06", q2);
-                sqlcommand.Parameters.AddWithValue("@P07", q3);
-                sqlcommand.Parameters.AddWithValue("@P08", q4);
-                sqlcommand.Parameters.AddWithValue("@P09", q5);
-                sqlcommand.Parameters.AddWithValue("@P10", q6);
-                if (!string.IsNullOrEmpty(q7))
-                    sqlcommand.Parameters.AddWithValue("@P11", q7);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P11", System.DBNull.Value);
-                if (!string.IsNullOrEmpty(q8))
-                    sqlcommand.Parameters.AddWithValue("@P12", q8);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P12", System.DBNull.Value);
-                sqlcommand.Parameters.AddWithValue("@P13", empid);
-                sqlcommand.Parameters.AddWithValue("@P14", System.DateTime.Now);
+                        SqlConnection sqlConn = new SqlConnection(connStr);
+                        sqlConn.Open();
+                        SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                        sqlcommand.Parameters.Clear();
+                        sqlcommand.Parameters.AddWithValue("@P01", eventid);
+                        sqlcommand.Parameters.AddWithValue("@P02", empid);
+                        sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
+                        sqlcommand.Parameters.AddWithValue("@P04", q1);
+                        if (!string.IsNullOrEmpty(q1other))
+                            sqlcommand.Parameters.AddWithValue("@P05", q1other);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P05", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P06", q2);
+                        sqlcommand.Parameters.AddWithValue("@P07", q3);
+                        sqlcommand.Parameters.AddWithValue("@P08", q4);
+                        sqlcommand.Parameters.AddWithValue("@P09", q5);
+                        sqlcommand.Parameters.AddWithValue("@P10", q6);
+                        if (!string.IsNullOrEmpty(q7))
+                            sqlcommand.Parameters.AddWithValue("@P11", q7);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P11", System.DBNull.Value);
+                        if (!string.IsNullOrEmpty(q8))
+                            sqlcommand.Parameters.AddWithValue("@P12", q8);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P12", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P13", empid);
+                        sqlcommand.Parameters.AddWithValue("@P14", System.DateTime.Now);
 
-                sqlcommand.ExecuteNonQuery();
-                sqlConn.Close();
-                sqlConn.Dispose();
+                        sqlcommand.ExecuteNonQuery();
+                        sqlConn.Close();
+                        sqlConn.Dispose();
 
-                //Add log
-                SqlLog sl = new SqlLog();
-                sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                        //Add log
+                        SqlLog sl = new SqlLog();
+                        sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -420,72 +460,92 @@ namespace TEL.Event.Lab.Data
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
+            string sqlString1 = "";
 
             try
             {
-                sqlString = @"INSERT INTO TEL_Event_SurveyModel3 (id,eventid,empid,fillindate,q1,q2,q2reason,q3,q3reason,q4,q4reason,q5,q5reason,q6,q6reason,q7,q7reason,q8,q9,modifiedby,modifieddate)
+                sqlString1 = @"SELECT * FROM TEL_Event_SurveyModel3 WHERE eventid=@eventid AND empid=@empid";
+
+                using (SqlConnection connection1 = new SqlConnection(connStr))
+                {
+                    connection1.Open();
+
+                    SqlDataAdapter wrDad1 = new SqlDataAdapter();
+                    DataSet DS1 = new DataSet();
+
+                    wrDad1.SelectCommand = new SqlCommand(sqlString1, connection1);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                    wrDad1.Fill(DS1, "T");
+
+                    if (DS1.Tables[0].Rows.Count == 0)
+                    {
+                        sqlString = @"INSERT INTO TEL_Event_SurveyModel3 (id,eventid,empid,fillindate,q1,q2,q2reason,q3,q3reason,q4,q4reason,q5,q5reason,q6,q6reason,q7,q7reason,q8,q9,modifiedby,modifieddate)
                               VALUES (newid(),@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10,@P11,@P12,@P13,@P14,@P15,@P16,@P17,@P18,@P19,@P20)";
 
-                SqlConnection sqlConn = new SqlConnection(connStr);
-                sqlConn.Open();
-                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
-                sqlcommand.Parameters.Clear();
-                sqlcommand.Parameters.AddWithValue("@P01", eventid);
-                sqlcommand.Parameters.AddWithValue("@P02", empid);
-                sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
-                sqlcommand.Parameters.AddWithValue("@P04", q1);
-                sqlcommand.Parameters.AddWithValue("@P05", q2);
-                if (!string.IsNullOrEmpty(q2reason))
-                    sqlcommand.Parameters.AddWithValue("@P06", q2reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P06", System.DBNull.Value);
+                        SqlConnection sqlConn = new SqlConnection(connStr);
+                        sqlConn.Open();
+                        SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                        sqlcommand.Parameters.Clear();
+                        sqlcommand.Parameters.AddWithValue("@P01", eventid);
+                        sqlcommand.Parameters.AddWithValue("@P02", empid);
+                        sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
+                        sqlcommand.Parameters.AddWithValue("@P04", q1);
+                        sqlcommand.Parameters.AddWithValue("@P05", q2);
+                        if (!string.IsNullOrEmpty(q2reason))
+                            sqlcommand.Parameters.AddWithValue("@P06", q2reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P06", System.DBNull.Value);
 
-                sqlcommand.Parameters.AddWithValue("@P07", q3);
-                if (!string.IsNullOrEmpty(q3reason))
-                    sqlcommand.Parameters.AddWithValue("@P08", q3reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P08", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P07", q3);
+                        if (!string.IsNullOrEmpty(q3reason))
+                            sqlcommand.Parameters.AddWithValue("@P08", q3reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P08", System.DBNull.Value);
 
-                sqlcommand.Parameters.AddWithValue("@P09", q4);
-                if (!string.IsNullOrEmpty(q4reason))
-                    sqlcommand.Parameters.AddWithValue("@P10", q4reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P10", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P09", q4);
+                        if (!string.IsNullOrEmpty(q4reason))
+                            sqlcommand.Parameters.AddWithValue("@P10", q4reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P10", System.DBNull.Value);
 
-                sqlcommand.Parameters.AddWithValue("@P11", q5);
-                if (!string.IsNullOrEmpty(q5reason))
-                    sqlcommand.Parameters.AddWithValue("@P12", q5reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P12", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P11", q5);
+                        if (!string.IsNullOrEmpty(q5reason))
+                            sqlcommand.Parameters.AddWithValue("@P12", q5reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P12", System.DBNull.Value);
 
-                sqlcommand.Parameters.AddWithValue("@P13", q6);
-                if (!string.IsNullOrEmpty(q6reason))
-                    sqlcommand.Parameters.AddWithValue("@P14", q6reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P14", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P13", q6);
+                        if (!string.IsNullOrEmpty(q6reason))
+                            sqlcommand.Parameters.AddWithValue("@P14", q6reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P14", System.DBNull.Value);
 
-                sqlcommand.Parameters.AddWithValue("@P15", q7);
-                if (!string.IsNullOrEmpty(q7reason))
-                    sqlcommand.Parameters.AddWithValue("@P16", q7reason);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P16", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P15", q7);
+                        if (!string.IsNullOrEmpty(q7reason))
+                            sqlcommand.Parameters.AddWithValue("@P16", q7reason);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P16", System.DBNull.Value);
 
-                if (!string.IsNullOrEmpty(q8))
-                    sqlcommand.Parameters.AddWithValue("@P17", q8);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P17", System.DBNull.Value);
+                        if (!string.IsNullOrEmpty(q8))
+                            sqlcommand.Parameters.AddWithValue("@P17", q8);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P17", System.DBNull.Value);
 
-                sqlcommand.Parameters.AddWithValue("@P18", q9);
-                sqlcommand.Parameters.AddWithValue("@P19", empid);
-                sqlcommand.Parameters.AddWithValue("@P20", System.DateTime.Now);
+                        sqlcommand.Parameters.AddWithValue("@P18", q9);
+                        sqlcommand.Parameters.AddWithValue("@P19", empid);
+                        sqlcommand.Parameters.AddWithValue("@P20", System.DateTime.Now);
 
-                sqlcommand.ExecuteNonQuery();
-                sqlConn.Close();
-                sqlConn.Dispose();
+                        sqlcommand.ExecuteNonQuery();
+                        sqlConn.Close();
+                        sqlConn.Dispose();
 
-                //Add log
-                SqlLog sl = new SqlLog();
-                sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                        //Add log
+                        SqlLog sl = new SqlLog();
+                        sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -496,41 +556,60 @@ namespace TEL.Event.Lab.Data
         }
 
         //儲存模板4問卷資料(滿意度(電腦替換))
-        public String SaveEventDataMModel4(string eventid, string empid, string q1, string q2, string q3, string q4, string q5)
+        public String SaveEventDataMModel4(string eventid, string empid, string q2, string q3, string q4, string q5)
         {
             string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["tel_event"].ConnectionString;
             string sqlString = "";
+            string sqlString1 = "";
 
             try
             {
-                sqlString = @"INSERT INTO TEL_Event_SurveyModel4 (id,eventid,empid,fillindate,q1,q2,q3,q4,q5,modifiedby,modifieddate)
-                              VALUES (newid(),@P01,@P02,@P03,@P04,@P05,@P06,@P07,@P08,@P09,@P10)";
+                sqlString1 = @"SELECT * FROM TEL_Event_SurveyModel4 WHERE eventid=@eventid AND empid=@empid";
 
-                SqlConnection sqlConn = new SqlConnection(connStr);
-                sqlConn.Open();
-                SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
-                sqlcommand.Parameters.Clear();
-                sqlcommand.Parameters.AddWithValue("@P01", eventid);
-                sqlcommand.Parameters.AddWithValue("@P02", empid);
-                sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
-                sqlcommand.Parameters.AddWithValue("@P04", q1);
-                sqlcommand.Parameters.AddWithValue("@P05", q2);
-                sqlcommand.Parameters.AddWithValue("@P06", q3);
-                sqlcommand.Parameters.AddWithValue("@P07", q4);
-                if (!string.IsNullOrEmpty(q5))
-                    sqlcommand.Parameters.AddWithValue("@P08", q5);
-                else
-                    sqlcommand.Parameters.AddWithValue("@P08", System.DBNull.Value);
-                sqlcommand.Parameters.AddWithValue("@P09", empid);
-                sqlcommand.Parameters.AddWithValue("@P10", System.DateTime.Now);
+                using (SqlConnection connection1 = new SqlConnection(connStr))
+                {
+                    connection1.Open();
 
-                sqlcommand.ExecuteNonQuery();
-                sqlConn.Close();
-                sqlConn.Dispose();
+                    SqlDataAdapter wrDad1 = new SqlDataAdapter();
+                    DataSet DS1 = new DataSet();
 
-                //Add log
-                SqlLog sl = new SqlLog();
-                sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                    wrDad1.SelectCommand = new SqlCommand(sqlString1, connection1);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@eventid", eventid);
+                    wrDad1.SelectCommand.Parameters.AddWithValue("@empid", empid);
+
+                    wrDad1.Fill(DS1, "T");
+
+                    if (DS1.Tables[0].Rows.Count == 0)
+                    {
+                        sqlString = @"INSERT INTO TEL_Event_SurveyModel4 (id,eventid,empid,fillindate,q2,q3,q4,q5,modifiedby,modifieddate)
+                              VALUES (newid(),@P01,@P02,@P03,@P05,@P06,@P07,@P08,@P09,@P10)";
+
+                        SqlConnection sqlConn = new SqlConnection(connStr);
+                        sqlConn.Open();
+                        SqlCommand sqlcommand = new SqlCommand(sqlString, sqlConn);
+                        sqlcommand.Parameters.Clear();
+                        sqlcommand.Parameters.AddWithValue("@P01", eventid);
+                        sqlcommand.Parameters.AddWithValue("@P02", empid);
+                        sqlcommand.Parameters.AddWithValue("@P03", System.DateTime.Now);
+                        sqlcommand.Parameters.AddWithValue("@P05", q2);
+                        sqlcommand.Parameters.AddWithValue("@P06", q3);
+                        sqlcommand.Parameters.AddWithValue("@P07", q4);
+                        if (!string.IsNullOrEmpty(q5))
+                            sqlcommand.Parameters.AddWithValue("@P08", q5);
+                        else
+                            sqlcommand.Parameters.AddWithValue("@P08", System.DBNull.Value);
+                        sqlcommand.Parameters.AddWithValue("@P09", empid);
+                        sqlcommand.Parameters.AddWithValue("@P10", System.DateTime.Now);
+
+                        sqlcommand.ExecuteNonQuery();
+                        sqlConn.Close();
+                        sqlConn.Dispose();
+
+                        //Add log
+                        SqlLog sl = new SqlLog();
+                        sl.AddLog("新增使用者問卷填寫資料", eventid, sl.GetCommendText(sqlcommand), empid);
+                    }
+                }
             }
             catch (Exception ex)
             {

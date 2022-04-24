@@ -44,7 +44,7 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         txtEmpid.Text = empid;
         txtCName.Text = userInfo.FullNameCH;
         txtEName.Text = userInfo.FullNameEN;
-        txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+        txtDepartment.Text = userInfo.UnitName;
         txtStation.Text = userInfo.Station;
     }
 
@@ -102,7 +102,8 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         }
 
         Dictionary<string, string> EventsData = new Dictionary<string, string>();
-        EventsData.Add("id", Guid.NewGuid().ToString());
+        string id = Guid.NewGuid().ToString();
+        EventsData.Add("id", id);
         EventsData.Add("eventid", eventid);
         EventsData.Add("empid", txtEmpid.Text);
         EventsData.Add("registerdate", DateTime.Now.ToString("yyyy/MM/dd HH:mm"));//報名日期為當下時間
@@ -114,7 +115,7 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         if (string.IsNullOrEmpty(result))
         {
             //寄送報名完成通知信給員工
-            SendRegisterSuccessMail();
+            SendRegisterSuccessMail(id);
         }
         else
         {
@@ -149,7 +150,7 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         Response.Redirect(returnPage);
     }
 
-    private void SendRegisterSuccessMail()
+    private void SendRegisterSuccessMail(string id)
     {
         Event ev = new Event();
         string eventid = Request.QueryString["id"];
@@ -158,25 +159,28 @@ public partial class Event_Event_RegisterModel1_Create : System.Web.UI.Page
         ev.GetEventInfo(eventid);
 
         string strSender = "FiestaSystem@tel.com";
-        string strSubject = $"【通知】活動填寫完成_{eventInfo.EventName}";
+        string strSubject = string.Format(lblEmailSubject.Text, eventInfo.EventName);
         string strDisplay = "Fiesta System";
         StringBuilder sbBody = new StringBuilder();
         DataTable dtRecipient = new DataTable();
 
-        string registerEditLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/Event_RegisterModel{eventInfo.EventRegisterModel}_Edit.aspx?id={eventid}&page=Default");
-        string registerDefaultLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace("/Event/Event.aspx", $"/Event/Default.aspx");
+        string registerEditLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace($"/Event/Event_RegisterModel5_Create.aspx{HttpContext.Current.Request.Url.Query}", $"/Event/MyEvent.aspx?name={HttpUtility.UrlEncode(eventInfo.EventName)}&eventid={eventid}&id={id}");
+        string registerDefaultLink = HttpContext.Current.Request.Url.AbsoluteUri.Replace($"/Event/Event_RegisterModel5_Create.aspx{HttpContext.Current.Request.Url.Query}", $"/Event/Default.aspx");
         sbBody.Append("<div>");
-        sbBody.Append("<div>您好:</div>");
+        sbBody.Append("<div>" + lblEmailContent1.Text + "</div>");
         sbBody.Append("<div><br></div>");
-        sbBody.Append($"<div>此封信件為通知您參與了『<a href='{registerEditLink}'>{eventInfo.EventName}（超連結）</a>』，並完成報名。</div>");
+        sbBody.Append($"<div>{string.Format(lblEmailContent2.Text, registerEditLink, eventInfo.EventName)}</div>");
         sbBody.Append("<div><br></div>");
-        sbBody.Append($"<div>相關報名資訊，可以至網站『<a href='{registerDefaultLink}'>我的活動（超連結）</a>』頁面中查看！</div>");
-        sbBody.Append("<div>如果有任何問題請聯絡活動單位負責人，謝謝。</div>");
+        sbBody.Append($"<div>{string.Format(lblEmailContent3.Text, registerDefaultLink)}</div>");
+        sbBody.Append($"<div>{lblEmailContent4.Text}</div>");
         sbBody.Append("<div><br></div>");
-        sbBody.Append("<div><span style='color: #595959;'>※此信件為系統發送通知使用，請勿直接回覆。</span></div>");
+        sbBody.Append($"<div><span style='color: #595959;'>{lblEmailContent5.Text}</span></div>");
         sbBody.Append("</div>");
 
-        if (SenMail.SendMail(strSender, dtRecipient, strSubject, sbBody.ToString(), strDisplay))
+        string empid = Page.Session["EmpID"].ToString();
+        UserInfo userInfo = new UserInfo(empid);
+
+        if (SenMail.SendMail(strSender, userInfo.EMail, strSubject, sbBody.ToString(), strDisplay))
         {
             ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowRegisterSccessDialog();", true);
         }

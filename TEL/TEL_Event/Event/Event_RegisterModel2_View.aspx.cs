@@ -85,7 +85,7 @@ public partial class Event_Event_RegisterModel2_View : System.Web.UI.Page
             txtEmpid.Text = dt.Rows[0]["empid"].ToString();
             txtCName.Text = userInfo.FullNameCH;
             txtEName.Text = userInfo.FullNameEN;
-            txtDepartment.Text = $"{userInfo.UnitCode}-{userInfo.UnitName}";
+            txtDepartment.Text = userInfo.UnitName;
             txtStation.Text = userInfo.Station;
             txtID.Text = userInfo.NationalID;
             txtBDay.Text = userInfo.Birthday;

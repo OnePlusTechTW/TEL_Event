@@ -151,7 +151,7 @@
     <value>Very Unsatisfied</value>
   </data>
   <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
-    <value>Employee number</value>
+    <value>Employee Number</value>
   </data>
   <data name="LABEL_EmpNameCHResource1.Text" xml:space="preserve">
     <value>Chinese Name</value>

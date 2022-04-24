@@ -127,10 +127,7 @@
     <value>英文姓名</value>
   </data>
   <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
-    <value>填寫問卷</value>
-  </data>
-  <data name="LABEL_Q10Resource1.Text" xml:space="preserve">
-    <value>是否有推薦公司舉辦的課程?</value>
+    <value>檢視問卷</value>
   </data>
   <data name="LABEL_Q1Resource1.Text" xml:space="preserve">
     <value>請問您本次選擇的健檢中心是?</value>
@@ -184,6 +181,6 @@
     <value>部門</value>
   </data>
   <data name="PageResource1.Title" xml:space="preserve">
-    <value>填寫問卷</value>
+    <value>檢視問卷</value>
   </data>
 </root>

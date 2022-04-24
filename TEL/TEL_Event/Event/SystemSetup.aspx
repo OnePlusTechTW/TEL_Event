@@ -108,62 +108,52 @@
 
             if (ispostback == true) {
                 if (preMenuID != "") {
-                    //preMenu.style.background = "rgba(0, 0, 0, 0)";
                     preMenu[0].style.color = "#8031A7";
 
                     $("#" + preMenu[0].id + "Content").attr("style", "display:block;");
                 }
             }
             else {
+                menu[0].style.color = "#8031A7";
+                if (preMenuID != "") {
+                    preMenu[0].style.color = "#000000";
+                }
 
+                switch (menu[0].id) {
+                    case 'category':
+                        $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                        break;
+                    case 'eventManager':
+                        $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                        break;
+                    case 'mailGroup':
+                        $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                        break;
+                    case 'checkup':
+                        $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                        break;
+                    default:
+                }
 
-                var c = menu.css("background-color");
-
-                //var c = window.getComputedStyle(a).backgroundColor;
-                if (c === "rgba(0, 0, 0, 0)") {
-                    //a.style.background = "#8031A7";
-                    menu[0].style.color = "#8031A7";
-                    if (preMenuID != "") {
-                        //preMenu.style.background = "rgba(0, 0, 0, 0)";
-                        preMenu[0].style.color = "#000000";
-                    }
-
-                    switch (menu[0].id) {
+                if (preMenuID != "") {
+                    switch (preMenu[0].id) {
                         case 'category':
-                            $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                            $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
                             break;
                         case 'eventManager':
-                            $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                            $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
                             break;
                         case 'mailGroup':
-                            $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                            $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
                             break;
                         case 'checkup':
-                            $("#" + menu[0].id + "Content").attr("style", "display:block;");
+                            $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
                             break;
                         default:
                     }
-
-                    if (preMenuID != "") {
-                        switch (preMenu[0].id) {
-                            case 'category':
-                                $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
-                                break;
-                            case 'eventManager':
-                                $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
-                                break;
-                            case 'mailGroup':
-                                $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
-                                break;
-                            case 'checkup':
-                                $("#" + preMenu[0].id + "Content").attr("style", "display:none;");
-                                break;
-                            default:
-                        }
-                    }
-
-                    $('#<%=hfPreMenu.ClientID%>').val(menuid);
                 }
+
+                $('#<%=hfPreMenu.ClientID%>').val(menuid);
             }
 
         }
@@ -333,14 +323,17 @@
             //刪除成功 reload gridview
             switch (result) {
                 case 'SuccessCategory':
-                    <%= btnReloadCategoryGrid.ClientID%>.click();
+                    $('#<%=btnReloadCategoryGrid.ClientID%>')[0].click();
+
 
                     break;
                 case 'SuccessManager':
-                    <%= btnReloadManagerGrid.ClientID%>.click();
+                    $('#<%=btnReloadManagerGrid.ClientID%>')[0].click();
+
                     break;
                 case 'SuccessMailGroup':
-                    <%= btnReloadMailGroupGrid.ClientID%>.click();
+                    $('#<%=btnReloadMailGroupGrid.ClientID%>')[0].click();
+
                     break;
                 case 'BeUsedCategory':
                     ShowDialogMsg($('#<%=lblBeUsedCategory.ClientID%>')[0].textContent);
@@ -363,7 +356,7 @@
         function ShowDialogRequired() {
             $(function () {
                 $("#dialogRequired").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -383,7 +376,7 @@
         function ShowDialogFailed(ErrMsg) {
             $(function () {
                 $("#dialogFailed").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -405,7 +398,7 @@
         function ShowDialogDelete(event, eventid, id) {
             $(function () {
                 $("#dialogDelete").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     buttons: [
                         {
@@ -461,7 +454,7 @@
 
             $(function () {
                 $("#dialogMsg").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -488,7 +481,7 @@
         function ShowDialogSuccess() {
             $(function () {
                 $("#dialogSuccess").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -506,20 +499,19 @@
         function ShowDialogSuccessReload(event) {
             $(function () {
                 $("#dialogSuccess").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
                             switch (event) {
                                 case 'SuccessCategory':
-                                    <%= btnReloadCategoryGrid.ClientID%>.click();
-
+                                    $('#<%=btnReloadCategoryGrid.ClientID%>')[0].click();
                         break;
                         case 'SuccessManager':
-                                    <%= btnReloadManagerGrid.ClientID%>.click();
+                                    $('#<%=btnReloadManagerGrid.ClientID%>')[0].click();
                         break;
                         case 'SuccessMailGroup':
-                                    <%= btnReloadMailGroupGrid.ClientID%>.click();
+                                    $('#<%=btnReloadMailGroupGrid.ClientID%>')[0].click();
                         break;
                         default:
                             }
@@ -539,7 +531,7 @@
         function ShowDialogEmpidErr() {
             $(function () {
                 $("#dialogEmpidErr").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -558,20 +550,20 @@
         function ShowDialogExist(fieldName) {
             switch (fieldName) {
                 case 'CategoryName':
-                    $('#<%= lblExistFiled.ClientID %>').text($('#<%=hfEventCategory.ClientID%>')[0].value);
+                    $('#<%= lblExistFiled.ClientID %>').text(document.getElementById('<%=lblCategory.ClientID%>').innerText);
                     break;
                 case 'Empid':
-                    $('#<%= lblExistFiled.ClientID %>').text($('#<%=hfEventAdmin.ClientID%>')[0].value);
+                    $('#<%= lblExistFiled.ClientID %>').text(document.getElementById('<%=lblEventManager.ClientID%>').innerText);
                     break;
                 case 'MailGroup':
-                    $('#<%= lblExistFiled.ClientID %>').text($('#<%=hfMailGroup.ClientID%>')[0].value);
+                    $('#<%= lblExistFiled.ClientID %>').text(document.getElementById('<%=lblMenuMailGroup.ClientID%>').innerText);
                     break;
                 default:
             }
 
             $(function () {
                 $("#dialogExist").dialog({
-                    title: $('#<%=hfWarning.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblWarningText.ClientID%>').innerText,
                     modal: true,
                     buttons: {
                         Close: function () {
@@ -625,10 +617,10 @@
                 <td>
                     <asp:Label ID="lblCategoryName" runat="server" Text="分類名稱" meta:resourcekey="lblCategoryNameResource1"></asp:Label>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:Label ID="lblCategoryColor" runat="server" Text="分類顏色" meta:resourcekey="lblCategoryColorResource1"></asp:Label>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:Label ID="lblIsEnableCategory" runat="server" Text="是否啟用" meta:resourcekey="lblIsEnableCategoryResource1"></asp:Label>
                 </td>
                 <td></td>
@@ -637,7 +629,7 @@
                 <td>
                     <asp:TextBox ID="tbCategoryName" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:DropDownList ID="ddlCategoryColor" runat="server" Width="120px" CssClass="QueryField" onchange="ddlCategoryColorOnChange(this);">
                         <asp:ListItem Selected="True" Text="- 未指定 -" Value="" meta:resourcekey="ListItemResource1"></asp:ListItem>
 
@@ -671,12 +663,12 @@
 
                     </asp:DropDownList>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:DropDownList ID="ddlIsEnableCategory" runat="server" Width="100px" CssClass="QueryField">
                         <asp:ListItem Text="是" Value="1" Selected="True" meta:resourcekey="ListItemResource23"></asp:ListItem>
                         <asp:ListItem Text="否" Value="0" meta:resourcekey="ListItemResource24"></asp:ListItem>
                     </asp:DropDownList></td>
-                <td>
+                <td>&nbsp;
                     <asp:Button ID="Button_AddCategory" runat="server" Text="新增分類" CssClass="Button" OnClick="Button_AddCategory_Click" meta:resourcekey="Button_AddCategoryResource1" /></td>
             </tr>
         </table>
@@ -774,7 +766,7 @@
                 <td>
                     <asp:TextBox ID="tbEmpid" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:Button ID="btnAddManager" runat="server" Text="新增管理者" CssClass="Button" OnClick="btnAddManager_Click" meta:resourcekey="btnAddManagerResource1" />
                 </td>
             </tr>
@@ -814,7 +806,7 @@
                 <td>
                     <asp:Label ID="lblMailGroup" runat="server" Text="郵件群組" meta:resourcekey="lblMailGroupResource1"></asp:Label>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:Label ID="lblIsEnableMailGroup" runat="server" Text="是否啟用" meta:resourcekey="lblIsEnableMailGroupResource1"></asp:Label>
                 </td>
                 <td></td>
@@ -823,12 +815,12 @@
                 <td>
                     <asp:TextBox ID="tbMailGroup" runat="server" Width="150px" CssClass="QueryField"></asp:TextBox>
                 </td>
-                <td>
+                <td>&nbsp;
                     <asp:DropDownList ID="ddlIsEnableMailGroup" runat="server" Width="100px" CssClass="QueryField">
                         <asp:ListItem Text="是" Value="1" Selected="True" meta:resourcekey="ListItemResource49"></asp:ListItem>
                         <asp:ListItem Text="否" Value="0" meta:resourcekey="ListItemResource50"></asp:ListItem>
                     </asp:DropDownList></td>
-                <td>
+                <td>&nbsp;
                     <asp:Button ID="btnAddMailGroup" runat="server" Text="新增郵件群組" CssClass="Button" Width="120px" OnClick="Button_AddMailGroup_Click" meta:resourcekey="btnAddMailGroupResource1" /></td>
             </tr>
         </table>
@@ -1001,16 +993,10 @@
     <asp:Label ID="lblBeUsedCategory" runat="server" Text="此活動分類已被使用，不可刪除。" Style="display: none;" meta:resourcekey="lblBeUsedCategoryResource1"></asp:Label>
     <asp:Label ID="lblBeUsedMailGroup" runat="server" Text="此活郵件群組已被使用，不可刪除。" Style="display: none;" meta:resourcekey="lblBeUsedMailGroupResource1"></asp:Label>
 
-
-
-
-
-    <asp:HiddenField ID="hfWarning" runat="server" Value="警告" />
-    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
-    <asp:HiddenField ID="hfEventCategory" runat="server" Value="活動分類" />
-    <asp:HiddenField ID="hfEventAdmin" runat="server" Value="常態活動管理者" />
-    <asp:HiddenField ID="hfMailGroup" runat="server" Value="郵件群組" />
     <asp:HiddenField ID="hfPreMenu" runat="server" />
+
+    <asp:Label ID="lblMsgText" runat="server" Text="訊息" meta:resourcekey="lblMsgTextResource1" Style="display: none;"></asp:Label>
+    <asp:Label ID="lblWarningText" runat="server" Text="警告" meta:resourcekey="lblWarningTextResource1" Style="display: none;"></asp:Label>
 </asp:Content>
 
 

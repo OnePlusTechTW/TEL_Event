@@ -72,9 +72,46 @@ namespace TEL.Event.Lab.Method
             {
                 MailGroup mg = new MailGroup();
                 DataTable dtUserMailGroup = mg.GetUserMailGroup(dr["empid"].ToString());
-                string address = dtUserMailGroup.Rows[0]["Address"].ToString();
-                objMessage.To.Add(new MailAddress(address));
+                if (dtUserMailGroup.Rows.Count > 0)
+                {
+                    string address = dtUserMailGroup.Rows[0]["Address"].ToString();
+                    objMessage.To.Add(new MailAddress(address));
+                }
             }
+
+            int tryMax = 3;       // 嘗試次數
+            int sleepTime = 5000; // 間隔時間(毫秒)
+            int tryCnt = 0;
+            while (tryCnt < tryMax)
+            {
+                try
+                {
+                    SmtpClient strServer = new SmtpClient("smtp.tel.co.jp");
+                    strServer.Send(objMessage);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    // 間隔時間嘗試重送一次
+                    System.Threading.Thread.Sleep(sleepTime);
+                    tryCnt += 1;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool SendMail(string strSender, string Recipient, string strSubject, string strBody, string strDisplay)
+        {
+            MailMessage objMessage = new MailMessage();
+            objMessage.IsBodyHtml = true;
+            objMessage.BodyEncoding = System.Text.Encoding.UTF8;
+            objMessage.SubjectEncoding = System.Text.Encoding.UTF8;
+            objMessage.From = new MailAddress(strSender, strDisplay);
+            objMessage.Subject = strSubject;
+            objMessage.Body = strBody;
+
+            objMessage.To.Add(new MailAddress(Recipient));
 
             int tryMax = 3;       // 嘗試次數
             int sleepTime = 5000; // 間隔時間(毫秒)

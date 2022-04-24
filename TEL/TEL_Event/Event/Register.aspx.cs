@@ -135,7 +135,7 @@ public partial class Event_Register : System.Web.UI.Page
         Event ev = new Event();
 
         this.lblCategory.ForeColor = ColorTranslator.FromHtml(evinfo.EventCategoryColor);
-        this.lblCategory.Text = "．" + evinfo.EventCategory;
+        this.lblCategory.Text = evinfo.EventCategory;
         this.lblEventName.Text = evinfo.EventName;
         this.lblCount.Text = $"{ev.GetEvnetRegisterCount(eventid, evinfo.EventRegisterModel)}/{(evinfo.EventLimit == string.Empty ? lblLimit.Text : evinfo.EventLimit)}";
     }

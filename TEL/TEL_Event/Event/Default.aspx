@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Event_Default" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Event_Default" StylesheetTheme="Event" Culture="auto" UICulture="auto" meta:resourcekey="PageResource1" %>
 
 
 
@@ -92,9 +92,9 @@
         function ShowDialogView(page, eventid, id) {
             $(function () {
                 $("#dialogView").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
-                    width: "1200px",
+                    width: "900px",
                     Height: "500px",
                     position: { my: "center center", at: "center top+100", },
                     buttons: {
@@ -123,7 +123,7 @@
                 $("#dialogRegisterCreate").load('Event_RegisterModel' + registermodel + '_Create.aspx?id=' + id);
 
                 $("#dialogRegisterCreate").dialog({
-                    title: $('#<%=hfmsg.ClientID%>')[0].value,
+                    title: document.getElementById('<%=lblMsgText.ClientID%>').innerText,
                     modal: true,
                     width: "645px",
                     Height: "500px",
@@ -147,7 +147,7 @@
     <table>
         <tr>
             <td>
-                <asp:Image runat="server" ImageUrl="~/Master/images/DefaultEvent.jpg" Height="40px"></asp:Image>
+                <asp:Image runat="server" ImageUrl="~/Master/images/DefaultEvent.jpg" Height="40px" meta:resourcekey="ImageResource1"></asp:Image>
             </td>
         </tr>
         <tr style="height: 10px">
@@ -157,31 +157,31 @@
     <table>
         <tr>
             <td>
-                <asp:Label ID="lblEventName" runat="server" Text="活動名稱"></asp:Label>
+                <asp:Label ID="lblEventName" runat="server" Text="活動名稱" meta:resourcekey="lblEventNameResource1"></asp:Label>
             </td>
-            <td >
-                <asp:Label ID="lblEventCategory" runat="server" Text="活動分類"></asp:Label>
+            <td >&nbsp;
+                <asp:Label ID="lblEventCategory" runat="server" Text="活動分類" meta:resourcekey="lblEventCategoryResource1"></asp:Label>
             </td>
             <td></td>
         </tr>
         <tr>
             <td>
-                <asp:TextBox ID="tbEventName" runat="server" CssClass="QueryField"></asp:TextBox>
+                <asp:TextBox ID="tbEventName" runat="server" CssClass="QueryField" meta:resourcekey="tbEventNameResource1"></asp:TextBox>
             </td>
-            <td >
-                <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField">
+            <td >&nbsp;
+                <asp:DropDownList ID="ddlEventCategory" runat="server" CssClass="QueryField" meta:resourcekey="ddlEventCategoryResource1">
                 </asp:DropDownList>
             </td>
-            <td >
-                <asp:Button ID="btnSearch" runat="server" Text="查詢" OnClick="btnSearch_Click" CssClass="Button" />
+            <td >&nbsp;
+                <asp:Button ID="btnSearch" runat="server" Text="查詢" OnClick="btnSearch_Click" CssClass="Button" meta:resourcekey="btnSearchResource1" />
             </td>
         </tr>
     </table>
     <div>
-        <asp:Table ID="Table1" runat="server"></asp:Table>
+        <asp:Table ID="Table1" runat="server" meta:resourcekey="Table1Resource1"></asp:Table>
     </div>
     <div id="dialogRegisterCreate" title="Dialog Title">
-        <asp:Panel ID="ContentPanel2" runat="server" Style="display: none">
+        <asp:Panel ID="ContentPanel2" runat="server" Style="display: none" meta:resourcekey="ContentPanel2Resource1">
                 
         </asp:Panel>
     </div>
@@ -189,12 +189,12 @@
     <div id="dialogView" title="Dialog Title">
         
     </div>
-    <asp:Label ID="lblLimit" runat="server" Text="Unlimited" Visible="false"></asp:Label>
-    <asp:Label ID="lblSignup" runat="server" Text="馬上報名" Visible="false"></asp:Label>
-    <asp:Label ID="lblView" runat="server" Text="檢視報名" Visible="false"></asp:Label>
-    <asp:Label ID="lblNYStart" runat="server" Text="尚未開放報名" Visible="false"></asp:Label>
-    <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none"></asp:Label>
-    <asp:HiddenField ID="hfmsg" runat="server" Value="訊息" />
+    <asp:Label ID="lblLimit" runat="server" Text="Unlimited" Visible="False" meta:resourcekey="lblLimitResource1"></asp:Label>
+    <asp:Label ID="lblSignup" runat="server" Text="馬上報名" Visible="False" meta:resourcekey="lblSignupResource1"></asp:Label>
+    <asp:Label ID="lblView" runat="server" Text="檢視報名" Visible="False" meta:resourcekey="lblViewResource1"></asp:Label>
+    <asp:Label ID="lblNYStart" runat="server" Text="尚未開放報名" Visible="False" meta:resourcekey="lblNYStartResource1"></asp:Label>
+    <asp:Label ID="item_all" runat="server" Text="- 全部 -" style="display:none" meta:resourcekey="item_allResource1"></asp:Label>
+    <asp:Label ID="lblMsgText" runat="server" Text="訊息" meta:resourcekey="lblMsgTextResource1" Style="display: none;"></asp:Label>
 
     <%--<table>
         <tr>

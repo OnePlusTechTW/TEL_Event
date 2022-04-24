@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Master/Event.master" AutoEventWireup="true" CodeFile="MyEvent.aspx.cs" StylesheetTheme="Event" Inherits="Event_MyEvent" Culture="auto" meta:resourcekey="PageResource1" UICulture="auto" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script type="text/javascript">
-        function ShowDialogLoadPage(url,width,height) {
+        function ShowDialogLoadPage(url) {
             $(function () {
 
                 $("#dialogLoadPage").dialog({
                     title: "",
                     modal: true,
-                    width: "1050px",
+                    width: "1200px",
                     Height: "550px",
                     position: { my: "center center", at: "center top+0", },
                     buttons: {
@@ -62,7 +62,7 @@
                     <asp:ListItem Text="已結束" Value="F" meta:resourcekey="FIELD_EventStatusitem_3"></asp:ListItem>
                 </asp:DropDownList></td>
             <td>
-                <asp:Button ID="Button_Query" runat="server" Text="Button" meta:resourcekey="Button_QueryResource1" OnClick="Button_Query_Click" CssClass="Button" /></td>
+                &nbsp;<asp:Button ID="Button_Query" runat="server" Text="Button" meta:resourcekey="Button_QueryResource1" OnClick="Button_Query_Click" CssClass="Button" /></td>
         </tr>
     </table>
     <table>

@@ -31,9 +31,9 @@ namespace TEL.Event.Lab.Data
                           REPLACE(CONVERT(VARCHAR, a.registerstart,120),'-','/') AS registerstart,REPLACE(CONVERT(VARCHAR, a.registerend,120),'-','/') as registerend,
                           CONVERT(VARCHAR, a.eventstart,111) as eventstart,CONVERT(VARCHAR, a.eventend,111) AS eventend,a.registermodel,
                           a.surveystartdate,a.surveymodel,b.id AS registerid, d.id AS surveyid, 
-						  CAST(a.id AS varchar(40))+'_'+a.registermodel+'_'+CAST(b.id AS varchar(40)) AS registerinfo,
+						  CAST(a.id AS varchar(40))+'_'+a.registermodel+'_'+CAST(b.id AS varchar(40))+'_'+CAST(b.eventid AS varchar(40)) AS registerinfo,
                           CAST(a.id AS varchar(40))+'_'+a.surveymodel+'_'+ISNULL(CAST(d.id AS varchar(40)),'') AS surveyinfo,
-						  CASE WHEN a.eventstart>getdate() THEN '尚未開始' WHEN dateadd(d,1,a.eventend) <getdate() THEN '已結束' ELSE '進行中' END AS status, 
+						  CASE WHEN a.eventstart>getdate() THEN N'尚未開始' WHEN dateadd(d,1,a.eventend) <getdate() THEN N'已結束' ELSE N'進行中' END AS status, 
                           REPLACE(CONVERT(VARCHAR, b.registerdate,120),'-','/') as registerdate 
                           FROM TEL_Event_Events a
                           INNER JOIN 
@@ -79,7 +79,7 @@ namespace TEL.Event.Lab.Data
                         sqlString += "AND a.eventend<GETDATE() ";
                 }
 
-                sqlString += "ORDER BY a.eventstart DESC";
+                sqlString += "ORDER BY b.registerdate DESC";
 
                 using (SqlConnection connection = new SqlConnection(connStr))
                 {

@@ -29,6 +29,9 @@ public partial class Event_Event_Edit : System.Web.UI.Page
             {
                 MaintainPageLoadData(id);
             }
+
+            Session["ThumbnailFileBytes"] = null;
+            Session["ThumbnailPictureFileBytes"] = null;
         }
     }
 
@@ -46,7 +49,12 @@ public partial class Event_Event_Edit : System.Web.UI.Page
         if (!string.IsNullOrEmpty(ddlSignupTemplate.SelectedValue))
         {
             imgTemplate.ImageUrl = "~/Sample/Img/Register_Model" + ddlSignupTemplate.SelectedValue + ".jpg";
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate();", true);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate('" + lblSignupTemplatePreview.Text + "');", true);
+
+            if (ddlSignupTemplate.SelectedValue == "5")
+            {
+                btnNextStep.Text = lblComplete.Text;
+            }
         }
     }
 
@@ -55,7 +63,7 @@ public partial class Event_Event_Edit : System.Web.UI.Page
         if (!string.IsNullOrEmpty(ddlQuestionnaireTemplate.SelectedValue))
         {
             imgTemplate.ImageUrl = "~/Sample/Img/Survey_Model" + ddlQuestionnaireTemplate.SelectedValue + ".jpg";
-            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate();", true);
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogTemplate('" + lblQuestionnaireTemplatePreview.Text + "');", true);
         }
     }
 
@@ -112,12 +120,14 @@ public partial class Event_Event_Edit : System.Web.UI.Page
                 {
                     lblThumbnailName.Text = this.FileUploadThumbnail.FileName;
                     Session["ThumbnailFileBytes"] = this.FileUploadThumbnail.FileBytes;
+                    imgThumbnail.Visible = false;
                 }
 
                 if (hfUploadType.Value == "Picture")
                 {
                     lblPictureName.Text = this.FileUploadThumbnail.FileName;
                     Session["ThumbnailPictureFileBytes"] = this.FileUploadThumbnail.FileBytes;
+                    imgPicture.Visible = false;
                 }
             }
         }
@@ -526,7 +536,25 @@ public partial class Event_Event_Edit : System.Web.UI.Page
             tbPeopleLimit.Text = dt.Rows[0]["limit"].ToString();
             tbSignupSDate.Text = Convert.ToDateTime(dt.Rows[0]["registerstart"].ToString()).ToString("yyyy/MM/dd HH:mm");
             tbSignupEDate.Text = Convert.ToDateTime(dt.Rows[0]["registerend"].ToString()).ToString("yyyy/MM/dd HH:mm");
-            ddlSignupTemplate.SelectedValue = dt.Rows[0]["registermodel"].ToString(); ;
+
+            DataTable dtRegisteredEvent = new DataTable();
+            dtRegisteredEvent = ev.GetRegisteredEventInfo(id);
+            //已有人報名填寫後，模板不給更換功能
+            if (dtRegisteredEvent.Rows.Count > 0)
+                ddlSignupTemplate.Enabled = false;
+
+            ddlSignupTemplate.SelectedValue = dt.Rows[0]["registermodel"].ToString();
+
+            if (dt.Rows[0]["registermodel"].ToString() == "5")
+            {
+                btnNextStep.Text = lblComplete.Text;
+            }
+
+            //已有人問卷填寫後，模板不給更換功能
+            EventInfo eventInfo = new EventInfo(id);
+            if (!string.IsNullOrEmpty(eventInfo.EventSurveystartdate))
+                ddlQuestionnaireTemplate.Enabled = false;
+
             ddlQuestionnaireTemplate.SelectedValue = dt.Rows[0]["surveymodel"].ToString(); ;
             rblPublis.SelectedValue = dt.Rows[0]["enabled"].ToString();
             rblDuplicated.SelectedValue = dt.Rows[0]["duplicated"].ToString();
@@ -556,15 +584,29 @@ public partial class Event_Event_Edit : System.Web.UI.Page
             txtEditor.Text = HttpUtility.HtmlDecode(dt.Rows[0]["description"].ToString());
 
             //FileUploadThumbnail.
+            string path = ConfigurationManager.AppSettings.Get("EventThumbnailPath");
+            if (string.IsNullOrEmpty(path))
+                path = "~/App_Data/EventThumbnail";
+
             if (!string.IsNullOrEmpty(dt.Rows[0]["image1"].ToString()))
             {
+                
+
+                imgThumbnail.ImageUrl = Path.Combine(path, dt.Rows[0]["image1"].ToString());
+
                 lblThumbnailName.Text = dt.Rows[0]["image1_name"].ToString();
             }
+            else
+                imgThumbnail.Visible = false;
 
             if (!string.IsNullOrEmpty(dt.Rows[0]["image2"].ToString()))
             {
+                imgPicture.ImageUrl = Path.Combine(path, dt.Rows[0]["image2"].ToString());
+
                 lblPictureName.Text = dt.Rows[0]["image2_name"].ToString();
             }
+            else
+                imgPicture.Visible = false;
 
             DataTable dtEventAdmin = ev.GetEventAdmin(id);
             string ortherEventManager = string.Empty;

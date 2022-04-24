@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_SurveyModel1_View.aspx.cs" Inherits="Event_Event_SurveyModel1_View" StylesheetTheme="Event" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_SurveyModel1_View.aspx.cs" Inherits="Event_Event_SurveyModel1_View" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
@@ -22,7 +22,7 @@
                 </td>
             </tr>
             <tr style="height: 10px"></tr>
-        </table> 
+        </table>
         <table style="width: 650px">
             <tr>
                 <td>
@@ -52,19 +52,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="150px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
             </tr>
         </table>

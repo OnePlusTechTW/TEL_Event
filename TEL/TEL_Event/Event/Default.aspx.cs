@@ -191,7 +191,16 @@ public partial class Event_Default : System.Web.UI.Page
             tdEventName.Controls.Add(lblEventName);//在此欄加入按鈕
 
             Label lblEventName1 = new Label();
-            lblEventName1.Text = dtEvent.Rows[i]["eventname"].ToString();
+            if (dtEvent.Rows[i]["eventname"].ToString().Length > 15)
+            {
+                lblEventName1.Text = $"{dtEvent.Rows[i]["eventname"].ToString().Substring(0, 15)}...";
+            }
+            else
+            {
+                lblEventName1.Text = dtEvent.Rows[i]["eventname"].ToString();
+            }
+
+            lblEventName1.ToolTip = dtEvent.Rows[i]["eventname"].ToString();
             lblEventName1.CssClass = "tableInfoContentFontSize-large";
             lblEventName1.ID = "lblEventName1" + dtEvent.Rows[i]["eventnid"];
             tdEventName.Controls.Add(lblEventName1);//在此欄加入按鈕

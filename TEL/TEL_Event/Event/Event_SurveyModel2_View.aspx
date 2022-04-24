@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_SurveyModel2_View.aspx.cs" Inherits="Event_SurveyModel2_View" StylesheetTheme="Event" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Event_SurveyModel2_View.aspx.cs" Inherits="Event_SurveyModel2_View" StylesheetTheme="Event" Culture="auto" UICulture="auto" %>
 
 <%@ Register Src="~/Event/UserControl/UC_EventDescription.ascx" TagPrefix="uc1" TagName="UC_EventDescription" %>
 
@@ -52,19 +52,19 @@
             </tr>
             <tr>
                 <td>
-                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Station" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Width="80px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_Empid" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Width="120px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_EmpNameCH" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_EmpNameEN" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
                 <td>
-                    <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Width="200px" Enabled="false"></asp:TextBox>
+                    <asp:TextBox ID="FIELD_UnitName" runat="server" CssClass="FillField" Enabled="false"></asp:TextBox>
                 </td>
 
             </tr>
@@ -75,7 +75,7 @@
                     <asp:Label ID="LABEL_Q1" runat="server" meta:resourcekey="LABEL_Q1Resource1"></asp:Label>
                 </td>
             </tr>
-           <tr>
+            <tr>
                 <td style="width: 120px">
                     <asp:CheckBox ID="FIELD_Q1_1" runat="server" Text="公告" Value="公告" CssClass="Normal" Enabled="false" meta:resourcekey="FIELD_Q1_1Resource1"></asp:CheckBox>
                 </td>
@@ -103,7 +103,7 @@
                     <asp:Label ID="LABEL_Q2" runat="server" meta:resourcekey="LABEL_Q2Resource1"></asp:Label>
                 </td>
             </tr>
-             <tr>
+            <tr>
                 <td>
                     <asp:RadioButton ID="FIELD_Q2_1" runat="server" Text="非常滿意" Value="非常滿意" CssClass="Normal" GroupName="FIELD_Q2" Enabled="false" meta:resourcekey="FIELD_Q2_1Resource1"></asp:RadioButton>
                 </td>

@@ -23,7 +23,7 @@ public partial class Event_SurveyModel4_View : System.Web.UI.Page
         this.FIELD_Empid.Text = ui.EmpID;
         this.FIELD_EmpNameCH.Text = ui.FullNameCH;
         this.FIELD_EmpNameEN.Text = ui.FullNameEN;
-        this.FIELD_UnitName.Text = ui.UnitCode+" - "+ui.UnitName;
+        this.FIELD_UnitName.Text = ui.UnitName;
         this.FIELD_Station.Text = ui.Station;
     }
 
@@ -38,14 +38,6 @@ public partial class Event_SurveyModel4_View : System.Web.UI.Page
         {
             UC_EventDescription.setViewDefault(WMTB.Rows[0]["eventid"].ToString());
             Load_EmpData(WMTB.Rows[0]["empid"].ToString());
-
-            for (int i = 1; i <= 5; i++)
-            {
-                RadioButton rb = (RadioButton)this.Page.FindControl("FIELD_Q1_" + i);
-
-                if (WMTB.Rows[0]["q1"].ToString() == rb.Text)
-                    rb.Checked = true;
-            }
 
             for (int i = 1; i <= 5; i++)
             {

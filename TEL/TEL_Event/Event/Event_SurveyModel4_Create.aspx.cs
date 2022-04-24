@@ -15,7 +15,7 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Request.QueryString["id"] == null || string.IsNullOrEmpty(Request.QueryString["id"]))
-            Response.Redirect("/Event/MyEvent.aspx");
+            Response.Redirect("MyEvent.aspx");
 
         UC_EventDescription.setViewDefault(Request.QueryString["id"]);
 
@@ -24,7 +24,7 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
 
     protected void Button_Cancel_Click(object sender, EventArgs e)
     {
-        Response.Redirect("/Event/MyEvent.aspx");
+        Response.Redirect("MyEvent.aspx");
     }
 
     protected void Button_Submit_Click(object sender, EventArgs e)
@@ -36,7 +36,7 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
     {
         if (Check_Input())
             if (Save_Data())
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
     }
 
     //Load員工相關資料
@@ -46,7 +46,7 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
         this.FIELD_Empid.Text = ui.EmpID;
         this.FIELD_EmpNameCH.Text = ui.FullNameCH;
         this.FIELD_EmpNameEN.Text = ui.FullNameEN;
-        this.FIELD_UnitName.Text = ui.UnitCode + " - " + ui.UnitName;
+        this.FIELD_UnitName.Text = ui.UnitName;
         this.FIELD_Station.Text = ui.Station;
     }
 
@@ -57,12 +57,12 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
 
         string ErrorMsg = "";
 
-        if (!this.FIELD_Q1_1.Checked && !this.FIELD_Q1_2.Checked && !this.FIELD_Q1_3.Checked && !this.FIELD_Q1_4.Checked && !this.FIELD_Q1_5.Checked)
-        {
-            if (!string.IsNullOrEmpty(ErrorMsg))
-                  ErrorMsg += "<BR>";
-            ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1").ToString();
-        }
+        //if (!this.FIELD_Q1_1.Checked && !this.FIELD_Q1_2.Checked && !this.FIELD_Q1_3.Checked && !this.FIELD_Q1_4.Checked && !this.FIELD_Q1_5.Checked)
+        //{
+        //    if (!string.IsNullOrEmpty(ErrorMsg))
+        //          ErrorMsg += "<BR>";
+        //    ErrorMsg += this.GetLocalResourceObject("ErrorMsg_MustFill_Q1").ToString();
+        //}
 
         if (!this.FIELD_Q2_1.Checked && !this.FIELD_Q2_2.Checked && !this.FIELD_Q2_3.Checked && !this.FIELD_Q2_4.Checked && !this.FIELD_Q2_5.Checked)
         {
@@ -102,23 +102,9 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
         string errormsg = "";
         Survey sv = new Survey();
 
-        string q1 = "";
         string q2 = "";
         string q3 = "";
         string q4 = "";
-        string q5 = "";
-
-        #region Q1
-
-        for (int i = 1; i <= 5; i++)
-        {
-            RadioButton rb = (RadioButton)this.Master.FindControl("ContentPlaceHolder1").FindControl("FIELD_Q1_" + i);
-
-            if (rb.Checked)
-                q1 = rb.Text;
-        }
-
-        #endregion
 
         #region Q2
 
@@ -156,7 +142,7 @@ public partial class Event_SurveyModel4_Create : System.Web.UI.Page
 
         #endregion
 
-        errormsg = sv.SaveSurveyDataMModel4(this.Request.QueryString["id"], Page.Session["EmpID"].ToString(), q1, q2, q3, q4, this.FIELD_Q5.Text.Trim());
+        errormsg = sv.SaveSurveyDataMModel4(this.Request.QueryString["id"], Page.Session["EmpID"].ToString(), q2, q3, q4, this.FIELD_Q5.Text.Trim());
 
         if (errormsg != "")
         {

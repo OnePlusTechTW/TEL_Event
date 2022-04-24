@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Button_CancelResource1.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Button_SubmitResource1.Text" xml:space="preserve">
+    <value>送出</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q1" xml:space="preserve">
+    <value>欄位 請問您本次選擇的健檢中心是 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q2" xml:space="preserve">
+    <value>欄位 是否有強迫推銷自費項目的行為 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q2Reason" xml:space="preserve">
+    <value>欄位 是否有強迫推銷自費項目的行為，是原因 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q3" xml:space="preserve">
+    <value>欄位 醫護人員態度與解說 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q3Reason" xml:space="preserve">
+    <value>欄位 醫護人員態度與解說，不滿意原因 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q4" xml:space="preserve">
+    <value>欄位 健檢流程順暢度 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q4Reason" xml:space="preserve">
+    <value>欄位 健檢流程順暢度，不滿意原因 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q5" xml:space="preserve">
+    <value>欄位 整體環境滿意度 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q5Reason" xml:space="preserve">
+    <value>欄位 整體環境滿意度，不滿意原因 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q6" xml:space="preserve">
+    <value>欄位 餐點滿意度 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q6Reason" xml:space="preserve">
+    <value>欄位 餐點滿意度，不滿意原因 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q7" xml:space="preserve">
+    <value>欄位 健檢中心整體滿意度 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q7Reason" xml:space="preserve">
+    <value>欄位 健檢中心整體滿意度，不滿意原因 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q8" xml:space="preserve">
+    <value>欄位 關於公司提供的年度健檢安排，您是否有其他的建議 為必填欄位</value>
+  </data>
+  <data name="ErrorMsg_MustFill_Q9" xml:space="preserve">
+    <value>欄位 請問是否需要安排社內駐廠醫師提供健檢報告解說 為必填欄位</value>
+  </data>
+  <data name="FIELD_Q1item_none" xml:space="preserve">
+    <value>- 未指定 -</value>
+  </data>
+  <data name="LABEL_EmpidResource1.Text" xml:space="preserve">
+    <value>工號</value>
+  </data>
+  <data name="LABEL_EmpNameCHResource1.Text" xml:space="preserve">
+    <value>中文姓名</value>
+  </data>
+  <data name="LABEL_EmpNameENResource1.Text" xml:space="preserve">
+    <value>英文姓名</value>
+  </data>
+  <data name="LABEL_PageNameResource1.Text" xml:space="preserve">
+    <value>填寫問卷</value>
+  </data>
+  <data name="LABEL_Q1Resource1.Text" xml:space="preserve">
+    <value>請問您本次選擇的健檢中心是?</value>
+  </data>
+  <data name="LABEL_Q2ReasonResource1.Text" xml:space="preserve">
+    <value>填答是，請說明原因</value>
+  </data>
+  <data name="LABEL_Q2Resource1.Text" xml:space="preserve">
+    <value>是否有強迫推銷自費項目的行為？ (例:表示拒絕後仍繼續詢問或繼續推銷)</value>
+  </data>
+  <data name="LABEL_Q3ReasonResource1.Text" xml:space="preserve">
+    <value>填答不滿意，請說明原因</value>
+  </data>
+  <data name="LABEL_Q3Resource1.Text" xml:space="preserve">
+    <value>醫護人員態度與解說 (說明：具良好且專業的知識及技術、專業衛教及諮詢...等)</value>
+  </data>
+  <data name="LABEL_Q4ReasonResource1.Text" xml:space="preserve">
+    <value>填答不滿意，請說明原因</value>
+  </data>
+  <data name="LABEL_Q4Resource1.Text" xml:space="preserve">
+    <value>健檢流程順暢度 (說明：等待時間、健檢動線...等)</value>
+  </data>
+  <data name="LABEL_Q5ReasonResource1.Text" xml:space="preserve">
+    <value>填答不滿意，請說明原因</value>
+  </data>
+  <data name="LABEL_Q5Resource1.Text" xml:space="preserve">
+    <value>整體環境滿意度 (說明：更衣環境、受檢空間隱密性、休息等待區...等)</value>
+  </data>
+  <data name="LABEL_Q6ReasonResource1.Text" xml:space="preserve">
+    <value>填答不滿意，請說明原因</value>
+  </data>
+  <data name="LABEL_Q6Resource1.Text" xml:space="preserve">
+    <value>餐點滿意度 (說明：食材衛生保存得當、食材充足)</value>
+  </data>
+  <data name="LABEL_Q7ReasonResource1.Text" xml:space="preserve">
+    <value>填答不滿意，請說明原因</value>
+  </data>
+  <data name="LABEL_Q7Resource1.Text" xml:space="preserve">
+    <value>健檢中心整體滿意度</value>
+  </data>
+  <data name="LABEL_Q8Resource1.Text" xml:space="preserve">
+    <value>關於公司提供的年度健檢安排，您是否有其他的建議?</value>
+  </data>
+  <data name="LABEL_Q9Resource1.Text" xml:space="preserve">
+    <value>請問是否需要安排社內駐廠醫師提供健檢報告解說？</value>
+  </data>
+  <data name="LABEL_StationResource1.Text" xml:space="preserve">
+    <value>勤務地</value>
+  </data>
+  <data name="LABEL_UnitNameResource1.Text" xml:space="preserve">
+    <value>部門</value>
+  </data>
+  <data name="PageResource1.Title" xml:space="preserve">
+    <value>填寫問卷</value>
+  </data>
+</root>

@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="btnCancelResource1.Text" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="btnImportResource1.Text" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="btnNextStepResource1.Text" xml:space="preserve">
+    <value>次</value>
+  </data>
+  <data name="btnUploadPictureResource1.Text" xml:space="preserve">
+    <value>上傳檔案</value>
+  </data>
+  <data name="btnUploadThumbnailResource1.Text" xml:space="preserve">
+    <value>上傳檔案</value>
+  </data>
+  <data name="lblCantDeleteResource1.Text" xml:space="preserve">
+    <value>已有報名資料，無法刪除。</value>
+  </data>
+  <data name="lblCustMemberResource1.Text" xml:space="preserve">
+    <value>(格式:工號,工號)</value>
+  </data>
+  <data name="lblDeleteWarningResource1.Text" xml:space="preserve">
+    <value>確定刪除該筆資料？</value>
+  </data>
+  <data name="lblDuplicatedResource1.Text" xml:space="preserve">
+    <value>繰り返し登録</value>
+  </data>
+  <data name="lblErrMsgTxtResource1.Text" xml:space="preserve">
+    <value>錯誤訊息：</value>
+  </data>
+  <data name="lblEventCategoryResource1.Text" xml:space="preserve">
+    <value>イベント分類</value>
+  </data>
+  <data name="lblEventDescriptionResource1.Text" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="lblEventEDateResource1.Text" xml:space="preserve">
+    <value>イベント終了時間</value>
+  </data>
+  <data name="lblEventMemberResource1.Text" xml:space="preserve">
+    <value>メンバー</value>
+  </data>
+  <data name="lblEventNameResource1.Text" xml:space="preserve">
+    <value>イベント名</value>
+  </data>
+  <data name="lblEventSDateResource1.Text" xml:space="preserve">
+    <value>イベント開始時間</value>
+  </data>
+  <data name="lblExtensionResource1.Text" xml:space="preserve">
+    <value> 限上傳jpg、jpeg、png、gif圖檔</value>
+  </data>
+  <data name="lblFailedResource1.Text" xml:space="preserve">
+    <value>失敗。</value>
+  </data>
+  <data name="lblInvalidEmpidResource1.Text" xml:space="preserve">
+    <value>無效工號，請重新輸入。</value>
+  </data>
+  <data name="lblOrtherEventManager2Resource1.Text" xml:space="preserve">
+    <value>(社員番号はカンマで区切る)</value>
+  </data>
+  <data name="lblOrtherEventManagerResource1.Text" xml:space="preserve">
+    <value>他のイベント管理者</value>
+  </data>
+  <data name="lblPageNameResource1.Text" xml:space="preserve">
+    <value>イベント追加</value>
+  </data>
+  <data name="lblPeopleLimit2Resource1.Text" xml:space="preserve">
+    <value>(無上限勿填)</value>
+  </data>
+  <data name="lblPeopleLimitResource1.Text" xml:space="preserve">
+    <value>人数制限</value>
+  </data>
+  <data name="lblPicture1Resource1.Text" xml:space="preserve">
+    <value>イベント画像</value>
+  </data>
+  <data name="lblPictureResource1.Text" xml:space="preserve">
+    <value>イベント画像(jpg, jpeg, png, gif，サイズ600*400)</value>
+  </data>
+  <data name="lblPublishResource1.Text" xml:space="preserve">
+    <value>リリース</value>
+  </data>
+  <data name="lblQuestionnaireTemplateResource1.Text" xml:space="preserve">
+    <value>アンケートテンプレート</value>
+  </data>
+  <data name="lblRegisterDateErrResource1.Text" xml:space="preserve">
+    <value>報名開始日期時間不可以晚於、等於報名結束日期時間</value>
+  </data>
+  <data name="lblRequiredResource1.Text" xml:space="preserve">
+    <value>欄位 {0} 為必填欄位。</value>
+  </data>
+  <data name="lblSignupEDateResource1.Text" xml:space="preserve">
+    <value>登録終了時間</value>
+  </data>
+  <data name="lblSignupSDateResource1.Text" xml:space="preserve">
+    <value>登録開始時間</value>
+  </data>
+  <data name="lblSignupTemplateResource1.Text" xml:space="preserve">
+    <value>登録表テンプレート</value>
+  </data>
+  <data name="lblThumbnail1Resource1.Text" xml:space="preserve">
+    <value>イベントサムネイル</value>
+  </data>
+  <data name="lblThumbnailResource1.Text" xml:space="preserve">
+    <value>イベントサムネイル(jpg, jpeg, png, gif，サイズ300*200)</value>
+  </data>
+  <data name="lblUnselectResource1.Text" xml:space="preserve">
+    <value>- 未指定 -</value>
+  </data>
+  <data name="ListItemResource1.Text" xml:space="preserve">
+    <value>- 未指定 -</value>
+  </data>
+  <data name="ListItemResource10.Text" xml:space="preserve">
+    <value>滿意度(活動)</value>
+  </data>
+  <data name="ListItemResource10.Value" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ListItemResource11.Text" xml:space="preserve">
+    <value>滿意度(健檢)</value>
+  </data>
+  <data name="ListItemResource11.Value" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ListItemResource12.Text" xml:space="preserve">
+    <value>滿意度(電腦替換)</value>
+  </data>
+  <data name="ListItemResource12.Value" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ListItemResource13.Text" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="ListItemResource13.Value" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="ListItemResource14.Text" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="ListItemResource15.Text" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="ListItemResource15.Value" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="ListItemResource16.Text" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="ListItemResource17.Text" xml:space="preserve">
+    <value>全体社員</value>
+  </data>
+  <data name="ListItemResource17.Value" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="ListItemResource18.Text" xml:space="preserve">
+    <value>カスタマイズ</value>
+  </data>
+  <data name="ListItemResource18.Value" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="ListItemResource2.Text" xml:space="preserve">
+    <value>活動報名(簡易)</value>
+  </data>
+  <data name="ListItemResource2.Value" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ListItemResource3.Text" xml:space="preserve">
+    <value>活動報名(詳細)</value>
+  </data>
+  <data name="ListItemResource3.Value" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ListItemResource4.Text" xml:space="preserve">
+    <value>活動報名(地點時間)</value>
+  </data>
+  <data name="ListItemResource4.Value" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ListItemResource5.Text" xml:space="preserve">
+    <value>上傳附件</value>
+  </data>
+  <data name="ListItemResource5.Value" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ListItemResource6.Text" xml:space="preserve">
+    <value>健康檢查報名(Local)</value>
+  </data>
+  <data name="ListItemResource6.Value" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ListItemResource7.Text" xml:space="preserve">
+    <value>健康檢查報名(駐在員)</value>
+  </data>
+  <data name="ListItemResource7.Value" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ListItemResource8.Text" xml:space="preserve">
+    <value>- 未指定 -</value>
+  </data>
+  <data name="ListItemResource9.Text" xml:space="preserve">
+    <value>滿意度(講座)</value>
+  </data>
+  <data name="ListItemResource9.Value" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="PageResource2.Title" xml:space="preserve">
+    <value>イベント追加</value>
+  </data>
+  <data name="lblMsgTextResource1.Text" xml:space="preserve">
+    <value>訊息</value>
+  </data>
+  <data name="lblWarningTextResource1.Text" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="lblCompleteResource1.Text" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="lblQuestionnaireTemplatePreviewResource1.Text" xml:space="preserve">
+    <value>問卷模板預覽</value>
+  </data>
+  <data name="lblSignupTemplatePreviewResource1.Text" xml:space="preserve">
+    <value>報名表模板預覽</value>
+  </data>
+</root>

@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Button_Delete.Text" xml:space="preserve">
-    <value>刪除</value>
+    <value>Delete</value>
   </data>
   <data name="Button_ExportExcelResource1.Text" xml:space="preserve">
-    <value>匯出Excel</value>
+    <value>Export excel</value>
   </data>
   <data name="Button_QueryResource1.Text" xml:space="preserve">
-    <value>查詢</value>
+    <value>Enquiry</value>
   </data>
   <data name="FIELD_Result_Empid.HeaderText" xml:space="preserve">
-    <value>工號</value>
+    <value>Emplyee Number</value>
   </data>
   <data name="FIELD_Result_EmpNameCH.HeaderText" xml:space="preserve">
-    <value>中文姓名</value>
+    <value>Emplyee Number</value>
   </data>
   <data name="FIELD_Result_EmpNameEN.HeaderText" xml:space="preserve">
-    <value>英文姓名</value>
+    <value>English Name</value>
   </data>
   <data name="FIELD_Result_FillinDate.HeaderText" xml:space="preserve">
     <value>填寫日期</value>
@@ -145,6 +145,6 @@
     <value>管理問卷資料</value>
   </data>
   <data name="QUERY_EmpNameResource1.Text" xml:space="preserve">
-    <value>工號或姓名</value>
+    <value>Employee Number or Name</value>
   </data>
 </root>

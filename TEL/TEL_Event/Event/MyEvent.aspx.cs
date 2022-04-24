@@ -17,9 +17,22 @@ public partial class Event_MyEvent : System.Web.UI.Page
             if (Request.QueryString["name"] != null && !string.IsNullOrEmpty(Request.QueryString["name"]))
                 this.FIELD_EventName.Text = Request.QueryString["name"];
 
+            if ((Request.QueryString["eventid"] != null && !string.IsNullOrEmpty(Request.QueryString["eventid"])) && (Request.QueryString["id"] != null && !string.IsNullOrEmpty(Request.QueryString["id"])))
+                InitOpenRegisterModelView();
+
             GeneratedCategoryItem();
             QueryData();
         }
+    }
+
+    private void InitOpenRegisterModelView()
+    {
+        string eventID = Request.QueryString["eventid"].ToString();
+        string registerID = Request.QueryString["id"].ToString();
+
+        EventInfo eventInfo = new EventInfo(eventID);
+
+        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), $"ShowDialogLoadPage('Event_RegisterModel{eventInfo.EventRegisterModel}_View.aspx?eventid=" + eventID + "&id=" + registerID + "');", true);
     }
 
     protected void Button_Query_Click(object sender, EventArgs e)
@@ -42,6 +55,7 @@ public partial class Event_MyEvent : System.Web.UI.Page
             }
 
             //報名資料Button控制
+            string eventid = DataBinder.Eval(e.Row.DataItem, "registerend").ToString();
             string registerend = DataBinder.Eval(e.Row.DataItem, "registerend").ToString();
             string registermodel = DataBinder.Eval(e.Row.DataItem, "registermodel").ToString();
             string registerid = DataBinder.Eval(e.Row.DataItem, "registerid").ToString();
@@ -52,7 +66,7 @@ public partial class Event_MyEvent : System.Web.UI.Page
                 bt.Visible = false;
 
                 Button bt1 = (Button)e.Row.FindControl("Button_RegisterView");
-                bt1.OnClientClick = "window.ShowModalDialog('/Event/Event_RegisterModel" + registermodel + "_View.aspx?id=" + registerid + "'); event.returnValue=false;";
+                bt1.OnClientClick = "window.ShowModalDialog('/Event/Event_RegisterModel" + registermodel + "_View.aspx?eventid=" + eventid + "&id=" + registerid + "'); event.returnValue=false;";
             }
             else
             {
@@ -111,25 +125,25 @@ public partial class Event_MyEvent : System.Web.UI.Page
         switch (si[1])
         {
             case "1":
-                Response.Redirect("/Event/Event_RegisterModel1_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
+                Response.Redirect("Event_RegisterModel1_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
                 break;
             case "2":
-                Response.Redirect("/Event/Event_RegisterModel2_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
+                Response.Redirect("Event_RegisterModel2_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
                 break;
             case "3":
-                Response.Redirect("/Event/Event_RegisterModel3_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
+                Response.Redirect("Event_RegisterModel3_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
                 break;
             case "4":
-                Response.Redirect("/Event/Event_RegisterModel4_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
+                Response.Redirect("Event_RegisterModel4_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
                 break;
             case "5":
-                Response.Redirect("/Event/Event_RegisterModel5_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
+                Response.Redirect("Event_RegisterModel5_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
                 break;
             case "6":
-                Response.Redirect("/Event/Event_RegisterModel6_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
+                Response.Redirect("Event_RegisterModel6_Edit.aspx?eventid=" + si[0] + "&id=" + si[2] + "&page=MyEvent");
                 break;
             default:
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
                 break;
         }
     }
@@ -145,25 +159,25 @@ public partial class Event_MyEvent : System.Web.UI.Page
         switch (si[1])
         {
             case "1":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_RegisterModel1_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_RegisterModel1_View.aspx?eventid=" + si[3] + "&id=" + si[2] + "');", true);
                 break;
             case "2":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_RegisterModel2_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_RegisterModel2_View.aspx?eventid=" + si[3] + "&id=" + si[2] + "');", true);
                 break;
             case "3":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_RegisterModel3_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_RegisterModel3_View.aspx?eventid=" + si[3] + "&id=" + si[2] + "');", true);
                 break;
             case "4":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_RegisterModel4_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_RegisterModel4_View.aspx?eventid=" + si[3] + "&id=" + si[2] + "');", true);
                 break;
             case "5":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_RegisterModel5_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_RegisterModel5_View.aspx?eventid=" + si[3] + "&id=" + si[2] + "');", true);
                 break;
             case "6":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_RegisterModel6_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_RegisterModel6_View.aspx?eventid=" + si[3] + "&id=" + si[2] + "');", true);
                 break;
             default:
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
                 break;
         }
     }
@@ -178,19 +192,19 @@ public partial class Event_MyEvent : System.Web.UI.Page
         switch (si[1])
         {
             case "1":
-                Response.Redirect("/Event/Event_SurveyModel1_Create.aspx?id=" + si[0]);
+                Response.Redirect("Event_SurveyModel1_Create.aspx?id=" + si[0]);
                 break;
             case "2":
-                Response.Redirect("/Event/Event_SurveyModel2_Create.aspx?id=" + si[0]);
+                Response.Redirect("Event_SurveyModel2_Create.aspx?id=" + si[0]);
                 break;
             case "3":
-                Response.Redirect("/Event/Event_SurveyModel3_Create.aspx?id=" + si[0]);
+                Response.Redirect("Event_SurveyModel3_Create.aspx?id=" + si[0]);
                 break;
             case "4":
-                Response.Redirect("/Event/Event_SurveyModel4_Create.aspx?id=" + si[0]);
+                Response.Redirect("Event_SurveyModel4_Create.aspx?id=" + si[0]);
                 break;
             default:
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
                 break;
         }
     }
@@ -206,19 +220,19 @@ public partial class Event_MyEvent : System.Web.UI.Page
         switch (si[1])
         {
             case "1":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel1_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel1_View.aspx?id=" + si[2] + "');", true);
                 break;
             case "2":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel2_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel2_View.aspx?id=" + si[2] + "');", true);
                 break;
             case "3":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel3_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel3_View.aspx?id=" + si[2] + "');", true);
                 break;
             case "4":
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('/Event/Event_SurveyModel4_View.aspx?id=" + si[2] + "',750,1000);", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), Guid.NewGuid().ToString(), "ShowDialogLoadPage('Event_SurveyModel4_View.aspx?id=" + si[2] + "');", true);
                 break;
             default:
-                Response.Redirect("/Event/MyEvent.aspx");
+                Response.Redirect("MyEvent.aspx");
                 break;
         }
     }

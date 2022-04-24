@@ -71,8 +71,7 @@ public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
         MenuItem mi1 = new MenuItem();
         mi1.Text = this.GetLocalResourceObject("Link_ManageSite.Text").ToString();
         mi1.Value = "管理網站";
-        mi1.ImageUrl = "~/Master/images/Link_ManageSite.png";
-        mi1.NavigateUrl = "/Event/SystemSetup.aspx";
+        mi1.NavigateUrl = "~/Event/SystemSetup.aspx";
         this.FIELD_MenuBar.Items[0].ChildItems.AddAt(this.FIELD_MenuBar.Items[0].ChildItems.Count, mi1);
     }
 
@@ -82,8 +81,7 @@ public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
         MenuItem mi1 = new MenuItem();
         mi1.Text = this.GetLocalResourceObject("Link_CreateEvents.Text").ToString();
         mi1.Value = "建立活動";
-        mi1.ImageUrl = "~/Master/images/Link_CreateEvents.png";
-        mi1.NavigateUrl = "/Event/Event_Create.aspx";
+        mi1.NavigateUrl = "~/Event/Event_Create.aspx";
         this.FIELD_MenuBar.Items[0].ChildItems.AddAt(this.FIELD_MenuBar.Items[0].ChildItems.Count, mi1);
     }
 
@@ -93,8 +91,7 @@ public partial class Master_uc_EventHeaderControl : System.Web.UI.UserControl
         MenuItem mi1 = new MenuItem();
         mi1.Text = this.GetLocalResourceObject("Link_ManageEvents.Text").ToString();
         mi1.Value = "管理活動";
-        mi1.ImageUrl = "~/Master/images/Link_ManageEvents.png";
-        mi1.NavigateUrl = "/Event/Event.aspx";
+        mi1.NavigateUrl = "~/Event/Event.aspx";
         this.FIELD_MenuBar.Items[0].ChildItems.AddAt(this.FIELD_MenuBar.Items[0].ChildItems.Count, mi1);
     }
 
